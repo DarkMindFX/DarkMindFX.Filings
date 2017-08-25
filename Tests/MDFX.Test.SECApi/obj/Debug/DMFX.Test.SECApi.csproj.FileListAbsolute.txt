@@ -1,0 +1,16 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\DMFX.Test.SECApi.dll.config
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\DMFX.Test.SECApi.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\DMFX.Test.SECApi.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\DMFX.SEC.Api.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\nunit.framework.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Client.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Text.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\nunit.framework.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Client.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Interfaces.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Text.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.pdb

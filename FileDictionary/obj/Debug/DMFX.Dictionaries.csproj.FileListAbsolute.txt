@@ -1,0 +1,9 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.FilingInterfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.Resources.resources
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.csproj.GenerateResource.Cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.pdb

@@ -1,0 +1,7 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\bin\DMFX.DALDatabase.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\bin\DMFX.DALDatabase.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\bin\DMFX.FilingInterfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\bin\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\obj\Debug\DMFX.DALDatabase.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\obj\Debug\DMFX.DALDatabase.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.DALDatabase\obj\Debug\DMFX.DALDatabase.csprojResolveAssemblyReference.cache

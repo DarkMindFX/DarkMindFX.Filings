@@ -1,0 +1,15 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.Source.SEC.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.Source.SEC.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.FilingInterfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.SEC.Api.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Client.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Text.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Client.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Interfaces.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack.Text.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.pdb

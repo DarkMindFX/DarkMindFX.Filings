@@ -1,0 +1,13 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\DMFX.SEC.Api.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\Newtonsoft.Json.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Client.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Text.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\Newtonsoft.Json.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Client.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Interfaces.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Text.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.csprojResolveAssemblyReference.cache

@@ -1,0 +1,12 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Test.Dictionaries.dll.config
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Test.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Test.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\nunit.framework.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.FilingInterfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\nunit.framework.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.pdb

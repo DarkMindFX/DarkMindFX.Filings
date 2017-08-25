@@ -1,0 +1,6 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\bin\Debug\ConsoleTestDBConnect.exe.config
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\bin\Debug\ConsoleTestDBConnect.exe
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\bin\Debug\ConsoleTestDBConnect.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\obj\Debug\ConsoleTestDBConnect.exe
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\obj\Debug\ConsoleTestDBConnect.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\ConsoleTestDBConnect\obj\Debug\ConsoleTestDBConnect.csprojResolveAssemblyReference.cache
