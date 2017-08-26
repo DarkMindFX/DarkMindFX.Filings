@@ -95,5 +95,35 @@ namespace DMFX.Dictionaries
 
             return code;
         }
+
+        public List<RegulatorInfo> GetRegulators()
+        {
+            List<RegulatorInfo> regulators = new List<RegulatorInfo>();
+
+            // TODO: need to read this data from DAL
+            regulators.Add(new RegulatorInfo() { Code = "SEC", Name = "Securities & Exchange Commision", CountryCode = "US" });
+            regulators.Add(new RegulatorInfo() { Code = "FCA", Name = "Financial Conduct Authority", CountryCode = "UK" });
+            regulators.Add(new RegulatorInfo() { Code = "BaFin", Name = "Bundesanstalt für Finanzdienstleistungsaufsicht", CountryCode = "DE" });
+            regulators.Add(new RegulatorInfo() { Code = "FSA", Name = "Financial Services Agency", CountryCode = "JP" });
+
+            return regulators;
+        }
+
+        public List<CompanyInfo> GetCompaniesByRegulator(string regulatorCode)
+        {
+            List<CompanyInfo> result = new List<CompanyInfo>();
+
+            if (regulatorCode == "SEC")
+            {
+                // TODO: for now returning only SEC companies - need to implement reading from DB
+                foreach (var company in _lookupSECCompanies.Values)
+                {
+                    CompanyInfo cmpInfo = new CompanyInfo() { Name = company.Name, Code = company.Ticker };
+                    result.Add(cmpInfo);
+                }
+            }
+
+            return result;
+        }
     }
 }

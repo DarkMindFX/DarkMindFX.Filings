@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetRegulatorsList")]
-    public class GetRegulators : RequestBase, IReturn<GetResulatorsResponse>
+    [Route("/GetRegulators")]
+    public class GetRegulators : RequestBase, IReturn<GetRegulatorsResponse>
     {
         
     }
@@ -34,9 +34,9 @@ namespace DMFX.Service.DTO
         }
     }
 
-    public class GetResulatorsResponse : ResponseBase
+    public class GetRegulatorsResponse : ResponseBase
     {
-        public GetResulatorsResponse()
+        public GetRegulatorsResponse()
         {
             Regulators = new List<RegulatorInfo>();
         }

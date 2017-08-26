@@ -101,6 +101,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Plugins\DMFX.DALDatabase.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries.dll" />
+    <Content Include="Plugins\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.SEC.Api.dll" />
+    <Content Include="Plugins\DMFX.SECParser.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC.dll" />
+    <Content Include="Plugins\ServiceStack.Client.dll" />
+    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\ServiceStack.Text.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

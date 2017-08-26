@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetCompanyFilings")]
-    public class GetCompanyFilings : RequestBase, IReturn<GetCompanyFilingsResponse>
+    [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}")]
+    public class GetCompanyFilingsInfo : RequestBase, IReturn<GetCompanyFilingsInfoResponse>
     {
         public string RegulatorCode
         {
@@ -38,7 +38,6 @@ namespace DMFX.Service.DTO
 
     public class CompanyFilingInfo
     {
-
         public string Name
         {
             get;
@@ -62,11 +61,17 @@ namespace DMFX.Service.DTO
             get;
             set;
         }
+
+        public DateTime Submitted
+        {
+            get;
+            set;
+        }
     }
 
-    public class GetCompanyFilingsResponse : ResponseBase
+    public class GetCompanyFilingsInfoResponse : ResponseBase
     {
-        public GetCompanyFilingsResponse()
+        public GetCompanyFilingsInfoResponse()
         {
             Filings = new List<CompanyFilingInfo>();
         }

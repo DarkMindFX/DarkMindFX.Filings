@@ -2,3 +2,4 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Interfaces\bin\DMFX.FilingI
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Interfaces\bin\DMFX.FilingInterfaces.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Interfaces\obj\Debug\DMFX.FilingInterfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Interfaces\obj\Debug\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Interfaces\obj\Debug\DMFX.FilingInterfaces.csprojResolveAssemblyReference.cache

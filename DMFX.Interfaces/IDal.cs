@@ -95,12 +95,115 @@ namespace DMFX.Interfaces
 
     }
 
+    public class GetCompanyFilingsInfoParams
+    {
+        public GetCompanyFilingsInfoParams()
+        {
+            Types = new List<string>();
+        }
+
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public List<string> Types
+        {
+            get;
+            set;
+        }
+    }
+
+
+    public class CompanyFilingInfo
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Type
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public DateTime Submitted
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetCompanyFilingsInfoResult
+    {
+        public GetCompanyFilingsInfoResult()
+        {
+            Filings = new List<CompanyFilingInfo>();
+        }
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+
+        public List<CompanyFilingInfo> Filings
+        {
+            get;
+            set;
+        }
+    }
+
     public interface IDal
     {
         void Init(IDalParams dalParams);
 
         IDalParams CreateDalParams();
 
+        /// <summary>
+        /// Inserts filing data into storage
+        /// </summary>
+        /// <param name="filingDetails"></param>
         void InsertFilingDetails(InsertFilingDetailsParams filingDetails);
+
+
+
+
     }
 }

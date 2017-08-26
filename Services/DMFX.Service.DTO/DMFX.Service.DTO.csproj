@@ -47,7 +47,7 @@
     <Compile Include="Echo.cs" />
     <Compile Include="ForceRunImport.cs" />
     <Compile Include="GetCompanies.cs" />
-    <Compile Include="GetCompanyFilings.cs" />
+    <Compile Include="GetCompanyFilingsInfo.cs" />
     <Compile Include="GetFilingData.cs" />
     <Compile Include="GetImportCurrentState.cs" />
     <Compile Include="GetImportLastRun.cs" />

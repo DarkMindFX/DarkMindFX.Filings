@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
+    [Route("/GetCompanies/{RegulatorCode}")]
     public class GetCompanies : RequestBase, IReturn<GetCompaniesResponse>
     {
         public string RegulatorCode
@@ -31,6 +32,12 @@ namespace DMFX.Service.DTO
         }
 
         public DateTime LastUpdate
+        {
+            get;
+            set;
+        }
+
+        public CompanyFilingInfo LastFiling
         {
             get;
             set;

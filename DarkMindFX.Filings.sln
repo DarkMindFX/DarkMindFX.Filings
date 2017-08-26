@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.DTO", "Service
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.DALDatabase", "DMFX.DALDatabase\DMFX.DALDatabase.csproj", "{B13AA6DA-C166-4B0A-84DE-63D41172DD88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Filings", "Services\DMFX.Service.Filings\DMFX.Service.Filings\DMFX.Service.Filings.csproj", "{A0DD90E7-2B24-429F-A42B-3D0FD6996480}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Filings", "Services\DMFX.Service.Filings\DMFX.Service.Filings.csproj", "{A0DD90E7-2B24-429F-A42B-3D0FD6996480}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
