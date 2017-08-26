@@ -40,8 +40,6 @@ namespace DMFX.Service.Sourcing
 
         }
 
-
-
         #region Properties
 
         public EImportState CurrentState
@@ -227,19 +225,24 @@ namespace DMFX.Service.Sourcing
                                 // 4. Parsing
                                 CurrentState = EImportState.Parsing;
 
-                                string name = regulatorCode + "_" + submissionInfo.Type + "_" + companyCode;
-                                Lazy<IFilingParser> parser = _compContainer.GetExport<IFilingParser>(name);
-
-                                IFilingParserParams parserParams = parser.Value.CreateFilingParserParams();
-                                parserParams.FileContent = ms;
-                                IFilingParserResult parserResults = parser.Value.Parse(parserParams);
-
-                                if (parserResults != null && parserResults.Success)
+                                var parsersRepository = _compContainer.GetExport<IParsersRepository>(regulatorCode);
+                                if (parsersRepository != null)
                                 {
-                                    CurrentState = EImportState.Saving;
-                                    StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
-                                }
+                                    IFilingParser parser = parsersRepository.Value.GetParser(companyCode, submissionInfo.Type);
+                                    if (parser != null)
+                                    {
+                                        IFilingParserParams parserParams = parser.CreateFilingParserParams();
+                                        parserParams.FileContent = ms;
+                                        IFilingParserResult parserResults = parser.Parse(parserParams);
 
+                                        if (parserResults != null && parserResults.Success)
+                                        {
+                                            CurrentState = EImportState.Saving;
+                                            StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+                                        }
+                                    }
+                                   
+                                }
 
                             }
                         }

@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMFX.SECParser.SEC10Q
+namespace DMFX.SECParser.SEC10K
 {
-    [Export("FB", typeof(IFilingParser))]
-    public class FB : SECParserBase
+    [Export("AAPL", typeof(IFilingParser))]
+    public class AAPL : SECParserBase
     {
-        public FB() : base("10-Q")
+        public AAPL() : base("10-Q")
         {
         }
+
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
             throw new NotImplementedException();

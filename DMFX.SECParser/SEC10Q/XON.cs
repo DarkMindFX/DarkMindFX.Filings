@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("SEC_10-Q_XON", typeof(IFilingParser))]
+    [Export("XON", typeof(IFilingParser))]
     public class XON : SECParserBase
     {
+        public XON() : base("10-Q")
+        {
+        }
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
             throw new NotImplementedException();

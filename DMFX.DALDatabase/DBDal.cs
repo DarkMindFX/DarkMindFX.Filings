@@ -67,7 +67,7 @@ namespace DMFX.DALDatabase
             DataTable dtFilingData = ConvertToFilingDataTable(filingDetails.Data);
 
             // Metadata
-            SqlParameter paramMetadata = new SqlParameter("@LMD", SqlDbType.Structured);
+            SqlParameter paramMetadata = new SqlParameter("@LFM", SqlDbType.Structured);
             paramMetadata.Value = dtMetadata;
             paramMetadata.TypeName = "TYPE_Load_Filing_Meta";
             paramMetadata.Direction = ParameterDirection.Input;

@@ -8,9 +8,12 @@ using System.ComponentModel.Composition;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("SEC_10-Q_TSLA", typeof(IFilingParser))]
+    [Export("TSLA", typeof(IFilingParser))]
     public class TSLA : SECParserBase
     {
+        public TSLA() : base("10-Q")
+        {
+        }
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
             SECParserParams secParams = parserParams as SECParserParams;

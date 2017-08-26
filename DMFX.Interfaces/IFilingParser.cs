@@ -114,7 +114,20 @@ namespace DMFX.Interfaces
 
     public interface IFilingParser
     {
+        /// <summary>
+        /// Main method responsible for parsing reports
+        /// </summary>
+        /// <param name="parserParams"></param>
+        /// <returns></returns>
         IFilingParserResult Parse(IFilingParserParams parserParams);
+
+        /// <summary>
+        /// Type of report this parser can parse
+        /// </summary>
+        string ReportType
+        {
+            get;
+        }
 
         IFilingParserParams CreateFilingParserParams();
     }

@@ -9,9 +9,12 @@ using System.Xml;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("SEC_10-Q_AAPL", typeof(IFilingParser))]
+    [Export("AAPL", typeof(IFilingParser))]
     public class AAPL : SECParserBase
     {
+        public AAPL() : base("10-Q")
+        {
+        }
 
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {

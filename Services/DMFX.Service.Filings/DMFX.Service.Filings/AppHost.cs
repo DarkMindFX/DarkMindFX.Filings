@@ -1,6 +1,6 @@
 ﻿using Funq;
 using ServiceStack;
-using DMFX.Service.Filings.ServiceInterface;
+
 
 namespace DMFX.Service.Filings
 {
@@ -11,7 +11,7 @@ namespace DMFX.Service.Filings
         /// Base constructor requires a Name and Assembly where web service implementation is located
         /// </summary>
         public AppHost()
-            : base("DMFX.Service.Filings", typeof(MyServices).Assembly) { }
+            : base("DMFX.Service.Filings", typeof(FilingsService).Assembly) { }
 
         /// <summary>
         /// Application specific configuration

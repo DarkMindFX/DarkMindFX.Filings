@@ -13,8 +13,22 @@ namespace DMFX.SECParser
     
     public abstract class SECParserBase : IFilingParser
     {
+        private string _reportType = string.Empty;
+
+        public SECParserBase(string reportType)
+        {
+            _reportType = reportType;
+        }
         #region IFilingParser implementation
         public abstract IFilingParserResult Parse(IFilingParserParams parserParams);
+
+        public string ReportType
+        {
+            get
+            {
+                return _reportType;
+            }
+        }
 
         #endregion
 

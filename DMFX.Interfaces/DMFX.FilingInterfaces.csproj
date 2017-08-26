@@ -45,6 +45,7 @@
     <Compile Include="IDal.cs" />
     <Compile Include="IDictionary.cs" />
     <Compile Include="IFilingParser.cs" />
+    <Compile Include="IParsersRepository.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ISource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("SEC_10-Q_MSFT", typeof(IFilingParser))]
+    [Export("MSFT", typeof(IFilingParser))]
     public class MSFT : SECParserBase
     {
+        public MSFT() : base("10-Q")
+        {
+        }
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
             throw new NotImplementedException();

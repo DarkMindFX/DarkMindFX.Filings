@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SEC10K\AAPL.cs" />
     <Compile Include="SEC10Q\AAPL.cs" />
     <Compile Include="GeneralSECParserParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="SEC10Q\MSFT.cs" />
     <Compile Include="SEC10Q\PG.cs" />
     <Compile Include="SEC10Q\XON.cs" />
+    <Compile Include="SECParsersRepository.cs" />
     <Compile Include="SECParserBase.cs" />
     <Compile Include="SEC10Q\TSLA.cs" />
   </ItemGroup>
@@ -63,9 +65,7 @@
       <Name>DMFX.FilingInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SEC10K\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="SECCompanyList.xml" />
   </ItemGroup>

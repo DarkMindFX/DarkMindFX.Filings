@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("SEC_10-Q_JPM", typeof(IFilingParser))]
+    [Export("JPM", typeof(IFilingParser))]
     public class JPM : SECParserBase
     {
+        public JPM() : base("10-Q")
+        {
+        }
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
             throw new NotImplementedException();
