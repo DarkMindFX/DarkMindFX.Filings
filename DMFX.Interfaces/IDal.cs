@@ -14,6 +14,53 @@ namespace DMFX.Interfaces
         }
     }
 
+    #region Params / results strcutures
+
+    public struct FilingRecord
+    {
+        public string Code
+        {
+            get;
+            set;
+        }
+
+        public decimal Value
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public DateTime Instant
+        {
+            get;
+            set;
+        }
+
+        public string Unit
+        {
+            get;
+            set;
+        }
+
+        public string SourceFactId
+        {
+            get;
+            set;
+        }
+    }
+
     public class InsertFilingDetailsParams
     {
         public struct FilingMetadaRecord
@@ -36,44 +83,7 @@ namespace DMFX.Interfaces
                 set;
             }
         }
-        public struct FilingRecord
-        {
-            public string Code
-            {
-                get;
-                set;
-            }
 
-            public Decimal Value
-            {
-                get;
-                set;
-            }
-
-            public DateTime PeriodStart
-            {
-                get;
-                set;
-            }
-
-            public DateTime PeriodEnd
-            {
-                get;
-                set;
-            }
-
-            public DateTime Instant
-            {
-                get;
-                set;
-            }
-
-            public string Unit
-            {
-                get;
-                set;
-            }
-        }
 
         public InsertFilingDetailsParams()
         {
@@ -99,7 +109,7 @@ namespace DMFX.Interfaces
     {
         public GetCompanyFilingsInfoParams()
         {
-            Types = new List<string>();
+            Types = new HashSet<string>();
         }
 
         public string RegulatorCode
@@ -125,13 +135,12 @@ namespace DMFX.Interfaces
             set;
         }
 
-        public List<string> Types
+        public HashSet<string> Types
         {
             get;
             set;
         }
     }
-
 
     public class CompanyFilingInfo
     {
@@ -190,6 +199,148 @@ namespace DMFX.Interfaces
         }
     }
 
+    public class GetCompanyFilingParams
+    {
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+        public string Name
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetCompanyFilingResult
+    {
+        public GetCompanyFilingResult()
+        {
+            Data = new List<FilingRecord>();
+        }
+        public CompanyFilingInfo FilingInfo
+        {
+            get;
+            set;
+        }
+
+        public List<FilingRecord> Data
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetUserAccountInfoParams
+    {
+        public string Email
+        {
+            get;
+            set;
+        }
+        public string AccountKey
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetUserAccountInfoResult : ResultBase
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Email
+        {
+            get;
+            set;
+        }
+
+        public string AccountKey
+        {
+            get;
+            set;
+        }
+
+        public string PwdHash
+        {
+            get;
+            set;
+        }
+
+        public DateTime DateCreated
+        {
+            get;
+            set;
+        }
+    }
+
+    public class CreateUserAccountParams
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Email
+        {
+            get;
+            set;
+        }
+
+        public string PwdHash
+        {
+            get;
+            set;
+        }
+
+        public string AccountKey
+        {
+            get;
+            set;
+        }
+    }
+
+    public class SessionInfo
+    {
+        public string AccountKey
+        {
+            get;
+            set;
+        }
+
+        public string SessionId
+        {
+            get;
+            set;
+        }
+
+        public DateTime SessionStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime SessionEnd
+        {
+            get;
+            set;
+        }
+    }
+
+    #endregion
+
+
     public interface IDal
     {
         void Init(IDalParams dalParams);
@@ -202,7 +353,51 @@ namespace DMFX.Interfaces
         /// <param name="filingDetails"></param>
         void InsertFilingDetails(InsertFilingDetailsParams filingDetails);
 
+        /// <summary>
+        /// Returns list of available filings for the given company
+        /// </summary>
+        /// <param name="infoParams"></param>
+        /// <returns></returns>
+        GetCompanyFilingsInfoResult GetCompanyFilingsInfo(GetCompanyFilingsInfoParams infoParams);
 
+        /// <summary>
+        /// Returns details of the company's specific filing
+        /// </summary>
+        /// <param name="cmpFilingParams"></param>
+        /// <returns></returns>
+        GetCompanyFilingResult GetCompanyFilingData(GetCompanyFilingParams cmpFilingParams);
+
+        /// <summary>
+        /// Create user accont record
+        /// </summary>
+        /// <param name="createAccountParams"></param>
+        void CreateUserAccount(CreateUserAccountParams createAccountParams);
+
+        /// <summary>
+        /// Returns user account details
+        /// </summary>
+        /// <param name="accParams"></param>
+        /// <returns></returns>
+        GetUserAccountInfoResult GetUserAccountInfo(GetUserAccountInfoParams accParams);
+
+        /// <summary>
+        /// Adds new session record
+        /// </summary>
+        /// <param name="sessionParams"></param>
+        void InitSession(SessionInfo sessionParams);
+
+        /// <summary>
+        /// Marks session as closed
+        /// </summary>
+        /// <param name="sessionParams"></param>
+        void CloseSession(SessionInfo sessionParams);
+
+        /// <summary>
+        /// Extracts and returns information about the session with specific id
+        /// </summary>
+        /// <param name="sessionParams"></param>
+        /// <returns></returns>
+        SessionInfo GetSessionInfo(SessionInfo sessionParams);
 
 
     }

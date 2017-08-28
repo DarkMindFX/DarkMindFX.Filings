@@ -11,7 +11,7 @@ namespace DMFX.Service.Filings
         /// Base constructor requires a Name and Assembly where web service implementation is located
         /// </summary>
         public AppHost()
-            : base("DMFX.Service.Filings", typeof(FilingsService).Assembly) { }
+            : base("DMFX.Service.Filings", typeof(AppHost).Assembly) { }
 
         /// <summary>
         /// Application specific configuration

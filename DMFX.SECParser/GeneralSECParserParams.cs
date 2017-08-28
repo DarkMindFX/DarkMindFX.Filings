@@ -93,6 +93,28 @@ namespace DMFX.SECParser
             set;
         }
 
-       
+        public string Type
+        {
+            get
+            {
+                return FilingData.ContainsKey("DocumentType") ?  FilingData["DocumentType"] : string.Empty;
+            }
+        }
+
+        public DateTime PeriodStart
+        {
+            get
+            {
+                return FilingData.ContainsKey("DocumentPeriodStartDate") ? DateTime.Parse(FilingData["DocumentPeriodStartDate"]) : DateTime.MinValue;
+            }
+        }
+
+        public DateTime PeriodEnd
+        {
+            get
+            {
+                return FilingData.ContainsKey("DocumentPeriodEndDate") ? DateTime.Parse(FilingData["DocumentPeriodEndDate"]) : DateTime.MinValue;
+            }
+        }
     }
 }

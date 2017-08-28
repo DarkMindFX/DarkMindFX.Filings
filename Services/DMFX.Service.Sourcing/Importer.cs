@@ -260,13 +260,14 @@ namespace DMFX.Service.Sourcing
             InsertFilingDetailsParams insertParams = new InsertFilingDetailsParams();
 
             // preparing metadata
-            insertParams.Metadata.Add( new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Regulator", Value = regulatorCode, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Company", Value = companyCode, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "SubmissionName", Value = submissionInfo.Name, Type = "String" });
+            insertParams.Metadata.Add( new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
+            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "CompanyCode", Value = companyCode, Type = "String" });
+            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
             insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report, Type = "String" });
             insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingType", Value = submissionInfo.Type, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "DateSubmitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = submissionInfo.PeriodEnd.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
 
             // preparing filing data records
             foreach (var statement in parserResults.Statements)
@@ -274,14 +275,15 @@ namespace DMFX.Service.Sourcing
                 foreach (var r in statement.Records)
                 {
 
-                    insertParams.Data.Add(new InsertFilingDetailsParams.FilingRecord()
+                    insertParams.Data.Add(new FilingRecord()
                     {
                         Code = r.Title,
                         Instant = r.Instant,
                         PeriodEnd = r.PeriodEnd,
                         PeriodStart = r.PeriodStart,
                         Unit = r.Unit,
-                        Value = r.Value
+                        Value = r.Value,
+                        SourceFactId = r.SourceFactId
 
                     });
                 }

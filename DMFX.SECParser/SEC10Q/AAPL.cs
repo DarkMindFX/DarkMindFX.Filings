@@ -423,7 +423,8 @@ namespace DMFX.SECParser.SEC10Q
                             valueTag.Attributes["unitRef"].Value,
                             context.StartDate,
                             context.EndDate,
-                            context.Instant
+                            context.Instant,
+                            valueTag.Attributes["id"].Value
                         );
                         statementSection.Records.Add(record);
                     }

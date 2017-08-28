@@ -53,6 +53,140 @@ namespace DMFX.DALDatabase
             }
         }
 
+        #region IDal implementation
+
+        public GetCompanyFilingsInfoResult GetCompanyFilingsInfo(GetCompanyFilingsInfoParams infoParams)
+        {
+            string spName = "[SP_Get_Company_Filings_Info]";
+
+            GetCompanyFilingsInfoResult result = new GetCompanyFilingsInfoResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // Company code
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
+
+            // Regulator code
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.RegulatorCode);
+
+            // Period start
+            SqlParameter paramPeriodStart = new SqlParameter("@PeriodStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
+
+            // Period end
+            SqlParameter paramPeriodEnd = new SqlParameter("@PeriodStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
+
+            cmd.Parameters.Add(paramCompanyCode);
+            cmd.Parameters.Add(paramRegulatorCode);
+            cmd.Parameters.Add(paramPeriodStart);
+            cmd.Parameters.Add(paramPeriodEnd);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            // TODO: this must be a call to real procedure
+            // da.Fill(ds); - UNCOMMENT when SP is ready
+
+            if (ds.Tables.Count >= 1)
+            {
+                // first table - company filings info records
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    if (infoParams.Types.Count == 0 || infoParams.Types.Contains(row["Type"].ToString()))
+                    {
+                        CompanyFilingInfo filingInfo = new CompanyFilingInfo();
+                        filingInfo.Name = row["Name"].ToString();
+                        filingInfo.Type = row["Type"].ToString();
+                        filingInfo.Submitted = (DateTime)row["Submitted"];
+                        filingInfo.PeriodStart = (DateTime)row["PeriodStart"];
+                        filingInfo.PeriodEnd = (DateTime)row["PeriodEnd"];
+
+                        result.Filings.Add(filingInfo);
+                    }
+                }
+            }
+
+            // TODO: dummy record - remove when SP is ready
+            CompanyFilingInfo tmpFilingInfo = new CompanyFilingInfo();
+            tmpFilingInfo.Name = "000032019317000009";
+            tmpFilingInfo.Type = "10-Q";
+            tmpFilingInfo.Submitted = DateTime.Parse("2017/08/02");
+            tmpFilingInfo.PeriodStart = DateTime.Parse("2017/04/01");
+            tmpFilingInfo.PeriodEnd = DateTime.Parse("2017/07/01");
+            result.Filings.Add(tmpFilingInfo);
+
+            result.RegulatorCode = infoParams.RegulatorCode;
+            result.CompanyCode = infoParams.CompanyCode;
+
+            return result;
+        }
+
+        public GetCompanyFilingResult GetCompanyFilingData(GetCompanyFilingParams cmpFilingParams)
+        {
+            string spName = "[SP_Get_Company_Filing_Data]";
+
+            GetCompanyFilingResult result = new GetCompanyFilingResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // Company code
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
+
+            // Regulator code
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.RegulatorCode);
+
+            // Filing name
+            SqlParameter paramFilingName = new SqlParameter("@FilingName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.Name);
+
+            cmd.Parameters.Add(paramCompanyCode);
+            cmd.Parameters.Add(paramRegulatorCode);
+            cmd.Parameters.Add(paramFilingName);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            // TODO: this must be a call to real procedure
+            // da.Fill(ds); - UNCOMMENT when SP is ready
+
+            if (ds.Tables.Count >= 2)
+            {
+                // first table - metadata
+                CompanyFilingInfo filingInfo = new CompanyFilingInfo();
+                filingInfo.Name = (string)ds.Tables[0].Rows[0]["Name"];
+                filingInfo.Type = (string)ds.Tables[0].Rows[0]["Type"];
+                filingInfo.PeriodEnd = (DateTime)ds.Tables[0].Rows[0]["PeriodEnd"];
+                filingInfo.PeriodStart = (DateTime)ds.Tables[0].Rows[0]["PeriodStart"];
+                filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submitted"];
+                result.FilingInfo = filingInfo;
+
+                // second table - filing data
+                foreach (DataRow r in ds.Tables[1].Rows)
+                {
+                    DateTime periodStart = (DateTime)r["PeriodStart"];
+                    DateTime periodEnd = (DateTime)r["PeriodEnd"];
+
+                    FilingRecord fr = new FilingRecord();
+                    fr.Code = (string)r["Code"];
+                    fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
+                    fr.PeriodEnd = periodEnd;
+                    fr.PeriodStart = periodStart;
+                    fr.Unit = (string)r["Unit"];
+                    fr.Value = (decimal)r["Value"];
+
+                    result.Data.Add(fr);
+                }
+            }
+
+            return result;
+        }
+
         public void InsertFilingDetails(InsertFilingDetailsParams filingDetails)
         {
             string spName = "[SP_Insert_Filing_Details]";
@@ -84,6 +218,130 @@ namespace DMFX.DALDatabase
             cmd.ExecuteNonQuery();
         }
 
+        public void CreateUserAccount(CreateUserAccountParams createAccountParams)
+        {
+            string spName = "[SP_Create_User_Account]";
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // User name
+            SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.Name);
+
+            // User email
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.Email);
+
+            // User pwd hash
+            SqlParameter paramPwdHash = new SqlParameter("@PwdHash", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.PwdHash);
+
+            // User pwd hash
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.AccountKey);
+
+            cmd.Parameters.Add(paramName);
+            cmd.Parameters.Add(paramEmail);
+            cmd.Parameters.Add(paramPwdHash);
+            cmd.Parameters.Add(paramAccountKey);
+
+            // TODO: uncomment when SP ready
+            //cmd.ExecuteNonQuery();
+
+        }
+
+        public GetUserAccountInfoResult GetUserAccountInfo(GetUserAccountInfoParams accParams)
+        {
+            string spName = "[SP_Get_User_Account_Info]";
+            GetUserAccountInfoResult result = new GetUserAccountInfoResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+            
+            // User email
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email);
+
+            // User pwd hash
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey);
+
+            cmd.Parameters.Add(paramEmail);
+            cmd.Parameters.Add(paramAccountKey);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            // TODO: this must be a call to real procedure
+            // da.Fill(ds); - UNCOMMENT when SP is ready
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result.AccountKey = (string)ds.Tables[0].Rows[0]["AccountKey"];
+                result.Name = (string)ds.Tables[0].Rows[0]["Name"];
+                result.Email = (string)ds.Tables[0].Rows[0]["Email"];
+                result.PwdHash = (string)ds.Tables[0].Rows[0]["PwdHash"];
+                result.DateCreated = (DateTime)ds.Tables[0].Rows[0]["DateCreated"];
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public void InitSession(SessionInfo sessionParams)
+        {
+            
+        }
+
+
+        public void CloseSession(SessionInfo sessionParams)
+        {
+        }
+
+       
+        public SessionInfo GetSessionInfo(SessionInfo sessionParams)
+        {
+            string spName = "[SP_Get_User_Account_Info]";
+
+            SessionInfo result = new SessionInfo();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // User email
+            SqlParameter paramEmail = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+
+            cmd.Parameters.Add(paramEmail);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            // TODO: this must be a call to real procedure
+            // da.Fill(ds); - UNCOMMENT when SP is ready
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                result.AccountKey = (string)ds.Tables[0].Rows[0]["AccountKey"];
+                result.SessionId = (string)ds.Tables[0].Rows[0]["SessionId"];
+                result.SessionStart = (DateTime)ds.Tables[0].Rows[0]["SessionStart"];
+                result.SessionStart = !Convert.IsDBNull(ds.Tables[0].Rows[0]["SessionStart"]) ? (DateTime)ds.Tables[0].Rows[0]["SessionStart"] : DateTime.MinValue;
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region Support method
+
         private DataTable ConverToMetadataTable(List<InsertFilingDetailsParams.FilingMetadaRecord> records)
         {
             DataTable dtMetadata = DataAccessTypes.CreateFilingMetadataTable();
@@ -104,7 +362,7 @@ namespace DMFX.DALDatabase
 
         }
 
-        private DataTable ConvertToFilingDataTable(List<InsertFilingDetailsParams.FilingRecord> records)
+        private DataTable ConvertToFilingDataTable(List<FilingRecord> records)
         {
             DataTable dtFilingData = DataAccessTypes.CreateFilingDataTable();
 
@@ -117,11 +375,14 @@ namespace DMFX.DALDatabase
                 rowFilingData["UnitName"] = r.Unit;
                 rowFilingData["PeriodStart"] = r.PeriodStart != DateTime.MinValue ? r.PeriodStart : r.Instant;
                 rowFilingData["PeriodEnd"] = r.PeriodEnd != DateTime.MinValue ? r.PeriodEnd : r.Instant;
+                rowFilingData["SourceFactId"] = r.SourceFactId;
 
                 dtFilingData.Rows.Add(rowFilingData);
             }
 
             return dtFilingData;
         }
+
+        #endregion
     }
 }

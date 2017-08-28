@@ -18,7 +18,7 @@ namespace DMFX.Interfaces
 
     public class StatementRecord
     {
-        public StatementRecord(string title, decimal value, string unit, DateTime periodStart, DateTime periodEnd, DateTime instant)
+        public StatementRecord(string title, decimal value, string unit, DateTime periodStart, DateTime periodEnd, DateTime instant, string sourceFactId)
         {
             Title = title;
             Value = value;
@@ -26,6 +26,7 @@ namespace DMFX.Interfaces
             PeriodStart = periodStart;
             PeriodEnd = periodEnd;
             Instant = instant;
+            SourceFactId = sourceFactId;
         }
         public string Title
         {
@@ -58,6 +59,12 @@ namespace DMFX.Interfaces
         }
 
         public DateTime Instant
+        {
+            get;
+            set;
+        }
+
+        public string SourceFactId
         {
             get;
             set;
@@ -103,6 +110,21 @@ namespace DMFX.Interfaces
         {
             get;
             set;
+        }
+
+        string Type
+        {
+            get;
+        }
+
+        DateTime PeriodStart
+        {
+            get;
+        }
+
+        DateTime PeriodEnd
+        {
+            get;
         }
 
         List<Statement> Statements

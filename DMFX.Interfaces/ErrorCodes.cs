@@ -21,6 +21,9 @@ namespace DMFX.Interfaces
         ImporterError = 4,
         InvalidSourceParams = 5,
         SubmissionNotFound = 6,
+        UserAccountNotFound = 7,
+        UserAccountNotValidated = 8,
+        UserAccountExists = 9,
         GeneralError = 99999
     }
 }

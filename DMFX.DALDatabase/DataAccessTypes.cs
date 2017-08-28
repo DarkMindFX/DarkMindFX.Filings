@@ -28,6 +28,7 @@ namespace DMFX.DALDatabase
             dtFilingData.Columns.Add(new DataColumn("PeriodStart", typeof(DateTime)));
             dtFilingData.Columns.Add(new DataColumn("PeriodEnd", typeof(DateTime)));
             dtFilingData.Columns.Add(new DataColumn("UnitName", typeof(string)));
+            dtFilingData.Columns.Add(new DataColumn("SourceFactId", typeof(string)));
 
             return dtFilingData;
         }

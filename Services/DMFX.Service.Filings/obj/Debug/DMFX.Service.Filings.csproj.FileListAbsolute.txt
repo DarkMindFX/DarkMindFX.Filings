@@ -50,3 +50,13 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bi
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\ServiceStack.Text.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\obj\Debug\DMFX.Service.Filings.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\obj\Debug\DMFX.Service.Filings.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.Helpers.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.WebPages.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\Microsoft.Web.Infrastructure.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.Razor.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.WebPages.Deployment.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.Helpers.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.WebPages.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\Microsoft.Web.Infrastructure.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.Razor.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.WebPages.Deployment.xml

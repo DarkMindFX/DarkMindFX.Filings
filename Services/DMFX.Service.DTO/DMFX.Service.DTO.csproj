@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloseSession.cs" />
+    <Compile Include="CreateAccount.cs" />
     <Compile Include="Echo.cs" />
     <Compile Include="ForceRunImport.cs" />
     <Compile Include="GetCompanies.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="GetImportCurrentState.cs" />
     <Compile Include="GetImportLastRun.cs" />
     <Compile Include="GetRegulators.cs" />
+    <Compile Include="InitSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />

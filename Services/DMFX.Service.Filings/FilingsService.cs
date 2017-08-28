@@ -2,6 +2,8 @@
 using DMFX.Service.DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -11,12 +13,16 @@ namespace DMFX.Service.Filings
     {
         private IDictionary _dictionary = null;
         private IDal _dal = null;
+        CompositionContainer _compContainer = null;
 
         public FilingsService()
         {
             _dictionary = Global.Container.GetExport<IDictionary>().Value;
-            _dal = Global.Container.GetExport<IDal>().Value;
+            _compContainer = Global.Container;
+            InitDAL();
         }
+
+        
 
         public object Any(GetRegulators request)
         {
@@ -66,10 +72,10 @@ namespace DMFX.Service.Filings
                     {
                         Name = c.Name,
                         Code = c.Code,
-                        // TODO: need to fill from DAL
-                        LastFiling = new CompanyFilingInfo(),
+                        // TODO: need to fill from DAL - last available filing
+                        LastFiling = new DTO.CompanyFilingInfo(),
                         // TODO: this value should be updated from DAL - for now just random 30 to 90 days
-                        LastUpdate = DateTime.Now - TimeSpan.FromDays(rnd.Next(30, 90)) 
+                        LastUpdate = DateTime.Now - TimeSpan.FromDays(rnd.Next(30, 90))
                     });
                 }
 
@@ -92,6 +98,47 @@ namespace DMFX.Service.Filings
 
             try
             {
+                GetCompanyFilingsInfoParams infoParams = new GetCompanyFilingsInfoParams();
+                infoParams.CompanyCode = request.CompanyCode;
+                infoParams.PeriodEnd = request.PeriodEnd;
+                infoParams.PeriodStart = request.PeriodStart;
+                infoParams.RegulatorCode = request.RegulatorCode;
+                foreach (var t in request.Types)
+                {
+                    infoParams.Types.Add(t);
+                }
+
+                GetCompanyFilingsInfoResult dalResult = _dal.GetCompanyFilingsInfo(infoParams);
+                foreach (var f in dalResult.Filings)
+                {
+                    DTO.CompanyFilingInfo cfi = new DTO.CompanyFilingInfo();
+                    cfi.Name = f.Name;
+                    cfi.PeriodEnd = f.PeriodEnd;
+                    cfi.PeriodStart = f.PeriodStart;
+                    cfi.Submitted = f.Submitted;
+                    cfi.Type = f.Type;
+
+                    response.Filings.Add(cfi);
+                }
+                response.CompanyCode = request.CompanyCode;
+                response.RegulatorCode = request.RegulatorCode;
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+            }
+
+            return response;
+        }
+
+        public object AnyGetFilingData(GetFilingData request)
+        {
+            GetFilingDataResponse response = new GetFilingDataResponse();
+
+            try
+            {
                 response.Success = true;
             }
             catch (Exception ex)
@@ -109,6 +156,17 @@ namespace DMFX.Service.Filings
         {
             response.RequestID = request.RequestID;
             response.SessionToken = request.SessionToken;
+        }
+
+        private void InitDAL()
+        {
+            Lazy<IDal> dal = _compContainer.GetExport<IDal>();
+            IDalParams dalParams = dal.Value.CreateDalParams();
+            dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
+
+            dal.Value.Init(dalParams);
+
+            _dal = dal.Value;
         }
         #endregion
     }

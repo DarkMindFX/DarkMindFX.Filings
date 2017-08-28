@@ -10,6 +10,11 @@ namespace DMFX.Service.DTO
     [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}")]
     public class GetCompanyFilingsInfo : RequestBase, IReturn<GetCompanyFilingsInfoResponse>
     {
+        public GetCompanyFilingsInfo()
+        {
+            Types = new List<string>();
+        }
+
         public string RegulatorCode
         {
             get;
@@ -29,6 +34,12 @@ namespace DMFX.Service.DTO
         }
 
         public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public List<string> Types
         {
             get;
             set;
