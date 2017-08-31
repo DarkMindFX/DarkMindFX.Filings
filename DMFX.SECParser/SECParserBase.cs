@@ -118,7 +118,6 @@ namespace DMFX.SECParser
         }
 
        
-
         protected void ExtractXmlData(XmlDocument doc, SECParserResult secResult, string[][] tags, Dictionary<string,string> values)
         {
             foreach (var pair in tags)
@@ -132,9 +131,83 @@ namespace DMFX.SECParser
             }
         }
 
+        protected void ParseStatementSection(XmlDocument doc, SECParserResult result, string sectionTitle, string[][] sectionTags)
+        {
+            XmlNamespaceManager nsmgr = PrepareNamespaceMngr(doc);
+
+            // preparing statements
+            Statement statementSection = new Statement(sectionTitle);
+            foreach (var tag in sectionTags)
+            {
+                foreach (var context in result.Contexts)
+                {
+                    var contextAtt = new Dictionary<string, string>();
+                    contextAtt.Add("contextRef", context.ID + (tag.Length > 2 ? tag[2] : string.Empty));
+                    XmlNode valueTag = FindNode(doc, tag[0], contextAtt);
+
+                    if (valueTag != null)
+                    {
+                        StatementRecord record = new StatementRecord(
+                            tag[1],
+                            Decimal.Parse(valueTag.InnerText),
+                            valueTag.Attributes["unitRef"].Value,
+                            context.StartDate,
+                            context.EndDate,
+                            context.Instant,
+                            valueTag.Attributes["id"].Value
+                        );
+                        statementSection.Records.Add(record);
+                    }
+                }
+            }
+
+            result.Statements.Add(statementSection);
+        }
+
+        protected XmlNode FindNode(XmlNode parent, string tag, Dictionary<string, string> attrs)
+        {
+            XmlNode result = null;
+
+            foreach (XmlNode nd in parent.ChildNodes)
+            {
+                if (nd.Name == tag)
+                {
+
+                    int attrsCount = 0;
+                    foreach (XmlAttribute attr in nd.Attributes)
+                    {
+                        if (attrs.ContainsKey(attr.Name) && attrs[attr.Name].Equals(attr.Value))
+                        {
+                            ++attrsCount;
+                        }
+                    }
+                    if (attrsCount == attrs.Count)
+                    {
+                        result = nd;
+                        break;
+                    }
+                }
+
+                result = FindNode(nd, tag, attrs);
+            }
+
+            return result;
+        }
+
         public IFilingParserParams CreateFilingParserParams()
         {
             return new SECParserParams();
         }
+
+        protected virtual XmlNamespaceManager PrepareNamespaceMngr(XmlDocument doc)
+        {
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            nsmgr.AddNamespace("us-gaap", "http://fasb.org/us-gaap/2017-01-31");
+            nsmgr.AddNamespace("aapl", "http://www.apple.com/20170701");
+
+            return nsmgr;
+        }
+
+
     }
 }

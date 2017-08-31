@@ -42,17 +42,21 @@ namespace DMFX.Source.SEC
                         {
                             foreach (var fileInfo in submission.Files)
                             {
-                                SubmissionFile file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, filing.Name, fileInfo.Name);
-                                if (file != null)
+                                // to speed up we need to extract only xml files and index headers file
+                                if (Path.GetExtension(fileInfo.Name) == ".xml" || fileInfo.Name.Contains(".txt"))
                                 {
-                                    SECSourceItem sourceItem = new SECSourceItem();
-                                    sourceItem.Name = fileInfo.Name;
-                                    sourceItem.FilingName = filing.Name;
-                                    sourceItem.CompanyCode = extractSECParams.CompanyCode;
-                                    sourceItem.RegulatorCode = extractSECParams.RegulatorCode;
-                                    sourceItem.Content = file.Content;
+                                    SubmissionFile file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, filing.Name, fileInfo.Name);
+                                    if (file != null)
+                                    {
+                                        SECSourceItem sourceItem = new SECSourceItem();
+                                        sourceItem.Name = fileInfo.Name;
+                                        sourceItem.FilingName = filing.Name;
+                                        sourceItem.CompanyCode = extractSECParams.CompanyCode;
+                                        sourceItem.RegulatorCode = extractSECParams.RegulatorCode;
+                                        sourceItem.Content = file.Content;
 
-                                    result.Items.Add(sourceItem);
+                                        result.Items.Add(sourceItem);
+                                    }
                                 }
                             }
                         }
@@ -91,9 +95,11 @@ namespace DMFX.Source.SEC
 
                     Submissions submissions = _secApi.ArchivesEdgarDataCIK(cik);
 
-                    // TODO: here we need to check what is the last filing in our DB - for now just returning last 20 items
+                    // TODO: here we need to check what is the last filing in our DB - for now just returning last 3 years
+                    DateTime lastUpdated = DateTime.Now - TimeSpan.FromDays(1200);
+
                     result.NeedUpdate = true; // TODO: this value depends on whether there are any new filings for the company - for now always true
-                    foreach (var filing in submissions.Folders.OrderByDescending(x => x.LastModified).Take(20))
+                    foreach (var filing in submissions.Folders.OrderByDescending(x => x.LastModified).Where(x => x.LastModified > lastUpdated))
                     {
                         SECSourceItemInfo secSourceItemInfo = new SECSourceItemInfo();
                         secSourceItemInfo.Name = filing.Name;
@@ -113,7 +119,7 @@ namespace DMFX.Source.SEC
             return result;
         }
 
-        
+
         public ISourceValidateParams CreateValidateParams()
         {
             return new SECSourceValidateParams();
@@ -143,39 +149,45 @@ namespace DMFX.Source.SEC
             {
                 string cik = _dictionary.LookupRegulatorCompanyCode(infoParams.RegulatorCode, infoParams.CompanyCode); // TODO: lookup in dictionary
                 // for each submission - extracting content and checking type
+                int count = 0;
                 foreach (var item in secInfoParams.Items)
                 {
                     Submission submission = _secApi.ArchivesEdgarDataCIKSubmission(cik, item.Name);
                     if (submission != null)
                     {
-                        // extracting index file
-                        SubmissionFile indexFile = null;
-                        int currFileInfo = 0;
-                        while (indexFile == null && currFileInfo < submission.Files.Count)
+                        try
                         {
-                            SubmissionFileInfo subFileInfo = submission.Files[currFileInfo];
-                            if (subFileInfo.Name.Contains("-index-headers.html"))
+
+                            // extracting txt index file
+                            SubmissionFileInfo subFileInfo = submission.Files.FirstOrDefault(s => s.Name.Contains(".txt"));
+                            SubmissionFile indexFile = null;
+
+                            if (subFileInfo != null)
                             {
                                 indexFile = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, item.Name, subFileInfo.Name);
                             }
 
-                            ++currFileInfo;
-                        }
-
-                        if (indexFile != null)
-                        {
-                            SECSourceSubmissionInfo submissionInfo = ExtractReportDetails(indexFile);
-                            if (submissionInfo != null)
+                            if (indexFile != null)
                             {
-                                submissionInfo.Name = item.Name;
-                                result.Submissions.Add(submissionInfo);
+                                SECSourceSubmissionInfo submissionInfo = ExtractReportDetails(indexFile);
+                                if (submissionInfo != null)
+                                {
+                                    submissionInfo.Name = item.Name;
+                                    result.Submissions.Add(submissionInfo);
+                                }
                             }
+                        }
+                        catch (Exception ex)
+                        {
+                            result.AddError(new Error() { Code = EErrorCodes.ImporterError, Message = string.Format("Report'{0}', Error: {1}", item.Name, ex.Message) });
                         }
                     }
                     else
                     {
                         result.Errors.Add(new Error() { Code = EErrorCodes.SubmissionNotFound, Type = EErrorType.Warning, Message = string.Format("Submission '{0}' was not found", item.Name) });
                     }
+
+                    ++count;
 
                 }
 
@@ -213,10 +225,12 @@ namespace DMFX.Source.SEC
             {
                 subInfo.Report = Extract10QReportFilename(txtContentLines);
             }
+            /*
             else if (subInfo.Type == "10-K")
             {
                 subInfo.Report = Extract10KReportFilename(txtContentLines);
             }
+            */
             else
             {
                 subInfo = null;

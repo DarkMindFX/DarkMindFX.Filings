@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMFX.Interfaces
+namespace DMFX.Interfaces.DAL
 {
     public interface IDalParams
     {
@@ -338,6 +338,40 @@ namespace DMFX.Interfaces
         }
     }
 
+    public class RegulatorInfo
+    {
+        public string Code
+        {
+            get;
+            set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string CountryCode
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetRegulatorsResult
+    {
+        public GetRegulatorsResult()
+        {
+            Regulators = new List<RegulatorInfo>();
+        }
+        public List<RegulatorInfo> Regulators
+        {
+            get;
+            set;
+        }
+    }
+
     #endregion
 
 
@@ -398,6 +432,8 @@ namespace DMFX.Interfaces
         /// <param name="sessionParams"></param>
         /// <returns></returns>
         SessionInfo GetSessionInfo(SessionInfo sessionParams);
+
+        GetRegulatorsResult GetRegulators();
 
 
     }

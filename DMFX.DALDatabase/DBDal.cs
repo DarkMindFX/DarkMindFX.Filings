@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -292,15 +293,58 @@ namespace DMFX.DALDatabase
 
         public void InitSession(SessionInfo sessionParams)
         {
-            
-        }
+            string spName = "[SP_Init_Session]";
 
+            GetUserAccountInfoResult result = new GetUserAccountInfoResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // Account key
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.AccountKey);
+
+            // Session id
+            SqlParameter paramSessionId = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+
+            // Session id
+            SqlParameter paramSessionStart = new SqlParameter("@SessionStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionStart);
+
+            cmd.Parameters.Add(paramAccountKey);
+            cmd.Parameters.Add(paramSessionId);
+            cmd.Parameters.Add(paramSessionStart);
+
+            // TODO: uncomment when SP is ready
+            //cmd.ExecuteNonQuery();
+
+        }
 
         public void CloseSession(SessionInfo sessionParams)
         {
+            string spName = "[SP_Close_Session]";
+
+            GetUserAccountInfoResult result = new GetUserAccountInfoResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            
+            // Session id
+            SqlParameter paramSessionId = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+
+            // Session id
+            SqlParameter paramSessionStart = new SqlParameter("@SessionEnd", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionEnd);
+
+            cmd.Parameters.Add(paramSessionId);
+            cmd.Parameters.Add(paramSessionStart);
+
+            // TODO: uncomment when SP is ready
+            //cmd.ExecuteNonQuery();
         }
 
-       
         public SessionInfo GetSessionInfo(SessionInfo sessionParams)
         {
             string spName = "[SP_Get_User_Account_Info]";
@@ -329,6 +373,46 @@ namespace DMFX.DALDatabase
                 result.SessionId = (string)ds.Tables[0].Rows[0]["SessionId"];
                 result.SessionStart = (DateTime)ds.Tables[0].Rows[0]["SessionStart"];
                 result.SessionStart = !Convert.IsDBNull(ds.Tables[0].Rows[0]["SessionStart"]) ? (DateTime)ds.Tables[0].Rows[0]["SessionStart"] : DateTime.MinValue;
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public GetRegulatorsResult GetRegulators()
+        {
+            string spName = "[SP_Get_Regulators]";
+
+            GetRegulatorsResult result = new GetRegulatorsResult();
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+   
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+
+            da.Fill(ds); 
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+
+                    Interfaces.DAL.RegulatorInfo rInfo = new Interfaces.DAL.RegulatorInfo();
+                    rInfo.Code = (string)r["Code"];
+                    rInfo.Name = System.DBNull.Value != r["Name"] ? (string)r["Name"] : string.Empty;
+                    rInfo.CountryCode = (string)r["CountryCode"];
+
+                    result.Regulators.Add(rInfo);
+                }
             }
             else
             {

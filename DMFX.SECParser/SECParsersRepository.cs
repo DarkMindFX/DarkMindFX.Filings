@@ -54,7 +54,7 @@ namespace DMFX.SECParser
         private void Prepare10KParsers(AggregateCatalog catalog)
         {
             var catalog10K = new TypeCatalog(
-                typeof(SEC10K.AAPL)
+                // typeof(SEC10K.AAPL)
                 );
 
             catalog.Catalogs.Add(catalog10K);

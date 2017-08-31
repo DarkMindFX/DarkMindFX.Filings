@@ -28,7 +28,7 @@ namespace DMFX.Service.Sourcing
         EImportState _currentState = EImportState.Idle;
         CompositionContainer _compContainer = null;
         List<Error> _errorsLog = new List<Error>();
-        IDal _dal = null;
+        Interfaces.DAL.IDal _dal = null;
 
         public Importer(CompositionContainer compContainer)
         {
@@ -157,8 +157,8 @@ namespace DMFX.Service.Sourcing
         #region Support method
         private void InitDAL()
         {
-            Lazy<IDal> dal = _compContainer.GetExport<IDal>();
-            IDalParams dalParams = dal.Value.CreateDalParams();
+            Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
+            Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
 
             dal.Value.Init(dalParams);
@@ -210,6 +210,8 @@ namespace DMFX.Service.Sourcing
 
                     foreach (var submissionInfo in subInfoResult.Submissions)
                     {
+                        extrParams.Items.Clear();
+
                         ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
                         srcItemInfo.Name = submissionInfo.Name;
                         extrParams.Items.Add(srcItemInfo);
@@ -254,20 +256,20 @@ namespace DMFX.Service.Sourcing
 
         private bool StoreFiling(string regulatorCode, string companyCode, ISourceSubmissionInfo submissionInfo, IFilingParserResult parserResults)
         {
-            
+
 
             // preparing params
-            InsertFilingDetailsParams insertParams = new InsertFilingDetailsParams();
+            Interfaces.DAL.InsertFilingDetailsParams insertParams = new Interfaces.DAL.InsertFilingDetailsParams();
 
             // preparing metadata
-            insertParams.Metadata.Add( new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "CompanyCode", Value = companyCode, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingType", Value = submissionInfo.Type, Type = "String" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
-            insertParams.Metadata.Add(new InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add( new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "CompanyCode", Value = companyCode, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingType", Value = submissionInfo.Type, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
 
             // preparing filing data records
             foreach (var statement in parserResults.Statements)
@@ -275,7 +277,7 @@ namespace DMFX.Service.Sourcing
                 foreach (var r in statement.Records)
                 {
 
-                    insertParams.Data.Add(new FilingRecord()
+                    insertParams.Data.Add(new Interfaces.DAL.FilingRecord()
                     {
                         Code = r.Title,
                         Instant = r.Instant,

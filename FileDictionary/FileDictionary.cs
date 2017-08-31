@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace DMFX.Dictionaries
 {
-    [Export(typeof(IDictionary))]
+    [Export("File", typeof(IDictionary))]
     public class FileDictionary : IDictionary
     {
         class SECCompany

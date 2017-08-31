@@ -12,17 +12,15 @@ namespace DMFX.Service.Filings
     public class FilingsService : ServiceStack.Service
     {
         private IDictionary _dictionary = null;
-        private IDal _dal = null;
+        private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
 
         public FilingsService()
         {
-            _dictionary = Global.Container.GetExport<IDictionary>().Value;
+            _dictionary = Global.Container.GetExport<IDictionary>("DB").Value;
             _compContainer = Global.Container;
             InitDAL();
         }
-
-        
 
         public object Any(GetRegulators request)
         {
@@ -98,7 +96,7 @@ namespace DMFX.Service.Filings
 
             try
             {
-                GetCompanyFilingsInfoParams infoParams = new GetCompanyFilingsInfoParams();
+                Interfaces.DAL.GetCompanyFilingsInfoParams infoParams = new Interfaces.DAL.GetCompanyFilingsInfoParams();
                 infoParams.CompanyCode = request.CompanyCode;
                 infoParams.PeriodEnd = request.PeriodEnd;
                 infoParams.PeriodStart = request.PeriodStart;
@@ -108,7 +106,7 @@ namespace DMFX.Service.Filings
                     infoParams.Types.Add(t);
                 }
 
-                GetCompanyFilingsInfoResult dalResult = _dal.GetCompanyFilingsInfo(infoParams);
+                Interfaces.DAL.GetCompanyFilingsInfoResult dalResult = _dal.GetCompanyFilingsInfo(infoParams);
                 foreach (var f in dalResult.Filings)
                 {
                     DTO.CompanyFilingInfo cfi = new DTO.CompanyFilingInfo();
@@ -160,8 +158,8 @@ namespace DMFX.Service.Filings
 
         private void InitDAL()
         {
-            Lazy<IDal> dal = _compContainer.GetExport<IDal>();
-            IDalParams dalParams = dal.Value.CreateDalParams();
+            Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
+            Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
 
             dal.Value.Init(dalParams);

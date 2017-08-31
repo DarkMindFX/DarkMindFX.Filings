@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Interfaces.DAL;
 using DMFX.Service.DTO;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,14 @@ namespace DMFX.Service.Filings
 {
     public class AccountService : ServiceStack.Service
     {
-        private IDal _dal = null;
+        private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
 
 
 
         public AccountService()
         {
-            _dal = Global.Container.GetExport<IDal>().Value;
+            _dal = Global.Container.GetExport<Interfaces.DAL.IDal>().Value;
             _compContainer = Global.Container;
             InitDAL();
         }
@@ -77,13 +78,13 @@ namespace DMFX.Service.Filings
             {
                 string sessionId = Guid.NewGuid().ToString();
 
-                SessionInfo sinfo = new SessionInfo();
+                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                 sinfo.AccountKey = request.AccountKey;
                 sinfo.SessionStart = DateTime.Now;
                 sinfo.SessionId = sessionId;
 
                 // if current session exists - we are just using current session token
-                SessionInfo existSession = _dal.GetSessionInfo(sinfo);
+                Interfaces.DAL.SessionInfo existSession = _dal.GetSessionInfo(sinfo);
                 if (existSession == null)
                 {
                     _dal.InitSession(sinfo);
@@ -108,8 +109,8 @@ namespace DMFX.Service.Filings
             TransferHeader(request, response);
             try
             {
-                
-                SessionInfo sinfo = new SessionInfo();
+
+                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                 sinfo.SessionEnd = DateTime.Now;
                 sinfo.SessionId = request.SessionToken;
 
@@ -137,8 +138,8 @@ namespace DMFX.Service.Filings
 
         private void InitDAL()
         {
-            Lazy<IDal> dal = _compContainer.GetExport<IDal>();
-            IDalParams dalParams = dal.Value.CreateDalParams();
+            Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
+            Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
 
             dal.Value.Init(dalParams);

@@ -403,43 +403,14 @@ namespace DMFX.SECParser.SEC10Q
         };
         #endregion
 
-        private void ParseStatementSection(XmlDocument doc, SECParserResult result, string sectionTitle, string[][] sectionTags)
+        
+
+        protected override XmlNamespaceManager PrepareNamespaceMngr(XmlDocument doc)
         {
-            XmlNamespaceManager nsmgr = PrepareNamespaceMngr(doc);
 
-            // preparing statements
-            Statement statementSection = new Statement(sectionTitle);
-            foreach (var tag in sectionTags)
-            {
-                foreach (var context in result.Contexts)
-                {
-                    string path = "//" + tag[0]  + "[@contextRef='" + context.ID + (tag.Length > 2 ? tag[2] : string.Empty) + "']";
-                    XmlNode valueTag = doc.SelectSingleNode(path, nsmgr);
-                    if (valueTag != null)
-                    {
-                        StatementRecord record = new StatementRecord(
-                            tag[1],
-                            Decimal.Parse(valueTag.InnerText),
-                            valueTag.Attributes["unitRef"].Value,
-                            context.StartDate,
-                            context.EndDate,
-                            context.Instant,
-                            valueTag.Attributes["id"].Value
-                        );
-                        statementSection.Records.Add(record);
-                    }
-                }
-            }
-
-            result.Statements.Add(statementSection);
-        }
-
-        private XmlNamespaceManager PrepareNamespaceMngr(XmlDocument doc)
-        {
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+            XmlNamespaceManager nsmgr = base.PrepareNamespaceMngr(doc);
             nsmgr.AddNamespace("us-gaap",   "http://fasb.org/us-gaap/2017-01-31");
-            nsmgr.AddNamespace("aapl",      "http://www.apple.com/20170701");
-
+            
             return nsmgr;
         }
     }
