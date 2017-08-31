@@ -68,16 +68,16 @@ namespace DMFX.DALDatabase
             cmd.Connection = _conn;
 
             // Company code
-            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
+            SqlParameter paramCompanyCode = new SqlParameter("@company_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
 
             // Regulator code
-            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.RegulatorCode);
+            SqlParameter paramRegulatorCode = new SqlParameter("@regulator_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.RegulatorCode);
 
             // Period start
-            SqlParameter paramPeriodStart = new SqlParameter("@PeriodStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
+            SqlParameter paramPeriodStart = new SqlParameter("@start_dt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
 
             // Period end
-            SqlParameter paramPeriodEnd = new SqlParameter("@PeriodStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
+            SqlParameter paramPeriodEnd = new SqlParameter("@end_dt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodEnd);
 
             cmd.Parameters.Add(paramCompanyCode);
             cmd.Parameters.Add(paramRegulatorCode);
@@ -88,8 +88,7 @@ namespace DMFX.DALDatabase
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            // TODO: this must be a call to real procedure
-            // da.Fill(ds); - UNCOMMENT when SP is ready
+            da.Fill(ds);
 
             if (ds.Tables.Count >= 1)
             {
@@ -99,25 +98,16 @@ namespace DMFX.DALDatabase
                     if (infoParams.Types.Count == 0 || infoParams.Types.Contains(row["Type"].ToString()))
                     {
                         CompanyFilingInfo filingInfo = new CompanyFilingInfo();
-                        filingInfo.Name = row["Name"].ToString();
-                        filingInfo.Type = row["Type"].ToString();
-                        filingInfo.Submitted = (DateTime)row["Submitted"];
-                        filingInfo.PeriodStart = (DateTime)row["PeriodStart"];
-                        filingInfo.PeriodEnd = (DateTime)row["PeriodEnd"];
+                        filingInfo.Name = row["Regulator_Filing_Name"].ToString();
+                        filingInfo.Type = row["Filing_Type_Code"].ToString();
+                        filingInfo.Submitted = (DateTime)row["Filing_Submit_Dt"];
+                        filingInfo.PeriodStart = (DateTime)row["Filing_Start_Dt"];
+                        filingInfo.PeriodEnd = (DateTime)row["Filing_End_Dt"];
 
                         result.Filings.Add(filingInfo);
                     }
                 }
             }
-
-            // TODO: dummy record - remove when SP is ready
-            CompanyFilingInfo tmpFilingInfo = new CompanyFilingInfo();
-            tmpFilingInfo.Name = "000032019317000009";
-            tmpFilingInfo.Type = "10-Q";
-            tmpFilingInfo.Submitted = DateTime.Parse("2017/08/02");
-            tmpFilingInfo.PeriodStart = DateTime.Parse("2017/04/01");
-            tmpFilingInfo.PeriodEnd = DateTime.Parse("2017/07/01");
-            result.Filings.Add(tmpFilingInfo);
 
             result.RegulatorCode = infoParams.RegulatorCode;
             result.CompanyCode = infoParams.CompanyCode;
@@ -137,13 +127,13 @@ namespace DMFX.DALDatabase
             cmd.Connection = _conn;
 
             // Company code
-            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
+            SqlParameter paramCompanyCode = new SqlParameter("@Company_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
 
             // Regulator code
-            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.RegulatorCode);
+            SqlParameter paramRegulatorCode = new SqlParameter("@regulator_code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.RegulatorCode);
 
             // Filing name
-            SqlParameter paramFilingName = new SqlParameter("@FilingName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.Name);
+            SqlParameter paramFilingName = new SqlParameter("@filing_name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.Name);
 
             cmd.Parameters.Add(paramCompanyCode);
             cmd.Parameters.Add(paramRegulatorCode);
@@ -153,28 +143,27 @@ namespace DMFX.DALDatabase
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            // TODO: this must be a call to real procedure
-            // da.Fill(ds); - UNCOMMENT when SP is ready
+            da.Fill(ds); 
 
             if (ds.Tables.Count >= 2)
             {
                 // first table - metadata
                 CompanyFilingInfo filingInfo = new CompanyFilingInfo();
-                filingInfo.Name = (string)ds.Tables[0].Rows[0]["Name"];
-                filingInfo.Type = (string)ds.Tables[0].Rows[0]["Type"];
-                filingInfo.PeriodEnd = (DateTime)ds.Tables[0].Rows[0]["PeriodEnd"];
-                filingInfo.PeriodStart = (DateTime)ds.Tables[0].Rows[0]["PeriodStart"];
-                filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submitted"];
+                filingInfo.Name = (string)ds.Tables[0].Rows[0]["Filing_Name"];
+                filingInfo.Type = (string)ds.Tables[0].Rows[0]["Type_Code"];
+                filingInfo.PeriodEnd = (DateTime)ds.Tables[0].Rows[0]["End_Dt"];
+                filingInfo.PeriodStart = (DateTime)ds.Tables[0].Rows[0]["Start_Dt"];
+                filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submit_Dt"];
                 result.FilingInfo = filingInfo;
 
                 // second table - filing data
                 foreach (DataRow r in ds.Tables[1].Rows)
                 {
-                    DateTime periodStart = (DateTime)r["PeriodStart"];
-                    DateTime periodEnd = (DateTime)r["PeriodEnd"];
+                    DateTime periodStart = (DateTime)r["Start_Dttm"];
+                    DateTime periodEnd = (DateTime)r["End_Dttm"];
 
                     FilingRecord fr = new FilingRecord();
-                    fr.Code = (string)r["Code"];
+                    fr.Code = (string)r["Value_Label"];
                     fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
                     fr.PeriodEnd = periodEnd;
                     fr.PeriodStart = periodStart;
@@ -387,8 +376,7 @@ namespace DMFX.DALDatabase
             string spName = "[SP_Get_Regulators]";
 
             GetRegulatorsResult result = new GetRegulatorsResult();
-
-
+            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -413,6 +401,54 @@ namespace DMFX.DALDatabase
 
                     result.Regulators.Add(rInfo);
                 }
+            }
+            else
+            {
+                result = null;
+            }
+
+            return result;
+        }
+
+        public GetRegulatorCompaniesResult GetCompaniesByRegulator(GetRegulatorCompaniesParams cmpParams)
+        {
+            string spName = "[SP_Get_Companies_By_Regulator]";
+
+            GetRegulatorCompaniesResult result = new GetRegulatorCompaniesResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _conn;
+
+            // User email
+            SqlParameter paramRegCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpParams.RegulatorCode);
+
+            cmd.Parameters.Add(paramRegCode);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    Interfaces.DAL.CompanyInfo cmpInfo = new Interfaces.DAL.CompanyInfo();
+                    cmpInfo.LastFilingInfo = new CompanyFilingInfo();
+
+                    cmpInfo.Code = (string)r["Company_Code"];
+                    cmpInfo.Name = DBNull.Value != r["Company_Name"] ? (string)r["Company_Name"] : string.Empty;
+                    cmpInfo.CompanyRegulatorID = string.Empty; // TODO: need to add extra record to SP result
+                    cmpInfo.LastFilingInfo.Name = DBNull.Value != r["Last_Report_Name"] ? (string)r["Last_Report_Name"] : string.Empty;
+                    cmpInfo.LastFilingInfo.Type = DBNull.Value != r["Last_Report_Type"] ? (string)r["Last_Report_Type"] : string.Empty;
+                    cmpInfo.LastFilingInfo.PeriodEnd = DBNull.Value != r["Last_Report_End_Dt"] ? (DateTime)r["Last_Report_End_Dt"] : DateTime.MinValue;
+                    cmpInfo.LastFilingInfo.PeriodStart = DBNull.Value != r["Last_Report_Start_Dt"] ? (DateTime)r["Last_Report_Start_Dt"] : DateTime.MinValue;
+                    cmpInfo.LastFilingInfo.Submitted = DBNull.Value != r["Last_Report_Submit_Dt"] ? (DateTime)r["Last_Report_Submit_Dt"] : DateTime.MinValue;
+
+                    result.Companies.Add(cmpInfo);
+                }              
             }
             else
             {

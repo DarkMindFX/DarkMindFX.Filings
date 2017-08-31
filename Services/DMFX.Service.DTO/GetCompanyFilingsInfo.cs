@@ -27,13 +27,13 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public DateTime PeriodStart
+        public DateTime? PeriodStart
         {
             get;
             set;
         }
 
-        public DateTime PeriodEnd
+        public DateTime? PeriodEnd
         {
             get;
             set;

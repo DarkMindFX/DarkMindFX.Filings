@@ -20,7 +20,23 @@ namespace DMFX.Dictionaries
         }
         public List<CompanyInfo> GetCompaniesByRegulator(string regulatorCode)
         {
-            throw new NotImplementedException();
+            List<CompanyInfo> result = new List<CompanyInfo>();
+
+            Interfaces.DAL.GetRegulatorCompaniesParams cmpnsParams =
+                new Interfaces.DAL.GetRegulatorCompaniesParams() { RegulatorCode = regulatorCode };
+            Interfaces.DAL.GetRegulatorCompaniesResult cmpnsResult = _dal.GetCompaniesByRegulator(cmpnsParams);
+
+            foreach (var cmpnInfo in cmpnsResult.Companies)
+            {
+                CompanyInfo r = new CompanyInfo();
+                r.Code = cmpnInfo.Code;
+                r.Name = cmpnInfo.Name;
+                r.LastUpdated = cmpnInfo.LastUpdated;
+
+                result.Add(r);
+            }
+
+            return result;
         }
 
         public List<RegulatorInfo> GetRegulators()

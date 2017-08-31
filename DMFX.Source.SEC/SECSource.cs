@@ -19,7 +19,7 @@ namespace DMFX.Source.SEC
         IDictionary _dictionary = null;
 
         [ImportingConstructor]
-        public SECSource([Import]IDictionary dict)
+        public SECSource([Import("File")]IDictionary dict)
         {
             _secApi = new SECApi();
             _dictionary = dict;

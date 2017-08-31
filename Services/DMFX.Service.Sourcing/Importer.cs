@@ -36,8 +36,6 @@ namespace DMFX.Service.Sourcing
             Errors = new List<Error>();
 
             InitDAL();
-           
-
         }
 
         #region Properties

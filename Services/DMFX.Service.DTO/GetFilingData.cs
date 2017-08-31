@@ -40,11 +40,44 @@ namespace DMFX.Service.DTO
         }
     }
 
+    public class FilingRecord
+    {
+        public string Code
+        {
+            get;
+            set;
+        }
+
+        public decimal Value
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public string UnitName
+        {
+            get;
+            set;
+        }
+    }
+
     public class GetFilingDataResponse : ResponseBase
     {
         public GetFilingDataResponse()
         {
-            FilingData = new Dictionary<string, decimal>();
+            FilingData = new List<FilingRecord>();
         }
 
         public string RegulatorCode
@@ -71,6 +104,12 @@ namespace DMFX.Service.DTO
             set;
         }
 
+        public string PeriodStart
+        {
+            get;
+            set;
+        }
+
         public string PeriodEnd
         {
             get;
@@ -83,7 +122,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public Dictionary<string, decimal> FilingData
+        public List<FilingRecord> FilingData
         {
             get;
             set;

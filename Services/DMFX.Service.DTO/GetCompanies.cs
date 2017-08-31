@@ -31,17 +31,12 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public DateTime LastUpdate
+        public DateTime? LastUpdate
         {
             get;
             set;
         }
-
-        public CompanyFilingInfo LastFiling
-        {
-            get;
-            set;
-        }
+        
     }
 
     public class GetCompaniesResponse : ResponseBase

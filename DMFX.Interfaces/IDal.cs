@@ -110,6 +110,8 @@ namespace DMFX.Interfaces.DAL
         public GetCompanyFilingsInfoParams()
         {
             Types = new HashSet<string>();
+            PeriodStart = DateTime.Parse("1994-01-01");
+            PeriodEnd = DateTime.Now;
         }
 
         public string RegulatorCode
@@ -372,6 +374,63 @@ namespace DMFX.Interfaces.DAL
         }
     }
 
+    public class CompanyInfo
+    {
+        public string Code
+        {
+            get;
+            set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string CompanyRegulatorID
+        {
+            get;
+            set;
+        }
+
+        public DateTime LastUpdated
+        {
+            get;
+            set;
+        }
+
+        public CompanyFilingInfo LastFilingInfo
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetRegulatorCompaniesParams
+    {
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetRegulatorCompaniesResult
+    {
+        public GetRegulatorCompaniesResult()
+        {
+            Companies = new List<CompanyInfo>();
+        }
+
+        public List<CompanyInfo> Companies
+        {
+            get;
+            set;
+        }
+
+    }
+
     #endregion
 
 
@@ -433,7 +492,19 @@ namespace DMFX.Interfaces.DAL
         /// <returns></returns>
         SessionInfo GetSessionInfo(SessionInfo sessionParams);
 
+        /// <summary>
+        /// Returns list of all available regulators 
+        /// </summary>
+        /// <returns></returns>
         GetRegulatorsResult GetRegulators();
+
+        /// <summary>
+        /// Returns list of companies who file report to the given regulator
+        /// </summary>
+        /// <param name="cmpParams"></param>
+        /// <returns></returns>
+        GetRegulatorCompaniesResult GetCompaniesByRegulator(GetRegulatorCompaniesParams cmpParams);
+        
 
 
     }

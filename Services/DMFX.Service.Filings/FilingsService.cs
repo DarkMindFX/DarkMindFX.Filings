@@ -70,10 +70,7 @@ namespace DMFX.Service.Filings
                     {
                         Name = c.Name,
                         Code = c.Code,
-                        // TODO: need to fill from DAL - last available filing
-                        LastFiling = new DTO.CompanyFilingInfo(),
-                        // TODO: this value should be updated from DAL - for now just random 30 to 90 days
-                        LastUpdate = DateTime.Now - TimeSpan.FromDays(rnd.Next(30, 90))
+                        LastUpdate = c.LastUpdated != DateTime.MinValue ? (DateTime?)c.LastUpdated : null
                     });
                 }
 
@@ -98,8 +95,8 @@ namespace DMFX.Service.Filings
             {
                 Interfaces.DAL.GetCompanyFilingsInfoParams infoParams = new Interfaces.DAL.GetCompanyFilingsInfoParams();
                 infoParams.CompanyCode = request.CompanyCode;
-                infoParams.PeriodEnd = request.PeriodEnd;
-                infoParams.PeriodStart = request.PeriodStart;
+                infoParams.PeriodEnd = request.PeriodEnd != null ? (DateTime)request.PeriodEnd : infoParams.PeriodEnd;
+                infoParams.PeriodStart = request.PeriodStart != null ? (DateTime)request.PeriodStart : infoParams.PeriodStart;
                 infoParams.RegulatorCode = request.RegulatorCode;
                 foreach (var t in request.Types)
                 {
@@ -131,12 +128,42 @@ namespace DMFX.Service.Filings
             return response;
         }
 
-        public object AnyGetFilingData(GetFilingData request)
+        public object Any(GetFilingData request)
         {
             GetFilingDataResponse response = new GetFilingDataResponse();
 
             try
             {
+                Interfaces.DAL.GetCompanyFilingParams filingDataParams = new Interfaces.DAL.GetCompanyFilingParams()
+                {
+                    CompanyCode = request.CompanyCode,
+                    Name = request.FilingName,
+                    RegulatorCode = request.RegulatorCode
+                };
+
+                Interfaces.DAL.GetCompanyFilingResult filingDataResult = _dal.GetCompanyFilingData(filingDataParams);
+
+                response.CompanyCode = request.CompanyCode;
+                response.RegulatorCode = request.RegulatorCode;
+                response.FilingName = filingDataResult.FilingInfo.Name;
+                response.PeriodStart = filingDataResult.FilingInfo.PeriodStart.ToString();
+                response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd.ToString();
+                response.Submitted = filingDataResult.FilingInfo.Submitted.ToString();
+                response.Type = filingDataResult.FilingInfo.Type;
+
+                foreach (var fd in filingDataResult.Data)
+                {
+                    response.FilingData.Add(new DTO.FilingRecord()
+                    {
+                        Code = fd.Code,
+                        Value = fd.Value,
+                        UnitName = fd.Unit,
+                        PeriodEnd = fd.PeriodEnd,
+                        PeriodStart = fd.PeriodStart
+                    });
+                }
+
+
                 response.Success = true;
             }
             catch (Exception ex)

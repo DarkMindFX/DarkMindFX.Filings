@@ -115,6 +115,23 @@ namespace DMFX.SECParser
             };
 
             ExtractXmlData(doc, secResult, tags, secResult.FilingData);
+
+            // separately extracting end date - using contexts
+            if (secResult.FilingData.ContainsKey("DocumentPeriodEndDate") && secResult.FilingData.ContainsKey("DocumentType"))
+            {
+                DateTime endDate = DateTime.Parse(secResult.FilingData["DocumentPeriodEndDate"]);
+                string type = secResult.FilingData["DocumentType"];
+
+                foreach (var ctx in secResult.Contexts)
+                {
+                    // TODO: WARNING! this supports only 10-K and 10-Q report types - need to change in future for other types of reports
+                    if (ctx.EndDate == endDate && (type == "10-Q" ? ctx.ID.Contains("QTD") : ctx.ID.Contains("YTD")))
+                    {
+                        secResult.FilingData["DocumentPeriodStartDate"] = ctx.StartDate.ToShortDateString();
+                        break;
+                    }
+                }
+            }
         }
 
        

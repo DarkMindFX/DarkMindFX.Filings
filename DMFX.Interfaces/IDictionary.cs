@@ -40,6 +40,13 @@ namespace DMFX.Interfaces
             get;
             set;
         }
+
+        public DateTime LastUpdated
+        {
+            get;
+            set;
+        }
+
     }
     /// <summary>
     /// Provides an access to dictionaries
