@@ -10,17 +10,100 @@ using System.Xml;
 
 namespace DMFX.SECParser
 {
-    
+
     public abstract class SECParserBase : IFilingParser
     {
+        public class ValueTag
+        {
+            public string Tag
+            {
+                get;
+                set;
+            }
+
+            public string Code
+            {
+                get;
+                set;
+            }
+
+            public string Suffix
+            {
+                get;
+                set;
+            }
+        }
+        public class Section
+        {
+            public Section()
+            {
+                ValueTags = new List<ValueTag>();
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
+
+            public List<ValueTag> ValueTags
+            {
+                get;
+                set;
+            }
+        }
+
         private string _reportType = string.Empty;
 
-        public SECParserBase(string reportType)
+        private string _companyXml = null;
+
+        private XmlNamespaceManager _nsmgr = null;
+
+        private Dictionary<string, string> _namespaces = new Dictionary<string, string>();
+
+        private Dictionary<string, Section> _sections = new Dictionary<string, Section>();
+
+        public SECParserBase(string reportType, string companyXml = null)
         {
             _reportType = reportType;
+            _companyXml = companyXml;
+
+            InitCommon();
+            InitCompany();
+
         }
         #region IFilingParser implementation
-        public abstract IFilingParserResult Parse(IFilingParserParams parserParams);
+        public virtual IFilingParserResult Parse(IFilingParserParams parserParams)
+        {
+            SECParserParams secParams = parserParams as SECParserParams;
+
+            SECParserResult result = new SECParserResult();
+
+            try
+            {
+                ValidateFile(secParams, result);
+                if (result.Success)
+                {
+                    var doc = OpenDocument(secParams);
+                    if (doc != null)
+                    {
+                        InitNsManager(doc);
+                        ExtractContexts(doc, result);
+                        ExtractCompanyData(doc, result);
+                        ExtractFilingData(doc, result);
+                        ExtractValues(doc, result);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.AddError(EErrorCodes.ParserError, EErrorType.Error, ex.Message);
+            }
+
+            return result;
+        }
 
         public string ReportType
         {
@@ -30,6 +113,96 @@ namespace DMFX.SECParser
             }
         }
 
+
+
+        #endregion
+
+        #region Init methods
+        private void InitCommon()
+        {
+            InitFromXml(Resources.SECCommonTags);
+        }
+
+        private void InitCompany()
+        {
+            if (!string.IsNullOrEmpty(_companyXml))
+            {
+                InitFromXml(_companyXml);
+            }
+        }
+
+        private void InitFromXml(string xml)
+        {
+            XmlDocument settings = new XmlDocument();
+            settings.LoadXml(xml);
+
+            InitNamespacesList(settings);
+            InitSectionsList(settings);
+        }
+
+
+        private void InitNamespacesList(XmlDocument doc)
+        {
+            var nodes = doc.SelectNodes("/parser/namespaces/namespace");
+            if (nodes != null)
+            {
+                foreach (XmlNode nsNode in nodes)
+                {
+                    _namespaces.Add(nsNode.Attributes["ns"].Value, nsNode.Attributes["uri"].Value);
+                }
+            }
+        }
+
+        private void InitSectionsList(XmlDocument doc)
+        {
+            var nodes = doc.SelectNodes("/parser/sections/section");
+            if (nodes != null)
+            {
+                foreach (XmlNode sNode in nodes)
+                {
+                    // getting / creating section
+                    Section section = null;
+                    if (_sections.ContainsKey(sNode.Attributes["name"].Value))
+                    {
+                        section = _sections[sNode.Attributes["name"].Value];
+                    }
+                    else
+                    {
+                        section = new Section() { Name = sNode.Attributes["name"].Value };
+                        _sections.Add(section.Name, section);
+                    }
+
+                    // filling value tags info records
+                    foreach (XmlNode vtNode in sNode.ChildNodes)
+                    {
+                        if (vtNode.Name == "value" && !string.IsNullOrEmpty(vtNode.Attributes["tag"].Value) && !string.IsNullOrEmpty(vtNode.Attributes["code"].Value))
+                        {
+                            ValueTag vt = new ValueTag()
+                            {
+                                Tag = vtNode.Attributes["tag"].Value,
+                                Code = vtNode.Attributes["code"].Value,
+                                Suffix = vtNode.Attributes["suffix"] != null ? vtNode.Attributes["suffix"].Value : string.Empty
+
+                            };
+                            section.ValueTags.Add(vt);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private void InitNsManager(XmlDocument doc)
+        {
+            if (_nsmgr == null)
+            {
+                _nsmgr = new XmlNamespaceManager(doc.NameTable);
+                foreach (var ns in _namespaces.Keys)
+                {
+                    _nsmgr.AddNamespace(ns, _namespaces[ns]);
+                }
+            }
+        }
         #endregion
 
         protected void ValidateFile(SECParserParams secParams, SECParserResult secResult)
@@ -91,10 +264,9 @@ namespace DMFX.SECParser
             }
         }
 
-       
         protected void ExtractCompanyData(XmlDocument doc, SECParserResult secResult)
         {
-            string[][] tags = 
+            string[][] tags =
             {
                 new string[] { "dei:EntityRegistrantName", "EntityRegistrantName" },
                 new string[] { "dei:TradingSymbol", "TradingSymbol" },
@@ -134,8 +306,16 @@ namespace DMFX.SECParser
             }
         }
 
-       
-        protected void ExtractXmlData(XmlDocument doc, SECParserResult secResult, string[][] tags, Dictionary<string,string> values)
+        protected void ExtractValues(XmlDocument doc, SECParserResult secResult)
+        {
+            foreach (var s in _sections.Values)
+            {
+                ParseStatementSection(doc, secResult, s);
+            }
+        }
+
+
+        protected void ExtractXmlData(XmlDocument doc, SECParserResult secResult, string[][] tags, Dictionary<string, string> values)
         {
             foreach (var pair in tags)
             {
@@ -148,24 +328,24 @@ namespace DMFX.SECParser
             }
         }
 
-        protected void ParseStatementSection(XmlDocument doc, SECParserResult result, string sectionTitle, string[][] sectionTags)
+        protected void ParseStatementSection(XmlDocument doc, SECParserResult result, Section section)
         {
-            XmlNamespaceManager nsmgr = PrepareNamespaceMngr(doc);
+            InitNamespacesList(doc);
 
             // preparing statements
-            Statement statementSection = new Statement(sectionTitle);
-            foreach (var tag in sectionTags)
+            Statement statementSection = new Statement(section.Name);
+            foreach (var value in section.ValueTags)
             {
                 foreach (var context in result.Contexts)
                 {
                     var contextAtt = new Dictionary<string, string>();
-                    contextAtt.Add("contextRef", context.ID + (tag.Length > 2 ? tag[2] : string.Empty));
-                    XmlNode valueTag = FindNode(doc, tag[0], contextAtt);
+                    contextAtt.Add("contextRef", context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty));
+                    XmlNode valueTag = FindNode(doc, value.Tag, contextAtt);
 
                     if (valueTag != null)
                     {
                         StatementRecord record = new StatementRecord(
-                            tag[1],
+                            value.Code,
                             Decimal.Parse(valueTag.InnerText),
                             valueTag.Attributes["unitRef"].Value,
                             context.StartDate,
@@ -214,15 +394,6 @@ namespace DMFX.SECParser
         public IFilingParserParams CreateFilingParserParams()
         {
             return new SECParserParams();
-        }
-
-        protected virtual XmlNamespaceManager PrepareNamespaceMngr(XmlDocument doc)
-        {
-            XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-            nsmgr.AddNamespace("us-gaap", "http://fasb.org/us-gaap/2017-01-31");
-            nsmgr.AddNamespace("aapl", "http://www.apple.com/20170701");
-
-            return nsmgr;
         }
 
 

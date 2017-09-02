@@ -10,3 +10,4 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Deb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\bin\Debug\ServiceStack.Text.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\SourcingAPI\DMFX.SEC.Api\obj\Debug\DMFX.SEC.Api.csprojResolveAssemblyReference.cache

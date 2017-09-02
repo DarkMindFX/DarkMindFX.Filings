@@ -1,22 +1,27 @@
-﻿using DMFX.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DMFX.Interfaces;
+using System.ComponentModel.Composition;
+using System.Xml;
 
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("PG", typeof(IFilingParser))]
     public class PG : SECParserBase
     {
-        public PG() : base("10-Q")
+        public PG() : base("10-Q", Resources.PG)
         {
         }
+
         public override IFilingParserResult Parse(IFilingParserParams parserParams)
         {
-            throw new NotImplementedException();
+            IFilingParserResult result = base.Parse(parserParams);
+            
+            return result;
         }
+
     }
 }

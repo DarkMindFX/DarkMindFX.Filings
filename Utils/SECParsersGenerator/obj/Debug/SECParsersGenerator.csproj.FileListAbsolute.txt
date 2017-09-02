@@ -1,0 +1,12 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\SECParsersGenerator.exe.config
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\SECParsersGenerator.exe
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\SECParsersGenerator.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\DMFX.Dictionaries.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\DMFX.FilingInterfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\DMFX.FilingInterfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\bin\DMFX.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\obj\Debug\SECParsersGenerator.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\obj\Debug\SECParsersGenerator.Resources.resources
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\obj\Debug\SECParsersGenerator.csproj.GenerateResource.Cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\obj\Debug\SECParsersGenerator.exe
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Utils\SECParsersGenerator\obj\Debug\SECParsersGenerator.pdb

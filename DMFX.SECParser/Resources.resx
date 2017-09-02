@@ -1,0 +1,1627 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="A" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\A.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AAL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AAL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AAP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AAPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AAPL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ABBV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ABBV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ABC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ABC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ABT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ABT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ACN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ACN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADBE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADBE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ADSK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ADSK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AEE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AEE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AEP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AEP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AES" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AES.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AET" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AET.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AFL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AFL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AGN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AGN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AIG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AIG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AIV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AIV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AIZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AIZ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AJG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AJG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AKAM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AKAM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALGN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALGN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALLE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALLE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ALXN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ALXN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMAT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMAT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AME" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AME.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMGN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMGN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AMZN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AMZN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ANDV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ANDV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ANSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ANSS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ANTM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ANTM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AON.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AOS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AOS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="APA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\APA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="APC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\APC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="APD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\APD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="APH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\APH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ARE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ARE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ARNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ARNC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ATVI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ATVI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AVB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AVB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AVGO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AVGO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AVY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AVY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AWK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AWK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AXP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AXP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AYI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AYI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="AZO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\AZO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BAC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BAC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BAX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BAX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BBT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BBT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BBY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BBY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BCR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BCR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BDX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BDX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BEN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BF_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BF.B.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BHF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BHF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BHGE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BHGE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BIIB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BIIB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BLK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BLK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BLL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BMY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BMY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BRK_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BRK.B.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BSX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BSX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BWA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BWA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="BXP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\BXP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="C" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\C.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CAG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CAG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CAH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CAH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CAT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CAT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CBG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CBOE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CBOE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CBS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CBS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CCI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CCI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CCL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CELG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CELG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CERN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CERN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CFG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CFG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CHD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CHD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CHK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CHK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CHRW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CHRW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CHTR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CHTR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CINF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CINF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CLX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CLX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CMA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CMA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CMCSA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CMCSA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CME" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CME.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CMG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CMG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CMI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CMI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CMS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CMS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CNC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CNP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COST.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="COTY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\COTY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CPB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CPB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CRM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CSCO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CSCO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CSRA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CSRA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CSX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CSX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CTAS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CTAS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CTL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CTL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CTSH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CTSH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CTXS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CTXS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CVS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CVS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CVX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CVX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="CXO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\CXO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="D" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\D.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DAL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DAL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DFS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DFS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DGX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DGX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DHI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DHI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DHR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DHR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DIS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DIS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DISCA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DISCA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DISH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DISH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DLPH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DLPH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DLR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DLR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DLTR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DLTR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DOV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DOV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DOW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DOW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DPS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DPS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DRE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DRE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DRI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DRI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DTE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DTE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DUK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DUK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DVA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DVA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DVN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DVN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="DXC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\DXC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EBAY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EBAY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ECL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ECL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ED" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ED.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EFX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EFX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EIX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EIX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EMN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EMN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EMR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EMR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EOG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EOG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EQIX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EQIX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EQR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EQR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EQT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EQT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ES" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ES.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ESRX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ESRX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ESS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ESS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ETFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ETFC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ETN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ETN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ETR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ETR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EVHC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EVHC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EXC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EXC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EXPD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EXPD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EXPE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EXPE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="EXR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\EXR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="F" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\F.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FAST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FAST.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FBHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FBHS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FCX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FCX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FDX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FDX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FFIV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FFIV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FIS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FIS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FISV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FISV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FITB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FITB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FLIR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FLIR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FLR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FLR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FLS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FLS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FMC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FMC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FOX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FOX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FRT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FRT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FTI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FTI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="FTV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FTV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GGP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GGP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GILD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GILD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GIS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GIS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GLW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GLW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GOOG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GOOG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GPC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GPC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GPN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GPN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GPS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GPS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GRMN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GRMN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="GWW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\GWW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HAL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HAL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HAS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HAS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HBAN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HBAN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HBI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HBI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HCA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HCA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HCN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HCN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HCP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HCP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HES" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HES.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HIG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HIG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HLT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HLT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HOG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HOG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HOLX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HOLX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HON.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HPE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HPE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HPQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HPQ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HRB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HRB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HRL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HRL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HRS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HRS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HSIC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HSIC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HST.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HSY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HSY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="HUM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\HUM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IBM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IBM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ICE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ICE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IDXX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IDXX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IFF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IFF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ILMN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ILMN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="INCY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\INCY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="INFO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\INFO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="INTC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\INTC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="INTU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\INTU.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IPG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IPG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IRM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IRM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ISRG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ISRG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ITW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ITW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="IVZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\IVZ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JBHT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JBHT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JCI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JCI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JEC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JEC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JNJ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JNJ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JNPR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JNPR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JPM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JPM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="JWN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\JWN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="K" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\K.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KEY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KEY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KHC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KHC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KIM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KIM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KLAC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KLAC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KMB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KMB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KMI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KMI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KMX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KMX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KORS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KORS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KSS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="KSU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\KSU.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="L" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\L.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LEG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LEG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LEN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LEN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LKQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LKQ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LLL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LLL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LLY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LLY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LMT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LMT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LNC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LNT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LNT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LOW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LOW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LRCX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LRCX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LUK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LUK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LUV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LUV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LVLT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LVLT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="LYB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\LYB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="M" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\M.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MAA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MAA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MAC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MAC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MAR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MAR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MAS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MAS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MAT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MAT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MCD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MCD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MCHP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MCHP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MCK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MCK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MCO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MCO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MDLZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MDLZ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MDT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MDT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MET" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MET.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MGM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MGM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MHK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MHK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MKC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MKC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MLM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MLM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MMC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MMC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MMM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MMM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MNST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MNST.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MON" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MON.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MOS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MOS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MPC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MPC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MRK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MRK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MRO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MRO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MSFT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MSFT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MSI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MSI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MTB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MTB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MTD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MTD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MU.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="MYL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\MYL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NAVI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NAVI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NBL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NBL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NDAQ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NDAQ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NEE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NEE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NEM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NEM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NFLX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NFLX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NFX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NFX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NKE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NKE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NLSN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NLSN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NOC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NOC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NOV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NOV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NRG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NRG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NSC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NSC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NTAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NTAP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NTRS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NTRS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NUE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NUE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NVDA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NVDA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NWL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NWL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="NWS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\NWS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="O" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\O.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="OKE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\OKE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="OMC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\OMC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ORCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ORCL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ORLY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ORLY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="OXY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\OXY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PAYX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PAYX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PBCT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PBCT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PCAR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PCAR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PCG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PCG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PCLN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PCLN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PDCO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PDCO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PEG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PEG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PEP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PEP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PFE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PFE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PFG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PFG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PGR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PGR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PHM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PHM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PKG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PKG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PKI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PKI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PLD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PLD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PNC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PNC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PNR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PNR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PNW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PNW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PPG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PPG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PPL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PRGO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PRGO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PRU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PRU.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PSA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PSA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PSX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PSX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PVH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PVH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PWR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PWR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PXD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PXD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PYPL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PYPL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="QCOM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\QCOM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="QRVO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\QRVO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RCL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="REG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\REG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="REGN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\REGN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RHI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RHI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RHT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RHT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RJF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RJF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RMD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RMD.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ROK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ROK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ROP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ROP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ROST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ROST.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RRC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RRC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RSG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RSG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="RTN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\RTN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SBUX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SBUX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SCG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SCG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SCHW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SCHW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SECCommonTags" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SECCommonTags.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SECCommonTags1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SECCommonTags.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SEE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SEE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SHW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SHW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SIG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SIG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SJM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SJM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SLB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SLB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SLG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SNA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SNA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SNI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SNI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SNPS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SNPS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SPG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SPG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SPGI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SPGI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SPLS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SPLS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SRCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SRCL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SRE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SRE.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="STI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\STI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="STT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\STT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="STX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\STX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="STZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\STZ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SWK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SWK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SWKS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SWKS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SYF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SYF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SYK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SYK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SYMC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SYMC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="SYY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\SYY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="T" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\T.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TAP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TDG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TDG.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TEL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TEL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TGT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TGT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TIF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TIF.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TJX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TJX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TMK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TMK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TMO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TMO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TRIP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TRIP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TROW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TROW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TRV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TRV.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TSCO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TSCO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TSN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TSN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TSS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TSS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TWX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TWX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TXN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TXN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="TXT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\TXT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UAL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UAL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UDR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UDR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UHS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ULTA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ULTA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UNH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UNH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UNM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UNM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UNP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UNP.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UPS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UPS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="URI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\URI.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="USB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\USB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="UTX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\UTX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="V" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\V.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VAR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VAR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VFC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VIAB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VIAB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VLO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VLO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VMC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VMC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VNO" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VNO.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VRSK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VRSK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VRSN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VRSN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VRTX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VRTX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VTR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VTR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="VZ" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\VZ.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WAT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WAT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WBA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WBA.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WDC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WDC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WEC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WEC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WFC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WFM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WFM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WHR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WHR.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WLTW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WLTW.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WMB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WMB.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WMT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WMT.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WRK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WRK.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WU" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WU.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WYN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WYN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="WYNN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WYNN.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XEC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XEC.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XEL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XEL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XLNX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XLNX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XOM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XOM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XRAY" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XRAY.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XRX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XRX.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="XYL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\XYL.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="YUM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\YUM.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ZBH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ZBH.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ZION" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ZION.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="ZTS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\ZTS.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+</root>

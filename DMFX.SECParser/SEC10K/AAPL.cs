@@ -11,7 +11,7 @@ namespace DMFX.SECParser.SEC10K
     [Export("AAPL", typeof(IFilingParser))]
     public class AAPL : SECParserBase
     {
-        public AAPL() : base("10-Q")
+        public AAPL() : base("10-K")
         {
         }
 

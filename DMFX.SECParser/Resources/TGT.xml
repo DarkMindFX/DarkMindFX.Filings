@@ -1,0 +1,19 @@
+<!-- tgt Company-Specific tags and value codes -->
+<?xml version="1.0" encoding="utf-8" ?>
+<parser>
+  <namespaces>    
+  </namespaces>
+  <sections>
+    <section name="StatementOfOperations">
+    </section>
+    <section name="ComprehensiveIncome">
+    </section>
+    <section name="BalanceSheet">
+    </section>
+    <section name="CashFlowStatement">
+    </section>
+    <section name="EarningsPerShare">
+    </section>    
+  </sections>
+</parser>
+

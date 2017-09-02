@@ -42,9 +42,7 @@ namespace DMFX.SECParser
                 typeof(SEC10Q.JNJ),
                 typeof(SEC10Q.JPM),
                 typeof(SEC10Q.MSFT),
-                typeof(SEC10Q.PG),
-                typeof(SEC10Q.TSLA),
-                typeof(SEC10Q.XON)
+                typeof(SEC10Q.PG)
                 );
 
             catalog.Catalogs.Add(catalog10Q);

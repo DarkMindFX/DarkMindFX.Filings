@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DMFX.Interfaces;
+using System.ComponentModel.Composition;
+using System.Xml;
+
+namespace DMFX.SECParser.SEC10Q
+{
+    [Export("DHI", typeof(IFilingParser))]
+    public class DHI : SECParserBase
+    {
+        public DHI() : base("10-Q", Resources.DHI)
+        {
+        }
+
+        public override IFilingParserResult Parse(IFilingParserParams parserParams)
+        {
+            IFilingParserResult result = base.Parse(parserParams);
+            
+            return result;
+        }
+
+    }
+}

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<parser>
+  <namespaces>
+    <namespace ns="us-gaap" uri="http://fasb.org/us-gaap/2017-01-31"/>
+    <namespace ns="xbrli" uri="http://www.xbrl.org/2003/instance" />
+    <namespace ns="invest" uri="http://xbrl.sec.gov/invest/2013-01-31" />
+  </namespaces>
+  <sections>
+    <section name="StatementOfOperations">
+      <value tag="us-gaap:SalesRevenueNet" code="SalesRevenueNet" suffix="" />
+      <value tag="us-gaap:CostOfGoodsAndServicesSold" code="CostOfGoodsAndServicesSold" suffix="" />
+      <value tag="us-gaap:GrossProfit" code="GrossProfit" suffix="" />
+      <value tag="us-gaap:ResearchAndDevelopmentExpense" code="ResearchAndDevelopmentExpense" suffix="" />
+      <value tag="us-gaap:SellingGeneralAndAdministrativeExpense" code="SellingGeneralAndAdministrativeExpense" suffix="" />
+      <value tag="us-gaap:OperatingExpenses" code="OperatingExpenses" suffix="" />
+      <value tag="us-gaap:OperatingIncomeLoss" code="OperatingIncomeLoss" suffix="" />
+      <value tag="us-gaap:NonoperatingIncomeExpense" code="NonoperatingIncomeExpense" suffix="" />
+      <value tag="us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest" code="IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest" suffix="" />
+      <value tag="us-gaap:IncomeTaxExpenseBenefit" code="IncomeTaxExpenseBenefit" suffix="" />
+      <value tag="us-gaap:NetIncomeLoss" code="NetIncomeLoss" suffix="" />
+      <value tag="us-gaap:EarningsPerShareBasic" code="EarningsPerShareBasic" suffix="" />
+      <value tag="us-gaap:EarningsPerShareDiluted" code="EarningsPerShareDiluted" suffix="" />
+      <value tag="us-gaap:WeightedAverageNumberOfSharesOutstandingBasic" code="WeightedAverageNumberOfSharesOutstandingBasic" suffix="" />
+      <value tag="us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding" code="WeightedAverageNumberOfDilutedSharesOutstanding" suffix="" />
+      <value tag="us-gaap:SalesRevenueGoodsNet" code="SalesRevenueGoodsNet" suffix="" />
+      <value tag="us-gaap:SalesRevenueServicesNet" code="SalesRevenueServicesNet" suffix="" />
+      <value tag="us-gaap:FulfillmentExpense" code="FulfillmentExpense" suffix="" />
+      <value tag="us-gaap:MarketingExpense" code="MarketingExpense" suffix="" />
+      <value tag="us-gaap:TechnologyAndContentExpense" code="TechnologyAndContentExpense" suffix="" />
+      <value tag="us-gaap:GeneralAndAdministrativeExpense" code="GeneralAndAdministrativeExpense" suffix="" />
+      <value tag="us-gaap:OtherCostAndExpenseOperating" code="OtherCostAndExpenseOperating" suffix="" />
+      <value tag="us-gaap:CostsAndExpenses" code="CostsAndExpenses" suffix="" />
+      <value tag="us-gaap:InvestmentIncomeInterest" code="InvestmentIncomeInterest" suffix="" />
+      <value tag="us-gaap:InterestExpense" code="InterestExpense" suffix="" />
+      <value tag="us-gaap:OtherNonoperatingIncomeExpense" code="OtherNonoperatingIncomeExpense" suffix="" />
+      <value tag="us-gaap:IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments" code="IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments" suffix="" />
+      <value tag="us-gaap:IncomeLossFromEquityMethodInvestments" code="IncomeLossFromEquityMethodInvestments" suffix="" />
+      <value tag="us-gaap:DepreciationDepletionAndAmortization" code="DepreciationDepletionAndAmortization" suffix="" />
+      <value tag="" code="" suffix="" />
+      <value tag="" code="" suffix="" />
+    </section>
+    <section name="ComprehensiveIncome">
+      <value tag="us-gaap:NetIncomeLoss" code="NetIncomeLoss" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax" code="OtherComprehensiveIncomeLossForeignCurrencyTransactionAndTranslationAdjustmentNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeUnrealizedGainLossOnDerivativesArisingDuringPeriodNetOfTax" code="OtherComprehensiveIncomeUnrealizedGainLossOnDerivativesArisingDuringPeriodNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIOnDerivativesNetOfTax" code="OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIOnDerivativesNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossDerivativesQualifyingAsHedgesNetOfTax" code="OtherComprehensiveIncomeLossDerivativesQualifyingAsHedgesNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax" code="OtherComprehensiveIncomeUnrealizedHoldingGainLossOnSecuritiesArisingDuringPeriodNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax" code="OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax" code="OtherComprehensiveIncomeLossAvailableForSaleSecuritiesAdjustmentNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent" code="OtherComprehensiveIncomeLossNetOfTaxPortionAttributableToParent" suffix="" />
+      <value tag="us-gaap:ComprehensiveIncomeNetOfTax" code="ComprehensiveIncomeNetOfTax" suffix="" />
+      <value tag="us-gaap:OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesTax" code="OtherComprehensiveIncomeLossReclassificationAdjustmentFromAOCIForSaleOfSecuritiesTax" suffix="" />
+      <value tag="" code="" suffix="" />
+      <value tag="" code="" suffix="" />
+    </section>
+    <section name="BalanceSheet">
+      <value tag="us-gaap:CashAndCashEquivalentsAtCarryingValue" code="CashAndCashEquivalentsAtCarryingValue" suffix="" />
+      <value tag="us-gaap:AvailableForSaleSecuritiesCurrent" code="AvailableForSaleSecuritiesCurrent" suffix="" />
+      <value tag="us-gaap:AccountsReceivableNetCurrent" code="AccountsReceivableNetCurrent" suffix="" />
+      <value tag="us-gaap:InventoryNet" code="InventoryNet" suffix="" />
+      <value tag="us-gaap:NontradeReceivablesCurrent" code="NontradeReceivablesCurrent" suffix="" />
+      <value tag="us-gaap:OtherAssetsCurrent" code="OtherAssetsCurrent" suffix="" />
+      <value tag="us-gaap:AssetsCurrent" code="AssetsCurrent" suffix="" />
+      <value tag="us-gaap:AvailableForSaleSecuritiesNoncurrent" code="AvailableForSaleSecuritiesNoncurrent" suffix="" />
+      <value tag="us-gaap:PropertyPlantAndEquipmentNet" code="PropertyPlantAndEquipmentNet" suffix="" />
+      <value tag="us-gaap:Goodwill" code="Goodwill" suffix="" />
+      <value tag="us-gaap:IntangibleAssetsNetExcludingGoodwill" code="IntangibleAssetsNetExcludingGoodwill" suffix="" />
+      <value tag="us-gaap:OtherAssetsNoncurrent" code="OtherAssetsNoncurrent" suffix="" />
+      <value tag="us-gaap:Assets" code="Assets" suffix="" />
+      <value tag="us-gaap:AccountsPayableCurrent" code="AccountsPayableCurrent" suffix="" />
+      <value tag="us-gaap:AccruedLiabilitiesCurrent" code="AccruedLiabilitiesCurrent" suffix="" />
+      <value tag="us-gaap:DeferredRevenueCurrent" code="DeferredRevenueCurrent" suffix="" />
+      <value tag="us-gaap:CommercialPaper" code="CommercialPaper" suffix="" />
+      <value tag="us-gaap:LongTermDebtCurrent" code="LongTermDebtCurrent" suffix="" />
+      <value tag="us-gaap:LiabilitiesCurrent" code="LiabilitiesCurrent" suffix="" />
+      <value tag="us-gaap:OperatingIncomeLoss" code="OperatingIncomeLoss" suffix="" />
+      <value tag="us-gaap:LongTermDebtNoncurrent" code="LongTermDebtNoncurrent" suffix="" />
+      <value tag="us-gaap:OtherLiabilitiesNoncurrent" code="OtherLiabilitiesNoncurrent" suffix="" />
+      <value tag="us-gaap:Liabilities" code="Liabilities" suffix="" />
+      <value tag="us-gaap:CommonStocksIncludingAdditionalPaidInCapital" code="CommonStocksIncludingAdditionalPaidInCapital" suffix="" />
+      <value tag="us-gaap:RetainedEarningsAccumulatedDeficit" code="RetainedEarningsAccumulatedDeficit" suffix="" />
+      <value tag="us-gaap:AccumulatedOtherComprehensiveIncomeLossNetOfTax" code="AccumulatedOtherComprehensiveIncomeLossNetOfTax" suffix="" />
+      <value tag="us-gaap:StockholdersEquity" code="StockholdersEquity" suffix="" />
+      <value tag="us-gaap:LiabilitiesAndStockholdersEquity" code="LiabilitiesAndStockholdersEquity" suffix="" />
+      <value tag="us-gaap:MarketableSecuritiesCurrent" code="MarketableSecuritiesCurrent" suffix="" />
+      <value tag="us-gaap:CommonStockValue" code="CommonStockValue" suffix="" />
+      <value tag="us-gaap:TreasuryStockValue" code="TreasuryStockValue" suffix="" />
+      <value tag="us-gaap:AdditionalPaidInCapital" code="AdditionalPaidInCapital" suffix="" />
+      <value tag="" code="" suffix="" />
+      <value tag="" code="" suffix="" />
+    </section>
+    <section name="CashFlowStatement">
+      <value tag="us-gaap:DepreciationAmortizationAndAccretionNet" code="DepreciationAmortizationAndAccretionNet" suffix="" />
+      <value tag="us-gaap:ShareBasedCompensation" code="ShareBasedCompensation" suffix="" />
+      <value tag="us-gaap:DeferredIncomeTaxExpenseBenefit" code="DeferredIncomeTaxExpenseBenefit" suffix="" />
+      <value tag="us-gaap:OtherNoncashIncomeExpense" code="OtherNoncashIncomeExpense" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInAccountsReceivable" code="IncreaseDecreaseInAccountsReceivable" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInInventories" code="IncreaseDecreaseInInventories" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInOtherReceivables" code="IncreaseDecreaseInOtherReceivables" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInOtherOperatingAssets" code="IncreaseDecreaseInOtherOperatingAssets" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInAccountsPayable" code="IncreaseDecreaseInAccountsPayable" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInDeferredRevenue" code="IncreaseDecreaseInDeferredRevenue" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInOtherOperatingLiabilities" code="IncreaseDecreaseInOtherOperatingLiabilities" suffix="" />
+      <value tag="us-gaap:NetCashProvidedByUsedInOperatingActivities" code="NetCashProvidedByUsedInOperatingActivities" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquireAvailableForSaleSecurities" code="PaymentsToAcquireAvailableForSaleSecurities" suffix="" />
+      <value tag="us-gaap:ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities" code="ProceedsFromMaturitiesPrepaymentsAndCallsOfAvailableForSaleSecurities" suffix="" />
+      <value tag="us-gaap:ProceedsFromSaleOfAvailableForSaleSecurities" code="ProceedsFromSaleOfAvailableForSaleSecurities" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired" code="PaymentsToAcquireBusinessesNetOfCashAcquired" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquirePropertyPlantAndEquipment" code="PaymentsToAcquirePropertyPlantAndEquipment" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquireIntangibleAssets" code="PaymentsToAcquireIntangibleAssets" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquireOtherInvestments" code="PaymentsToAcquireOtherInvestments" suffix="" />
+      <value tag="us-gaap:PaymentsForProceedsFromOtherInvestingActivities" code="PaymentsForProceedsFromOtherInvestingActivities" suffix="" />
+      <value tag="us-gaap:NetCashProvidedByUsedInInvestingActivities" code="NetCashProvidedByUsedInInvestingActivities" suffix="" />
+      <value tag="us-gaap:ProceedsFromIssuanceOfCommonStock" code="ProceedsFromIssuanceOfCommonStock" suffix="" />
+      <value tag="us-gaap:ExcessTaxBenefitFromShareBasedCompensationFinancingActivities" code="ExcessTaxBenefitFromShareBasedCompensationFinancingActivities" suffix="" />
+      <value tag="us-gaap:PaymentsRelatedToTaxWithholdingForShareBasedCompensation" code="PaymentsRelatedToTaxWithholdingForShareBasedCompensation" suffix="" />
+      <value tag="us-gaap:PaymentsOfDividends" code="PaymentsOfDividends" suffix="" />
+      <value tag="us-gaap:PaymentsForRepurchaseOfCommonStock" code="PaymentsForRepurchaseOfCommonStock" suffix="" />
+      <value tag="us-gaap:ProceedsFromIssuanceOfLongTermDebt" code="ProceedsFromIssuanceOfLongTermDebt" suffix="" />
+      <value tag="us-gaap:RepaymentsOfLongTermDebt" code="RepaymentsOfLongTermDebt" suffix="" />
+      <value tag="us-gaap:ProceedsFromRepaymentsOfCommercialPaper" code="ProceedsFromRepaymentsOfCommercialPaper" suffix="" />
+      <value tag="us-gaap:NetCashProvidedByUsedInFinancingActivities" code="NetCashProvidedByUsedInFinancingActivities" suffix="" />
+      <value tag="us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease" code="CashAndCashEquivalentsPeriodIncreaseDecrease" suffix="" />
+      <value tag="us-gaap:CashAndCashEquivalentsAtCarryingValue" code="CashAndCashEquivalentsAtCarryingValue" suffix="" />
+      <value tag="us-gaap:IncomeTaxesPaidNet" code="IncomeTaxesPaidNet" suffix="" />
+      <value tag="us-gaap:InterestPaid" code="InterestPaid" suffix="" />
+      <value tag="us-gaap:OtherOperatingActivitiesCashFlowStatement" code="OtherOperatingActivitiesCashFlowStatement" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInAccountsReceivableAndOtherOperatingAssets" code="IncreaseDecreaseInAccountsReceivableAndOtherOperatingAssets" suffix="" />
+      <value tag="us-gaap:IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities" code="IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities" suffix="" />
+      <value tag="us-gaap:PaymentsForProceedsFromProductiveAssets" code="PaymentsForProceedsFromProductiveAssets" suffix="" />
+      <value tag="us-gaap:ProceedsFromSaleAndMaturityOfMarketableSecurities" code="ProceedsFromSaleAndMaturityOfMarketableSecurities" suffix="" />
+      <value tag="us-gaap:PaymentsToAcquireMarketableSecurities" code="PaymentsToAcquireMarketableSecurities" suffix="" />
+      <value tag="us-gaap:RepaymentsOfDebt" code="RepaymentsOfDebt" suffix="" />
+      <value tag="us-gaap:RepaymentsOfLongTermCapitalLeaseObligations" code="RepaymentsOfLongTermCapitalLeaseObligations" suffix="" />
+      <value tag="us-gaap:RepaymentsOfLongTermFinanceLeaseObligations" code="RepaymentsOfLongTermFinanceLeaseObligations" suffix="" />
+      <value tag="us-gaap:EffectOfExchangeRateOnCashAndCashEquivalents" code="EffectOfExchangeRateOnCashAndCashEquivalents" suffix="" />
+      <value tag="us-gaap:InterestPaidOnLongTermDebt" code="InterestPaidOnLongTermDebt" suffix="" />
+      <value tag="us-gaap:InterestPaidOnCapitalAndFinanceLeaseObligations" code="InterestPaidOnCapitalAndFinanceLeaseObligations" suffix="" />
+      <value tag="us-gaap:CapitalLeaseObligationsIncurred" code="CapitalLeaseObligationsIncurred" suffix="" />
+      <value tag="us-gaap:DepreciationDepletionAndAmortization" code="DepreciationDepletionAndAmortization" suffix="" />
+      <value tag="us-gaap:RecognitionOfDeferredRevenue" code="RecognitionOfDeferredRevenue" suffix="" />
+    </section>
+    <section name="EarningsPerShare">
+      <value tag="us-gaap:WeightedAverageNumberOfSharesOutstandingBasic" code="WeightedAverageNumberOfSharesOutstandingBasic" suffix="" />
+      <value tag="us-gaap:WeightedAverageNumberDilutedSharesOutstandingAdjustment" code="WeightedAverageNumberDilutedSharesOutstandingAdjustment" suffix="" />
+      <value tag="us-gaap:WeightedAverageNumberOfDilutedSharesOutstanding" code="WeightedAverageNumberOfDilutedSharesOutstanding" suffix="" />
+      <value tag="us-gaap:EarningsPerShareBasic" code="EarningsPerShareBasic" suffix="" />
+      <value tag="us-gaap:EarningsPerShareDiluted" code="EarningsPerShareDiluted" suffix="" />
+    </section>
+  </sections>
+</parser>
