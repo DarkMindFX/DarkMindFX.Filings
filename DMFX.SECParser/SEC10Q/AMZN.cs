@@ -35,9 +35,9 @@ namespace DMFX.SECParser.SEC10Q
 
                         ParseStatementSection(doc, result, "CONDENSED CONSOLIDATED STATEMENTS OF OPERATIONS", statOfOpsTags);
                         ParseStatementSection(doc, result, "CONDENSED CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME", statOfCompIncomeTags);
-                        // TODO *******************
                         ParseStatementSection(doc, result, "CONDENSED CONSOLIDATED BALANCE SHEETS", balanceSheetTags);
                         ParseStatementSection(doc, result, "CONDENSED CONSOLIDATED STATEMENTS OF CASH FLOWS", stateOfCashFlowsTags);
+                        // TODO *******************
                         ParseStatementSection(doc, result, "Earnings Per Share", epsTags);
                         ParseStatementSection(doc, result, "Cash, Cash Equivalents and Marketable Securities", cashMarketSecTags);
                         ParseStatementSection(doc, result, "Derivative Assets & Liabilities", derivateFinInstrAssetsLiabilitiesTags);
@@ -108,32 +108,34 @@ namespace DMFX.SECParser.SEC10Q
             new string[] { "us-gaap:NetIncomeLoss", "NetIncomeLoss" },
             new string[] { "us-gaap:DepreciationDepletionAndAmortization", "DepreciationDepletionAndAmortization" },
             new string[] { "us-gaap:ShareBasedCompensation", "ShareBasedCompensation" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
-            new string[] { "us-gaap:", "" },
+            new string[] { "us-gaap:OtherOperatingActivitiesCashFlowStatement", "OtherOperatingActivitiesCashFlowStatement" },
+            new string[] { "us-gaap:OtherNoncashIncomeExpense", "OtherNoncashIncomeExpense" },
+            new string[] { "us-gaap:DeferredIncomeTaxExpenseBenefit", "DeferredIncomeTaxExpenseBenefit" },
+            new string[] { "us-gaap:IncreaseDecreaseInInventories", "IncreaseDecreaseInInventories" },
+            new string[] { "us-gaap:IncreaseDecreaseInAccountsReceivableAndOtherOperatingAssets", "IncreaseDecreaseInAccountsReceivableAndOtherOperatingAssets" },
+            new string[] { "us-gaap:IncreaseDecreaseInAccountsPayable", "IncreaseDecreaseInAccountsPayable" },
+            new string[] { "us-gaap:IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities", "IncreaseDecreaseInAccruedLiabilitiesAndOtherOperatingLiabilities" },
+            new string[] { "us-gaap:IncreaseDecreaseInDeferredRevenue", "IncreaseDecreaseInDeferredRevenue" },
+            new string[] { "us-gaap:RecognitionOfDeferredRevenue", "RecognitionOfDeferredRevenue" },
+            new string[] { "us-gaap:NetCashProvidedByUsedInOperatingActivities", "NetCashProvidedByUsedInOperatingActivities" },
+            new string[] { "us-gaap:PaymentsForProceedsFromProductiveAssets", "PaymentsForProceedsFromProductiveAssets" },
+            new string[] { "us-gaap:PaymentsToAcquireBusinessesNetOfCashAcquired", "PaymentsToAcquireBusinessesNetOfCashAcquired" },
+            new string[] { "us-gaap:ProceedsFromSaleAndMaturityOfMarketableSecurities", "ProceedsFromSaleAndMaturityOfMarketableSecurities" },
+            new string[] { "us-gaap:PaymentsToAcquireMarketableSecurities", "PaymentsToAcquireMarketableSecurities" },
+            new string[] { "us-gaap:NetCashProvidedByUsedInInvestingActivities", "NetCashProvidedByUsedInInvestingActivities" },
+            new string[] { "us-gaap:ProceedsFromIssuanceOfLongTermDebt", "ProceedsFromIssuanceOfLongTermDebt" },
+            new string[] { "us-gaap:RepaymentsOfDebt", "RepaymentsOfDebt" },
+            new string[] { "us-gaap:RepaymentsOfLongTermCapitalLeaseObligations", "RepaymentsOfLongTermCapitalLeaseObligations" },
+            new string[] { "us-gaap:RepaymentsOfLongTermFinanceLeaseObligations", "RepaymentsOfLongTermFinanceLeaseObligations" },
+            new string[] { "us-gaap:NetCashProvidedByUsedInFinancingActivities", "NetCashProvidedByUsedInFinancingActivities" },
+            new string[] { "us-gaap:EffectOfExchangeRateOnCashAndCashEquivalents", "EffectOfExchangeRateOnCashAndCashEquivalents" },
+            new string[] { "us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease", "CashAndCashEquivalentsPeriodIncreaseDecrease" },
+            new string[] { "us-gaap:CashAndCashEquivalentsAtCarryingValue", "CashAndCashEquivalentsAtCarryingValue" },
+            new string[] { "us-gaap:InterestPaidOnLongTermDebt", "InterestPaidOnLongTermDebt" },
+            new string[] { "us-gaap:InterestPaidOnCapitalAndFinanceLeaseObligations", "InterestPaidOnCapitalAndFinanceLeaseObligations" },
+            new string[] { "us-gaap:IncomeTaxesPaidNet", "IncomeTaxesPaidNet" },
+            new string[] { "us-gaap:CapitalLeaseObligationsIncurred", "CapitalLeaseObligationsIncurred" },
+            new string[] { "amzn:BuildToSuitLeaseObligationsIncurred", "BuildToSuitLeaseObligationsIncurred" }
 
 
         };
