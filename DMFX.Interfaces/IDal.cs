@@ -490,7 +490,7 @@ namespace DMFX.Interfaces.DAL
         /// </summary>
         /// <param name="sessionParams"></param>
         /// <returns></returns>
-        SessionInfo GetSessionInfo(SessionInfo sessionParams);
+        SessionInfo GetSessionInfo(SessionInfo sessionParams, bool checkActive);
 
         /// <summary>
         /// Returns list of all available regulators 

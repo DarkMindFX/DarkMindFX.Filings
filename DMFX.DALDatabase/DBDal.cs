@@ -235,7 +235,7 @@ namespace DMFX.DALDatabase
             cmd.Parameters.Add(paramAccountKey);
 
             // TODO: uncomment when SP ready
-            //cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
 
         }
 
@@ -253,7 +253,7 @@ namespace DMFX.DALDatabase
             SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email);
 
             // User pwd hash
-            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey);
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey != null ? (object)accParams.AccountKey : DBNull.Value );
 
             cmd.Parameters.Add(paramEmail);
             cmd.Parameters.Add(paramAccountKey);
@@ -262,15 +262,14 @@ namespace DMFX.DALDatabase
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            // TODO: this must be a call to real procedure
-            // da.Fill(ds); - UNCOMMENT when SP is ready
+            da.Fill(ds); 
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                result.AccountKey = (string)ds.Tables[0].Rows[0]["AccountKey"];
-                result.Name = (string)ds.Tables[0].Rows[0]["Name"];
+                result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
+                result.Name = (string)ds.Tables[0].Rows[0]["User_Name"];
                 result.Email = (string)ds.Tables[0].Rows[0]["Email"];
-                result.PwdHash = (string)ds.Tables[0].Rows[0]["PwdHash"];
-                result.DateCreated = (DateTime)ds.Tables[0].Rows[0]["DateCreated"];
+                result.PwdHash = (string)ds.Tables[0].Rows[0]["Password_Hash"];
+                result.DateCreated = (DateTime)ds.Tables[0].Rows[0]["User_Creation_Dttm"];
             }
             else
             {
@@ -295,17 +294,16 @@ namespace DMFX.DALDatabase
             SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.AccountKey);
 
             // Session id
-            SqlParameter paramSessionId = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+            SqlParameter paramSessionToken = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
 
             // Session id
             SqlParameter paramSessionStart = new SqlParameter("@SessionStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionStart);
 
             cmd.Parameters.Add(paramAccountKey);
-            cmd.Parameters.Add(paramSessionId);
+            cmd.Parameters.Add(paramSessionToken);
             cmd.Parameters.Add(paramSessionStart);
 
-            // TODO: uncomment when SP is ready
-            //cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
 
         }
 
@@ -322,7 +320,7 @@ namespace DMFX.DALDatabase
 
             
             // Session id
-            SqlParameter paramSessionId = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+            SqlParameter paramSessionId = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
 
             // Session id
             SqlParameter paramSessionStart = new SqlParameter("@SessionEnd", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionEnd);
@@ -330,13 +328,12 @@ namespace DMFX.DALDatabase
             cmd.Parameters.Add(paramSessionId);
             cmd.Parameters.Add(paramSessionStart);
 
-            // TODO: uncomment when SP is ready
-            //cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
         }
 
-        public SessionInfo GetSessionInfo(SessionInfo sessionParams)
+        public SessionInfo GetSessionInfo(SessionInfo sessionParams, bool checkActive)
         {
-            string spName = "[SP_Get_User_Account_Info]";
+            string spName = checkActive ? "[SP_Get_Active_Session_Info]" : "[SP_Get_Session_Info]";
 
             SessionInfo result = new SessionInfo();
 
@@ -345,23 +342,22 @@ namespace DMFX.DALDatabase
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Connection = _conn;
 
-            // User email
-            SqlParameter paramEmail = new SqlParameter("@SessionId", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
+            // Session Token
+            SqlParameter paramSessionToken = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
 
-            cmd.Parameters.Add(paramEmail);
+            cmd.Parameters.Add(paramSessionToken);
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            // TODO: this must be a call to real procedure
-            // da.Fill(ds); - UNCOMMENT when SP is ready
+            da.Fill(ds);
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                result.AccountKey = (string)ds.Tables[0].Rows[0]["AccountKey"];
-                result.SessionId = (string)ds.Tables[0].Rows[0]["SessionId"];
-                result.SessionStart = (DateTime)ds.Tables[0].Rows[0]["SessionStart"];
-                result.SessionStart = !Convert.IsDBNull(ds.Tables[0].Rows[0]["SessionStart"]) ? (DateTime)ds.Tables[0].Rows[0]["SessionStart"] : DateTime.MinValue;
+                result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
+                result.SessionId = (string)ds.Tables[0].Rows[0]["Session_Token"];
+                result.SessionStart = (DateTime)ds.Tables[0].Rows[0]["Session_Start_Dttm"];
+                result.SessionEnd = (ds.Tables[0].Columns.Contains("Session_End_Dttm") && !Convert.IsDBNull(ds.Tables[0].Rows[0]["Session_End_Dttm"])) ? (DateTime)ds.Tables[0].Rows[0]["Session_End_Dttm"] : DateTime.MinValue;
             }
             else
             {

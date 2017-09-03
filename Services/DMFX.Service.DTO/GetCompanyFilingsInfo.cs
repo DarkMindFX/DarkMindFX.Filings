@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}")]
+    [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}", "GET")]
+    [Route("/GetCompanyFilingsInfo", "POST")]
     public class GetCompanyFilingsInfo : RequestBase, IReturn<GetCompanyFilingsInfoResponse>
     {
         public GetCompanyFilingsInfo()

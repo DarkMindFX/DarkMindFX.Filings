@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/CloseSession")]
+    [Route("/CloseSession/{SessionToken}", "GET")]
+    [Route("/CloseSession", "POST")]
     public class CloseSession : RequestBase, IReturn<CloseSessionResponse>
     {
     }

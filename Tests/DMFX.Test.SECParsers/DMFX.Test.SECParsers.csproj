@@ -42,6 +42,7 @@
     <Compile Include="TestAAPL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAMZN.cs" />
+    <Compile Include="TestBAC.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

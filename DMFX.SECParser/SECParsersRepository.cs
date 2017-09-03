@@ -33,7 +33,18 @@ namespace DMFX.SECParser
         private void Prepare10QParsers(AggregateCatalog catalog)
         {
             var catalog10Q = new TypeCatalog(
+                typeof(SEC10Q.A),
+                typeof(SEC10Q.AAL),
                 typeof(SEC10Q.AAPL),
+                typeof(SEC10Q.ABBV),
+                typeof(SEC10Q.ABC),
+                typeof(SEC10Q.ACN),
+                typeof(SEC10Q.ADBE),
+                typeof(SEC10Q.ADI),
+                typeof(SEC10Q.ADM),
+                typeof(SEC10Q.ADP),
+                typeof(SEC10Q.ADS),
+                typeof(SEC10Q.ADSK),
                 typeof(SEC10Q.AMZN),
                 typeof(SEC10Q.BAC),
                 typeof(SEC10Q.BRK_B),

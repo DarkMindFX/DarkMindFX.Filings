@@ -28,28 +28,37 @@ namespace DMFX.Service.Filings
 
             TransferHeader(request, response);
 
-            try
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
+            if (valSession == EErrorCodes.Success)
             {
-                List<Interfaces.RegulatorInfo> regulators = _dictionary.GetRegulators();
-
-                foreach (var reg in regulators)
+                try
                 {
-                    DTO.RegulatorInfo regulatorInfo = new DTO.RegulatorInfo()
+                    List<Interfaces.RegulatorInfo> regulators = _dictionary.GetRegulators();
+
+                    foreach (var reg in regulators)
                     {
-                        Name = reg.Name,
-                        Code = reg.Code,
-                        CountryCode = reg.CountryCode
-                    };
+                        DTO.RegulatorInfo regulatorInfo = new DTO.RegulatorInfo()
+                        {
+                            Name = reg.Name,
+                            Code = reg.Code,
+                            CountryCode = reg.CountryCode
+                        };
 
-                    response.Regulators.Add(regulatorInfo);
+                        response.Regulators.Add(regulatorInfo);
+                    }
+
+                    response.Success = true;
                 }
-
-                response.Success = true;
+                catch (Exception ex)
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                }
             }
-            catch (Exception ex)
+            else
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
             return response;
@@ -60,26 +69,37 @@ namespace DMFX.Service.Filings
             GetCompaniesResponse response = new GetCompaniesResponse();
             TransferHeader(request, response);
 
-            try
-            {
-                List<Interfaces.CompanyInfo> companies = _dictionary.GetCompaniesByRegulator(request.RegulatorCode);
-                var rnd = new Random(DateTime.Now.Millisecond);
-                foreach (var c in companies)
-                {
-                    response.Companies.Add(new DTO.CompanyInfo()
-                    {
-                        Name = c.Name,
-                        Code = c.Code,
-                        LastUpdate = c.LastUpdated != DateTime.MinValue ? (DateTime?)c.LastUpdated : null
-                    });
-                }
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
 
-                response.Success = true;
+            if (valSession == EErrorCodes.Success)
+            {
+
+                try
+                {
+                    List<Interfaces.CompanyInfo> companies = _dictionary.GetCompaniesByRegulator(request.RegulatorCode);
+                    var rnd = new Random(DateTime.Now.Millisecond);
+                    foreach (var c in companies)
+                    {
+                        response.Companies.Add(new DTO.CompanyInfo()
+                        {
+                            Name = c.Name,
+                            Code = c.Code,
+                            LastUpdate = c.LastUpdated != DateTime.MinValue ? (DateTime?)c.LastUpdated : null
+                        });
+                    }
+
+                    response.Success = true;
+                }
+                catch (Exception ex)
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                }
             }
-            catch (Exception ex)
+            else
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
             return response;
@@ -91,38 +111,49 @@ namespace DMFX.Service.Filings
 
             TransferHeader(request, response);
 
-            try
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
+            if (valSession == EErrorCodes.Success)
             {
-                Interfaces.DAL.GetCompanyFilingsInfoParams infoParams = new Interfaces.DAL.GetCompanyFilingsInfoParams();
-                infoParams.CompanyCode = request.CompanyCode;
-                infoParams.PeriodEnd = request.PeriodEnd != null ? (DateTime)request.PeriodEnd : infoParams.PeriodEnd;
-                infoParams.PeriodStart = request.PeriodStart != null ? (DateTime)request.PeriodStart : infoParams.PeriodStart;
-                infoParams.RegulatorCode = request.RegulatorCode;
-                foreach (var t in request.Types)
+
+                try
                 {
-                    infoParams.Types.Add(t);
+                    Interfaces.DAL.GetCompanyFilingsInfoParams infoParams = new Interfaces.DAL.GetCompanyFilingsInfoParams();
+                    infoParams.CompanyCode = request.CompanyCode;
+                    infoParams.PeriodEnd = request.PeriodEnd != null ? (DateTime)request.PeriodEnd : infoParams.PeriodEnd;
+                    infoParams.PeriodStart = request.PeriodStart != null ? (DateTime)request.PeriodStart : infoParams.PeriodStart;
+                    infoParams.RegulatorCode = request.RegulatorCode;
+                    foreach (var t in request.Types)
+                    {
+                        infoParams.Types.Add(t);
+                    }
+
+                    Interfaces.DAL.GetCompanyFilingsInfoResult dalResult = _dal.GetCompanyFilingsInfo(infoParams);
+                    foreach (var f in dalResult.Filings)
+                    {
+                        DTO.CompanyFilingInfo cfi = new DTO.CompanyFilingInfo();
+                        cfi.Name = f.Name;
+                        cfi.PeriodEnd = f.PeriodEnd;
+                        cfi.PeriodStart = f.PeriodStart;
+                        cfi.Submitted = f.Submitted;
+                        cfi.Type = f.Type;
+
+                        response.Filings.Add(cfi);
+                    }
+                    response.CompanyCode = request.CompanyCode;
+                    response.RegulatorCode = request.RegulatorCode;
+                    response.Success = true;
+                }
+                catch (Exception ex)
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
 
-                Interfaces.DAL.GetCompanyFilingsInfoResult dalResult = _dal.GetCompanyFilingsInfo(infoParams);
-                foreach (var f in dalResult.Filings)
-                {
-                    DTO.CompanyFilingInfo cfi = new DTO.CompanyFilingInfo();
-                    cfi.Name = f.Name;
-                    cfi.PeriodEnd = f.PeriodEnd;
-                    cfi.PeriodStart = f.PeriodStart;
-                    cfi.Submitted = f.Submitted;
-                    cfi.Type = f.Type;
-
-                    response.Filings.Add(cfi);
-                }
-                response.CompanyCode = request.CompanyCode;
-                response.RegulatorCode = request.RegulatorCode;
-                response.Success = true;
             }
-            catch (Exception ex)
+            else
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
             return response;
@@ -132,44 +163,56 @@ namespace DMFX.Service.Filings
         {
             GetFilingDataResponse response = new GetFilingDataResponse();
 
-            try
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
+
+            if (valSession == EErrorCodes.Success)
             {
-                Interfaces.DAL.GetCompanyFilingParams filingDataParams = new Interfaces.DAL.GetCompanyFilingParams()
+
+                try
                 {
-                    CompanyCode = request.CompanyCode,
-                    Name = request.FilingName,
-                    RegulatorCode = request.RegulatorCode
-                };
-
-                Interfaces.DAL.GetCompanyFilingResult filingDataResult = _dal.GetCompanyFilingData(filingDataParams);
-
-                response.CompanyCode = request.CompanyCode;
-                response.RegulatorCode = request.RegulatorCode;
-                response.FilingName = filingDataResult.FilingInfo.Name;
-                response.PeriodStart = filingDataResult.FilingInfo.PeriodStart.ToString();
-                response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd.ToString();
-                response.Submitted = filingDataResult.FilingInfo.Submitted.ToString();
-                response.Type = filingDataResult.FilingInfo.Type;
-
-                foreach (var fd in filingDataResult.Data)
-                {
-                    response.FilingData.Add(new DTO.FilingRecord()
+                    Interfaces.DAL.GetCompanyFilingParams filingDataParams = new Interfaces.DAL.GetCompanyFilingParams()
                     {
-                        Code = fd.Code,
-                        Value = fd.Value,
-                        UnitName = fd.Unit,
-                        PeriodEnd = fd.PeriodEnd,
-                        PeriodStart = fd.PeriodStart
-                    });
+                        CompanyCode = request.CompanyCode,
+                        Name = request.FilingName,
+                        RegulatorCode = request.RegulatorCode
+                    };
+
+                    Interfaces.DAL.GetCompanyFilingResult filingDataResult = _dal.GetCompanyFilingData(filingDataParams);
+
+                    response.CompanyCode = request.CompanyCode;
+                    response.RegulatorCode = request.RegulatorCode;
+                    response.FilingName = filingDataResult.FilingInfo.Name;
+                    response.PeriodStart = filingDataResult.FilingInfo.PeriodStart.ToString();
+                    response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd.ToString();
+                    response.Submitted = filingDataResult.FilingInfo.Submitted.ToString();
+                    response.Type = filingDataResult.FilingInfo.Type;
+
+                    foreach (var fd in filingDataResult.Data)
+                    {
+                        response.FilingData.Add(new DTO.FilingRecord()
+                        {
+                            Code = fd.Code,
+                            Value = fd.Value,
+                            UnitName = fd.Unit,
+                            PeriodEnd = fd.PeriodEnd,
+                            PeriodStart = fd.PeriodStart
+                        });
+                    }
+
+
+                    response.Success = true;
+                }
+                catch (Exception ex)
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
 
-
-                response.Success = true;
             }
-            catch (Exception ex)
+            else
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
             return response;
@@ -192,6 +235,23 @@ namespace DMFX.Service.Filings
             dal.Value.Init(dalParams);
 
             _dal = dal.Value;
+        }
+
+        private EErrorCodes ValidateSession(string sessionToken)
+        {
+            EErrorCodes result = EErrorCodes.InvalidSession;
+
+            Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+
+            sinfo.SessionId = sessionToken;
+
+            sinfo = _dal.GetSessionInfo(sinfo, true);
+            if (sinfo != null)
+            {
+                result = EErrorCodes.Success;
+            }
+
+            return result;
         }
         #endregion
     }

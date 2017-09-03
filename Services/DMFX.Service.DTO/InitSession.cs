@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/InitSession/{AccountKey}")]
+    [Route("/InitSession/{AccountKey}", "GET")]
+    [Route("/InitSession", "POST")]
     public class InitSession : RequestBase, IReturn<InitSessionResponse>
     {
         public string AccountKey

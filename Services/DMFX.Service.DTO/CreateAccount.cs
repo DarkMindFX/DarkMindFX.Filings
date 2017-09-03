@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/CreateAccount/{Email}/{Name}/{Pwd}")]
+    [Route("/CreateAccount/{Email}/{Name}/{Pwd}", "GET")]
+    [Route("/CreateAccount", "POST")]
     public class CreateAccount : RequestBase, IReturn<CreateAccountResponse>
     {
         public string Email

@@ -5,3 +5,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\bin\DMFX.FilingIn
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Debug\DMFX.SECParsers.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Debug\DMFX.SECParser.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Debug\DMFX.SECParser.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Debug\DMFX.SECParser.Resources.resources
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Debug\DMFX.SECParsers.csproj.GenerateResource.Cache

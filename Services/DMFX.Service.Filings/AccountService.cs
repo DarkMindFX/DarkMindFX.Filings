@@ -62,7 +62,7 @@ namespace DMFX.Service.Filings
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpected error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
 
             return response;
@@ -84,7 +84,7 @@ namespace DMFX.Service.Filings
                 sinfo.SessionId = sessionId;
 
                 // if current session exists - we are just using current session token
-                Interfaces.DAL.SessionInfo existSession = _dal.GetSessionInfo(sinfo);
+                Interfaces.DAL.SessionInfo existSession = _dal.GetSessionInfo(sinfo, true);
                 if (existSession == null)
                 {
                     _dal.InitSession(sinfo);
@@ -96,7 +96,7 @@ namespace DMFX.Service.Filings
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpected error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
 
             return response;
@@ -109,7 +109,6 @@ namespace DMFX.Service.Filings
             TransferHeader(request, response);
             try
             {
-
                 Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                 sinfo.SessionEnd = DateTime.Now;
                 sinfo.SessionId = request.SessionToken;
@@ -123,7 +122,7 @@ namespace DMFX.Service.Filings
             catch (Exception ex)
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpected error: {0}", ex.Message) });
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
 
             return response;
@@ -146,6 +145,8 @@ namespace DMFX.Service.Filings
 
             _dal = dal.Value;
         }
+
+        
         #endregion
     }
 }

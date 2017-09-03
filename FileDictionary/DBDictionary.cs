@@ -26,14 +26,17 @@ namespace DMFX.Dictionaries
                 new Interfaces.DAL.GetRegulatorCompaniesParams() { RegulatorCode = regulatorCode };
             Interfaces.DAL.GetRegulatorCompaniesResult cmpnsResult = _dal.GetCompaniesByRegulator(cmpnsParams);
 
-            foreach (var cmpnInfo in cmpnsResult.Companies)
+            if (cmpnsResult != null)
             {
-                CompanyInfo r = new CompanyInfo();
-                r.Code = cmpnInfo.Code;
-                r.Name = cmpnInfo.Name;
-                r.LastUpdated = cmpnInfo.LastUpdated;
+                foreach (var cmpnInfo in cmpnsResult.Companies)
+                {
+                    CompanyInfo r = new CompanyInfo();
+                    r.Code = cmpnInfo.Code;
+                    r.Name = cmpnInfo.Name;
+                    r.LastUpdated = cmpnInfo.LastUpdated;
 
-                result.Add(r);
+                    result.Add(r);
+                }
             }
 
             return result;
