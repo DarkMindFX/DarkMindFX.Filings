@@ -133,6 +133,12 @@ namespace DMFX.Source.SEC
             get;
             set;
         }
+
+        public DateTime UpdateFrom
+        {
+            get;
+            set;
+        }
     }
 
     public class SECSourceValidateResult : ResultBase, ISourceValidateResult

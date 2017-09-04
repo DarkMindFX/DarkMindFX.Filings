@@ -37,7 +37,7 @@ namespace DMFX.SECParser
         {
             public Section()
             {
-                ValueTags = new List<ValueTag>();
+                ValueTags = new Dictionary<string, ValueTag>();
             }
 
             public string Name
@@ -46,7 +46,7 @@ namespace DMFX.SECParser
                 set;
             }
 
-            public List<ValueTag> ValueTags
+            public Dictionary<string, ValueTag> ValueTags
             {
                 get;
                 set;
@@ -184,7 +184,10 @@ namespace DMFX.SECParser
                                 Suffix = vtNode.Attributes["suffix"] != null ? vtNode.Attributes["suffix"].Value : string.Empty
 
                             };
-                            section.ValueTags.Add(vt);
+                            if (!section.ValueTags.ContainsKey(vt.Code))
+                            {
+                                section.ValueTags.Add(vt.Code, vt);
+                            }
                         }
 
                     }
@@ -224,25 +227,39 @@ namespace DMFX.SECParser
 
         protected void ExtractContexts(XmlDocument doc, SECParserResult secResult)
         {
+
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
             nsmgr.AddNamespace("xbrli", "http://www.xbrl.org/2003/instance");
+            nsmgr.AddNamespace("xbrll", "http://www.xbrl.org/2003/linkbase");
+            nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
 
-            XmlNodeList contextTags = doc.GetElementsByTagName("xbrli:context");
-            if (contextTags != null)
+            Dictionary <string, List<string>> tags = new Dictionary<string, List<string>>();
+            tags.Add("xbrli:context", new List<string>(new string[] { "xbrli:period", "xbrli:startDate", "xbrli:endDate", "xbrli:instant" }));
+            tags.Add("context", new List<string>(new string[] { "df:period", "df:startDate", "df:endDate", "df:instant" }));
+
+            string currContextTagName = string.Empty;
+            XmlNodeList contextTags = null;
+            int currKey = 0;
+            do
             {
-                foreach (XmlNode contextTag in contextTags)
+                currContextTagName = tags.Keys.ElementAt(currKey);
+                contextTags = doc.GetElementsByTagName(currContextTagName); // "xbrli:context"
+
+                // TODO: This need to be rewritten with Xpath requests - currently Xpath doesn't work on expressions like period/startDate for unknown reason
+                if (contextTags != null)
                 {
-                    string ID = contextTag.Attributes["id"].Value;
-                    if (!ID.Contains("_"))
+
+                    foreach (XmlNode contextTag in contextTags)
                     {
+                        string ID = contextTag.Attributes["id"].Value;
 
                         DateTime startDate = DateTime.MinValue;
                         DateTime endDate = DateTime.MinValue;
                         DateTime instant = DateTime.MinValue;
 
-                        XmlNode tagStartDate = contextTag.SelectSingleNode("xbrli:period/xbrli:startDate", nsmgr);
-                        XmlNode tagEndDate = contextTag.SelectSingleNode("xbrli:period/xbrli:endDate", nsmgr);
-                        XmlNode tagInstant = contextTag.SelectSingleNode("xbrli:period/xbrli:instant", nsmgr);
+                        XmlNode tagStartDate = contextTag.SelectSingleNode(tags[currContextTagName][0]+"/"+tags[currContextTagName][1], nsmgr); // "xbrli:period/xbrli:startDate"
+                        XmlNode tagEndDate = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][2], nsmgr); // "xbrli:period/xbrli:endDate"
+                        XmlNode tagInstant = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][3], nsmgr); // "xbrli:period/xbrli:instant"
 
                         if (tagStartDate != null)
                         {
@@ -261,7 +278,14 @@ namespace DMFX.SECParser
                         secResult.Contexts.Add(context);
                     }
                 }
+
+                ++currKey;
+
+
             }
+            while (currKey < tags.Keys.Count);
+
+
         }
 
         protected void ExtractCompanyData(XmlDocument doc, SECParserResult secResult)
@@ -297,7 +321,7 @@ namespace DMFX.SECParser
                 foreach (var ctx in secResult.Contexts)
                 {
                     // TODO: WARNING! this supports only 10-K and 10-Q report types - need to change in future for other types of reports
-                    if (ctx.EndDate == endDate && (type == "10-Q" ? ctx.ID.Contains("QTD") : ctx.ID.Contains("YTD")))
+                    if (ctx.StartDate != DateTime.MinValue && (endDate - ctx.StartDate).Days <= 100)
                     {
                         secResult.FilingData["DocumentPeriodStartDate"] = ctx.StartDate.ToShortDateString();
                         break;
@@ -334,7 +358,7 @@ namespace DMFX.SECParser
 
             // preparing statements
             Statement statementSection = new Statement(section.Name);
-            foreach (var value in section.ValueTags)
+            foreach (var value in section.ValueTags.Values)
             {
                 foreach (var context in result.Contexts)
                 {
@@ -369,7 +393,6 @@ namespace DMFX.SECParser
             {
                 if (nd.Name == tag)
                 {
-
                     int attrsCount = 0;
                     foreach (XmlAttribute attr in nd.Attributes)
                     {

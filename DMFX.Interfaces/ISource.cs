@@ -93,6 +93,12 @@ namespace DMFX.Interfaces
             get;
             set;
         }
+
+        DateTime UpdateFrom
+        {
+            get;
+            set;
+        }
   
     }
 

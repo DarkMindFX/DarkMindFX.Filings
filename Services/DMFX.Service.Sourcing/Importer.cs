@@ -181,6 +181,7 @@ namespace DMFX.Service.Sourcing
             ISourceValidateParams vldParams = source.CreateValidateParams();
             vldParams.RegulatorCode = regulatorCode;
             vldParams.CompanyCode = companyCode;
+            vldParams.UpdateFrom = DateTime.Parse( ConfigurationManager.AppSettings["UpdateFromDate"] ); 
 
             ISourceValidateResult vldResult = source.ValidateSourceDelta(vldParams);
 

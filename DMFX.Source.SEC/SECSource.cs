@@ -96,7 +96,7 @@ namespace DMFX.Source.SEC
                     Submissions submissions = _secApi.ArchivesEdgarDataCIK(cik);
 
                     // TODO: here we need to check what is the last filing in our DB - for now just returning last 3 years
-                    DateTime lastUpdated = DateTime.Now - TimeSpan.FromDays(1200);
+                    DateTime lastUpdated = vldSECParams.UpdateFrom;
 
                     result.NeedUpdate = true; // TODO: this value depends on whether there are any new filings for the company - for now always true
                     foreach (var filing in submissions.Folders.OrderByDescending(x => x.LastModified).Where(x => x.LastModified > lastUpdated))

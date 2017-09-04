@@ -56,7 +56,6 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestBase.cs" />
     <Compile Include="TestFilings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,6 +63,10 @@
     <None Include="010.GetCompanies.Success\Request.json" />
     <None Include="011.GetCompanies.InvalidSession\Request.json" />
     <None Include="012.GetCompanies.InvalidRegulatorCode\Request.json" />
+    <None Include="020.GetCompanyFilingsInfo.Success\Request.json" />
+    <None Include="021.GetCompanyFilingsInfo.InvalidSession\Request.json" />
+    <None Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Request.json" />
+    <None Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Request.json" />
     <None Include="App.config" />
     <None Include="001.GetRegulators.InvalidSession\Request.json" />
     <None Include="000.GetRegulators.Success\Request.json" />
@@ -78,6 +81,10 @@
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DMFX.Test.Service.Common\DMFX.Test.Service.Common.csproj">
+      <Project>{abac6196-f657-4873-bc09-31abac2c1373}</Project>
+      <Name>DMFX.Test.Service.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="001.GetRegulators.InvalidSession\Finalize.sql" />
@@ -90,6 +97,14 @@
     <Content Include="011.GetCompanies.InvalidSession\Init.sql" />
     <Content Include="012.GetCompanies.InvalidRegulatorCode\Finalize.sql" />
     <Content Include="012.GetCompanies.InvalidRegulatorCode\Init.sql" />
+    <Content Include="020.GetCompanyFilingsInfo.Success\Finalize.sql" />
+    <Content Include="020.GetCompanyFilingsInfo.Success\Init.sql" />
+    <Content Include="021.GetCompanyFilingsInfo.InvalidSession\Finalize.sql" />
+    <Content Include="021.GetCompanyFilingsInfo.InvalidSession\Init.sql" />
+    <Content Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Finalize.sql" />
+    <Content Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Init.sql" />
+    <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Finalize.sql" />
+    <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Init.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

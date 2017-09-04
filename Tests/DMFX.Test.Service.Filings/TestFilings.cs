@@ -1,5 +1,6 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Service.DTO;
+using DMFX.Test.Service.Common;
 using NUnit.Framework;
 using ServiceStack;
 using System;
@@ -116,6 +117,71 @@ namespace DMFX.Test.Service.Filings
 
             Assert.AreEqual(response.Success, true, "GetCompanies call failed");
             Assert.AreEqual(response.Companies.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+        }
+
+        [TestCase("020.GetCompanyFilingsInfo.Success")]
+        public void GetCompanyFilingsInfo_Success(string name)
+        {
+            RunInitSql(name);
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name);
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
+        }
+
+        [TestCase("021.GetCompanyFilingsInfo.InvalidSession")]
+        public void GetCompanyFilingsInfo_InvalidSession(string name)
+        {
+            RunInitSql(name);
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            request.SessionToken = Guid.NewGuid().ToString();
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name);
+
+            Assert.AreEqual(response.Success, false, "GetCompanyFilingsInfo succeeded with invalid session");
+            Assert.AreEqual(response.Filings.Count, 0, "Filings list is not empty");
+            Assert.IsNotEmpty(response.Errors, "Errors are empty in the response");
+            Assert.AreEqual(response.Errors[0].Code, EErrorCodes.InvalidSession, "Incorrect error code returned");
+
+        }
+
+        [TestCase("022.GetCompanyFilingsInfo.InvalidCompanyCode")]
+        public void GetCompanyFilingsInfo_InvalidCompanyCode(string name)
+        {
+            RunInitSql(name);
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name);
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+        }
+
+        [TestCase("023.GetCompanyFilingsInfo.InvalidRegulatorCode")]
+        public void GetCompanyFilingsInfo_InvalidRegulatorCode(string name)
+        {
+            RunInitSql(name);
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name);
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
         }
 
 

@@ -6,7 +6,7 @@ using System.Reflection;
 using ServiceStack;
 using DMFX.Service.DTO;
 
-namespace DMFX.Test.Service.Filings
+namespace DMFX.Test.Service.Common
 {
     public class TestBase
     {
