@@ -159,24 +159,7 @@ namespace DMFX.Service.Sourcing
                         }
 
                         Task.WaitAll(importTasks.ToArray());
-
-                        /*
-                        foreach (string companyCode in companies)
-                        {
-                            try
-                            {
-                                _logger.Log(EErrorType.Info, string.Format("Processing start:\t{0}", companyCode));
-                                ImportPipeline(regulator, companyCode, source.Value);
-                                _logger.Log(EErrorType.Info, string.Format("Processing done:\t{0}", companyCode));
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.Log(EErrorType.Error, string.Format("Error on import - {0}", companyCode));
-                                _logger.Log(ex);
-                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed: Regulator '{0}', Company '{1}', Error '{2}'", regulator, companyCode, ex.Message) });
-                            }
-                        }
-                        */
+                        
                     }
                     else
                     {
@@ -257,7 +240,9 @@ namespace DMFX.Service.Sourcing
         {
             // TODO: right now returning only AAPL - need to add access to DB here
             List<string> result = new List<string>();
-            /*result.Add("MMM");
+            result.Add("AAPL");
+            result.Add("AMZN");
+            result.Add("MMM");
             result.Add("ABT");
             result.Add("ABBV");
             result.Add("ACN");
@@ -284,8 +269,7 @@ namespace DMFX.Service.Sourcing
             result.Add("LNT");
             result.Add("ALL");
             result.Add("GOOG");
-            result.Add("MO");
-            result.Add("AMZN");
+            result.Add("MO");            
             result.Add("AEE");
             result.Add("AAL");
             result.Add("AEP");
@@ -306,9 +290,8 @@ namespace DMFX.Service.Sourcing
             result.Add("AON");
             result.Add("AOS");
             result.Add("APA");
-            result.Add("AIV");*/
-            result.Add("AAPL");
-            /*result.Add("AMAT");
+            result.Add("AIV");            
+            result.Add("AMAT");
             result.Add("ADM");
             result.Add("ARNC");
             result.Add("AJG");
@@ -358,7 +341,7 @@ namespace DMFX.Service.Sourcing
             result.Add("CTL");
             result.Add("CERN");
             result.Add("CF");
-            result.Add("SCHW");
+            /*result.Add("SCHW");
             result.Add("CHTR");
             result.Add("CHK");
             result.Add("CVX");
@@ -797,6 +780,8 @@ namespace DMFX.Service.Sourcing
 
         private void ProcessSubmission(string regulatorCode, string companyCode, ISource source, ISourceSubmissionInfo submissionInfo, IParsersRepository parsersRepository)
         {
+            DateTime dtSrart = DateTime.UtcNow;
+
             _logger.Log(EErrorType.Info, string.Format("ProcessSubmission - {0} / {1} / {2}", regulatorCode, companyCode, submissionInfo.Name));
 
             CurrentState = EImportState.ImportSources;
@@ -852,6 +837,11 @@ namespace DMFX.Service.Sourcing
 
                 }
             }
+
+            DateTime dtEnd = DateTime.UtcNow;
+            TimeSpan time = dtEnd - dtSrart;
+            _logger.Log(EErrorType.Info, string.Format("\tDONE - {0} / {1} / {2}, Time:\t{3}", regulatorCode, companyCode, submissionInfo.Name, time));
+            
         }
 
         private void ImportPipeline(string regulatorCode, string companyCode, ISource source)

@@ -204,6 +204,7 @@ namespace DMFX.SECParser
                 {
                     _nsmgr.AddNamespace(ns, _namespaces[ns]);
                 }
+                _nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
             }
         }
         #endregion
@@ -363,10 +364,8 @@ namespace DMFX.SECParser
             {
                 foreach (var context in result.Contexts)
                 {
-                    var contextAtt = new Dictionary<string, string>();
-                    contextAtt.Add("contextRef", context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty));
-                    XmlNode valueTag = FindNode(doc, value.Tag, contextAtt);
-
+                    string xpath = "//" + value.Tag + "[@contextRef='" + (context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty)) +"']";
+                    XmlNode valueTag = doc.SelectSingleNode(xpath, _nsmgr);
                     if (valueTag != null)
                     {
                         StatementRecord record = new StatementRecord(
@@ -384,35 +383,6 @@ namespace DMFX.SECParser
             }
 
             result.Statements.Add(statementSection);
-        }
-
-        protected XmlNode FindNode(XmlNode parent, string tag, Dictionary<string, string> attrs)
-        {
-            XmlNode result = null;
-
-            foreach (XmlNode nd in parent.ChildNodes)
-            {
-                if (nd.Name == tag)
-                {
-                    int attrsCount = 0;
-                    foreach (XmlAttribute attr in nd.Attributes)
-                    {
-                        if (attrs.ContainsKey(attr.Name) && attrs[attr.Name].Equals(attr.Value))
-                        {
-                            ++attrsCount;
-                        }
-                    }
-                    if (attrsCount == attrs.Count)
-                    {
-                        result = nd;
-                        break;
-                    }
-                }
-
-                result = FindNode(nd, tag, attrs);
-            }
-
-            return result;
         }
 
         public IFilingParserParams CreateFilingParserParams()
