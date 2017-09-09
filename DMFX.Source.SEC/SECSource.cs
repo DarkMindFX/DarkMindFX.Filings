@@ -120,26 +120,6 @@ namespace DMFX.Source.SEC
         }
 
 
-        public ISourceValidateParams CreateValidateParams()
-        {
-            return new SECSourceValidateParams();
-        }
-
-        public ISourceExtractParams CreateExtractParams()
-        {
-            return new SECSourceExtractParams();
-        }
-
-        public ISourceItemInfo CreateSourceItemInfo()
-        {
-            return new SECSourceItemInfo();
-        }
-
-        public ISourceSubmissionsInfoParams CreateSourceSubmissionsInfoParams()
-        {
-            return new SECSourceSubmissionsInfoParams();
-        }
-
         public ISourceSubmissionsInfoResult GetSubmissionsInfo(ISourceSubmissionsInfoParams infoParams)
         {
             ISourceSubmissionsInfoResult result = new SECSourceSubmissionsInfoResult();
@@ -201,7 +181,65 @@ namespace DMFX.Source.SEC
 
             return result;
         }
+                
 
+        public ISourceExtractResult ExtractFilingItems(ISourceExtractFilingItemsParams extractItemsParams)
+        {
+            SECSourceExtractResult result = new SECSourceExtractResult();
+            SECSourceExtractFilingItemsParams extractSECItemsParams = extractItemsParams as SECSourceExtractFilingItemsParams;
+            if (extractSECItemsParams != null)
+            {
+                string cik = _dictionary.LookupRegulatorCompanyCode(extractSECItemsParams.RegulatorCode, extractSECItemsParams.CompanyCode); // TODO: lookup in dictionary
+                if (!string.IsNullOrEmpty(cik))
+                {
+                    foreach (var item in extractSECItemsParams.Items)
+                    {
+                        SubmissionFile file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, extractSECItemsParams.Filing.Name, item.Name);
+                        if (file != null)
+                        {
+                            SECSourceItem sourceItem = new SECSourceItem();
+                            sourceItem.Name = item.Name;
+                            sourceItem.FilingName = extractSECItemsParams.Filing.Name;
+                            sourceItem.CompanyCode = extractItemsParams.CompanyCode;
+                            sourceItem.RegulatorCode = extractItemsParams.RegulatorCode;
+                            sourceItem.Content = file.Content;
+
+                            result.Items.Add(sourceItem);
+                        }
+
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public ISourceExtractFilingItemsParams CreateSourceExtractFilingItemsParams()
+        {
+            return new SECSourceExtractFilingItemsParams();
+        }
+
+        public ISourceValidateParams CreateValidateParams()
+        {
+            return new SECSourceValidateParams();
+        }
+
+        public ISourceExtractParams CreateExtractParams()
+        {
+            return new SECSourceExtractParams();
+        }
+
+        public ISourceItemInfo CreateSourceItemInfo()
+        {
+            return new SECSourceItemInfo();
+        }
+
+        public ISourceSubmissionsInfoParams CreateSourceSubmissionsInfoParams()
+        {
+            return new SECSourceSubmissionsInfoParams();
+        }
+
+        #region Support  methods
         private SECSourceSubmissionInfo ExtractReportDetails(SubmissionFile submissionIndexFile)
         {
             SECSourceSubmissionInfo subInfo = new SECSourceSubmissionInfo();
@@ -298,5 +336,6 @@ namespace DMFX.Source.SEC
 
             return result;
         }
+        #endregion
     }
 }

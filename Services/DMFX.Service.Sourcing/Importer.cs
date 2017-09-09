@@ -257,7 +257,7 @@ namespace DMFX.Service.Sourcing
         {
             // TODO: right now returning only AAPL - need to add access to DB here
             List<string> result = new List<string>();
-            result.Add("MMM");
+            /*result.Add("MMM");
             result.Add("ABT");
             result.Add("ABBV");
             result.Add("ACN");
@@ -306,9 +306,9 @@ namespace DMFX.Service.Sourcing
             result.Add("AON");
             result.Add("AOS");
             result.Add("APA");
-            result.Add("AIV");
+            result.Add("AIV");*/
             result.Add("AAPL");
-            result.Add("AMAT");
+            /*result.Add("AMAT");
             result.Add("ADM");
             result.Add("ARNC");
             result.Add("AJG");
@@ -756,7 +756,7 @@ namespace DMFX.Service.Sourcing
             result.Add("YUM");
             result.Add("ZBH");
             result.Add("ZION");
-            result.Add("ZTS");
+            result.Add("ZTS");*/
 
 
             return result;
@@ -801,21 +801,27 @@ namespace DMFX.Service.Sourcing
 
             CurrentState = EImportState.ImportSources;
 
-            ISourceExtractParams extrParams = source.CreateExtractParams();
-            extrParams.CompanyCode = companyCode;
-            extrParams.RegulatorCode = regulatorCode;
-
+            // filing folder info
             ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
             srcItemInfo.Name = submissionInfo.Name;
-            extrParams.Items.Add(srcItemInfo);
+
+            // main item to parse
+            ISourceItemInfo srcFilingItemInfo = source.CreateSourceItemInfo();
+            srcFilingItemInfo.Name = submissionInfo.Report;
+
+            ISourceExtractFilingItemsParams extrItemsParams = source.CreateSourceExtractFilingItemsParams();
+            extrItemsParams.RegulatorCode = regulatorCode;
+            extrItemsParams.CompanyCode = companyCode;
+            extrItemsParams.Filing = srcItemInfo;
+            extrItemsParams.Items.Add(srcFilingItemInfo);
 
             _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
 
-            ISourceExtractResult extrResult = source.ExtractReports(extrParams);
+            ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
 
-            if (extrResult != null && extrResult.Success && extrParams.Items.Count > 0)
+            if (extrResult != null)
             {
-                _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrParams.Items.Count));
+                _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
 
                 ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
                 if (filingContent != null)
@@ -868,7 +874,7 @@ namespace DMFX.Service.Sourcing
                     foreach (var submissionInfo in subInfoResult.Submissions)
                     {
                         ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
-                    } // froeach
+                    } // foreach
                 }
             }
             

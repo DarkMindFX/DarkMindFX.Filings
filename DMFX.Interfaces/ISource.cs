@@ -179,22 +179,45 @@ namespace DMFX.Interfaces
         }
     }
 
-    public interface ISource
+    public interface ISourceExtractFilingItemsParams
     {
-        ISourceValidateParams CreateValidateParams();
+        string RegulatorCode
+        {
+            get;
+            set;
+        }
+
+        string CompanyCode
+        {
+            get;
+            set;
+        }
+
+        ISourceItemInfo Filing
+        {
+            get;
+            set;
+        }
+
+        List<ISourceItemInfo> Items
+        {
+            get;
+            set;
+        }
+
+
+    }
+
+    public interface ISource
+    {      
+
         /// <summary>
         /// Method to validate whether there are any new filings exist for given regulator/company
         /// </summary>
         /// <param name="vldParams"></param>
         /// <returns></returns>
         ISourceValidateResult ValidateSourceDelta(ISourceValidateParams vldParams);
-
-        ISourceExtractParams CreateExtractParams();
-
-        ISourceItemInfo CreateSourceItemInfo();
-
-        ISourceSubmissionsInfoParams CreateSourceSubmissionsInfoParams();
-
+       
         /// <summary>
         /// Extracts content of the given filings for given regulator/company
         /// </summary>
@@ -203,10 +226,24 @@ namespace DMFX.Interfaces
         ISourceExtractResult ExtractReports(ISourceExtractParams extractParams);
 
         /// <summary>
+        /// Extracts single item with given name from the filing
+        /// </summary>
+        /// <param name="extractItemParams"></param>
+        /// <returns></returns>
+        ISourceExtractResult ExtractFilingItems(ISourceExtractFilingItemsParams extractItemsParams);
+
+        /// <summary>
         /// Returns information about given submission
         /// </summary>
         /// <param name="infoParams"></param>
         /// <returns></returns>
         ISourceSubmissionsInfoResult GetSubmissionsInfo(ISourceSubmissionsInfoParams infoParams);
+
+        
+        ISourceExtractParams CreateExtractParams();
+        ISourceItemInfo CreateSourceItemInfo();
+        ISourceValidateParams CreateValidateParams();
+        ISourceSubmissionsInfoParams CreateSourceSubmissionsInfoParams();
+        ISourceExtractFilingItemsParams CreateSourceExtractFilingItemsParams();
     }
 }

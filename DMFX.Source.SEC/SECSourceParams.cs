@@ -200,4 +200,35 @@ namespace DMFX.Source.SEC
             set;
         }
     }
+
+    public class SECSourceExtractFilingItemsParams : ISourceExtractFilingItemsParams
+    {
+        public SECSourceExtractFilingItemsParams()
+        {
+            Items = new List<ISourceItemInfo>();
+        }
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+
+        public ISourceItemInfo Filing
+        {
+            get;
+            set;
+        }
+
+        public List<ISourceItemInfo> Items
+        {
+            get;
+            set;
+        }
+
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+    }
 }
