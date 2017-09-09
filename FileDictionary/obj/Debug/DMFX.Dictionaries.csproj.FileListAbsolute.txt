@@ -7,3 +7,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Di
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.csproj.GenerateResource.Cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\obj\Debug\DMFX.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\FileDictionary\bin\DMFX.Common.Interfaces.pdb

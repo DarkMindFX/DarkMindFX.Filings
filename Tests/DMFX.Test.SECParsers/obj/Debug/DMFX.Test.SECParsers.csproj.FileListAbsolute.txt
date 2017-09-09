@@ -10,3 +10,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\bin\n
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\obj\Debug\DMFX.Test.SECParsers.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\obj\Debug\DMFX.Test.SECParsers.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\obj\Debug\DMFX.Test.SECParsers.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\bin\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.SECParsers\bin\DMFX.Common.Interfaces.pdb

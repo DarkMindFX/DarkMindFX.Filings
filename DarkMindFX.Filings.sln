@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Filings",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Common", "Tests\DMFX.Test.Service.Common\DMFX.Test.Service.Common.csproj", "{ABAC6196-F657-4873-BC09-31ABAC2C1373}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Common.Interfaces", "DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj", "{C2C63729-B7C1-4A48-BA51-8C0B77786753}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Logging", "DMFX.Logging\DMFX.Logging.csproj", "{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +123,14 @@ Global
 		{ABAC6196-F657-4873-BC09-31ABAC2C1373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAC6196-F657-4873-BC09-31ABAC2C1373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAC6196-F657-4873-BC09-31ABAC2C1373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C63729-B7C1-4A48-BA51-8C0B77786753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C63729-B7C1-4A48-BA51-8C0B77786753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C63729-B7C1-4A48-BA51-8C0B77786753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C63729-B7C1-4A48-BA51-8C0B77786753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

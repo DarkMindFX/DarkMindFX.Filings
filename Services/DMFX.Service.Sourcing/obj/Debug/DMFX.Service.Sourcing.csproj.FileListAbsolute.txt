@@ -21,3 +21,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\b
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\obj\Debug\DMFX.Service.Sourcing.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\obj\Debug\DMFX.Service.Sourcing.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\obj\Debug\DMFX.Service.Sourcing.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\bin\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Sourcing\bin\DMFX.Common.Interfaces.pdb

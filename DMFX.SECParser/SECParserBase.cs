@@ -321,7 +321,8 @@ namespace DMFX.SECParser
                 foreach (var ctx in secResult.Contexts)
                 {
                     // TODO: WARNING! this supports only 10-K and 10-Q report types - need to change in future for other types of reports
-                    if (ctx.StartDate != DateTime.MinValue && (endDate - ctx.StartDate).Days <= 100)
+                    if (ctx.StartDate != DateTime.MinValue &&
+                        (endDate - ctx.StartDate).Days <= (type == "10-Q" ? 100/*10-Q*/ : 370/*10-K*/))
                     {
                         secResult.FilingData["DocumentPeriodStartDate"] = ctx.StartDate.ToShortDateString();
                         break;

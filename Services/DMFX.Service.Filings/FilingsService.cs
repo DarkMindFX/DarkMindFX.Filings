@@ -14,16 +14,19 @@ namespace DMFX.Service.Filings
         private IDictionary _dictionary = null;
         private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
+        private ILogger _logger = null;
 
         public FilingsService()
         {
             _dictionary = Global.Container.GetExport<IDictionary>("DB").Value;
             _compContainer = Global.Container;
+            _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
             InitDAL();
         }
 
         public object Any(GetRegulators request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetRegulators");
             GetRegulatorsResponse response = new GetRegulatorsResponse();
 
             TransferHeader(request, response);
@@ -51,6 +54,7 @@ namespace DMFX.Service.Filings
                 }
                 catch (Exception ex)
                 {
+                    _logger.Log(ex);
                     response.Success = false;
                     response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
@@ -61,11 +65,14 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
+            _logger.Log(EErrorType.Info, " ****** Call end: GetRegulators");
+
             return response;
         }
 
         public object Any(GetCompanies request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetCompanies");
             GetCompaniesResponse response = new GetCompaniesResponse();
             TransferHeader(request, response);
 
@@ -92,6 +99,7 @@ namespace DMFX.Service.Filings
                 }
                 catch (Exception ex)
                 {
+                    _logger.Log(ex);
                     response.Success = false;
                     response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
@@ -102,11 +110,14 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
+            _logger.Log(EErrorType.Info, " ****** Call end: GetCompanies");
+
             return response;
         }
 
         public object Any(GetCompanyFilingsInfo request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetCompanyFilingsInfo");
             GetCompanyFilingsInfoResponse response = new GetCompanyFilingsInfoResponse();
 
             TransferHeader(request, response);
@@ -145,6 +156,7 @@ namespace DMFX.Service.Filings
                 }
                 catch (Exception ex)
                 {
+                    _logger.Log(ex);
                     response.Success = false;
                     response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
@@ -156,11 +168,14 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
+            _logger.Log(EErrorType.Info, " ****** Call end: GetCompanyFilingsInfo");
+
             return response;
         }
 
         public object Any(GetFilingData request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetFilingData");
             GetFilingDataResponse response = new GetFilingDataResponse();
 
             EErrorCodes valSession = ValidateSession(request.SessionToken);
@@ -204,6 +219,7 @@ namespace DMFX.Service.Filings
                 }
                 catch (Exception ex)
                 {
+                    _logger.Log(ex);
                     response.Success = false;
                     response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
                 }
@@ -214,6 +230,8 @@ namespace DMFX.Service.Filings
                 response.Success = false;
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: GetFilingData");
 
             return response;
         }
@@ -243,7 +261,7 @@ namespace DMFX.Service.Filings
 
             Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
 
-            sinfo.SessionId = sessionToken;
+            sinfo.SessionId = !string.IsNullOrEmpty(sessionToken) ? sessionToken : string.Empty;
 
             sinfo = _dal.GetSessionInfo(sinfo, true);
             if (sinfo != null)

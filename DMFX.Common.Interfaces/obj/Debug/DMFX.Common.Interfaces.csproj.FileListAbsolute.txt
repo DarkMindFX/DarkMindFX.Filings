@@ -1,0 +1,4 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\bin\Debug\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\bin\Debug\DMFX.Common.Interfaces.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\obj\Debug\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\obj\Debug\DMFX.Common.Interfaces.pdb

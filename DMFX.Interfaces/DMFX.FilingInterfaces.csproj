@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Error.cs" />
-    <Compile Include="ErrorCodes.cs" />
     <Compile Include="IDal.cs" />
     <Compile Include="IDictionary.cs" />
     <Compile Include="IFilingParser.cs" />
@@ -50,6 +48,12 @@
     <Compile Include="ISource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
+      <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
+      <Name>DMFX.Common.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,3 +15,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\b
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\obj\Debug\DMFX.Test.Service.Common.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\obj\Debug\DMFX.Test.Service.Common.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\obj\Debug\DMFX.Test.Service.Common.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\bin\Debug\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Service.Common\bin\Debug\DMFX.Common.Interfaces.pdb

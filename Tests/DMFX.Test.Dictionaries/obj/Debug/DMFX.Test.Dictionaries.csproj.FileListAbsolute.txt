@@ -10,3 +10,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\obj\Debug\DMFX.Test.Dictionaries.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Dictionaries\bin\Debug\DMFX.Common.Interfaces.pdb

@@ -13,3 +13,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\ServiceStack
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\obj\Debug\DMFX.Source.SEC.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Source.SEC\bin\DMFX.Common.Interfaces.pdb

@@ -17,18 +17,22 @@ namespace DMFX.Service.Filings
     {
         private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
+        private ILogger _logger = null;
 
 
 
         public AccountService()
         {
             _dal = Global.Container.GetExport<Interfaces.DAL.IDal>().Value;
+            _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
+
             _compContainer = Global.Container;
             InitDAL();
         }
 
         public object Any(CreateAccount request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: CreateAccount");
             CreateAccountResponse response = new CreateAccountResponse();
             TransferHeader(request, response);
 
@@ -61,15 +65,19 @@ namespace DMFX.Service.Filings
             }
             catch (Exception ex)
             {
+                _logger.Log(ex);
                 response.Success = false;
                 response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: CreateAccount");
 
             return response;
         }
 
         public object Any(InitSession request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: InitSession");
             InitSessionResponse response = new InitSessionResponse();
 
             TransferHeader(request, response);
@@ -95,15 +103,19 @@ namespace DMFX.Service.Filings
             }
             catch (Exception ex)
             {
+                _logger.Log(ex);
                 response.Success = false;
                 response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: InitSession");
 
             return response;
         }
 
         public object Any(CloseSession request)
         {
+            _logger.Log(EErrorType.Info, " ****** Call start: CloseSession");
             CloseSessionResponse response = new CloseSessionResponse();
 
             TransferHeader(request, response);
@@ -121,9 +133,12 @@ namespace DMFX.Service.Filings
             }
             catch (Exception ex)
             {
+                _logger.Log(ex);
                 response.Success = false;
                 response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
             }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: CloseSession");
 
             return response;
         }

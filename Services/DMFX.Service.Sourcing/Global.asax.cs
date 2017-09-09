@@ -36,7 +36,6 @@ namespace DMFX.Service.Sourcing
             {
                 Directory.CreateDirectory(logsFolder);
             }
-            string logFilePath = Path.Combine(logsFolder, "DMFX.Service.Sourcing_" + DateTime.Now.ToString().Replace("/", "-").Replace(":", "-") + ".log");
             string pluginsFolder = Path.Combine(rootFolder, ConfigurationManager.AppSettings["PluginsFolder"]);
 
             DirectoryCatalog dcatalog = new DirectoryCatalog(pluginsFolder, "*.dll");
@@ -46,6 +45,20 @@ namespace DMFX.Service.Sourcing
             _container = new CompositionContainer(catalog);
             _container.ComposeParts(this);
 
+            // initializing logger
+            Lazy<ILogger> logger = _container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]);
+            ILoggerParams loggerParams = logger.Value.CreateParams();
+
+            if (ConfigurationManager.AppSettings["LoggerType"] == "FileLogger")
+            {
+                loggerParams.Parameters["LogFolder"] = logsFolder;
+                loggerParams.Parameters["NameTemplate"] = ConfigurationManager.AppSettings["LogFileNameTemplate"];
+                logger.Value.Init(loggerParams);
+            }
+
+            logger.Value.Log(EErrorType.Info, "Starting service DMFX.Service.Filings");
+
+            // initializing importer
             _importer = new Importer(_container);
 
             new AppHost().Init();

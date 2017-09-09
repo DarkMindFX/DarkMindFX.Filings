@@ -7,3 +7,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\bin\De
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\obj\Debug\DMFX.Service.DTO.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\obj\Debug\DMFX.Service.DTO.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\obj\Debug\DMFX.Service.DTO.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\bin\Debug\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.DTO\bin\Debug\DMFX.Common.Interfaces.pdb

@@ -24,15 +24,22 @@ namespace SECParsersGenerator
 
             string projectRoot = "..\\..\\..\\DMFX.SECParser\\";
 
+            string comp10QCatalogRegister = "new TypeCatalog(";
+            string csvNames = "";
+
             foreach (var c in companies)
             {
                 Console.WriteLine("Generating: " + c.Code + " (" + c.Name + ")");
+                string className = c.Code.Replace(".", "_");
                 string classFileName = Path.Combine(projectRoot, "SEC10Q", c.Code + ".cs");
+
+                comp10QCatalogRegister += string.Format("typeof(SEC10Q.{0}),\r\n", className);
+                csvNames += string.Format("result.Add(\"{0}\");\r\n", c.Code);
+
                 if (!File.Exists(classFileName))
                 {
-                    string content = classTemplate.Replace("{{CODE}}", c.Code.Replace(".", "_"));
+                    string content = classTemplate.Replace("{{CODE}}", className);
                     File.WriteAllText(classFileName, content);
-
                 }
 
                 string xmlFileName = Path.Combine(projectRoot, "Resources", c.Code + ".xml");
@@ -43,7 +50,10 @@ namespace SECParsersGenerator
 
                 }
             }
-             
+
+            comp10QCatalogRegister += ")";
+
+
         }
     }
 }

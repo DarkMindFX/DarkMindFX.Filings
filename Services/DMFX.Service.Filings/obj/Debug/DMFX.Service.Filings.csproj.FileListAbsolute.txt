@@ -60,3 +60,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bi
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\Microsoft.Web.Infrastructure.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.Razor.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\System.Web.WebPages.Deployment.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\DMFX.Common.Interfaces.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Services\DMFX.Service.Filings\bin\DMFX.Common.Interfaces.pdb
