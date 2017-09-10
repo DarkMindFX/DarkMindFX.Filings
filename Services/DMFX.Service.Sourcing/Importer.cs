@@ -30,6 +30,7 @@ namespace DMFX.Service.Sourcing
         private List<Error> _errorsLog = new List<Error>();
         private Interfaces.DAL.IDal _dal = null;
         private ILogger _logger = null;
+        private IStorage _storage = null;
 
         public Importer(CompositionContainer compContainer)
         {
@@ -39,6 +40,7 @@ namespace DMFX.Service.Sourcing
             _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
 
             InitDAL();
+            InitStorage();
         }
 
         #region Properties
@@ -139,8 +141,9 @@ namespace DMFX.Service.Sourcing
                         List<Task> importTasks = new List<Task>();
 
                         // preparing params
-                        int compsPerThread = 1000; // TODO: need to set as parameter
-                        for (int i = 0; i < Math.Ceiling( (decimal)companies.Count / compsPerThread ); ++i)
+                        int maxImportThreads = Int32.Parse(ConfigurationManager.AppSettings["MaxImportThreads"]);
+                        int compsPerThread = (int)Math.Ceiling( (decimal)companies.Count / maxImportThreads ); 
+                        for (int i = 0; i < maxImportThreads; ++i)
                         {
                             ImportTaskParams importParams = new ImportTaskParams();
                             importParams.RegulatorCode = regulator;
@@ -224,6 +227,19 @@ namespace DMFX.Service.Sourcing
         }
 
         #region Support method
+        private void InitStorage()
+        {
+            _logger.Log(EErrorType.Info, string.Format("InitStorage: Folder '{0}'", ConfigurationManager.AppSettings["StorageRootFolder"]));
+
+            var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
+            IStorageParams stgParams = storage.Value.CreateStorageParams();
+            stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
+
+            storage.Value.Init(stgParams);
+
+            _storage = storage.Value;
+
+        }
         private void InitDAL()
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionString"]));
@@ -341,7 +357,7 @@ namespace DMFX.Service.Sourcing
             result.Add("CTL");
             result.Add("CERN");
             result.Add("CF");
-            /*result.Add("SCHW");
+            result.Add("SCHW");
             result.Add("CHTR");
             result.Add("CHK");
             result.Add("CVX");
@@ -739,7 +755,7 @@ namespace DMFX.Service.Sourcing
             result.Add("YUM");
             result.Add("ZBH");
             result.Add("ZION");
-            result.Add("ZTS");*/
+            result.Add("ZTS");
 
 
             return result;
@@ -784,64 +800,94 @@ namespace DMFX.Service.Sourcing
 
             _logger.Log(EErrorType.Info, string.Format("ProcessSubmission - {0} / {1} / {2}", regulatorCode, companyCode, submissionInfo.Name));
 
-            CurrentState = EImportState.ImportSources;
-
-            // filing folder info
-            ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
-            srcItemInfo.Name = submissionInfo.Name;
-
-            // main item to parse
-            ISourceItemInfo srcFilingItemInfo = source.CreateSourceItemInfo();
-            srcFilingItemInfo.Name = submissionInfo.Report;
-
-            ISourceExtractFilingItemsParams extrItemsParams = source.CreateSourceExtractFilingItemsParams();
-            extrItemsParams.RegulatorCode = regulatorCode;
-            extrItemsParams.CompanyCode = companyCode;
-            extrItemsParams.Filing = srcItemInfo;
-            extrItemsParams.Items.Add(srcFilingItemInfo);
-
-            _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
-
-            ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
-
-            if (extrResult != null)
+            try
             {
-                _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
+                CurrentState = EImportState.ImportSources;
 
-                ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
-                if (filingContent != null)
+                // filing folder info
+                ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
+                srcItemInfo.Name = submissionInfo.Name;
+
+                // main item to parse
+                ISourceItemInfo srcFilingItemInfo = source.CreateSourceItemInfo();
+                srcFilingItemInfo.Name = submissionInfo.Report;
+
+                ISourceExtractFilingItemsParams extrItemsParams = source.CreateSourceExtractFilingItemsParams();
+                extrItemsParams.RegulatorCode = regulatorCode;
+                extrItemsParams.CompanyCode = companyCode;
+                extrItemsParams.Filing = srcItemInfo;
+                extrItemsParams.Items.Add(srcFilingItemInfo);
+
+                _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
+
+                ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
+
+                if (extrResult != null)
                 {
-                    MemoryStream ms = new MemoryStream(filingContent.Content.ToArray());
+                    
+                    _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
 
-                    // 4. Parsing
-                    CurrentState = EImportState.Parsing;
+                    PutToStorage(extrResult.Items);
 
-                    if (parsersRepository != null)
+                    ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
+                    if (filingContent != null)
                     {
-                        IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
-                        if (parser != null)
+                        MemoryStream ms = new MemoryStream(filingContent.Content.ToArray());
+
+                        // 4. Parsing
+                        CurrentState = EImportState.Parsing;
+
+                        if (parsersRepository != null)
                         {
-                            _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
-
-                            IFilingParserParams parserParams = parser.CreateFilingParserParams();
-                            parserParams.FileContent = ms;
-                            IFilingParserResult parserResults = parser.Parse(parserParams);
-
-                            if (parserResults != null && parserResults.Success)
+                            IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
+                            if (parser != null)
                             {
-                                StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+                                _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
+
+                                IFilingParserParams parserParams = parser.CreateFilingParserParams();
+                                parserParams.FileContent = ms;
+                                IFilingParserResult parserResults = parser.Parse(parserParams);
+
+                                if (parserResults != null && parserResults.Success)
+                                {
+                                    StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+                                }
                             }
+
                         }
 
                     }
+                }
 
+                DateTime dtEnd = DateTime.UtcNow;
+                TimeSpan time = dtEnd - dtSrart;
+                _logger.Log(EErrorType.Info, string.Format("\tDONE - {0} / {1} / {2}, Time:\t{3}", regulatorCode, companyCode, submissionInfo.Name, time));
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(EErrorType.Error, string.Format("FAIL: submission {0} / {1} / {2},\r\n\tError: {3}\r\n\t{4}", regulatorCode, companyCode, submissionInfo.Name, ex.Message, ex.StackTrace));
+            }
+            
+        }
+
+        private void PutToStorage(List<ISourceItem> items)
+        {
+            if (_storage != null)
+            {
+                foreach (var item in items)
+                {
+                    try
+                    {
+                        _logger.Log(EErrorType.Info, string.Format("Saving {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
+
+                        _storage.Save(item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name, item.Content.ToArray());
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Log(EErrorType.Error, string.Format("Save failed: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
+                    }
                 }
             }
-
-            DateTime dtEnd = DateTime.UtcNow;
-            TimeSpan time = dtEnd - dtSrart;
-            _logger.Log(EErrorType.Info, string.Format("\tDONE - {0} / {1} / {2}, Time:\t{3}", regulatorCode, companyCode, submissionInfo.Name, time));
-            
         }
 
         private void ImportPipeline(string regulatorCode, string companyCode, ISource source)
@@ -863,7 +909,14 @@ namespace DMFX.Service.Sourcing
 
                     foreach (var submissionInfo in subInfoResult.Submissions)
                     {
-                        ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
+                        if (!string.IsNullOrEmpty(submissionInfo.Report))
+                        {
+                            ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
+                        }
+                        else
+                        {
+                            _logger.Log(EErrorType.Warning, string.Format("Report name was not extracted - skipping submission {0}", submissionInfo.Name));
+                        }
                     } // foreach
                 }
             }

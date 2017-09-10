@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Helpers;
 
-namespace DMFX.Service.Filings
+namespace DMFX.Service.Accounts
 {
     public class EncodeUtils
     {

@@ -281,22 +281,21 @@ namespace DMFX.Source.SEC
         {
             string result = null;
 
-            string strFilename = string.Empty;
-            string strDesc = string.Empty;
-
             int currLine = 0;
+            bool typeFound = false;
 
             while (currLine < txtContentLines.Count() && result == null)
             {
                 string strCurrent = txtContentLines[currLine];
-                if (strCurrent.Contains("<FILENAME>"))
+
+                if(strCurrent.Contains("<TYPE>EX-101.INS"))
                 {
-                    strFilename = strCurrent.Replace("<FILENAME>", string.Empty);
+                    typeFound = true;
                 }
-                else if (strCurrent.Contains("<DESCRIPTION>XBRL INSTANCE DOCUMENT"))
+                if (strCurrent.Contains("<FILENAME>") && typeFound)
                 {
-                    result = strFilename;
-                }
+                    result = strCurrent.Replace("<FILENAME>", string.Empty);
+                }                
 
                 ++currLine;
             }

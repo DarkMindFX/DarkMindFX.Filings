@@ -46,6 +46,7 @@
     <Compile Include="IParsersRepository.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="ISource.cs" />
+    <Compile Include="IStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultBase.cs" />
   </ItemGroup>
