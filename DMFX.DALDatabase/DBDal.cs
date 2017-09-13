@@ -250,7 +250,7 @@ namespace DMFX.DALDatabase
             cmd.Connection = _conn;
             
             // User email
-            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email);
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email != null ? (object)accParams.Email : DBNull.Value );
 
             // User pwd hash
             SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey != null ? (object)accParams.AccountKey : DBNull.Value );

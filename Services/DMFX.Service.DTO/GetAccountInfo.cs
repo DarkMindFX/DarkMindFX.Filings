@@ -7,18 +7,55 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/CreateAccount/{Email}/{Name}/{Pwd}", "GET")]
-    [Route("/CreateAccount", "POST")]
+    [Route("/GetAccountInfo/{SessionToken}", "GET")]
+    [Route("/GetAccountInfo", "POST")]
     public class GetAccountInfo : RequestBase, IReturn<GetAccountInfoResponse>
     {
+        
+    }
+
+    public class GetAccountInfoResponse : ResponseBase
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public string AccountKey
         {
             get;
             set;
         }
-    }
 
-    public class GetAccountInfoResponse : ResponseBase
-    {
+        public string Email
+        {
+            get;
+            set;
+        }
+
+        public DateTime DateCreated
+        {
+            get;
+            set;
+        }
+
+        public string DateCreatedStr
+        {
+            get;
+            set;
+        }
+
+        public DateTime DateExpires
+        {
+            get;
+            set;
+        }
+
+        public string DateExpiresStr
+        {
+            get;
+            set;
+        }
     }
 }

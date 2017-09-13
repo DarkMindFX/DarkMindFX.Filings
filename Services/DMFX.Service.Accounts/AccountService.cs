@@ -194,7 +194,63 @@ namespace DMFX.Service.Accounts
             return response;
         }
 
-       
+        public object Any(GetAccountInfo request)
+        {
+            GetAccountInfoResponse response = new GetAccountInfoResponse();
+            try
+            {
+                SessionInfo sessionParams = new SessionInfo();
+                sessionParams.SessionId = request.SessionToken;
+
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                if (sessionInfo != null)
+                {
+                    // getting account details
+                    GetUserAccountInfoParams accInfoParams = new GetUserAccountInfoParams();
+                    accInfoParams.AccountKey = sessionInfo.AccountKey;
+
+                    GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accInfoParams);
+                    if (accResult != null)
+                    {
+                        response.AccountKey = accInfoParams.AccountKey;
+                        response.Email = accResult.Email;
+                        response.Name = accResult.Name;
+                        response.DateExpires = accResult.DateExpires;
+                        response.DateCreated = accResult.DateCreated;
+                        response.DateExpiresStr = accResult.DateExpires.ToString();
+                        response.DateCreatedStr = accResult.DateCreated.ToString();
+
+                        response.Success = true;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "No user account found for the given session" });
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unexpected error: {0}", ex.Message)
+                });
+            }
+
+            return response;
+        }
+
+
         #region Support methods
         protected void TransferHeader(RequestBase request, ResponseBase response)
         {
