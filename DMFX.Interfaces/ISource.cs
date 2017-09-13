@@ -94,12 +94,18 @@ namespace DMFX.Interfaces
             set;
         }
 
-        DateTime UpdateFrom
+        DateTime UpdateFromDate
         {
             get;
             set;
         }
-  
+
+        DateTime UpdateToDate
+        {
+            get;
+            set;
+        }
+
     }
 
     public interface ISourceValidateResult : IResult

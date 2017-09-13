@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/Echo/{Message}", "GET")]
+    [Route("/Echo/{Message}/{SessionToken}", "GET")]
     [Route("/Echo", "POST")]
     public class Echo : RequestBase, IReturn<EchoResponse>
     {

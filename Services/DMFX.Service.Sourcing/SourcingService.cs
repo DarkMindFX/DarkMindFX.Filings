@@ -27,8 +27,16 @@ namespace DMFX.Service.Sourcing
             {
                 TransferHeader(request, response);
 
-                response.Message = request.Message;
-                response.Success = true;
+                if (IsValidSessionToken(request))
+                {
+                    response.Message = request.Message;
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
             }
             catch (Exception ex)
             {
@@ -54,11 +62,18 @@ namespace DMFX.Service.Sourcing
 
             try
             {
-
                 TransferHeader(request, response);
 
-                response.LastRun = Global.Importer.LastRun;
-                response.Success = true;
+                if (IsValidSessionToken(request))
+                {
+                    response.LastRun = Global.Importer.LastRun;
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
             }
             catch (Exception ex)
             {
@@ -83,8 +98,16 @@ namespace DMFX.Service.Sourcing
 
                 TransferHeader(request, response);
 
-                response.State = Global.Importer.CurrentState.ToString();
-                response.Success = true;
+                if (IsValidSessionToken(request))
+                {
+                    response.State = Global.Importer.CurrentState.ToString();
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
             }
             catch (Exception ex)
             {
@@ -111,18 +134,35 @@ namespace DMFX.Service.Sourcing
 
             try
             {
-            
-            TransferHeader(request, response);
 
-            if (Global.Importer.CurrentState == Importer.EImportState.Idle)
-            {
-                response.Success = Global.Importer.StartImport();
-            }
-            else
-            {
-                response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.ImporterError, Type = Interfaces.EErrorType.Error, Message = string.Format("Importing is running, current state - {0}", Global.Importer.CurrentState) });
-                response.Success = false;
-            }
+                TransferHeader(request, response);
+
+                if (IsValidSessionToken(request))
+                {
+
+                    if (Global.Importer.CurrentState == Importer.EImportState.Idle)
+                    {
+                        // preparing parameters for import
+                        ImporterParams impParams = new ImporterParams();
+                        impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
+                        impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.Now;
+                        impParams.RegulatorCode = request.RegulatorCode;
+                        impParams.CompanyCode = request.CompanyCode;
+
+                        // starting import process
+                        response.Success = Global.Importer.StartImport(impParams);
+                    }
+                    else
+                    {
+                        response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.ImporterError, Type = Interfaces.EErrorType.Error, Message = string.Format("Importing is running, current state - {0}", Global.Importer.CurrentState) });
+                        response.Success = false;
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
 
             }
             catch (Exception ex)
@@ -147,6 +187,11 @@ namespace DMFX.Service.Sourcing
         {
             response.RequestID = request.RequestID;
             response.SessionToken = request.SessionToken;
+        }
+
+        private bool IsValidSessionToken(RequestBase request)
+        {
+            return request.SessionToken != null && request.SessionToken.Equals(ConfigurationManager.AppSettings["ServiceSessionToken"]);
         }
         #endregion
     }

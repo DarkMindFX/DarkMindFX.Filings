@@ -60,7 +60,7 @@ namespace DMFX.Service.Accounts
                 else
                 {
                     response.Success = false;
-                    response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountExists, Type = EErrorType.Error, Message = string.Empty });
+                    response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountExists, Type = EErrorType.Error, Message = "User with specified data already exists" });
                 }
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace DMFX.Service.Accounts
                 {
                     _dal.InitSession(sinfo);
 
-                    response.SessionToken = sessionId;                    
+                    response.SessionToken = sessionId;
                 }
                 response.Success = true;
             }
@@ -143,6 +143,58 @@ namespace DMFX.Service.Accounts
             return response;
         }
 
+        public object Any(Login request)
+        {
+            LoginResponse response = new LoginResponse();
+            _logger.Log(EErrorType.Info, " ****** Call start: Login");
+
+            try
+            {
+                GetUserAccountInfoParams accParams = new GetUserAccountInfoParams();
+                accParams.AccountKey = null;
+                accParams.Email = request.Email;
+                GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accParams);
+                if (accResult != null)
+                {
+                    string pwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
+                    if (accResult.PwdHash == pwdHash)
+                    {
+                        string sessionId = Guid.NewGuid().ToString();
+
+                        Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+                        sinfo.AccountKey = accResult.AccountKey;
+                        sinfo.SessionStart = DateTime.Now;
+                        sinfo.SessionId = sessionId;
+
+                        _dal.InitSession(sinfo);
+
+                        response.SessionToken = sessionId;
+
+                        response.Success = true;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "Email / password combination not found" });
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "Account not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
+            }
+
+            return response;
+        }
+
+       
         #region Support methods
         protected void TransferHeader(RequestBase request, ResponseBase response)
         {
@@ -161,7 +213,7 @@ namespace DMFX.Service.Accounts
             _dal = dal.Value;
         }
 
-        
+
         #endregion
     }
 }

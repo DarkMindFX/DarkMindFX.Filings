@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetImportCurrentState")]
+    [Route("/GetImportCurrentState/{SessionToken}", "GET")]
+    [Route("/GetImportCurrentState", "POST")]
     public class GetImportCurrentState : RequestBase, IReturn<GetImportCurrentStateResponse>
     {
     }

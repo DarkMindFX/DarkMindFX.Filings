@@ -134,7 +134,13 @@ namespace DMFX.Source.SEC
             set;
         }
 
-        public DateTime UpdateFrom
+        public DateTime UpdateFromDate
+        {
+            get;
+            set;
+        }
+
+        public DateTime UpdateToDate
         {
             get;
             set;

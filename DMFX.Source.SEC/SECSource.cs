@@ -89,17 +89,14 @@ namespace DMFX.Source.SEC
             SECSourceValidateParams vldSECParams = vldParams as SECSourceValidateParams;
             if (vldSECParams != null)
             {
-                string cik = _dictionary.LookupRegulatorCompanyCode(vldParams.RegulatorCode, vldParams.CompanyCode); // TODO: lookup in dictionary
+                string cik = _dictionary.LookupRegulatorCompanyCode(vldParams.RegulatorCode, vldParams.CompanyCode); 
                 if (!string.IsNullOrEmpty(cik))
                 {
 
                     Submissions submissions = _secApi.ArchivesEdgarDataCIK(cik);
 
-                    // TODO: here we need to check what is the last filing in our DB - for now just returning last 3 years
-                    DateTime lastUpdated = vldSECParams.UpdateFrom;
-
                     result.NeedUpdate = true; // TODO: this value depends on whether there are any new filings for the company - for now always true
-                    foreach (var filing in submissions.Folders.OrderByDescending(x => x.LastModified).Where(x => x.LastModified > lastUpdated))
+                    foreach (var filing in submissions.Folders.Where(x => x.LastModified >= vldSECParams.UpdateFromDate && x.LastModified <= vldSECParams.UpdateToDate))
                     {
                         SECSourceItemInfo secSourceItemInfo = new SECSourceItemInfo();
                         secSourceItemInfo.Name = filing.Name;
