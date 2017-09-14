@@ -1,5 +1,0 @@
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\bin\Release\DMFX.Common.Interfaces.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\bin\Release\DMFX.Common.Interfaces.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\obj\Release\DMFX.Common.Interfaces.csprojResolveAssemblyReference.cache
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\obj\Release\DMFX.Common.Interfaces.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Common.Interfaces\obj\Release\DMFX.Common.Interfaces.pdb
