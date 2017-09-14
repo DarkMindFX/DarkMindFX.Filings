@@ -14,7 +14,7 @@ namespace DMFX.Service.Sourcing
     {
         public ImporterParams()
         {
-            DateEnd = DateTime.Now;
+            DateEnd = DateTime.UtcNow;
             DateStart = DateTime.MinValue;
         }
         public DateTime DateStart
@@ -130,7 +130,7 @@ namespace DMFX.Service.Sourcing
                 _impParams = impParams;
                 _importTask = new Task(ImportThread);
                 _importTask.Start();
-                _lastRun = DateTime.Now;
+                _lastRun = DateTime.UtcNow;
                 return true;
             }
             else

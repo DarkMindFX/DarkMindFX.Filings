@@ -111,7 +111,7 @@ namespace DMFX.SEC.Api
                 if (submissions != null)
                 {
                     submissions.CIK = cik;
-                    submissions.TimeStamp = DateTime.Now;
+                    submissions.TimeStamp = DateTime.UtcNow;
                 }
             }
 

@@ -111,7 +111,7 @@ namespace DMFX.Interfaces.DAL
         {
             Types = new HashSet<string>();
             PeriodStart = DateTime.Parse("1994-01-01");
-            PeriodEnd = DateTime.Now;
+            PeriodEnd = DateTime.UtcNow;
         }
 
         public string RegulatorCode

@@ -84,22 +84,34 @@ namespace DMFX.Service.Accounts
 
             try
             {
-                string sessionId = Guid.NewGuid().ToString();
-
-                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
-                sinfo.AccountKey = request.AccountKey;
-                sinfo.SessionStart = DateTime.Now;
-                sinfo.SessionId = sessionId;
-
-                // if current session exists - we are just using current session token
-                Interfaces.DAL.SessionInfo existSession = _dal.GetSessionInfo(sinfo, true);
-                if (existSession == null)
+                // checking account key validity
+                GetUserAccountInfoParams accParams = new GetUserAccountInfoParams();
+                accParams.AccountKey = request.AccountKey;
+                GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accParams);
+                if (accResult != null)
                 {
-                    _dal.InitSession(sinfo);
+                    string sessionId = Guid.NewGuid().ToString();
 
-                    response.SessionToken = sessionId;
+                    Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+                    sinfo.AccountKey = request.AccountKey;
+                    sinfo.SessionStart = DateTime.UtcNow;
+                    sinfo.SessionId = sessionId;
+
+                    // if current session exists - we are just using current session token
+                    Interfaces.DAL.SessionInfo existSession = _dal.GetSessionInfo(sinfo, true);
+                    if (existSession == null)
+                    {
+                        _dal.InitSession(sinfo);
+
+                        response.SessionToken = sessionId;
+                    }
+                    response.Success = true;
                 }
-                response.Success = true;
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add( new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "Invalid account key provided" } );
+                }
             }
             catch (Exception ex)
             {
@@ -122,7 +134,7 @@ namespace DMFX.Service.Accounts
             try
             {
                 Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
-                sinfo.SessionEnd = DateTime.Now;
+                sinfo.SessionEnd = DateTime.UtcNow;
                 sinfo.SessionId = request.SessionToken;
 
                 _dal.CloseSession(sinfo);
@@ -163,7 +175,7 @@ namespace DMFX.Service.Accounts
 
                         Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                         sinfo.AccountKey = accResult.AccountKey;
-                        sinfo.SessionStart = DateTime.Now;
+                        sinfo.SessionStart = DateTime.UtcNow;
                         sinfo.SessionId = sessionId;
 
                         _dal.InitSession(sinfo);

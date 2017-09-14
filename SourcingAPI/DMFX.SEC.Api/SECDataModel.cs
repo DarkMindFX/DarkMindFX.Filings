@@ -32,7 +32,7 @@ namespace DMFX.SEC.Api
         public Submissions(string cik = null)
         {
             Folders = new List<SubmissionFolderInfo>();
-            TimeStamp = DateTime.Now;
+            TimeStamp = DateTime.UtcNow;
             CIK = cik;
         }
 

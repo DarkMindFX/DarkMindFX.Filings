@@ -42,7 +42,7 @@ namespace DMFX.Logging
                 string folder = flParams.Parameters["LogFolder"].ToString();
                 string template = flParams.Parameters["NameTemplate"].ToString();
 
-                string fileName = string.Format(template, DateTime.Now.ToString("dd-MM-yyyy HH-mm-ss"));
+                string fileName = string.Format(template, DateTime.UtcNow.ToString("dd-MM-yyyy HH-mm-ss"));
 
                 string fullPath = Path.Combine(folder, fileName);
                 

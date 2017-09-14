@@ -10,7 +10,7 @@ namespace DMFX.Interfaces
     {
         public Error()
         {
-            Timestamp = DateTime.Now;
+            Timestamp = DateTime.UtcNow;
         }
 
         public EErrorCodes Code

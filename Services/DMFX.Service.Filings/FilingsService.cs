@@ -84,7 +84,7 @@ namespace DMFX.Service.Filings
                 try
                 {
                     List<Interfaces.CompanyInfo> companies = _dictionary.GetCompaniesByRegulator(request.RegulatorCode);
-                    var rnd = new Random(DateTime.Now.Millisecond);
+                    var rnd = new Random(DateTime.UtcNow.Millisecond);
                     foreach (var c in companies)
                     {
                         response.Companies.Add(new DTO.CompanyInfo()

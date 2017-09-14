@@ -145,7 +145,7 @@ namespace DMFX.Service.Sourcing
                         // preparing parameters for import
                         ImporterParams impParams = new ImporterParams();
                         impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
-                        impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.Now;
+                        impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         impParams.RegulatorCode = request.RegulatorCode;
                         impParams.CompanyCode = request.CompanyCode;
 
