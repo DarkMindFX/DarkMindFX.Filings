@@ -109,6 +109,8 @@
     <Content Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Init.sql" />
     <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Finalize.sql" />
     <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Init.sql" />
+    <Content Include="TestInit.sql" />
+    <Content Include="TestTeardown.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

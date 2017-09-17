@@ -24,8 +24,44 @@ namespace DMFX.Service.Filings
             InitDAL();
         }
 
+        public object Any(Echo request)
+        {
+            DateTime dtStart = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, " ****** Call start: Echo");
+
+            EchoResponse response = new EchoResponse();
+
+            try
+            {
+                TransferHeader(request, response);
+
+                response.Message = request.Message;
+                response.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            DateTime dtEnd = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: Echo\tTime: {0}", dtEnd - dtStart));
+
+            return response;
+        }
+
         public object Any(GetRegulators request)
         {
+            DateTime dtStart = DateTime.UtcNow;
             _logger.Log(EErrorType.Info, " ****** Call start: GetRegulators");
             GetRegulatorsResponse response = new GetRegulatorsResponse();
 
@@ -65,13 +101,15 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetRegulators");
+            DateTime dtEnd = DateTime.UtcNow;
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetRegulators\tTime: {0}", dtEnd - dtStart));
 
             return response;
         }
 
         public object Any(GetCompanies request)
         {
+            DateTime dtStart = DateTime.UtcNow;
             _logger.Log(EErrorType.Info, " ****** Call start: GetCompanies");
             GetCompaniesResponse response = new GetCompaniesResponse();
             TransferHeader(request, response);
@@ -110,13 +148,15 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetCompanies");
+            DateTime dtEnd = DateTime.UtcNow;
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetCompanies\t{0}", dtEnd - dtStart));
 
             return response;
         }
 
         public object Any(GetCompanyFilingsInfo request)
         {
+            DateTime dtStart = DateTime.UtcNow;
             _logger.Log(EErrorType.Info, " ****** Call start: GetCompanyFilingsInfo");
             GetCompanyFilingsInfoResponse response = new GetCompanyFilingsInfoResponse();
 
@@ -168,14 +208,17 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetCompanyFilingsInfo");
+            DateTime dtEnd = DateTime.UtcNow;
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetCompanyFilingsInfo\tTime:{0}", dtEnd - dtStart));
 
             return response;
         }
 
         public object Any(GetFilingData request)
         {
+            DateTime dtStart = DateTime.UtcNow;
             _logger.Log(EErrorType.Info, " ****** Call start: GetFilingData");
+            
             GetFilingDataResponse response = new GetFilingDataResponse();
 
             EErrorCodes valSession = ValidateSession(request.SessionToken);
@@ -231,7 +274,9 @@ namespace DMFX.Service.Filings
                 response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetFilingData");
+            DateTime dtEnd = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetFilingData\tTime:{0}", dtEnd - dtStart));
 
             return response;
         }
@@ -246,9 +291,12 @@ namespace DMFX.Service.Filings
 
         private void InitDAL()
         {
+            _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
+
             Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
-            dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
+            dalParams.Parameters.Add("ConnectionStringFilings", ConfigurationManager.AppSettings["ConnectionStringFilings"]);
+            dalParams.Parameters.Add("ConnectionStringAccounts", ConfigurationManager.AppSettings["ConnectionStringAccounts"]);
 
             dal.Value.Init(dalParams);
 

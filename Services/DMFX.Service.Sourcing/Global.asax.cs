@@ -61,7 +61,7 @@ namespace DMFX.Service.Sourcing
                 logger.Value.Init(loggerParams);
             }
 
-            logger.Value.Log(EErrorType.Info, "Starting service DMFX.Service.Filings");
+            logger.Value.Log(EErrorType.Info, "Starting service DMFX.Service.Sourcing");
 
             // initializing importer
             _importer = new Importer(_container);

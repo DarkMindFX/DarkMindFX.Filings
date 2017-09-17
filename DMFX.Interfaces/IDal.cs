@@ -203,6 +203,10 @@ namespace DMFX.Interfaces.DAL
 
     public class GetCompanyFilingParams
     {
+        public GetCompanyFilingParams()
+        {
+            Values = new HashSet<string>();
+        }
         public string CompanyCode
         {
             get;
@@ -214,6 +218,12 @@ namespace DMFX.Interfaces.DAL
             set;
         }
         public string Name
+        {
+            get;
+            set;
+        }
+
+        public HashSet<string> Values
         {
             get;
             set;

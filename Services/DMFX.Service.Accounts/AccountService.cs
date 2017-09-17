@@ -30,6 +30,38 @@ namespace DMFX.Service.Accounts
             InitDAL();
         }
 
+        public object Any(Echo request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: Echo");
+
+            EchoResponse response = new EchoResponse();
+
+            try
+            {
+                TransferHeader(request, response);
+
+
+                response.Message = request.Message;
+                response.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: Echo");
+
+            return response;
+        }
+
         public object Any(CreateAccount request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: CreateAccount");
@@ -110,7 +142,7 @@ namespace DMFX.Service.Accounts
                 else
                 {
                     response.Success = false;
-                    response.Errors.Add( new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "Invalid account key provided" } );
+                    response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "Invalid account key provided" });
                 }
             }
             catch (Exception ex)
@@ -272,9 +304,12 @@ namespace DMFX.Service.Accounts
 
         private void InitDAL()
         {
+            _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringAccounts"]));
+
             Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
-            dalParams.Parameters.Add("ConnectionString", ConfigurationManager.AppSettings["ConnectionString"]);
+            dalParams.Parameters.Add("ConnectionStringFilings", ConfigurationManager.AppSettings["ConnectionStringFilings"]);
+            dalParams.Parameters.Add("ConnectionStringAccounts", ConfigurationManager.AppSettings["ConnectionStringAccounts"]);
 
             dal.Value.Init(dalParams);
 

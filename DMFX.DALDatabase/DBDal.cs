@@ -14,7 +14,8 @@ namespace DMFX.DALDatabase
     [Export(typeof(IDal))]
     public class DBDal : IDal, IDisposable
     {
-        SqlConnection _conn = null;
+        SqlConnection _connAccounts = null;
+        SqlConnection _connFilings = null;
         object _lockConn = new object();
         private static string schema = "[dbo]";
 
@@ -25,30 +26,51 @@ namespace DMFX.DALDatabase
 
         public void Dispose()
         {
-            if (_conn != null && _conn.State != System.Data.ConnectionState.Closed && _conn.State != System.Data.ConnectionState.Broken)
+            if (_connAccounts != null && _connAccounts.State != System.Data.ConnectionState.Closed && _connAccounts.State != System.Data.ConnectionState.Broken)
             {
                 lock (_lockConn)
                 {
-                    if (_conn != null)
+                    if (_connAccounts != null)
                     {
-                        _conn.Close();
-                        _conn = null;
+                        _connAccounts.Close();
+                        _connAccounts = null;
                     }
                 }
-
+            }
+            if (_connFilings != null && _connFilings.State != System.Data.ConnectionState.Closed && _connFilings.State != System.Data.ConnectionState.Broken)
+            {
+                lock (_lockConn)
+                {
+                    if (_connFilings != null)
+                    {
+                        _connFilings.Close();
+                        _connFilings = null;
+                    }
+                }
             }
         }
 
         public void Init(IDalParams dalParams)
         {
-            if (_conn == null)
+            if (_connAccounts == null)
             {
                 lock (_lockConn)
                 {
-                    if (_conn == null)
+                    if (_connAccounts == null && dalParams.Parameters["ConnectionStringAccounts"] != null)
                     {
-                        _conn = new SqlConnection(dalParams.Parameters["ConnectionString"]);
-                        _conn.Open();
+                        _connAccounts = new SqlConnection(dalParams.Parameters["ConnectionStringAccounts"]);
+                        _connAccounts.Open();
+                    }
+                }
+            }
+            if (_connFilings == null)
+            {
+                lock (_lockConn)
+                {
+                    if (_connFilings == null && dalParams.Parameters["ConnectionStringFilings"] != null)
+                    {
+                        _connFilings = new SqlConnection(dalParams.Parameters["ConnectionStringFilings"]);
+                        _connFilings.Open();
                     }
                 }
             }
@@ -65,7 +87,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connFilings;
 
             // Company code
             SqlParameter paramCompanyCode = new SqlParameter("@company_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
@@ -124,7 +146,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connFilings;
 
             // Company code
             SqlParameter paramCompanyCode = new SqlParameter("@Company_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
@@ -159,18 +181,23 @@ namespace DMFX.DALDatabase
                 // second table - filing data
                 foreach (DataRow r in ds.Tables[1].Rows)
                 {
-                    DateTime periodStart = (DateTime)r["Start_Dttm"];
-                    DateTime periodEnd = (DateTime)r["End_Dttm"];
+                    string valLabel = (string)r["Value_Label"];
 
-                    FilingRecord fr = new FilingRecord();
-                    fr.Code = (string)r["Value_Label"];
-                    fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
-                    fr.PeriodEnd = periodEnd;
-                    fr.PeriodStart = periodStart;
-                    fr.Unit = (string)r["Unit"];
-                    fr.Value = (decimal)r["Value"];
+                    if (cmpFilingParams.Values == null || cmpFilingParams.Values.Count == 0 || cmpFilingParams.Values.Contains(valLabel))
+                    {
+                        DateTime periodStart = (DateTime)r["Start_Dttm"];
+                        DateTime periodEnd = (DateTime)r["End_Dttm"];
 
-                    result.Data.Add(fr);
+                        FilingRecord fr = new FilingRecord();
+                        fr.Code = valLabel;
+                        fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
+                        fr.PeriodEnd = periodEnd;
+                        fr.PeriodStart = periodStart;
+                        fr.Unit = (string)r["Unit"];
+                        fr.Value = (decimal)r["Value"];
+
+                        result.Data.Add(fr);
+                    }
                 }
             }
 
@@ -185,7 +212,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connFilings;
 
             DataTable dtMetadata = ConverToMetadataTable(filingDetails.Metadata);
             DataTable dtFilingData = ConvertToFilingDataTable(filingDetails.Data);
@@ -215,7 +242,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connAccounts;
 
             // User name
             SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.Name);
@@ -247,7 +274,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connAccounts;
             
             // User email
             SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email != null ? (object)accParams.Email : DBNull.Value );
@@ -288,7 +315,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connAccounts;
 
             // Account key
             SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.AccountKey);
@@ -316,7 +343,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connAccounts;
 
             
             // Session id
@@ -340,7 +367,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connAccounts;
 
             // Session Token
             SqlParameter paramSessionToken = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
@@ -376,7 +403,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connFilings;
 
    
             DataSet ds = new DataSet();
@@ -415,7 +442,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _conn;
+            cmd.Connection = _connFilings;
 
             // User email
             SqlParameter paramRegCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpParams.RegulatorCode);

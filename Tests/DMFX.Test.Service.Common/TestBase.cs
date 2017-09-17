@@ -5,68 +5,99 @@ using Newtonsoft.Json;
 using System.Reflection;
 using ServiceStack;
 using DMFX.Service.DTO;
+using System.Collections.Generic;
 
 namespace DMFX.Test.Service.Common
 {
     public class TestBase
     {
-        private SqlConnection Connection
+        protected Dictionary<string, SqlConnection> Connections
+        {
+            get;
+            set;
+        }
+    
+        protected JsonServiceClient Client
         {
             get;
             set;
         }
 
-        public JsonServiceClient Client
+        protected string AccountKey
         {
             get;
             set;
         }
 
-        private string AccountKey
+        protected string SessionToken
         {
             get;
             set;
         }
 
-        private string SessionToken
+        public void Init(string host, Dictionary<string, SqlConnection> connections, string accountKey)
         {
-            get;
-            set;
-        }
-
-        public void Init(string host, SqlConnection conn, string accountKey)
-        {
+            // initializing session
             Client = new JsonServiceClient(host);
-            Connection = conn;
+            Connections = connections;
             AccountKey = accountKey;
 
-            InitSession reqInit = new InitSession();
-            reqInit.RequestID = System.Guid.NewGuid().ToString();
-            reqInit.AccountKey = AccountKey;
-
-            InitSessionResponse resInit = Post<InitSession, InitSessionResponse>("InitSession", reqInit);
-
-            if (resInit.Success)
-            {
-                SessionToken = resInit.SessionToken;
-            }
-            else
-            {
-                throw new Exception(string.Format("Init call error:{0}", resInit.Errors[0].Code));
-            }
-
         }
 
-        public bool RunInitSql(string scenario)
+        protected void InitSession(string url)
+        {
+            // Initializing session
+            using (var accountClient = new JsonServiceClient(url))
+            {
+                InitSession reqInit = new InitSession();
+                reqInit.RequestID = System.Guid.NewGuid().ToString();
+                reqInit.AccountKey = AccountKey;
+
+                InitSessionResponse resInit = accountClient.Post<InitSessionResponse>("InitSession", reqInit);
+
+                if (resInit.Success)
+                {
+                    SessionToken = resInit.SessionToken;
+                }
+                else
+                {
+                    throw new Exception(string.Format("Init call error:{0}", resInit.Errors[0].Code));
+                }
+            }
+        }
+
+        protected void CloseSession(string url)
+        {
+            // Initializing session
+            using (var accountClient = new JsonServiceClient(url))
+            {
+                CloseSession reqInit = new CloseSession();
+                reqInit.RequestID = System.Guid.NewGuid().ToString();
+                reqInit.SessionToken = SessionToken;
+
+                CloseSessionResponse resClose = accountClient.Post<CloseSessionResponse>("CloseSession", reqInit);
+
+                if (resClose.Success)
+                {
+                    SessionToken = null;
+                }
+                else
+                {
+                    throw new Exception(string.Format("CloseSession call error:{0}", resClose.Errors[0].Code));
+                }
+            }
+        }
+
+        public bool RunInitSql(string scenario, string connName)
         {
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", scenario, "Init.sql");
             string sql = ReadFileContent(path).Trim();
 
-            if (sql != null && Connection != null && Connection.State == System.Data.ConnectionState.Open)
+            if (sql != null && Connections != null && Connections[connName].State == System.Data.ConnectionState.Open)
             {
                 if (!string.IsNullOrEmpty(sql))
                 {
-                    ExecuteSql(sql);
+                    ExecuteSql(sql, Connections[connName]);
                 }
                 return true;
             }
@@ -76,16 +107,16 @@ namespace DMFX.Test.Service.Common
             }
         }
 
-        public bool RunFinalizeSql(string scenario)
+        public bool RunFinalizeSql(string scenario, string connName)
         {
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", scenario, "Finalize.sql");
             string sql = ReadFileContent(path);
 
-            if (sql != null && Connection != null && Connection.State == System.Data.ConnectionState.Open)
+            if (sql != null && Connections != null && Connections[connName].State == System.Data.ConnectionState.Open)
             {
                 if (!string.IsNullOrEmpty(sql))
                 {
-                    ExecuteSql(sql);
+                    ExecuteSql(sql, Connections[connName]);
                 }
                 return true;
             }
@@ -137,13 +168,18 @@ namespace DMFX.Test.Service.Common
             return content;
         }
 
-        private bool ExecuteSql(string sql)
+        
+        public bool ExecuteSql(string sql, SqlConnection conn)
         {
-            SqlCommand cmd = new SqlCommand(sql);
-            cmd.Connection = Connection;
-            cmd.CommandType = System.Data.CommandType.Text;
+            if (!string.IsNullOrEmpty(sql.Trim()))
+            {
 
-            cmd.ExecuteNonQuery();
+                SqlCommand cmd = new SqlCommand(sql);
+                cmd.Connection = conn;
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.ExecuteNonQuery();
+            }
 
             return true;
         }

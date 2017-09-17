@@ -96,7 +96,9 @@ namespace DMFX.Logging
                     _sw.WriteLine(string.Format("[{0}]\t[{1}]\t{2}",
                         DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
                         EErrorType.Error,
-                        ex.Message + "\r\n" + ex.StackTrace));
+                        "Message:\t" + ex.Message + 
+                        "\r\nInner Exception:\t" + (ex.InnerException != null ? ex.InnerException.Message : string.Empty) +
+                        "\r\nStackTrace:\t" + ex.StackTrace));
                     _sw.Flush();
                 }
             }
