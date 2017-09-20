@@ -1,3 +1,4 @@
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\obj\Debug\DMFX.Test.Sources.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Test.Sources.dll.config
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Test.Sources.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Test.Sources.pdb
@@ -5,7 +6,9 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debu
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.FilingInterfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Source.SEC.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\nunit.framework.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Common.Interfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.SEC.Api.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\HtmlAgilityPack.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Client.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Interfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Text.dll
@@ -13,12 +16,12 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debu
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Source.SEC.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Dictionaries.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\nunit.framework.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Common.Interfaces.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.SEC.Api.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\HtmlAgilityPack.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\HtmlAgilityPack.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Client.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Interfaces.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\ServiceStack.Text.xml
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\obj\Debug\DMFX.Test.Sources.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\obj\Debug\DMFX.Test.Sources.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\obj\Debug\DMFX.Test.Sources.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Common.Interfaces.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\DMFX.Test.Sources\bin\Debug\DMFX.Common.Interfaces.pdb

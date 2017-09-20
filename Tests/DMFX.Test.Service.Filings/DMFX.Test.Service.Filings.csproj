@@ -67,6 +67,8 @@
     <None Include="021.GetCompanyFilingsInfo.InvalidSession\Request.json" />
     <None Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Request.json" />
     <None Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Request.json" />
+    <None Include="030.GetFilingData.Success\Request.json" />
+    <None Include="030.GetFilingData.Values.Success\Request.json" />
     <None Include="App.config" />
     <None Include="001.GetRegulators.InvalidSession\Request.json" />
     <None Include="000.GetRegulators.Success\Request.json" />
@@ -109,6 +111,10 @@
     <Content Include="022.GetCompanyFilingsInfo.InvalidCompanyCode\Init.sql" />
     <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Finalize.sql" />
     <Content Include="023.GetCompanyFilingsInfo.InvalidRegulatorCode\Init.sql" />
+    <Content Include="030.GetFilingData.Success\Finalize.sql" />
+    <Content Include="030.GetFilingData.Success\Init.sql" />
+    <Content Include="030.GetFilingData.Values.Success\Finalize.sql" />
+    <Content Include="030.GetFilingData.Values.Success\Init.sql" />
     <Content Include="TestInit.sql" />
     <Content Include="TestTeardown.sql" />
   </ItemGroup>

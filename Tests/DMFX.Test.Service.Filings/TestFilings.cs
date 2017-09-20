@@ -221,6 +221,36 @@ namespace DMFX.Test.Service.Filings
             Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
         }
 
+        [TestCase("030.GetFilingData.Success")]
+        public void GetFilingData_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringFilings");
+
+            GetFilingData request = PrepareRequest<GetFilingData>(name);
+
+            GetFilingDataResponse response = Post<GetFilingData, GetFilingDataResponse>("GetFilingData", request);
+
+            RunFinalizeSql(name, "ConnectionStringFilings");
+
+            Assert.AreEqual(response.Success, true, "GetFilingData call failed");
+            Assert.AreNotEqual(response.FilingData.Count, 0, "Empty listof values returned");
+        }
+
+        [TestCase("030.GetFilingData.Values.Success")]
+        public void GetFilingData_Values_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringFilings");
+
+            GetFilingData request = PrepareRequest<GetFilingData>(name);
+
+            GetFilingDataResponse response = Post<GetFilingData, GetFilingDataResponse>("GetFilingData", request);
+
+            RunFinalizeSql(name, "ConnectionStringFilings");
+
+            Assert.AreEqual(response.Success, true, "GetFilingData call failed");
+            Assert.AreNotEqual(response.FilingData.Count, 0, "Empty listof values returned");
+        }
+
 
     }
 }

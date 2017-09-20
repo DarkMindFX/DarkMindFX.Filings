@@ -228,7 +228,7 @@ namespace DMFX.Service.Filings
 
                 try
                 {
-                    Interfaces.DAL.GetCompanyFilingParams filingDataParams = new Interfaces.DAL.GetCompanyFilingParams()
+                    Interfaces.DAL.GetCompanyFilingParams filingDataParams = new Interfaces.DAL.GetCompanyFilingParams(request.Values.ToArray())
                     {
                         CompanyCode = request.CompanyCode,
                         Name = request.FilingName,

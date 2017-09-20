@@ -1,7 +1,0 @@
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Debug\DMFX.Logging.csprojResolveAssemblyReference.cache
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Debug\DMFX.Logging.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Debug\DMFX.Logging.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Logging.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Logging.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Common.Interfaces.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Common.Interfaces.pdb

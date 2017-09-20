@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using HtmlAgilityPack;
+
 
 namespace DMFX.Source.SEC
 {
@@ -89,7 +91,7 @@ namespace DMFX.Source.SEC
             SECSourceValidateParams vldSECParams = vldParams as SECSourceValidateParams;
             if (vldSECParams != null)
             {
-                string cik = _dictionary.LookupRegulatorCompanyCode(vldParams.RegulatorCode, vldParams.CompanyCode); 
+                string cik = _dictionary.LookupRegulatorCompanyCode(vldParams.RegulatorCode, vldParams.CompanyCode);
                 if (!string.IsNullOrEmpty(cik))
                 {
 
@@ -136,7 +138,7 @@ namespace DMFX.Source.SEC
                         {
 
                             // extracting txt index file
-                            SubmissionFileInfo subFileInfo = submission.Files.FirstOrDefault(s => s.Name.Contains(".txt"));
+                            SubmissionFileInfo subFileInfo = submission.Files.FirstOrDefault(s => s.Name.Contains("-index.html"));
                             SubmissionFile indexFile = null;
 
                             if (subFileInfo != null)
@@ -146,8 +148,8 @@ namespace DMFX.Source.SEC
 
                             if (indexFile != null)
                             {
-                                SECSourceSubmissionInfo submissionInfo = ExtractReportDetails(indexFile);
-                                if (submissionInfo != null)
+                                SECSourceSubmissionInfo submissionInfo = ExtractReportDetailsIndexHTML(indexFile);
+                                if (submissionInfo != null && !string.IsNullOrEmpty(submissionInfo.Type))
                                 {
                                     submissionInfo.Name = item.Name;
                                     result.Submissions.Add(submissionInfo);
@@ -178,7 +180,7 @@ namespace DMFX.Source.SEC
 
             return result;
         }
-                
+
 
         public ISourceExtractResult ExtractFilingItems(ISourceExtractFilingItemsParams extractItemsParams)
         {
@@ -237,7 +239,91 @@ namespace DMFX.Source.SEC
         }
 
         #region Support  methods
-        private SECSourceSubmissionInfo ExtractReportDetails(SubmissionFile submissionIndexFile)
+
+        #region IndexHTML
+
+        private SECSourceSubmissionInfo ExtractReportDetailsIndexHTML(SubmissionFile submissionIndexFile)
+        {
+            SECSourceSubmissionInfo subInfo = new SECSourceSubmissionInfo();
+
+
+            string txtContent = System.Text.Encoding.Default.GetString(submissionIndexFile.Content.ToArray());
+
+            var doc = new HtmlDocument();
+            doc.LoadHtml(txtContent);
+
+
+            HtmlNode nodeType = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div[@id='formHeader']/div[@id='formName']/strong"); // 
+            if (nodeType != null)
+            {
+                if (nodeType.InnerText.Contains("10-Q"))
+                {
+                    subInfo.Type = "10-Q";
+                }
+                else if (nodeType.InnerText.Contains("10-K"))
+                {
+                    subInfo.Type = "10-K";
+                }
+                else if (nodeType.InnerText.Contains("8-K"))
+                {
+                    subInfo.Type = "8-K";
+                }
+
+                if (!string.IsNullOrEmpty(subInfo.Type))
+                {
+                    // extracting dates
+                    var nodesMetadata = doc.DocumentNode.SelectNodes("//div[@id='formDiv']/div/div/div[@class='infoHead']");
+                    if (nodesMetadata != null)
+                    {
+                        foreach (HtmlNode node in nodesMetadata)
+                        {
+                            HtmlNode nodeDate = node.SelectSingleNode("../div[@class='info']");
+                            if (nodeDate != null)
+                            {
+                                if (node.InnerText == "Accepted")
+                                {
+                                    subInfo.Submitted = DateTime.Parse(nodeDate.InnerText);
+                                }
+                                else if (node.InnerText == "Period of Report")
+                                {
+                                    subInfo.PeriodEnd = DateTime.Parse(nodeDate.InnerText);
+                                }
+                            }
+                        }
+                    }
+                    // extracting report file name
+                    HtmlNode nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='EX-101.INS']/..");
+                    if (nodeFilingData != null)
+                    {
+                        HtmlNode nodeFileName = nodeFilingData.SelectSingleNode("//td/a");
+                        subInfo.Report = nodeFileName.InnerText.Trim();
+                    }
+                }
+            }
+
+            return subInfo;
+        }
+
+        private string FixIndexXmlContent(string content)
+        {
+            string result = content;
+            // index.html file usually lacks closing tags - fixing it
+            if (!result.Contains("</body>"))
+            {
+                result += "</body>";
+            }
+            if (!result.Contains("</html>"))
+            {
+                result += "</html>";
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region TXT
+        private SECSourceSubmissionInfo ExtractReportDetailsTXT(SubmissionFile submissionIndexFile)
         {
             SECSourceSubmissionInfo subInfo = new SECSourceSubmissionInfo();
 
@@ -258,7 +344,7 @@ namespace DMFX.Source.SEC
 
             if (subInfo.Type == "10-Q")
             {
-                subInfo.Report = Extract10QReportFilename(txtContentLines);
+                subInfo.Report = Extract10QReportFilenameTXT(txtContentLines);
             }
             /*
             else if (subInfo.Type == "10-K")
@@ -274,7 +360,7 @@ namespace DMFX.Source.SEC
             return subInfo;
         }
 
-        private string Extract10QReportFilename(string[] txtContentLines)
+        private string Extract10QReportFilenameTXT(string[] txtContentLines)
         {
             string result = null;
 
@@ -285,20 +371,22 @@ namespace DMFX.Source.SEC
             {
                 string strCurrent = txtContentLines[currLine];
 
-                if(strCurrent.Contains("<TYPE>EX-101.INS"))
+                if (strCurrent.Contains("<TYPE>EX-101.INS"))
                 {
                     typeFound = true;
                 }
                 if (strCurrent.Contains("<FILENAME>") && typeFound)
                 {
                     result = strCurrent.Replace("<FILENAME>", string.Empty);
-                }                
+                }
 
                 ++currLine;
             }
 
             return result;
         }
+
+        #endregion
 
         private string Extract10KReportFilename(string[] txtContentLines)
         {

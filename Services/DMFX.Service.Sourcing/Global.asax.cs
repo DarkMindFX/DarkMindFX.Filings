@@ -4,6 +4,8 @@ using System.ComponentModel.Composition;
 using System.Configuration;
 using System.IO;
 using DMFX.Interfaces;
+using System.Net;
+using System.Threading;
 
 namespace DMFX.Service.Sourcing
 {
@@ -11,6 +13,7 @@ namespace DMFX.Service.Sourcing
     {
         static CompositionContainer _container = null;
         static Importer _importer = null;
+        static Thread keepAliveThread = new Thread(KeepAlive);
 
         public static Importer Importer
         {
@@ -67,6 +70,43 @@ namespace DMFX.Service.Sourcing
             _importer = new Importer(_container);
 
             new AppHost().Init();
+
+            if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
+            {
+                keepAliveThread.Start();
+                logger.Value.Log(EErrorType.Info, "Starting KeepAlive thread");
+            }
+
+        }
+
+        protected void Application_End(object sender, EventArgs e)
+        {
+            if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
+            {
+                keepAliveThread.Abort();
+            }
+        }
+
+        static void KeepAlive()
+        {
+            while (true)
+            {
+                try
+                {
+                    Thread.Sleep(60000);
+
+                    WebRequest req = WebRequest.Create(ConfigurationManager.AppSettings["ServiceURL"]);
+                    req.GetResponse();
+
+                }
+                catch (ThreadAbortException)
+                {
+                    break;
+                }
+                catch(Exception ex)
+                {
+                }
+            }
         }
     }
 }

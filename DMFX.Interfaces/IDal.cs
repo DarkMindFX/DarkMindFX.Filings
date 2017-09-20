@@ -203,9 +203,20 @@ namespace DMFX.Interfaces.DAL
 
     public class GetCompanyFilingParams
     {
-        public GetCompanyFilingParams()
+        public GetCompanyFilingParams(string[] valueCodes = null)
         {
             Values = new HashSet<string>();
+
+            if (valueCodes != null)
+            {
+                foreach (var code in valueCodes)
+                {
+                    if (!Values.Contains(code))
+                    {
+                        Values.Add(code);
+                    }
+                }
+            }
         }
         public string CompanyCode
         {

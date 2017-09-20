@@ -235,8 +235,8 @@ namespace DMFX.SECParser
             nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
 
             Dictionary <string, List<string>> tags = new Dictionary<string, List<string>>();
-            tags.Add("xbrli:context", new List<string>(new string[] { "xbrli:period", "xbrli:startDate", "xbrli:endDate", "xbrli:instant" }));
-            tags.Add("context", new List<string>(new string[] { "df:period", "df:startDate", "df:endDate", "df:instant" }));
+            tags.Add("xbrli:context", new List<string>(new string[] { "xbrli:period", "xbrli:startDate", "xbrli:endDate", "xbrli:instant", "xbrli:entity/xbrli:segment" }));
+            tags.Add("context", new List<string>(new string[] { "df:period", "df:startDate", "df:endDate", "df:instant", "df:entity/df:segment" }));
 
             string currContextTagName = string.Empty;
             XmlNodeList contextTags = null;
@@ -252,31 +252,34 @@ namespace DMFX.SECParser
 
                     foreach (XmlNode contextTag in contextTags)
                     {
-                        string ID = contextTag.Attributes["id"].Value;
-
-                        DateTime startDate = DateTime.MinValue;
-                        DateTime endDate = DateTime.MinValue;
-                        DateTime instant = DateTime.MinValue;
-
-                        XmlNode tagStartDate = contextTag.SelectSingleNode(tags[currContextTagName][0]+"/"+tags[currContextTagName][1], nsmgr); // "xbrli:period/xbrli:startDate"
-                        XmlNode tagEndDate = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][2], nsmgr); // "xbrli:period/xbrli:endDate"
-                        XmlNode tagInstant = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][3], nsmgr); // "xbrli:period/xbrli:instant"
-
-                        if (tagStartDate != null)
+                        if (contextTag.SelectSingleNode(tags[currContextTagName][4], nsmgr) == null)
                         {
-                            startDate = DateTime.Parse(tagStartDate.InnerText);
-                        }
-                        if (tagEndDate != null)
-                        {
-                            endDate = DateTime.Parse(tagEndDate.InnerText);
-                        }
-                        if (tagInstant != null)
-                        {
-                            instant = DateTime.Parse(tagInstant.InnerText);
-                        }
+                            string ID = contextTag.Attributes["id"].Value;
 
-                        FilingContex context = new FilingContex(ID, startDate, endDate, instant);
-                        secResult.Contexts.Add(context);
+                            DateTime startDate = DateTime.MinValue;
+                            DateTime endDate = DateTime.MinValue;
+                            DateTime instant = DateTime.MinValue;
+
+                            XmlNode tagStartDate = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][1], nsmgr); // "xbrli:period/xbrli:startDate"
+                            XmlNode tagEndDate = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][2], nsmgr); // "xbrli:period/xbrli:endDate"
+                            XmlNode tagInstant = contextTag.SelectSingleNode(tags[currContextTagName][0] + "/" + tags[currContextTagName][3], nsmgr); // "xbrli:period/xbrli:instant"
+
+                            if (tagStartDate != null)
+                            {
+                                startDate = DateTime.Parse(tagStartDate.InnerText);
+                            }
+                            if (tagEndDate != null)
+                            {
+                                endDate = DateTime.Parse(tagEndDate.InnerText);
+                            }
+                            if (tagInstant != null)
+                            {
+                                instant = DateTime.Parse(tagInstant.InnerText);
+                            }
+
+                            FilingContex context = new FilingContex(ID, startDate, endDate, instant);
+                            secResult.Contexts.Add(context);
+                        }
                     }
                 }
 
