@@ -48,6 +48,7 @@
     <Compile Include="CreateAccount.cs" />
     <Compile Include="Echo.cs" />
     <Compile Include="ForceRunImport.cs" />
+    <Compile Include="ForceStopImport.cs" />
     <Compile Include="GetAccountInfo.cs" />
     <Compile Include="GetCompanies.cs" />
     <Compile Include="GetCompanyFilingsInfo.cs" />

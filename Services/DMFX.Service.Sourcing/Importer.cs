@@ -64,13 +64,13 @@ namespace DMFX.Service.Sourcing
         private IStorage _storage = null;
         private ImporterParams _impParams = null;
         private IParsersRepository _parsersRepository = null;
+        private bool _isRunning = false;
 
         public Importer(CompositionContainer compContainer)
         {
 
             try
             {
-
                 _compContainer = compContainer;
                 Errors = new List<Error>();
 
@@ -141,6 +141,7 @@ namespace DMFX.Service.Sourcing
         {
             if (CurrentState == EImportState.Idle)
             {
+                _isRunning = true;
                 _impParams = impParams;
                 _importTask = new Task(ImportThread);
                 _importTask.Start();
@@ -151,6 +152,12 @@ namespace DMFX.Service.Sourcing
             {
                 return false;
             }
+        }
+
+        public bool StopImport()
+        {
+            _isRunning = false;
+            return true;
         }
 
         protected void ImportThread()
@@ -169,6 +176,11 @@ namespace DMFX.Service.Sourcing
 
                 foreach (var regulator in regulators)
                 {
+                    // break if stopped
+                    if (!_isRunning)
+                    {
+                        break;
+                    }
 
                     Lazy<ISource> source = null;
                     try
@@ -225,6 +237,7 @@ namespace DMFX.Service.Sourcing
             }
 
             CurrentState = EImportState.Idle;
+            _isRunning = false;
 
             _logger.Log(EErrorType.Info, string.Format("ImportThread finished. Total errors: {0}", Errors.Count));
 
@@ -260,6 +273,12 @@ namespace DMFX.Service.Sourcing
         {
             foreach (string companyCode in importParams.Companies)
             {
+                // break if stopped
+                if (!_isRunning)
+                {
+                    break;
+                }
+
                 try
                 {
                     _logger.Log(EErrorType.Info, string.Format("Processing start:\t{0}", companyCode));
@@ -896,7 +915,7 @@ namespace DMFX.Service.Sourcing
 
                 ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
 
-                if (extrResult != null)
+                if (extrResult != null && _isRunning)
                 {
                     
                     _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
@@ -904,18 +923,18 @@ namespace DMFX.Service.Sourcing
                     PutToStorage(extrResult.Items);
 
                     ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
-                    if (filingContent != null)
+                    if (filingContent != null && _isRunning)
                     {
                         MemoryStream ms = new MemoryStream(filingContent.Content.ToArray());
 
                         // 4. Parsing
                         CurrentState = EImportState.Parsing;
 
-                        if (parsersRepository != null)
+                        if (parsersRepository != null && _isRunning)
                         {
                             IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
 
-                            if (parser != null)
+                            if (parser != null && _isRunning)
                             {
                                 _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
 
@@ -948,8 +967,8 @@ namespace DMFX.Service.Sourcing
             catch (Exception ex)
             {
                 _logger.Log(EErrorType.Error, string.Format("FAIL: submission {0} / {1} / {2},\r\n\tError: {3}\r\n\t{4}", regulatorCode, companyCode, submissionInfo.Name, ex.Message, ex.StackTrace));
-            }
-            
+            }            
+
         }
 
         private void PutToStorage(List<ISourceItem> items)
@@ -993,6 +1012,12 @@ namespace DMFX.Service.Sourcing
 
                     foreach (var submissionInfo in subInfoResult.Submissions)
                     {
+                        // break if stopped
+                        if (!_isRunning)
+                        {
+                            break;
+                        }
+
                         if (!string.IsNullOrEmpty(submissionInfo.Report))
                         {
                             ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
@@ -1018,12 +1043,12 @@ namespace DMFX.Service.Sourcing
             {
                 totalRecordsCount += s.Records.Count;
             }
-            _logger.Log(EErrorType.Info, string.Format("Saving to STG: {0},\tType - {1},\tPeriod: {2} - {3},\tRecords: {4}", 
-                submissionInfo.Name, 
-                submissionInfo.Type, 
-                parserResults.PeriodStart.ToString(), 
-                parserResults.PeriodEnd.ToString(),
-                totalRecordsCount     )       );
+
+            _logger.Log(EErrorType.Info, string.Format("Prepare for saving to STG: {0} / {1} / {2},\t Type - {3}",
+                regulatorCode,
+                companyCode,
+                submissionInfo.Name,
+                submissionInfo.Type));
 
             CurrentState = EImportState.Saving;
 
@@ -1031,7 +1056,7 @@ namespace DMFX.Service.Sourcing
             Interfaces.DAL.InsertFilingDetailsParams insertParams = new Interfaces.DAL.InsertFilingDetailsParams();
 
             // preparing metadata
-            insertParams.Metadata.Add( new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "CompanyCode", Value = companyCode, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report, Type = "String" });
@@ -1039,6 +1064,8 @@ namespace DMFX.Service.Sourcing
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
+
+            
 
             // preparing filing data records
             foreach (var statement in parserResults.Statements)
@@ -1059,6 +1086,13 @@ namespace DMFX.Service.Sourcing
                     });
                 }
             }
+
+            _logger.Log(EErrorType.Info, string.Format("Saving to STG: {0},\tType - {1},\tPeriod: {2} - {3},\tRecords: {4}",
+                submissionInfo.Name,
+                submissionInfo.Type,
+                parserResults.PeriodStart.ToString(),
+                parserResults.PeriodEnd.ToString(),
+                totalRecordsCount));
 
             _dal.InsertFilingDetails(insertParams);
 

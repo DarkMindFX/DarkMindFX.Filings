@@ -184,6 +184,56 @@ namespace DMFX.Service.Sourcing
             return response;
         }
 
+        public object Any(ForceStopImport request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: ForceStopImport");
+
+            ForceStopImportResponse response = new ForceStopImportResponse();
+
+            try
+            {
+
+                TransferHeader(request, response);
+
+                if (IsValidSessionToken(request))
+                {
+
+                    if (Global.Importer.CurrentState != Importer.EImportState.Idle)
+                    {
+                        // starting import process
+                        response.Success = Global.Importer.StopImport();
+                        _logger.Log(EErrorType.Info, "\tImporter stopped");
+                    }
+                    else
+                    {
+                        response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.ImporterError, Type = Interfaces.EErrorType.Error, Message = string.Format("Importing is not running, current state - {0}", Global.Importer.CurrentState) });
+                        response.Success = false;
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: ForceRunImport");
+
+            return response;
+        }
+
         #region Support methods
         protected void TransferHeader(RequestBase request, ResponseBase response)
         {
