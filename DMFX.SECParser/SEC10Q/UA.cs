@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("UA", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class UA : SECParserBase
     {
         public UA() : base("10-Q", Resources.UA)

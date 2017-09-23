@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("HRS", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class HRS : SECParserBase
     {
         public HRS() : base("10-Q", Resources.HRS)

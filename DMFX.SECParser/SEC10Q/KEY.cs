@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("KEY", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class KEY : SECParserBase
     {
         public KEY() : base("10-Q", Resources.KEY)

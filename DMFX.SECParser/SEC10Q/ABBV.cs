@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("ABBV", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ABBV : SECParserBase
     {
         public ABBV() : base("10-Q", Resources.ABBV)

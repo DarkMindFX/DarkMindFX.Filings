@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("XLNX", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class XLNX : SECParserBase
     {
         public XLNX() : base("10-Q", Resources.XLNX)

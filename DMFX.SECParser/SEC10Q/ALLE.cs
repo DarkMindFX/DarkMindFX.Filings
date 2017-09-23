@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("ALLE", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ALLE : SECParserBase
     {
         public ALLE() : base("10-Q", Resources.ALLE)

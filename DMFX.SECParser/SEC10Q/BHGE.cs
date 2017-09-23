@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("BHGE", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class BHGE : SECParserBase
     {
         public BHGE() : base("10-Q", Resources.BHGE)

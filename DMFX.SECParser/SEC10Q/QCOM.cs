@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("QCOM", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class QCOM : SECParserBase
     {
         public QCOM() : base("10-Q", Resources.QCOM)

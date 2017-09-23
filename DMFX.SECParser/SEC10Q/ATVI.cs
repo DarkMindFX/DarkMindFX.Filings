@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("ATVI", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ATVI : SECParserBase
     {
         public ATVI() : base("10-Q", Resources.ATVI)

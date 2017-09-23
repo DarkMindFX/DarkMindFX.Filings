@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("DLPH", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class DLPH : SECParserBase
     {
         public DLPH() : base("10-Q", Resources.DLPH)

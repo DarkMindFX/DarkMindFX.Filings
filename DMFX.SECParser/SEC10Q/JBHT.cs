@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("JBHT", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class JBHT : SECParserBase
     {
         public JBHT() : base("10-Q", Resources.JBHT)

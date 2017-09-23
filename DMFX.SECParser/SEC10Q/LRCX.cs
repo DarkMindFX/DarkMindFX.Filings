@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("LRCX", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class LRCX : SECParserBase
     {
         public LRCX() : base("10-Q", Resources.LRCX)

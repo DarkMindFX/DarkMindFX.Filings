@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("CHRW", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CHRW : SECParserBase
     {
         public CHRW() : base("10-Q", Resources.CHRW)

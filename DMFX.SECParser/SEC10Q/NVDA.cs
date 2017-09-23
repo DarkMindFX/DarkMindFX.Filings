@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("NVDA", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class NVDA : SECParserBase
     {
         public NVDA() : base("10-Q", Resources.NVDA)

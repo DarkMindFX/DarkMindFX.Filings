@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("ESRX", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class ESRX : SECParserBase
     {
         public ESRX() : base("10-Q", Resources.ESRX)

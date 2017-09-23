@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("CTAS", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CTAS : SECParserBase
     {
         public CTAS() : base("10-Q", Resources.CTAS)

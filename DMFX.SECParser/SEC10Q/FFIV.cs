@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("FFIV", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class FFIV : SECParserBase
     {
         public FFIV() : base("10-Q", Resources.FFIV)

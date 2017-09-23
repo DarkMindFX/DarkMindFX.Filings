@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("TRIP", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class TRIP : SECParserBase
     {
         public TRIP() : base("10-Q", Resources.TRIP)

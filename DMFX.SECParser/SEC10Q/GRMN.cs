@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("GRMN", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class GRMN : SECParserBase
     {
         public GRMN() : base("10-Q", Resources.GRMN)

@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("AMZN", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class AMZN : SECParserBase
     {
         public AMZN() : base("10-Q", Resources.AMZN)

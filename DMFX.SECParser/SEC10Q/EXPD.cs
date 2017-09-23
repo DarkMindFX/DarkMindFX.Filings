@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("EXPD", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class EXPD : SECParserBase
     {
         public EXPD() : base("10-Q", Resources.EXPD)

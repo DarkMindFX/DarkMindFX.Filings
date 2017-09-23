@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("QRVO", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class QRVO : SECParserBase
     {
         public QRVO() : base("10-Q", Resources.QRVO)

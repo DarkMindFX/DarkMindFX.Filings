@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <parser>
   <namespaces>
-    <namespace ns="us-gaap" uri="http://fasb.org/us-gaap/2017-01-31"/>
     <namespace ns="xbrli" uri="http://www.xbrl.org/2003/instance" />
-    <namespace ns="invest" uri="http://xbrl.sec.gov/invest/2013-01-31" />
   </namespaces>
   <sections>
     <section name="StatementOfOperations">

@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("CMCSA", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class CMCSA : SECParserBase
     {
         public CMCSA() : base("10-Q", Resources.CMCSA)

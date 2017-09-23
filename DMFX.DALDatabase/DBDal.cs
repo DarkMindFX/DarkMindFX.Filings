@@ -14,10 +14,11 @@ namespace DMFX.DALDatabase
     [Export(typeof(IDal))]
     public class DBDal : IDal, IDisposable
     {
-        SqlConnection _connAccounts = null;
-        SqlConnection _connFilings = null;
-        object _lockConn = new object();
+        private SqlConnection _connAccounts = null;
+        private SqlConnection _connFilings = null;
+        private object _lockConn = new object();
         private static string schema = "[dbo]";
+        private IDalParams _dalParams = null;
 
         public IDalParams CreateDalParams()
         {
@@ -26,68 +27,29 @@ namespace DMFX.DALDatabase
 
         public void Dispose()
         {
-            if (_connAccounts != null && _connAccounts.State != System.Data.ConnectionState.Closed && _connAccounts.State != System.Data.ConnectionState.Broken)
-            {
-                lock (_lockConn)
-                {
-                    if (_connAccounts != null)
-                    {
-                        _connAccounts.Close();
-                        _connAccounts = null;
-                    }
-                }
-            }
-            if (_connFilings != null && _connFilings.State != System.Data.ConnectionState.Closed && _connFilings.State != System.Data.ConnectionState.Broken)
-            {
-                lock (_lockConn)
-                {
-                    if (_connFilings != null)
-                    {
-                        _connFilings.Close();
-                        _connFilings = null;
-                    }
-                }
-            }
+            // TODO: clean up
         }
 
         public void Init(IDalParams dalParams)
         {
-            if (_connAccounts == null)
-            {
-                lock (_lockConn)
-                {
-                    if (_connAccounts == null && dalParams.Parameters["ConnectionStringAccounts"] != null)
-                    {
-                        _connAccounts = new SqlConnection(dalParams.Parameters["ConnectionStringAccounts"]);
-                        _connAccounts.Open();
-                    }
-                }
-            }
-            if (_connFilings == null)
-            {
-                lock (_lockConn)
-                {
-                    if (_connFilings == null && dalParams.Parameters["ConnectionStringFilings"] != null)
-                    {
-                        _connFilings = new SqlConnection(dalParams.Parameters["ConnectionStringFilings"]);
-                        _connFilings.Open();
-                    }
-                }
-            }
+            _dalParams = dalParams;
         }
+
+        
 
         #region IDal implementation
 
         public GetCompanyFilingsInfoResult GetCompanyFilingsInfo(GetCompanyFilingsInfoParams infoParams)
         {
             string spName = "[SP_Get_Company_Filings_Info]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             GetCompanyFilingsInfoResult result = new GetCompanyFilingsInfoResult();
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connFilings;
+            cmd.Connection = conn;
 
             // Company code
             SqlParameter paramCompanyCode = new SqlParameter("@company_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
@@ -134,19 +96,22 @@ namespace DMFX.DALDatabase
             result.RegulatorCode = infoParams.RegulatorCode;
             result.CompanyCode = infoParams.CompanyCode;
 
+            conn.Close();
+
             return result;
         }
 
         public GetCompanyFilingResult GetCompanyFilingData(GetCompanyFilingParams cmpFilingParams)
         {
             string spName = "[SP_Get_Company_Filing_Data]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             GetCompanyFilingResult result = new GetCompanyFilingResult();
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connFilings;
+            cmd.Connection = conn;
 
             // Company code
             SqlParameter paramCompanyCode = new SqlParameter("@Company_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
@@ -201,18 +166,20 @@ namespace DMFX.DALDatabase
                 }
             }
 
+            conn.Close();
+
             return result;
         }
 
         public void InsertFilingDetails(InsertFilingDetailsParams filingDetails)
         {
             string spName = "[SP_Insert_Filing_Details]";
-            // TODO: add SP call  
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connFilings;
+            cmd.Connection = conn;
 
             DataTable dtMetadata = ConverToMetadataTable(filingDetails.Metadata);
             DataTable dtFilingData = ConvertToFilingDataTable(filingDetails.Data);
@@ -233,11 +200,14 @@ namespace DMFX.DALDatabase
             cmd.Parameters.Add(paramData);
 
             cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
 
         public void CreateUserAccount(CreateUserAccountParams createAccountParams)
         {
             string spName = "[SP_Create_User_Account]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
@@ -264,11 +234,15 @@ namespace DMFX.DALDatabase
             // TODO: uncomment when SP ready
             cmd.ExecuteNonQuery();
 
+            conn.Close();
+
         }
 
         public GetUserAccountInfoResult GetUserAccountInfo(GetUserAccountInfoParams accParams)
         {
             string spName = "[SP_Get_User_Account_Info]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
+
             GetUserAccountInfoResult result = new GetUserAccountInfoResult();
 
             SqlCommand cmd = new SqlCommand();
@@ -303,12 +277,15 @@ namespace DMFX.DALDatabase
                 result = null;
             }
 
+            conn.Close();
+
             return result;
         }
 
         public void InitSession(SessionInfo sessionParams)
         {
             string spName = "[SP_Init_Session]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
 
             GetUserAccountInfoResult result = new GetUserAccountInfoResult();
 
@@ -332,11 +309,14 @@ namespace DMFX.DALDatabase
 
             cmd.ExecuteNonQuery();
 
+            conn.Close();
+
         }
 
         public void CloseSession(SessionInfo sessionParams)
         {
             string spName = "[SP_Close_Session]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
 
             GetUserAccountInfoResult result = new GetUserAccountInfoResult();
 
@@ -356,11 +336,14 @@ namespace DMFX.DALDatabase
             cmd.Parameters.Add(paramSessionStart);
 
             cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
 
         public SessionInfo GetSessionInfo(SessionInfo sessionParams, bool checkActive)
         {
             string spName = checkActive ? "[SP_Get_Active_Session_Info]" : "[SP_Get_Session_Info]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
 
             SessionInfo result = new SessionInfo();
 
@@ -391,12 +374,15 @@ namespace DMFX.DALDatabase
                 result = null;
             }
 
+            conn.Close();
+
             return result;
         }
 
         public GetRegulatorsResult GetRegulators()
         {
             string spName = "[SP_Get_Regulators]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             GetRegulatorsResult result = new GetRegulatorsResult();
             
@@ -430,12 +416,15 @@ namespace DMFX.DALDatabase
                 result = null;
             }
 
+            conn.Close();
+
             return result;
         }
 
         public GetRegulatorCompaniesResult GetCompaniesByRegulator(GetRegulatorCompaniesParams cmpParams)
         {
             string spName = "[SP_Get_Companies_By_Regulator]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             GetRegulatorCompaniesResult result = new GetRegulatorCompaniesResult();
 
@@ -478,12 +467,21 @@ namespace DMFX.DALDatabase
                 result = null;
             }
 
+            conn.Close();
+
             return result;
         }
 
         #endregion
 
         #region Support method
+        private SqlConnection OpenConnection(string name)
+        {
+            SqlConnection conn = _connAccounts = new SqlConnection(_dalParams.Parameters[name]);
+            conn.Open();
+
+            return conn;
+        }
 
         private DataTable ConverToMetadataTable(List<InsertFilingDetailsParams.FilingMetadaRecord> records)
         {

@@ -14,7 +14,7 @@ namespace DMFX.Service.Sourcing
         static CompositionContainer _container = null;
         static Importer _importer = null;
         static Thread keepAliveThread = new Thread(KeepAlive);
-
+        
         public static Importer Importer
         {
             get
@@ -81,21 +81,33 @@ namespace DMFX.Service.Sourcing
 
         protected void Application_End(object sender, EventArgs e)
         {
-            if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
+            try
             {
-                keepAliveThread.Abort();
+                Lazy<ILogger> logger = _container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]);
+                logger.Value.Dispose();
+
+                if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
+                {
+                    keepAliveThread.Abort();
+                }
+            }
+            catch
+            {
             }
         }
 
         static void KeepAlive()
         {
+            string keepAliveUrl = string.Format(ConfigurationManager.AppSettings["KeepAliveURL"], ConfigurationManager.AppSettings["ServiceSessionToken"]);
+            int keepAliveInterval = Int32.Parse(ConfigurationManager.AppSettings["KeepAliveInterval"]) * 1000;
+
             while (true)
             {
                 try
                 {
-                    Thread.Sleep(60000);
+                    Thread.Sleep(keepAliveInterval);
 
-                    WebRequest req = WebRequest.Create(ConfigurationManager.AppSettings["ServiceURL"]);
+                    WebRequest req = WebRequest.Create(keepAliveUrl);
                     req.GetResponse();
 
                 }

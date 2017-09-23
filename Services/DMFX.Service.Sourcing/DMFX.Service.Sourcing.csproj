@@ -111,6 +111,7 @@
     <Content Include="Plugins\DMFX.SECParser.dll" />
     <Content Include="Plugins\DMFX.Source.SEC.dll" />
     <Content Include="Plugins\DMFX.Storage.dll" />
+    <Content Include="Plugins\HtmlAgilityPack.dll" />
     <Content Include="Plugins\ServiceStack.Client.dll" />
     <Content Include="Plugins\ServiceStack.Interfaces.dll" />
     <Content Include="Plugins\ServiceStack.Text.dll" />
@@ -171,7 +172,11 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>iisreset /stop &amp;&amp; iisreset /start</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

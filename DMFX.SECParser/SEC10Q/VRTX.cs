@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("VRTX", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class VRTX : SECParserBase
     {
         public VRTX() : base("10-Q", Resources.VRTX)

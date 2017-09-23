@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <parser>
   <namespaces>
-    <namespace ns="amzn" uri="http://www.amazon.com/20170630"/>
   </namespaces>
   <sections>
     <section name="StatementOfOperations">

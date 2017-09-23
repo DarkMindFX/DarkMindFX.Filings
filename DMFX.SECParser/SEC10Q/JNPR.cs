@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("JNPR", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class JNPR : SECParserBase
     {
         public JNPR() : base("10-Q", Resources.JNPR)

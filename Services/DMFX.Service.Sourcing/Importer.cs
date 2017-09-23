@@ -63,16 +63,30 @@ namespace DMFX.Service.Sourcing
         private ILogger _logger = null;
         private IStorage _storage = null;
         private ImporterParams _impParams = null;
+        private IParsersRepository _parsersRepository = null;
 
         public Importer(CompositionContainer compContainer)
         {
-            _compContainer = compContainer;
-            Errors = new List<Error>();
 
-            _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
+            try
+            {
 
-            InitDAL();
-            InitStorage();
+                _compContainer = compContainer;
+                Errors = new List<Error>();
+
+                _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
+
+                InitDAL();
+                InitStorage();
+            }
+            catch (Exception ex)
+            {
+                if (_logger != null)
+                {
+                    _logger.Log(EErrorType.Error, "Importer constructor failed");
+                    _logger.Log(ex);
+                }
+            }
         }
 
         #region Properties
@@ -900,6 +914,7 @@ namespace DMFX.Service.Sourcing
                         if (parsersRepository != null)
                         {
                             IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
+
                             if (parser != null)
                             {
                                 _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
@@ -912,6 +927,13 @@ namespace DMFX.Service.Sourcing
                                 {
                                     StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
                                 }
+                            }
+                            else
+                            {
+                                _logger.Log(EErrorType.Warning, string.Format("Parser not found for filing {0}, Company {1}, Type {2}",
+                                    submissionInfo.Name,
+                                    companyCode,
+                                    submissionInfo.Type));
                             }
 
                         }
@@ -961,6 +983,8 @@ namespace DMFX.Service.Sourcing
             // 2. if any - importing from source
             if (vldResult.Success && vldResult.Delta != null && vldResult.Delta.Count > 0)
             {
+                _logger.Log(EErrorType.Info, string.Format("Delta: {0}", vldResult.Delta.Count));
+
                 ISourceSubmissionsInfoResult subInfoResult = GetListOfSubmissions(regulatorCode, companyCode, source, vldResult);
 
                 if (subInfoResult != null && subInfoResult.Submissions != null && subInfoResult.Submissions.Count > 0)
@@ -980,12 +1004,26 @@ namespace DMFX.Service.Sourcing
                     } // foreach
                 }
             }
+            else
+            {
+                _logger.Log(EErrorType.Info, string.Format("No Delta - skipping {0}", companyCode));
+            }
             
         }
 
         private bool StoreFiling(string regulatorCode, string companyCode, ISourceSubmissionInfo submissionInfo, IFilingParserResult parserResults)
         {
-            _logger.Log(EErrorType.Info, string.Format("Saving to STG: {0}, Type - {1}, Period: {2} - {3}", submissionInfo.Name, submissionInfo.Type, parserResults.PeriodStart.ToString(), parserResults.PeriodEnd.ToString()));
+            int totalRecordsCount = 0;
+            foreach (var s in parserResults.Statements)
+            {
+                totalRecordsCount += s.Records.Count;
+            }
+            _logger.Log(EErrorType.Info, string.Format("Saving to STG: {0},\tType - {1},\tPeriod: {2} - {3},\tRecords: {4}", 
+                submissionInfo.Name, 
+                submissionInfo.Type, 
+                parserResults.PeriodStart.ToString(), 
+                parserResults.PeriodEnd.ToString(),
+                totalRecordsCount     )       );
 
             CurrentState = EImportState.Saving;
 

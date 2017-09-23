@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <parser>
   <namespaces>
-    <namespace ns="aapl" uri="http://fasb.org/us-gaap/2017-01-31"/>
   </namespaces>
   <sections>
     <section name="StatementOfOperations">

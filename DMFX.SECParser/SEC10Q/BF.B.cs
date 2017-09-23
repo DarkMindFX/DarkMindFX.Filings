@@ -9,7 +9,8 @@ using System.Xml;
 
 namespace DMFX.SECParser.SEC10Q
 {
-    [Export("BF.B", typeof(IFilingParser))]
+    [Export("BF_B", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class BF_B : SECParserBase
     {
         public BF_B() : base("10-Q", Resources.BF_B)

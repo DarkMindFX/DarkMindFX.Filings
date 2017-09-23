@@ -75,6 +75,7 @@ namespace DMFX.SECParser
         #region IFilingParser implementation
         public virtual IFilingParserResult Parse(IFilingParserParams parserParams)
         {
+            ResetState();
             SECParserParams secParams = parserParams as SECParserParams;
 
             SECParserResult result = new SECParserResult();
@@ -121,6 +122,13 @@ namespace DMFX.SECParser
         private void InitCommon()
         {
             InitFromXml(Resources.SECCommonTags);
+        }
+
+        private void ResetState()
+        {
+            _reportType = string.Empty;
+            _companyXml = null;
+            _nsmgr = null;
         }
 
         private void InitCompany()
@@ -197,15 +205,31 @@ namespace DMFX.SECParser
 
         private void InitNsManager(XmlDocument doc)
         {
-            if (_nsmgr == null)
+            if (_nsmgr != null)
             {
-                _nsmgr = new XmlNamespaceManager(doc.NameTable);
-                foreach (var ns in _namespaces.Keys)
-                {
-                    _nsmgr.AddNamespace(ns, _namespaces[ns]);
-                }
-                _nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
+                _nsmgr = null;
             }
+
+            _nsmgr = new XmlNamespaceManager(doc.NameTable);
+            foreach (var ns in _namespaces.Keys)
+            {
+                _nsmgr.AddNamespace(ns, _namespaces[ns]);
+            }
+            _nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
+
+            // extracting namespaces
+            XmlNode xblrNode = doc.SelectSingleNode("/*[local-name()='xbrl']", _nsmgr);
+            if (xblrNode != null)
+            {
+                foreach (XmlAttribute attr in xblrNode.Attributes)
+                {
+                    if (attr.Name.Contains("xmlns"))
+                    {
+                        _nsmgr.AddNamespace(attr.LocalName, attr.Value);
+                    }
+                }
+            }
+
         }
         #endregion
 
@@ -234,7 +258,7 @@ namespace DMFX.SECParser
             nsmgr.AddNamespace("xbrll", "http://www.xbrl.org/2003/linkbase");
             nsmgr.AddNamespace("df", doc.DocumentElement.NamespaceURI);
 
-            Dictionary <string, List<string>> tags = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> tags = new Dictionary<string, List<string>>();
             tags.Add("xbrli:context", new List<string>(new string[] { "xbrli:period", "xbrli:startDate", "xbrli:endDate", "xbrli:instant", "xbrli:entity/xbrli:segment" }));
             tags.Add("context", new List<string>(new string[] { "df:period", "df:startDate", "df:endDate", "df:instant", "df:entity/df:segment" }));
 
@@ -359,16 +383,16 @@ namespace DMFX.SECParser
 
         protected void ParseStatementSection(XmlDocument doc, SECParserResult result, Section section)
         {
-            InitNamespacesList(doc);
-
             // preparing statements
             Statement statementSection = new Statement(section.Name);
             foreach (var value in section.ValueTags.Values)
             {
+                
                 foreach (var context in result.Contexts)
                 {
-                    string xpath = "//" + value.Tag + "[@contextRef='" + (context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty)) +"']";
+                    string xpath = "//" + value.Tag + "[@contextRef='" + (context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty)) + "']";
                     XmlNode valueTag = doc.SelectSingleNode(xpath, _nsmgr);
+
                     if (valueTag != null)
                     {
                         StatementRecord record = new StatementRecord(

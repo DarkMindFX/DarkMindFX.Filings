@@ -136,7 +136,6 @@ namespace DMFX.Source.SEC
                     {
                         try
                         {
-
                             // extracting txt index file
                             SubmissionFileInfo subFileInfo = submission.Files.FirstOrDefault(s => s.Name.Contains("-index.html"));
                             SubmissionFile indexFile = null;
@@ -260,6 +259,7 @@ namespace DMFX.Source.SEC
                 {
                     subInfo.Type = "10-Q";
                 }
+                /*
                 else if (nodeType.InnerText.Contains("10-K"))
                 {
                     subInfo.Type = "10-K";
@@ -267,7 +267,7 @@ namespace DMFX.Source.SEC
                 else if (nodeType.InnerText.Contains("8-K"))
                 {
                     subInfo.Type = "8-K";
-                }
+                }*/
 
                 if (!string.IsNullOrEmpty(subInfo.Type))
                 {
@@ -295,7 +295,7 @@ namespace DMFX.Source.SEC
                     HtmlNode nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='EX-101.INS']/..");
                     if (nodeFilingData != null)
                     {
-                        HtmlNode nodeFileName = nodeFilingData.SelectSingleNode("//td/a");
+                        HtmlNode nodeFileName = nodeFilingData.SelectSingleNode("td/a");
                         subInfo.Report = nodeFileName.InnerText.Trim();
                     }
                 }

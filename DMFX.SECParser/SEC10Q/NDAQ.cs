@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("NDAQ", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class NDAQ : SECParserBase
     {
         public NDAQ() : base("10-Q", Resources.NDAQ)

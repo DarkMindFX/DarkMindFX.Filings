@@ -10,6 +10,7 @@ using System.Xml;
 namespace DMFX.SECParser.SEC10Q
 {
     [Export("MDLZ", typeof(IFilingParser))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class MDLZ : SECParserBase
     {
         public MDLZ() : base("10-Q", Resources.MDLZ)

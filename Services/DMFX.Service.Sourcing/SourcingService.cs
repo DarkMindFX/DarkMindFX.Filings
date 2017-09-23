@@ -29,6 +29,7 @@ namespace DMFX.Service.Sourcing
 
                 if (IsValidSessionToken(request))
                 {
+                    _logger.Log(EErrorType.Info, string.Format("Echo message recieved/sent: {0}\t Session: {1}", request.Message, request.SessionToken));
                     response.Message = request.Message;
                     response.Success = true;
                 }
@@ -66,6 +67,7 @@ namespace DMFX.Service.Sourcing
 
                 if (IsValidSessionToken(request))
                 {
+                    _logger.Log(EErrorType.Info, string.Format("Importer last run: {0}", Global.Importer.LastRun.ToString()));
                     response.LastRun = Global.Importer.LastRun;
                     response.Success = true;
                 }
@@ -95,11 +97,11 @@ namespace DMFX.Service.Sourcing
 
             try
             {
-
                 TransferHeader(request, response);
 
                 if (IsValidSessionToken(request))
                 {
+                    _logger.Log(EErrorType.Info, string.Format("Current Importer state: {0}", Global.Importer.CurrentState.ToString()));
                     response.State = Global.Importer.CurrentState.ToString();
                     response.Success = true;
                 }

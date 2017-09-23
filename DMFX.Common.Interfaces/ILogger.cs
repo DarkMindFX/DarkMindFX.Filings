@@ -15,7 +15,7 @@ namespace DMFX.Interfaces
         }
 
     }
-    public interface ILogger
+    public interface ILogger : IDisposable
     {
         ILoggerParams CreateParams();
 
@@ -24,5 +24,7 @@ namespace DMFX.Interfaces
         void Log(EErrorType type, string msg);
 
         void Log(Exception ex);
+
+      
     }
 }
