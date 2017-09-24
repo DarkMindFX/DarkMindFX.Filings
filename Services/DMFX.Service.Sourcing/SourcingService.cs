@@ -56,44 +56,11 @@ namespace DMFX.Service.Sourcing
             return response;
         }
 
-        public object Any(GetImportLastRun request)
+        public object Any(GetImporterState request)
         {
-            _logger.Log(EErrorType.Info, " ****** Call start: GetImportLastRun");
-            GetImportLastRunResponse response = new GetImportLastRunResponse();
+            _logger.Log(EErrorType.Info, " ****** Call start: GetImporterState");
 
-            try
-            {
-                TransferHeader(request, response);
-
-                if (IsValidSessionToken(request))
-                {
-                    _logger.Log(EErrorType.Info, string.Format("Importer last run: {0}", Global.Importer.LastRun.ToString()));
-                    response.LastRun = Global.Importer.LastRun;
-                    response.Success = true;
-                }
-                else
-                {
-                    response.Success = false;
-                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-                response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
-            }
-
-            _logger.Log(EErrorType.Info, " ****** Call end: GetImportLastRun");
-
-            return response;
-        }
-
-        public object Any(GetImportCurrentState request)
-        {
-            _logger.Log(EErrorType.Info, " ****** Call start: GetImportCurrentState");
-
-            GetImportCurrentStateResponse response = new GetImportCurrentStateResponse();
+            GetImporterStateResponse response = new GetImporterStateResponse();
 
             try
             {
@@ -103,6 +70,13 @@ namespace DMFX.Service.Sourcing
                 {
                     _logger.Log(EErrorType.Info, string.Format("Current Importer state: {0}", Global.Importer.CurrentState.ToString()));
                     response.State = Global.Importer.CurrentState.ToString();
+                    response.LastImportRun = Global.Importer.ImportStart;
+                    response.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
+                    foreach (var cmp in Global.Importer.CompaniesProcessed)
+                    {
+                        DTO.CompanyInfo cmpInfo = new DTO.CompanyInfo() { Code = cmp };
+                        response.CompaniesProcessed.Add(cmpInfo);
+                    }
                     response.Success = true;
                 }
                 else
@@ -123,7 +97,7 @@ namespace DMFX.Service.Sourcing
                 });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetImportCurrentState");
+            _logger.Log(EErrorType.Info, " ****** Call end: GetImporterState");
 
             return response;
         }

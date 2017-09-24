@@ -8,15 +8,37 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetImportCurrentState/{SessionToken}", "GET")]
-    [Route("/GetImportCurrentState", "POST")]
-    public class GetImportCurrentState : RequestBase, IReturn<GetImportCurrentStateResponse>
+    [Route("/GetImporterState/{SessionToken}", "GET")]
+    [Route("/GetImporterState", "POST")]
+    public class GetImporterState : RequestBase, IReturn<GetImporterStateResponse>
     {
     }
 
-    public class GetImportCurrentStateResponse : ResponseBase
+    public class GetImporterStateResponse : ResponseBase
     {
+        public GetImporterStateResponse()
+        {
+            CompaniesProcessed = new List<CompanyInfo>();
+        }
         public string State
+        {
+            get;
+            set;
+        }
+
+        public DateTime? LastImportRun
+        {
+            get;
+            set;
+        }
+
+        public DateTime? LastImportEnd
+        {
+            get;
+            set;
+        }
+
+        public List<CompanyInfo> CompaniesProcessed
         {
             get;
             set;

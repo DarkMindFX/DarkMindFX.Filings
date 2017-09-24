@@ -54,7 +54,6 @@
     <Compile Include="GetCompanyFilingsInfo.cs" />
     <Compile Include="GetFilingData.cs" />
     <Compile Include="GetImportCurrentState.cs" />
-    <Compile Include="GetImportLastRun.cs" />
     <Compile Include="GetRegulators.cs" />
     <Compile Include="InitSession.cs" />
     <Compile Include="Login.cs" />

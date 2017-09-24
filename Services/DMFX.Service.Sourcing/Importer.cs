@@ -55,10 +55,12 @@ namespace DMFX.Service.Sourcing
         }
 
         private Task _importTask = null;
-        private DateTime _lastRun = DateTime.MinValue;
+        private DateTime _importStart = DateTime.MinValue;
+        private DateTime _importEnd = DateTime.MinValue;
         private EImportState _currentState = EImportState.Idle;
         private CompositionContainer _compContainer = null;
         private List<Error> _errorsLog = new List<Error>();
+        private HashSet<string> _companiesProcessed = new HashSet<string>();
         private Interfaces.DAL.IDal _dal = null;
         private ILogger _logger = null;
         private IStorage _storage = null;
@@ -103,11 +105,27 @@ namespace DMFX.Service.Sourcing
             }
         }
 
-        public DateTime LastRun
+        public DateTime ImportStart
         {
             get
             {
-                return _lastRun;
+                return _importStart;
+            }
+        }
+
+        public DateTime ImportEnd
+        {
+            get
+            {
+                return _importEnd;
+            }
+        }
+
+        public HashSet<string> CompaniesProcessed
+        {
+            get
+            {
+                return _companiesProcessed;
             }
         }
 
@@ -143,9 +161,13 @@ namespace DMFX.Service.Sourcing
             {
                 _isRunning = true;
                 _impParams = impParams;
+                _companiesProcessed.Clear();
+                _importStart = DateTime.UtcNow;
+                _errorsLog.Clear();
+
                 _importTask = new Task(ImportThread);
                 _importTask.Start();
-                _lastRun = DateTime.UtcNow;
+                
                 return true;
             }
             else
@@ -238,8 +260,9 @@ namespace DMFX.Service.Sourcing
 
             CurrentState = EImportState.Idle;
             _isRunning = false;
+            _importEnd = DateTime.UtcNow;
 
-            _logger.Log(EErrorType.Info, string.Format("ImportThread finished. Total errors: {0}", Errors.Count));
+            _logger.Log(EErrorType.Info, string.Format("ImportThread finished. Total errors: {0}, Time: {1}", Errors.Count, _importEnd - _importStart));
 
         }
 
@@ -1027,6 +1050,11 @@ namespace DMFX.Service.Sourcing
                             _logger.Log(EErrorType.Warning, string.Format("Report name was not extracted - skipping submission {0}", submissionInfo.Name));
                         }
                     } // foreach
+                }
+
+                if (!_companiesProcessed.Contains(companyCode))
+                {
+                    _companiesProcessed.Add(companyCode);
                 }
             }
             else
