@@ -259,11 +259,12 @@ namespace DMFX.Source.SEC
                 {
                     subInfo.Type = "10-Q";
                 }
-                /*
+                
                 else if (nodeType.InnerText.Contains("10-K"))
                 {
                     subInfo.Type = "10-K";
                 }
+                /*
                 else if (nodeType.InnerText.Contains("8-K"))
                 {
                     subInfo.Type = "8-K";
@@ -346,12 +347,10 @@ namespace DMFX.Source.SEC
             {
                 subInfo.Report = Extract10QReportFilenameTXT(txtContentLines);
             }
-            /*
             else if (subInfo.Type == "10-K")
             {
                 subInfo.Report = Extract10KReportFilename(txtContentLines);
             }
-            */
             else
             {
                 subInfo = null;

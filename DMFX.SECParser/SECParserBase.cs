@@ -223,7 +223,7 @@ namespace DMFX.SECParser
             {
                 foreach (XmlAttribute attr in xblrNode.Attributes)
                 {
-                    if (attr.Name.Contains("xmlns"))
+                    if (attr.Name.Contains("xmlns") && !attr.LocalName.Equals("xmlns"))
                     {
                         _nsmgr.AddNamespace(attr.LocalName, attr.Value);
                     }
@@ -402,7 +402,7 @@ namespace DMFX.SECParser
                             context.StartDate,
                             context.EndDate,
                             context.Instant,
-                            valueTag.Attributes["id"].Value
+                            valueTag.Attributes["id"] != null ? valueTag.Attributes["id"].Value : null
                         );
                         statementSection.Records.Add(record);
                     }

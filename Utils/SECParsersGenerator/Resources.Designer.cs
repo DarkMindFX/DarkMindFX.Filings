@@ -70,16 +70,45 @@ namespace SECParsersGenerator {
         ///using System.ComponentModel.Composition;
         ///using System.Xml;
         ///
-        ///namespace DMFX.SECParser.SEC10Q
+        ///namespace DMFX.SECParser.SEC10K
         ///{
-        ///    [Export(&quot;{{TICKER}}&quot;, typeof(IFilingParser))]
-        ///    public class {{TICKER}} : SECParserBase
+        ///    [Export(&quot;{{CODE}}&quot;, typeof(IFilingParser))]
+        ///    [PartCreationPolicy(CreationPolicy.NonShared)]
+        ///    public class {{CODE}} : SECParserBase
         ///    {
-        ///        public {{TICKER}}() : base(&quot;10-Q&quot;, Resources.{{TICKER}})
+        ///        public {{CODE}}() : base(&quot;10-K&quot;, Resources.{{CODE}})
         ///        {
         ///        }
         ///
-        ///        public override IFilingParserResult Parse(IFilingParserParams parse [rest of string was truncated]&quot;;.
+        ///        public override IFiling [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Class10KTemplate {
+            get {
+                return ResourceManager.GetString("Class10KTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Collections.Generic;
+        ///using System.Linq;
+        ///using System.Text;
+        ///using System.Threading.Tasks;
+        ///using DMFX.Interfaces;
+        ///using System.ComponentModel.Composition;
+        ///using System.Xml;
+        ///
+        ///namespace DMFX.SECParser.SEC10Q
+        ///{
+        ///    [Export(&quot;{{CODE}}&quot;, typeof(IFilingParser))]
+        ///    [PartCreationPolicy(CreationPolicy.NonShared)]
+        ///    public class {{CODE}} : SECParserBase
+        ///    {
+        ///        public {{CODE}}() : base(&quot;10-Q&quot;, Resources.{{CODE}})
+        ///        {
+        ///        }
+        ///
+        ///        public override IFiling [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Class10QTemplate {
             get {
@@ -89,6 +118,7 @@ namespace SECParsersGenerator {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;!-- Ticker: [{{CODE}}] - Company-Specific tags and value codes --&gt;
         ///&lt;parser&gt;
         ///  &lt;namespaces&gt;    
         ///  &lt;/namespaces&gt;

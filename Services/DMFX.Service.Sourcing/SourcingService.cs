@@ -123,7 +123,13 @@ namespace DMFX.Service.Sourcing
                         impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
                         impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         impParams.RegulatorCode = request.RegulatorCode;
-                        impParams.CompanyCode = request.CompanyCode;
+                        foreach (var c in request.CompanyCodes)
+                        {
+                            if (!impParams.CompanyCodes.Contains(c))
+                            {
+                                impParams.CompanyCodes.Add(c);
+                            }
+                        }
 
                         // starting import process
                         response.Success = Global.Importer.StartImport(impParams);

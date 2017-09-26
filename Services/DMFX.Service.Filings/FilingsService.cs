@@ -240,9 +240,9 @@ namespace DMFX.Service.Filings
                     response.CompanyCode = request.CompanyCode;
                     response.RegulatorCode = request.RegulatorCode;
                     response.FilingName = filingDataResult.FilingInfo.Name;
-                    response.PeriodStart = filingDataResult.FilingInfo.PeriodStart.ToString();
-                    response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd.ToString();
-                    response.Submitted = filingDataResult.FilingInfo.Submitted.ToString();
+                    response.PeriodStart = filingDataResult.FilingInfo.PeriodStart;
+                    response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd;
+                    response.Submitted = filingDataResult.FilingInfo.Submitted;
                     response.Type = filingDataResult.FilingInfo.Type;
 
                     foreach (var fd in filingDataResult.Data)

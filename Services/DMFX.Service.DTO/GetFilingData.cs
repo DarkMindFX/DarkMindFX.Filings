@@ -105,19 +105,19 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public string PeriodStart
+        public DateTime PeriodStart
         {
             get;
             set;
         }
 
-        public string PeriodEnd
+        public DateTime PeriodEnd
         {
             get;
             set;
         }
 
-        public string Submitted
+        public DateTime Submitted
         {
             get;
             set;

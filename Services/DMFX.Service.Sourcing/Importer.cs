@@ -16,6 +16,7 @@ namespace DMFX.Service.Sourcing
         {
             DateEnd = DateTime.UtcNow;
             DateStart = DateTime.MinValue;
+            CompanyCodes = new HashSet<string>();
         }
         public DateTime DateStart
         {
@@ -35,7 +36,7 @@ namespace DMFX.Service.Sourcing
             set;
         }
 
-        public string CompanyCode
+        public HashSet<string> CompanyCodes
         {
             get;
             set;
@@ -167,7 +168,7 @@ namespace DMFX.Service.Sourcing
 
                 _importTask = new Task(ImportThread);
                 _importTask.Start();
-                
+
                 return true;
             }
             else
@@ -222,10 +223,10 @@ namespace DMFX.Service.Sourcing
                         List<Task> importTasks = new List<Task>();
 
                         // preparing params
-                        
+
                         int maxImportThreads = Int32.Parse(ConfigurationManager.AppSettings["MaxImportThreads"]);
                         int importThreads = companies.Count >= maxImportThreads ? maxImportThreads : 1;
-                        int compsPerThread = (int)Math.Ceiling( (decimal)companies.Count / importThreads); 
+                        int compsPerThread = (int)Math.Ceiling((decimal)companies.Count / importThreads);
                         for (int i = 0; i < importThreads; ++i)
                         {
                             ImportTaskParams importParams = new ImportTaskParams();
@@ -245,7 +246,7 @@ namespace DMFX.Service.Sourcing
                         }
 
                         Task.WaitAll(importTasks.ToArray());
-                        
+
                     }
                     else
                     {
@@ -346,9 +347,9 @@ namespace DMFX.Service.Sourcing
         }
 
         private List<string> GetRegulatorsToUpdate()
-        {            
+        {
             List<string> result = new List<string>();
-            
+
             if (!string.IsNullOrEmpty(_impParams.RegulatorCode))
             {
                 result.Add(_impParams.RegulatorCode);
@@ -362,12 +363,12 @@ namespace DMFX.Service.Sourcing
         }
 
         private List<string> GetCompaniesToUpdate(string regulatorCode)
-        {            
+        {
             List<string> result = new List<string>();
 
-            if (!string.IsNullOrEmpty(_impParams.CompanyCode))
+            if (_impParams.CompanyCodes.Count > 0)
             {
-                result.Add(_impParams.CompanyCode);
+                result.AddRange(_impParams.CompanyCodes.ToArray());
             }
             else
             {
@@ -940,7 +941,7 @@ namespace DMFX.Service.Sourcing
 
                 if (extrResult != null && _isRunning)
                 {
-                    
+
                     _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
 
                     PutToStorage(extrResult.Items);
@@ -969,6 +970,21 @@ namespace DMFX.Service.Sourcing
                                 {
                                     StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
                                 }
+                                else
+                                {
+                                    _logger.Log(EErrorType.Warning, string.Format("Parser failed for {0} / {1} / {2}, Type {3}",
+                                        regulatorCode,
+                                        companyCode,
+                                        submissionInfo.Name,
+                                        submissionInfo.Type));
+                                    if (parserResults != null)
+                                    {
+                                        foreach (var e in parserResults.Errors)
+                                        {
+                                            _logger.Log(EErrorType.Error, string.Format("Parser error:\r\n\t Error: {0}\r\n\t: Message: {1}", e.Code.ToString(), e.Message.ToString()));
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
@@ -981,6 +997,14 @@ namespace DMFX.Service.Sourcing
                         }
 
                     }
+                    else
+                    {
+                        _logger.Log(EErrorType.Warning, string.Format("Filing content was not extract from results - skipping {0} / {1} / {2}",
+                                    regulatorCode,
+                                    companyCode,
+                                    submissionInfo.Report
+                                    ));
+                    }
                 }
 
                 DateTime dtEnd = DateTime.UtcNow;
@@ -990,7 +1014,7 @@ namespace DMFX.Service.Sourcing
             catch (Exception ex)
             {
                 _logger.Log(EErrorType.Error, string.Format("FAIL: submission {0} / {1} / {2},\r\n\tError: {3}\r\n\t{4}", regulatorCode, companyCode, submissionInfo.Name, ex.Message, ex.StackTrace));
-            }            
+            }
 
         }
 
@@ -1061,7 +1085,7 @@ namespace DMFX.Service.Sourcing
             {
                 _logger.Log(EErrorType.Info, string.Format("No Delta - skipping {0}", companyCode));
             }
-            
+
         }
 
         private bool StoreFiling(string regulatorCode, string companyCode, ISourceSubmissionInfo submissionInfo, IFilingParserResult parserResults)
@@ -1093,7 +1117,7 @@ namespace DMFX.Service.Sourcing
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
 
-            
+
 
             // preparing filing data records
             foreach (var statement in parserResults.Statements)

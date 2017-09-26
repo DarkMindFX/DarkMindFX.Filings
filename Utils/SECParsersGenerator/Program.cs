@@ -19,39 +19,65 @@ namespace SECParsersGenerator
             List<CompanyInfo> companies = fd.GetCompaniesByRegulator("SEC");
 
             // class template
-            string classTemplate = Resources.Class10QTemplate;
+            string classTemplate10Q = Resources.Class10QTemplate;
+            string classTemplate10K = Resources.Class10KTemplate;
             string xmlTemplate = Resources.CompanyTagsTemplate;
 
             string projectRoot = "..\\..\\..\\DMFX.SECParser\\";
 
             string comp10QCatalogRegister = "new TypeCatalog(";
+            string comp10KCatalogRegister = "new TypeCatalog(";
             string csvNames = "";
 
             foreach (var c in companies)
             {
-                Console.WriteLine("Generating: " + c.Code + " (" + c.Name + ")");
-                string className = c.Code.Replace(".", "_");
-                string classFileName = Path.Combine(projectRoot, "SEC10Q", c.Code + ".cs");
-
-                comp10QCatalogRegister += string.Format("typeof(SEC10Q.{0}),\r\n", className);
-                csvNames += string.Format("result.Add(\"{0}\");\r\n", c.Code);
-
-                if (!File.Exists(classFileName))
+                // 10-Q report classes
                 {
-                    string content = classTemplate.Replace("{{CODE}}", className);
-                    File.WriteAllText(classFileName, content);
+                    Console.WriteLine("Generating: " + c.Code + " (" + c.Name + ")");
+                    string className = c.Code.Replace(".", "_");
+                    string classFileName = Path.Combine(projectRoot, "SEC10Q", c.Code + ".cs");
+
+                    comp10QCatalogRegister += string.Format("typeof(SEC10Q.{0}),\r\n", className);
+                    csvNames += string.Format("result.Add(\"{0}\");\r\n", c.Code);
+
+                    if (!File.Exists(classFileName))
+                    {
+                        string content = classTemplate10Q.Replace("{{CODE}}", className);
+                        File.WriteAllText(classFileName, content);
+                    }
                 }
 
-                string xmlFileName = Path.Combine(projectRoot, "Resources", c.Code + ".xml");
-                if (!File.Exists(xmlFileName))
+                // 10-K report classes
                 {
-                    string content = xmlTemplate.Replace("{{CODE}}", c.Code.ToLowerInvariant());
-                    File.WriteAllText(xmlFileName, content);
+                    Console.WriteLine("Generating: " + c.Code + " (" + c.Name + ")");
+                    string className = c.Code.Replace(".", "_");
+                    string classFileName = Path.Combine(projectRoot, "SEC10K", c.Code + ".cs");
 
+                    comp10KCatalogRegister += string.Format("typeof(SEC10K.{0}),\r\n", className);
+                    csvNames += string.Format("result.Add(\"{0}\");\r\n", c.Code);
+
+                    if (!File.Exists(classFileName))
+                    {
+                        string content = classTemplate10K.Replace("{{CODE}}", className);
+                        File.WriteAllText(classFileName, content);
+                    }
+                }
+
+                // Parser XML resources
+                {
+
+                    string xmlFileName = Path.Combine(projectRoot, "Resources", c.Code + ".xml");
+                    if (!File.Exists(xmlFileName))
+                    {
+                        string content = xmlTemplate.Replace("{{CODE}}", c.Code.ToLowerInvariant());
+                        File.WriteAllText(xmlFileName, content);
+
+                    }
                 }
             }
 
             comp10QCatalogRegister += ")";
+            comp10KCatalogRegister += ")";
 
 
         }

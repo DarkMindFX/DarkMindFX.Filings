@@ -50,6 +50,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="Resources\Class10KTemplate.cs" />
     <Content Include="Resources\Class10QTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
