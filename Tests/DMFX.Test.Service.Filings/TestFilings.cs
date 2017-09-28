@@ -53,7 +53,6 @@ namespace DMFX.Test.Service.Filings
             // Closing session
             CloseSession(ConfigurationManager.AppSettings["AccountsServiceURL"]);
 
-
             string sqlPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "TestTeardown.sql");
             string teardownSql = File.ReadAllText(sqlPath);
             ExecuteSql(teardownSql, Connections["ConnectionStringAccounts"]);

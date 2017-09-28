@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<template>
+  <type>
+    AccountCreatedConfirmation
+  </type>
+  <subject>
+    DarkMindFX - Account Created
+  </subject>
+  <body>
+    <div>
+      Hello, {0}<br/>
+      <br/>
+      We are happy that you're with us! Your account was created successfully.<br/>
+      Your login: {1}<br/>
+      Account Key: <b>{2}</b><br/>
+      You can use your Account Key to access DarkMindFX API functionality - please keep it in secret<br/>
+      <br/>
+      In case of any questions feel free to reach us via email <a href="mailto:contact@darkmindfx.com">contact@darkmindfx.com</a>
+      <br/>
+      You DarkMindFX Team - <a href="http://www.darkmindfx.com">www.darkmindfx.com</a>
+    </div>
+  </body>
+</template>
