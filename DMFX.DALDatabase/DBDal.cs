@@ -271,6 +271,7 @@ namespace DMFX.DALDatabase
                 result.Email = (string)ds.Tables[0].Rows[0]["Email"];
                 result.PwdHash = (string)ds.Tables[0].Rows[0]["Password_Hash"];
                 result.DateCreated = (DateTime)ds.Tables[0].Rows[0]["User_Creation_Dttm"];
+                result.DateExpires = (DateTime)ds.Tables[0].Rows[0]["Account_Key_Expiration_Dttm"];
             }
             else
             {

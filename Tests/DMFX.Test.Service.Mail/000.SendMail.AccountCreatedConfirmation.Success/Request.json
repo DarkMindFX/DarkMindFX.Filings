@@ -1,0 +1,17 @@
+﻿{
+  "RequestID": "60288681-4595-411F-8AC5-85E80328758B",
+  "SessionToken": "50D9C5E6-C320-4F89-8161-E259E2EA0075",
+  "Details": [
+    {
+      "ToAddress": "eugene.ryzhov@gmail.com",
+      "MessageType": "AccountCreatedConfirmation",
+      "Parameters": {
+        "UserName": "Test User",
+        "Login": "test@gmail.com",
+        "AccountKey": "1234567890"
+
+
+      }
+    }
+  ]
+}

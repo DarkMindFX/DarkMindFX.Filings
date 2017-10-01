@@ -1,6 +1,7 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Interfaces.DAL;
 using DMFX.Service.DTO;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -84,6 +85,8 @@ namespace DMFX.Service.Accounts
                     createParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
 
                     _dal.CreateUserAccount(createParams);
+
+                    SendMailResponse mailerResponse = SendAccountConfirmEmail(createParams.Email, createParams.AccountKey, createParams.Name);
 
                     response.AccountKey = createParams.AccountKey;
                     response.Success = true;
@@ -314,6 +317,27 @@ namespace DMFX.Service.Accounts
             dal.Value.Init(dalParams);
 
             _dal = dal.Value;
+        }
+
+        private SendMailResponse SendAccountConfirmEmail(string email, string accountKey, string userName)
+        {
+            SendMailResponse result = null;
+            MailDetails datails = new MailDetails();
+            datails.MessageType = "AccountCreatedConfirmation";
+            datails.ToAddress = email;
+            datails.Parameters.Add("UserName", userName);
+            datails.Parameters.Add("AccountKey", accountKey);
+            datails.Parameters.Add("Login", email);
+
+            SendMail sendMailRequest = new SendMail();
+            sendMailRequest.SessionToken = ConfigurationManager.AppSettings["MailServiceSessionToken"];
+            sendMailRequest.Details.Add(datails);
+
+
+            JsonServiceClient client = new JsonServiceClient(ConfigurationManager.AppSettings["MailServiceURL"]);
+            result = client.Post<SendMailResponse>(sendMailRequest);
+
+            return result;
         }
 
 

@@ -9,6 +9,10 @@ namespace DMFX.Service.DTO
 {
     public class MailDetails
     {
+        public MailDetails()
+        {
+            Parameters = new Dictionary<string, object>();
+        }
         public string ToAddress
         {
             get;

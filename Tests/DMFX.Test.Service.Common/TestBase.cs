@@ -132,7 +132,7 @@ namespace DMFX.Test.Service.Common
             string requestJson = ReadFileContent(path);
 
             TRequest request = JsonConvert.DeserializeObject<TRequest>(requestJson);
-            if (request is RequestBase)
+            if (request is RequestBase && string.IsNullOrEmpty((request as RequestBase).SessionToken))
             {
                 (request as RequestBase).SessionToken = SessionToken;
             }

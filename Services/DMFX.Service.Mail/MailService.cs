@@ -69,7 +69,44 @@ namespace DMFX.Service.Mail
 
                 if (IsValidSessionToken(request))
                 {
-                    
+                    if (request.Details.Count > 0)
+                    {
+                        MailSenderSettings senderSettings = new MailSenderSettings();
+                        senderSettings.EnableSsl = Boolean.Parse(ConfigurationManager.AppSettings["EnableSsl"]);
+                        senderSettings.Port = Int32.Parse(ConfigurationManager.AppSettings["Port"]);
+                        senderSettings.SenderAddress = ConfigurationManager.AppSettings["SenderAddress"];
+                        senderSettings.SenderPwd = ConfigurationManager.AppSettings["SenderPwd"];
+                        senderSettings.SenderTitle = ConfigurationManager.AppSettings["SenderTitle"];
+                        senderSettings.SmtpAddress = ConfigurationManager.AppSettings["SmtpAddress"];
+
+                        Mailer mailer = new Mailer(_logger, senderSettings, Global.Container);
+
+                        List<MailParams> emailsParams = new List<MailParams>();
+
+                        foreach (var d in request.Details)
+                        {
+                            MailParams p = new MailParams();
+                            p.Type = d.MessageType;
+                            p.ToAddress = d.ToAddress;
+                            p.Parameters = d.Parameters;
+
+                            emailsParams.Add(p);
+
+                            
+                        }
+
+                        mailer.Send(emailsParams);
+                    }
+                    else
+                    {
+                        response.Errors.Add(
+                            new Error() {
+                                Code = EErrorCodes.EmptyColection,
+                                Type = EErrorType.Warning,
+                                Message = "No emails sent - details were not provided" });
+                    }
+
+
                     response.Success = true;
                 }
                 else

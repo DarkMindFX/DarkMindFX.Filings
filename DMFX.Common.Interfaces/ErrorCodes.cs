@@ -25,6 +25,7 @@ namespace DMFX.Interfaces
         UserAccountNotValidated = 8,
         UserAccountExists = 9,
         InvalidSession = 10,
+        EmptyColection = 11,
         GeneralError = 99999
     }
 }
