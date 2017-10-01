@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileLogger.cs" />
+    <Compile Include="NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +56,8 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(TargetDir)*.dll" "..\..\Services\DMFX.Service.Sourcing\Plugins"
 xcopy /s /y "$(TargetDir)*.dll" "..\..\Services\DMFX.Service.Filings\Plugins"
-xcopy /s /y "$(TargetDir)*.dll" "..\..\Services\DMFX.Service.Accounts\Plugins"</PostBuildEvent>
+xcopy /s /y "$(TargetDir)*.dll" "..\..\Services\DMFX.Service.Accounts\Plugins"
+xcopy /s /y "$(TargetDir)*.dll" "..\..\Services\DMFX.Service.Mail\Plugins"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

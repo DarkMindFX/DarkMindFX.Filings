@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Service.Mail.MessageGenerators;
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
@@ -37,6 +38,7 @@ namespace DMFX.Service.Mail
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(dcatalog);
+            AddMessageGenerators(catalog);
             _container = new CompositionContainer(catalog);
             _container.ComposeExportedValue("ServiceRootFolder", rootFolder);
             _container.ComposeParts(this);
@@ -55,6 +57,16 @@ namespace DMFX.Service.Mail
             logger.Value.Log(EErrorType.Info, "Starting service DMFX.Service.Mail");
 
             new AppHost().Init();
+        }
+
+        private void AddMessageGenerators(AggregateCatalog catalog)
+        {
+            var msgCatalog = new TypeCatalog(
+                typeof(MsgGenAccountCreatedConfirmation)
+                );
+
+            catalog.Catalogs.Add(msgCatalog);
+
         }
     }
 }
