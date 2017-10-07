@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace DMFX.Test.Service.Filings
 {
     [TestFixture]
-    public class TestFilings : TestBase
+    public class TestFilingsService : TestBase
     {
 
         [SetUp]  
@@ -218,6 +218,55 @@ namespace DMFX.Test.Service.Filings
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
             Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+        }
+
+        [TestCase("024.GetCompanyFilingsInfo.10-Q.Success")]
+        public void GetCompanyFilingsInfo_10Q_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringFilings");
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name, "ConnectionStringFilings");
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
+        }
+
+        [TestCase("025.GetCompanyFilingsInfo.10-K.Success")]
+        public void GetCompanyFilingsInfo_10K_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringFilings");
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name, "ConnectionStringFilings");
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
+        }
+
+        [TestCase("026.GetCompanyFilingsInfo.MultipleTypes.Success")]
+        public void GetCompanyFilingsInfo_MultipleTypes_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringFilings");
+
+            GetCompanyFilingsInfo request = PrepareRequest<GetCompanyFilingsInfo>(name);
+
+            GetCompanyFilingsInfoResponse response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
+
+            RunFinalizeSql(name, "ConnectionStringFilings");
+
+            Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
+            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
+            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
         }
 
         [TestCase("030.GetFilingData.Success")]

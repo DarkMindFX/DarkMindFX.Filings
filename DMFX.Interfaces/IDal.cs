@@ -311,9 +311,21 @@ namespace DMFX.Interfaces.DAL
             get;
             set;
         }
+
+        public string Status
+        {
+            get;
+            set;
+        }
+
+        public string ActivationCode
+        {
+            get;
+            set;
+        }
     }
 
-    public class CreateUserAccountParams
+    public class CreateUpdateUserAccountParams
     {
         public string Name
         {
@@ -334,6 +346,18 @@ namespace DMFX.Interfaces.DAL
         }
 
         public string AccountKey
+        {
+            get;
+            set;
+        }
+
+        public string ActivationCode
+        {
+            get;
+            set;
+        }
+
+        public string State
         {
             get;
             set;
@@ -491,7 +515,13 @@ namespace DMFX.Interfaces.DAL
         /// Create user accont record
         /// </summary>
         /// <param name="createAccountParams"></param>
-        void CreateUserAccount(CreateUserAccountParams createAccountParams);
+        void CreateUserAccount(CreateUpdateUserAccountParams createAccountParams);
+
+        /// <summary>
+        /// Update user accont record
+        /// </summary>
+        /// <param name="updateAccountParams"></param>
+        void UpdateUserAccount(CreateUpdateUserAccountParams updateAccountParams);
 
         /// <summary>
         /// Returns user account details

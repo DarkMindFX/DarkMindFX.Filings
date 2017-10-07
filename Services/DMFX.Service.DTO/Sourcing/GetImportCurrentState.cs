@@ -36,6 +36,12 @@ namespace DMFX.Service.DTO
         {
             get;
             set;
+        }        
+
+        public int ProcessedCount
+        {
+            get;
+            set;
         }
 
         public List<CompanyInfo> CompaniesProcessed

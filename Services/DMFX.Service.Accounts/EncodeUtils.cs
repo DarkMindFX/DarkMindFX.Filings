@@ -18,6 +18,15 @@ namespace DMFX.Service.Accounts
             return result;
         }
 
+        public static string CreateActivationCode()
+        {
+            string result = Guid.NewGuid().ToString().Replace("-", "").Replace("{", "").Replace("}", "");
+
+            result = Crypto.SHA1(result);
+
+            return result;
+        }
+
         public static string CreateSessionID()
         {
             string result = Guid.NewGuid().ToString();

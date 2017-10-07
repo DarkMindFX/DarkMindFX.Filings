@@ -78,11 +78,13 @@ namespace DMFX.Service.Accounts
                 if (accResult == null)
                 {
                     // creating account
-                    CreateUserAccountParams createParams = new CreateUserAccountParams();
+                    CreateUpdateUserAccountParams createParams = new CreateUpdateUserAccountParams();
                     createParams.Name = request.Name;
                     createParams.Email = request.Email;
                     createParams.AccountKey = EncodeUtils.CreateAccountKey();
                     createParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
+                    createParams.ActivationCode = EncodeUtils.CreateActivationCode();
+                    createParams.State = "pending"; // TODO; change to consts
 
                     _dal.CreateUserAccount(createParams);
 
@@ -266,7 +268,7 @@ namespace DMFX.Service.Accounts
                         response.DateCreated = accResult.DateCreated;
                         response.DateExpiresStr = accResult.DateExpires.ToString();
                         response.DateCreatedStr = accResult.DateCreated.ToString();
-
+                        
                         response.Success = true;
                     }
                     else
@@ -293,6 +295,117 @@ namespace DMFX.Service.Accounts
                     Message = string.Format("Unexpected error: {0}", ex.Message)
                 });
             }
+
+            return response;
+        }
+
+        public object Any(ActivateAccount request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: ActivateAccount");
+            ActivateAccountResponse response = new ActivateAccountResponse();
+            TransferHeader(request, response);
+            try
+            {
+                GetUserAccountInfoParams accParams = new GetUserAccountInfoParams();
+                accParams.Email = request.Email;
+
+                GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accParams);
+                if (accResult != null)
+                {
+                    if (accResult.ActivationCode == request.ActivationCode)
+                    {
+                        CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
+                        updateParams.AccountKey = accResult.AccountKey;
+                        updateParams.State = "active"; // TODO: need to change to consts
+
+                        _dal.UpdateUserAccount(updateParams);
+
+                        response.Success = true;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Errors.Add(new Error()
+                        {
+                            Code = EErrorCodes.UserAccountNotValidated,
+                            Type = EErrorType.Error,
+                            Message = "Invalid activation code provided - account was not activated"
+                        }
+                    );
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add( new Error()
+                        {
+                            Code = EErrorCodes.UserAccountNotFound,
+                            Type = EErrorType.Error,
+                            Message = "User account was not found."
+                        }
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unexpected error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: ActivateAccount");
+
+            return response;
+        }
+
+        public object Any(UpdateAccount request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: UpdateAccount");
+            UpdateAccountResponse response = new UpdateAccountResponse();
+            TransferHeader(request, response);
+            try
+            {
+                SessionInfo sessionParams = new SessionInfo();
+                sessionParams.SessionId = request.SessionToken;
+
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                if (sessionInfo != null)
+                {
+                    // getting account details
+                    CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
+                    updateParams.AccountKey = sessionInfo.AccountKey;
+                    updateParams.Email = request.Email;
+                    updateParams.Name = request.Name;
+                    updateParams.PwdHash = request.PwdHash;
+                    updateParams.State = request.State;
+
+                    _dal.UpdateUserAccount(updateParams);
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unexpected error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: UpdateAccount");
 
             return response;
         }

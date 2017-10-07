@@ -77,6 +77,7 @@ namespace DMFX.Service.Sourcing
                         DTO.CompanyInfo cmpInfo = new DTO.CompanyInfo() { Code = cmp };
                         response.CompaniesProcessed.Add(cmpInfo);
                     }
+                    response.ProcessedCount = response.CompaniesProcessed.Count;
                     response.Success = true;
                 }
                 else
@@ -123,11 +124,14 @@ namespace DMFX.Service.Sourcing
                         impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
                         impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         impParams.RegulatorCode = request.RegulatorCode;
-                        foreach (var c in request.CompanyCodes)
+                        if (request.CompanyCodes != null)
                         {
-                            if (!impParams.CompanyCodes.Contains(c))
+                            foreach (var c in request.CompanyCodes)
                             {
-                                impParams.CompanyCodes.Add(c);
+                                if (!impParams.CompanyCodes.Contains(c))
+                                {
+                                    impParams.CompanyCodes.Add(c);
+                                }
                             }
                         }
 

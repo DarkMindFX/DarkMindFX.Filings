@@ -1,0 +1,8 @@
+﻿{
+	"RequestID": "60288681-4595-411F-8AC5-85E80328758B",
+  "SessionToken": null,
+  "AccountKey": "6E1DC6F9FFF64F64AB403688A59B393F",
+  "Name": "TestCreateNewUser",
+  "Email": "TestCreateNewUser@test.com",
+  "Pwd": "TestCreateNewUser_PWD"
+}

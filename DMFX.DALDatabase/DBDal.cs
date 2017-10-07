@@ -48,7 +48,7 @@ namespace DMFX.DALDatabase
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
 
             // Company code
@@ -79,7 +79,7 @@ namespace DMFX.DALDatabase
                 // first table - company filings info records
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    if (infoParams.Types.Count == 0 || infoParams.Types.Contains(row["Type"].ToString()))
+                    if (infoParams.Types.Count == 0 || infoParams.Types.Contains(row["Filing_Type_Code"].ToString()))
                     {
                         CompanyFilingInfo filingInfo = new CompanyFilingInfo();
                         filingInfo.Name = row["Regulator_Filing_Name"].ToString();
@@ -204,7 +204,7 @@ namespace DMFX.DALDatabase
             conn.Close();
         }
 
-        public void CreateUserAccount(CreateUserAccountParams createAccountParams)
+        public void CreateUserAccount(CreateUpdateUserAccountParams createAccountParams)
         {
             string spName = "[SP_Create_User_Account]";
             SqlConnection conn = OpenConnection("ConnectionStringAccounts");
@@ -233,6 +233,43 @@ namespace DMFX.DALDatabase
 
             // TODO: uncomment when SP ready
             cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+        }
+
+        public void UpdateUserAccount(CreateUpdateUserAccountParams updateAccountParams)
+        {
+            string spName = "[SP_Update_User_Account]";
+            SqlConnection conn = OpenConnection("ConnectionStringAccounts");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = _connAccounts;
+
+            // User name
+            SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.Name);
+
+            // User email
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.Email);
+
+            // User pwd hash
+            SqlParameter paramPwdHash = new SqlParameter("@PwdHash", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.PwdHash);
+
+            // User account key
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.AccountKey);
+
+            // User status
+            SqlParameter paramStatus = new SqlParameter("@Status", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.State);
+
+            cmd.Parameters.Add(paramName);
+            cmd.Parameters.Add(paramEmail);
+            cmd.Parameters.Add(paramPwdHash);
+            cmd.Parameters.Add(paramAccountKey);
+
+            // TODO: uncomment when SP ready
+            // cmd.ExecuteNonQuery();
 
             conn.Close();
 
