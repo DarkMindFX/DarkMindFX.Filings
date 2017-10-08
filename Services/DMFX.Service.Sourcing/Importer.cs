@@ -311,9 +311,16 @@ namespace DMFX.Service.Sourcing
                 }
                 catch (Exception ex)
                 {
+                    // SEC stub - when
+                    if (ex.Message.Equals("Too Many Requests"))
+                    {
+                        _isRunning = false;
+                    }
                     _logger.Log(EErrorType.Error, string.Format("Error on import - {0}", companyCode));
                     _logger.Log(ex);
                     Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed: Regulator '{0}', Company '{1}', Error '{2}'", importParams.RegulatorCode, companyCode, ex.Message) });
+
+                    
                 }
             }
         }

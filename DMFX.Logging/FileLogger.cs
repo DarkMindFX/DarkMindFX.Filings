@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -91,13 +92,27 @@ namespace DMFX.Logging
 
         public void Log(Exception ex)
         {
+            string message = string.Empty;
 
-            string message = string.Format("[{0}]\t[{1}]\t{2}",
-                    DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
-                    EErrorType.Error,
-                    "Message:\t" + ex.Message +
-                    "\r\nInner Exception:\t" + (ex.InnerException != null ? ex.InnerException.Message : string.Empty) +
-                    "\r\nStackTrace:\t" + ex.StackTrace);
+            if (ex is WebServiceException)
+            {
+                message = string.Format("[{0}]\t[{1}]\t{2}",
+                        DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
+                        EErrorType.Error,
+                        "Message:\t" + ex.Message +
+                        "\r\nBody:\r\n"  + (ex as WebServiceException).ResponseBody +
+                        "\r\nStackTrace:\t" + ex.StackTrace);
+            }
+            else
+            {
+
+                message = string.Format("[{0}]\t[{1}]\t{2}",
+                        DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
+                        EErrorType.Error,
+                        "Message:\t" + ex.Message +
+                        "\r\nInner Exception:\t" + (ex.InnerException != null ? ex.InnerException.Message : string.Empty) +
+                        "\r\nStackTrace:\t" + ex.StackTrace);
+            }
             lock (_lock)
             {
                 _msgBuffer.Add(message);

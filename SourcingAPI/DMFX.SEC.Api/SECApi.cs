@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using System.Threading;
 
 namespace DMFX.SEC.Api
 {
@@ -94,6 +95,8 @@ namespace DMFX.SEC.Api
         }
         #endregion
 
+        private static DateTime _LastCall = DateTime.UtcNow;
+        private static object _lock = new object();
 
         // Call: /Archives/edgar/data/<CIK>
         public Submissions ArchivesEdgarDataCIK(string cik)
@@ -105,6 +108,8 @@ namespace DMFX.SEC.Api
             using (var client = new JsonServiceClient(BaseURL))
             {
                 string request = string.Format(Command, cik);
+
+                AvoidBlocking();
                 ArchivesEdgarDataCIKResponse model = client.Get<ArchivesEdgarDataCIKResponse>(request);
 
                 submissions = Convert(model);
@@ -128,6 +133,8 @@ namespace DMFX.SEC.Api
             using (var client = new JsonServiceClient(BaseURL))
             {
                 string request = string.Format(Command, cik, accessNumber);
+
+                AvoidBlocking();
                 ArchivesEdgarDataCIKSubmissionResponse model = client.Get<ArchivesEdgarDataCIKSubmissionResponse>(request);
 
                 submission = Convert(model);
@@ -147,6 +154,8 @@ namespace DMFX.SEC.Api
             using (var client = new JsonServiceClient(BaseURL))
             {
                 string request = string.Format(Command, cik, accessNumber, fileName);
+
+                AvoidBlocking();
                 byte[] fileContent = client.Get<byte[]>(request);
 
                 submission = Convert(fileName, fileContent);
@@ -157,6 +166,19 @@ namespace DMFX.SEC.Api
         }
 
         #region Support methods
+
+        /// <summary>
+        /// There is a limitation in SEC APi: there can be only 10 requests per second from single client. 
+        /// This function records the time of last call and if delta is less then 0.1 sec - performs the delay to avoid blocking
+        /// </summary>
+        private static void AvoidBlocking()
+        {
+            lock (_lock)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+
         private Submissions Convert(ArchivesEdgarDataCIKResponse model)
         {
             Submissions submissions = new Submissions();

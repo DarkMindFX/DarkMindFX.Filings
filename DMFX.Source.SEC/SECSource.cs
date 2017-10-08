@@ -19,6 +19,7 @@ namespace DMFX.Source.SEC
     {
         SECApi _secApi = null;
         IDictionary _dictionary = null;
+        IStorage _storage = null;
 
         [ImportingConstructor]
         public SECSource([Import("File")]IDictionary dict)
@@ -58,6 +59,8 @@ namespace DMFX.Source.SEC
                                         sourceItem.Content = file.Content;
 
                                         result.Items.Add(sourceItem);
+
+ 
                                     }
                                 }
                             }
