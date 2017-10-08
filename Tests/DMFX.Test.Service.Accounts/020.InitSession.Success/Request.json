@@ -1,8 +1,5 @@
 ﻿{
 	"RequestID": "60288681-4595-411F-8AC5-85E80328758B",
   "SessionToken": null,
-  "AccountKey": "2162F50DAZZ042EBA3B77D9F3B08C703NBFR",
-  "Name": "AccountsUnitTestUser",
-  "Email": "AccountsUnitTestUser@gmail.com",
-  "Pwd": "AccountsUnitTestUser_PWD"
+  "AccountKey": "DC43D270C3BCC2FF88E9FC9081C256D7B2A7ABCD12"  
 }
