@@ -214,8 +214,34 @@ namespace DMFX.Interfaces
 
     }
 
+    public interface ISourceInitParams
+    {
+        IDictionary Dictionary
+        {
+            get;
+            set;
+        }
+
+        IStorage Storage
+        {
+            get;
+            set;
+        }
+
+        ILogger Logger
+        {
+            get;
+            set;
+        }
+    }
+
     public interface ISource
-    {      
+    {
+        /// <summary>
+        /// Method to set initial state and to configure with external objects
+        /// </summary>
+        /// <param name="initParams"></param>
+        void Init(ISourceInitParams initParams);
 
         /// <summary>
         /// Method to validate whether there are any new filings exist for given regulator/company
@@ -245,7 +271,7 @@ namespace DMFX.Interfaces
         /// <returns></returns>
         ISourceSubmissionsInfoResult GetSubmissionsInfo(ISourceSubmissionsInfoParams infoParams);
 
-        
+        ISourceInitParams CreateInitParams();
         ISourceExtractParams CreateExtractParams();
         ISourceItemInfo CreateSourceItemInfo();
         ISourceValidateParams CreateValidateParams();

@@ -65,6 +65,7 @@ namespace DMFX.Service.Sourcing
         private Interfaces.DAL.IDal _dal = null;
         private ILogger _logger = null;
         private IStorage _storage = null;
+        private IDictionary _dictionary = null;
         private ImporterParams _impParams = null;
         private IParsersRepository _parsersRepository = null;
         private bool _isRunning = false;
@@ -80,6 +81,7 @@ namespace DMFX.Service.Sourcing
                 _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
 
                 InitDAL();
+                initDictionary();
                 InitStorage();
             }
             catch (Exception ex)
@@ -217,6 +219,14 @@ namespace DMFX.Service.Sourcing
                     }
                     if (source != null && source.Value != null)
                     {
+                        // preparing source
+                        ISourceInitParams srcInitParams = source.Value.CreateInitParams();
+                        srcInitParams.Logger = _logger;
+                        srcInitParams.Storage = _storage;
+                        srcInitParams.Dictionary = _dictionary;
+                        source.Value.Init(srcInitParams);
+
+                        // getting list of companies
                         List<string> companies = GetCompaniesToUpdate(regulator);
 
                         List<ImportTaskParams> taskParams = new List<ImportTaskParams>();
@@ -352,6 +362,12 @@ namespace DMFX.Service.Sourcing
 
             _dal = dal.Value;
         }
+
+        private void initDictionary()
+        {
+            _dictionary = Global.Container.GetExport<IDictionary>("File").Value;
+        }
+    
 
         private List<string> GetRegulatorsToUpdate()
         {
@@ -951,8 +967,6 @@ namespace DMFX.Service.Sourcing
 
                     _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
 
-                    PutToStorage(extrResult.Items);
-
                     ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
                     if (filingContent != null && _isRunning)
                     {
@@ -1025,25 +1039,7 @@ namespace DMFX.Service.Sourcing
 
         }
 
-        private void PutToStorage(List<ISourceItem> items)
-        {
-            if (_storage != null)
-            {
-                foreach (var item in items)
-                {
-                    try
-                    {
-                        _logger.Log(EErrorType.Info, string.Format("Saving {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
-
-                        _storage.Save(item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name, item.Content.ToArray());
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.Log(EErrorType.Error, string.Format("Save failed: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
-                    }
-                }
-            }
-        }
+        
 
         private void ImportPipeline(string regulatorCode, string companyCode, ISource source)
         {

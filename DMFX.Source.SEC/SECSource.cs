@@ -17,16 +17,25 @@ namespace DMFX.Source.SEC
     [Export("SEC", typeof(ISource))]
     public class SECSource : ISource
     {
-        SECApi _secApi = null;
-        IDictionary _dictionary = null;
-        IStorage _storage = null;
+        private SECApi _secApi = null;
+        private IDictionary _dictionary = null;
+        private IStorage _storage = null;
+        private ILogger _logger = null;
 
         [ImportingConstructor]
-        public SECSource([Import("File")]IDictionary dict)
+        public SECSource()
         {
             _secApi = new SECApi();
-            _dictionary = dict;
+            
         }
+
+        public void Init(ISourceInitParams initParams)
+        {
+            _dictionary = initParams.Dictionary;
+            _storage = initParams.Storage;
+            _logger = _logger;
+        }
+
         public ISourceExtractResult ExtractReports(ISourceExtractParams extractParams)
         {
             SECSourceExtractResult result = new SECSourceExtractResult();
@@ -59,11 +68,13 @@ namespace DMFX.Source.SEC
                                         sourceItem.Content = file.Content;
 
                                         result.Items.Add(sourceItem);
-
  
                                     }
                                 }
                             }
+
+                            // saving all uploaded items to storage
+                            PutToStorage(result.Items);
                         }
                         else
                         {
@@ -153,6 +164,8 @@ namespace DMFX.Source.SEC
                                 SECSourceSubmissionInfo submissionInfo = ExtractReportDetailsIndexHTML(indexFile);
                                 if (submissionInfo != null && !string.IsNullOrEmpty(submissionInfo.Type))
                                 {
+                                    PutToStorage(infoParams.RegulatorCode, infoParams.CompanyCode, submission.Name, indexFile);
+
                                     submissionInfo.Name = item.Name;
                                     result.Submissions.Add(submissionInfo);
                                 }
@@ -169,7 +182,6 @@ namespace DMFX.Source.SEC
                     }
 
                     ++count;
-
                 }
 
                 result.Success = true;
@@ -198,21 +210,25 @@ namespace DMFX.Source.SEC
                         SubmissionFile file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, extractSECItemsParams.Filing.Name, item.Name);
                         if (file != null)
                         {
-                            SECSourceItem sourceItem = new SECSourceItem();
-                            sourceItem.Name = item.Name;
-                            sourceItem.FilingName = extractSECItemsParams.Filing.Name;
-                            sourceItem.CompanyCode = extractItemsParams.CompanyCode;
-                            sourceItem.RegulatorCode = extractItemsParams.RegulatorCode;
-                            sourceItem.Content = file.Content;
-
+                            SECSourceItem sourceItem = ToSourceItem(extractItemsParams.RegulatorCode, extractItemsParams.CompanyCode, extractSECItemsParams.Filing.Name, file);
+                            
                             result.Items.Add(sourceItem);
                         }
 
                     }
+
+                    PutToStorage(result.Items);
                 }
             }
 
             return result;
+        }
+
+        #region Create params methods
+
+        public ISourceInitParams CreateInitParams()
+        {
+            return new SECSourceinitParams();
         }
 
         public ISourceExtractFilingItemsParams CreateSourceExtractFilingItemsParams()
@@ -240,7 +256,53 @@ namespace DMFX.Source.SEC
             return new SECSourceSubmissionsInfoParams();
         }
 
+        #endregion
+
         #region Support  methods
+
+        private SECSourceItem ToSourceItem(string regulatorCode, string companyCode, string filingName, SubmissionFile file)
+        {
+            SECSourceItem result = new SECSourceItem();
+            result.RegulatorCode = regulatorCode;
+            result.CompanyCode = companyCode;
+            result.FilingName = filingName;
+            result.Name = file.Name;
+            result.Content = file.Content;
+
+            return result;
+        }
+
+        private void PutToStorage(string regulatorCode, string companyCode, string filingName, SubmissionFile file)
+        {
+            List<ISourceItem> items = new List<ISourceItem>();
+            items.Add(ToSourceItem(regulatorCode, companyCode, filingName, file));
+            PutToStorage(items);
+        }
+
+        private void PutToStorage(List<ISourceItem> items)
+        {
+            if (_storage != null)
+            {
+                foreach (var item in items)
+                {
+                    try
+                    { 
+                        _storage.Save(item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name, item.Content.ToArray());
+                        if (_logger != null)
+                        {
+                            _logger.Log(EErrorType.Info, string.Format("Item saved: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (_logger != null)
+                        {
+                            _logger.Log(EErrorType.Error, string.Format("Save failed: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
+                        }
+                    }
+                }
+            }
+        }
 
         #region IndexHTML
 
@@ -326,102 +388,6 @@ namespace DMFX.Source.SEC
 
         #endregion
 
-        #region TXT
-        private SECSourceSubmissionInfo ExtractReportDetailsTXT(SubmissionFile submissionIndexFile)
-        {
-            SECSourceSubmissionInfo subInfo = new SECSourceSubmissionInfo();
-
-            string txtContent = System.Text.Encoding.Default.GetString(submissionIndexFile.Content.ToArray());
-
-            // fixing tag brackets
-            txtContent = txtContent.Replace("&lt;", "<").Replace("&gt;", ">");
-
-            string[] txtContentLines = txtContent.Split(new char[] { '\n' });
-
-            string strType = GetValue(txtContentLines, "CONFORMED SUBMISSION TYPE");
-            string strReportingPeriod = GetValue(txtContentLines, "CONFORMED PERIOD OF REPORT");
-            string strDateFiled = GetValue(txtContentLines, "FILED AS OF DATE");
-
-            subInfo.Type = strType;
-            subInfo.PeriodEnd = !string.IsNullOrEmpty(strReportingPeriod) ? ParseTime(strReportingPeriod) : DateTime.MinValue;
-            subInfo.Submitted = !string.IsNullOrEmpty(strDateFiled) ? ParseTime(strDateFiled) : DateTime.MinValue;
-
-            if (subInfo.Type == "10-Q")
-            {
-                subInfo.Report = Extract10QReportFilenameTXT(txtContentLines);
-            }
-            else if (subInfo.Type == "10-K")
-            {
-                subInfo.Report = Extract10KReportFilename(txtContentLines);
-            }
-            else
-            {
-                subInfo = null;
-            }
-
-            return subInfo;
-        }
-
-        private string Extract10QReportFilenameTXT(string[] txtContentLines)
-        {
-            string result = null;
-
-            int currLine = 0;
-            bool typeFound = false;
-
-            while (currLine < txtContentLines.Count() && result == null)
-            {
-                string strCurrent = txtContentLines[currLine];
-
-                if (strCurrent.Contains("<TYPE>EX-101.INS"))
-                {
-                    typeFound = true;
-                }
-                if (strCurrent.Contains("<FILENAME>") && typeFound)
-                {
-                    result = strCurrent.Replace("<FILENAME>", string.Empty);
-                }
-
-                ++currLine;
-            }
-
-            return result;
-        }
-
-        #endregion
-
-        private string Extract10KReportFilename(string[] txtContentLines)
-        {
-            string result = null;
-
-            return result;
-        }
-
-        private DateTime ParseTime(string strDate)
-        {
-            DateTime result = DateTime.MinValue;
-
-            int year = Int32.Parse(strDate.Substring(0, 4));
-            int month = Int32.Parse(strDate.Substring(4, 2));
-            int day = Int32.Parse(strDate.Substring(6, 2));
-
-            result = new DateTime(year, month, day);
-
-            return result;
-        }
-
-        private string GetValue(string[] txtContentLines, string name)
-        {
-            string result = string.Empty;
-            string strType = txtContentLines.FirstOrDefault(s => s.Contains(name));
-            if (!string.IsNullOrEmpty(strType))
-            {
-                string[] typeParts = strType.Trim().Split(new char[] { ':' });
-                result = typeParts[1].Trim();
-            }
-
-            return result;
-        }
         #endregion
     }
 }

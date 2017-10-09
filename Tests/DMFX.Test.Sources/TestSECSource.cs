@@ -19,12 +19,15 @@ namespace DMFX.Test.Sources
         public void SourceAAPL_Validate_Success()
         {
             FileDictionary fileDict = new FileDictionary();
-            ISource secSource = new SECSource(fileDict);
+            ISource secSource = new SECSource();
+            ISourceInitParams initParams = secSource.CreateInitParams();
+            initParams.Dictionary = fileDict;
+            secSource.Init(initParams);
 
             // preparing params
             ISourceValidateParams vldParams = secSource.CreateValidateParams();
-            vldParams.CompanyCode = ConfigurationSettings.AppSettings["SEC_AAPL_CODE"];
-            vldParams.RegulatorCode = ConfigurationSettings.AppSettings["SECCode"];
+            vldParams.CompanyCode = ConfigurationManager.AppSettings["SEC_AAPL_CODE"];
+            vldParams.RegulatorCode = ConfigurationManager.AppSettings["SECCode"];
 
             ISourceValidateResult result = secSource.ValidateSourceDelta(vldParams);
 
@@ -36,14 +39,17 @@ namespace DMFX.Test.Sources
         public void SourceAAPL_Extract_Success()
         {
             FileDictionary fileDict = new FileDictionary();
-            ISource secSource = new SECSource(fileDict);
+            ISource secSource = new SECSource();
+            ISourceInitParams initParams = secSource.CreateInitParams();
+            initParams.Dictionary = fileDict;
+            secSource.Init(initParams);
 
             ISourceExtractParams extractParams = secSource.CreateExtractParams();
-            extractParams.CompanyCode = ConfigurationSettings.AppSettings["SEC_AAPL_CODE"];
-            extractParams.RegulatorCode = ConfigurationSettings.AppSettings["SECCode"];
+            extractParams.CompanyCode = ConfigurationManager.AppSettings["SEC_AAPL_CODE"];
+            extractParams.RegulatorCode = ConfigurationManager.AppSettings["SECCode"];
 
             ISourceItemInfo itemInfo = secSource.CreateSourceItemInfo();
-            itemInfo.Name = ConfigurationSettings.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"];
+            itemInfo.Name = ConfigurationManager.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"];
             extractParams.Items.Add(itemInfo);
 
             ISourceExtractResult result = secSource.ExtractReports(extractParams);
@@ -58,14 +64,17 @@ namespace DMFX.Test.Sources
         public void SourceAAPL_SubmissionInfo_Success()
         {
             FileDictionary fileDict = new FileDictionary();
-            ISource secSource = new SECSource(fileDict);
+            ISource secSource = new SECSource();
+            ISourceInitParams initParams = secSource.CreateInitParams();
+            initParams.Dictionary = fileDict;
+            secSource.Init(initParams);
 
             ISourceSubmissionsInfoParams subInfoParams = new SECSourceSubmissionsInfoParams();
-            subInfoParams.CompanyCode = ConfigurationSettings.AppSettings["SEC_AAPL_CODE"];
-            subInfoParams.RegulatorCode = ConfigurationSettings.AppSettings["SECCode"];
+            subInfoParams.CompanyCode = ConfigurationManager.AppSettings["SEC_AAPL_CODE"];
+            subInfoParams.RegulatorCode = ConfigurationManager.AppSettings["SECCode"];
 
             ISourceItemInfo itemInfo = secSource.CreateSourceItemInfo();
-            itemInfo.Name = ConfigurationSettings.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"];
+            itemInfo.Name = ConfigurationManager.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"];
             subInfoParams.Items.Add(itemInfo);
 
             ISourceSubmissionsInfoResult subInfoResult = secSource.GetSubmissionsInfo(subInfoParams);
@@ -75,7 +84,7 @@ namespace DMFX.Test.Sources
             Assert.IsNotEmpty(subInfoResult.Submissions, "Submissions list is empty");
             Assert.AreEqual(subInfoResult.Submissions.Count, 1, "Invalid submissions info items in the list");
             Assert.AreEqual(subInfoResult.Submissions[0].Report, "aapl-20170701.xml", "Invalid report file specified");
-            Assert.AreEqual(subInfoResult.Submissions[0].Name, ConfigurationSettings.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"], "Invalid submission name returned");
+            Assert.AreEqual(subInfoResult.Submissions[0].Name, ConfigurationManager.AppSettings["SEC_CIK_AAPL_SUBMISSION_FOLDER"], "Invalid submission name returned");
         }
     }
 }

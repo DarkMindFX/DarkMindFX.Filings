@@ -237,4 +237,25 @@ namespace DMFX.Source.SEC
             set;
         }
     }
+
+    public class SECSourceinitParams : ISourceInitParams
+    {
+        public IDictionary Dictionary
+        {
+            get;
+            set;
+        }
+
+        public ILogger Logger
+        {
+            get;
+            set;
+        }
+
+        public IStorage Storage
+        {
+            get;
+            set;
+        }
+    }
 }
