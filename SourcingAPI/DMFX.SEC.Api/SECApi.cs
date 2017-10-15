@@ -101,6 +101,8 @@ namespace DMFX.SEC.Api
         // Call: /Archives/edgar/data/<CIK>
         public Submissions ArchivesEdgarDataCIK(string cik)
         {
+            AvoidBlocking();
+
             string Command = "/Archives/edgar/data/{0}/index.json";
 
             Submissions submissions = null;
@@ -108,8 +110,7 @@ namespace DMFX.SEC.Api
             using (var client = new JsonServiceClient(BaseURL))
             {
                 string request = string.Format(Command, cik);
-
-                AvoidBlocking();
+                                
                 ArchivesEdgarDataCIKResponse model = client.Get<ArchivesEdgarDataCIKResponse>(request);
 
                 submissions = Convert(model);
@@ -126,6 +127,8 @@ namespace DMFX.SEC.Api
         // Call: /Archives/edgar/data/<CIK>/<Submission Access Number>
         public Submission ArchivesEdgarDataCIKSubmission(string cik, string accessNumber)
         {
+            AvoidBlocking();
+
             string Command = "/Archives/edgar/data/{0}/{1}/index.json";
 
             Submission submission = null;
@@ -133,8 +136,7 @@ namespace DMFX.SEC.Api
             using (var client = new JsonServiceClient(BaseURL))
             {
                 string request = string.Format(Command, cik, accessNumber);
-
-                AvoidBlocking();
+                                
                 ArchivesEdgarDataCIKSubmissionResponse model = client.Get<ArchivesEdgarDataCIKSubmissionResponse>(request);
 
                 submission = Convert(model);
@@ -147,6 +149,8 @@ namespace DMFX.SEC.Api
         // Call: /Archives/edgar/data/<CIK>/<Submission Access Number>/<File Name>
         public SubmissionFile ArchivesEdgarDataCIKSubmissionFile(string cik, string accessNumber, string fileName)
         {
+            AvoidBlocking();
+
             string Command = "/Archives/edgar/data/{0}/{1}/{2}";
 
             SubmissionFile submission = null;
@@ -155,7 +159,6 @@ namespace DMFX.SEC.Api
             {
                 string request = string.Format(Command, cik, accessNumber, fileName);
 
-                AvoidBlocking();
                 byte[] fileContent = client.Get<byte[]>(request);
 
                 submission = Convert(fileName, fileContent);
@@ -175,7 +178,7 @@ namespace DMFX.SEC.Api
         {
             lock (_lock)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(150);
             }
         }
 

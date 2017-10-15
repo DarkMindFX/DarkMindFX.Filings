@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DMFX.Logging
@@ -33,6 +34,7 @@ namespace DMFX.Logging
         private int _bufferSize = 5;
         private Task _flushTask = null;
         private bool _isFlushThreadRun = false;
+
         public void Init(ILoggerParams loggerParams)
         {
             FileLoggerParams flParams = loggerParams as FileLoggerParams;
@@ -41,7 +43,7 @@ namespace DMFX.Logging
                 // reading parameters
                 string folder = flParams.Parameters["LogFolder"].ToString();
                 string template = flParams.Parameters["NameTemplate"].ToString();
-                _bufferSize = flParams.Parameters.ContainsKey("BufferSize") ? Int32.Parse(flParams.Parameters["BufferSize"].ToString()) : 5;
+                _bufferSize = flParams.Parameters.ContainsKey("BufferSize") ? Int32.Parse(flParams.Parameters["BufferSize"].ToString()) : 100;
 
                 string fileName = string.Format(template, DateTime.UtcNow.ToString("dd-MM-yyyy HH-mm-ss"));
 
@@ -50,7 +52,6 @@ namespace DMFX.Logging
                 _flushTask = new Task(FlushThread);
                 _isFlushThreadRun = true;
                 _flushTask.Start();
-
 
             }
             else
@@ -69,8 +70,9 @@ namespace DMFX.Logging
 
         public void Log(EErrorType type, string msg)
         {
-            string message = string.Format("[{0}]\t[{1}]\t{2}",
+            string message = string.Format("[{0}] [Trd:{1}]\t[{2}]\t{3}",
                         DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
+                        Thread.CurrentThread.ManagedThreadId,
                         type.ToString(),
                         msg);
 
@@ -96,8 +98,9 @@ namespace DMFX.Logging
 
             if (ex is WebServiceException)
             {
-                message = string.Format("[{0}]\t[{1}]\t{2}",
+                message = string.Format("[{0}] [Trd:{1}]\t[{2}]\t{3}",
                         DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
+                        Thread.CurrentThread.ManagedThreadId,
                         EErrorType.Error,
                         "Message:\t" + ex.Message +
                         "\r\nBody:\r\n"  + (ex as WebServiceException).ResponseBody +
@@ -106,13 +109,16 @@ namespace DMFX.Logging
             else
             {
 
-                message = string.Format("[{0}]\t[{1}]\t{2}",
+                message = string.Format("[{0}] [Trd:{1}]\t[{2}]\t{3}",
                         DateTime.UtcNow.ToString("dd/MM/yyyy HH:mm:ss"),
+                        Thread.CurrentThread.ManagedThreadId,
                         EErrorType.Error,
                         "Message:\t" + ex.Message +
                         "\r\nInner Exception:\t" + (ex.InnerException != null ? ex.InnerException.Message : string.Empty) +
                         "\r\nStackTrace:\t" + ex.StackTrace);
             }
+
+
             lock (_lock)
             {
                 _msgBuffer.Add(message);
@@ -128,7 +134,7 @@ namespace DMFX.Logging
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(30000);
                     FlushBuffer(true);
                 }
                 catch
@@ -146,10 +152,14 @@ namespace DMFX.Logging
                 {
                     using (StreamWriter sw = CreateWriter())
                     {
+                        // preparing string to flush
+                        StringBuilder sb = new StringBuilder();
                         foreach (var s in _msgBuffer)
                         {
-                            sw.WriteLine(s);
+                            sb.Append(s + "\r\n");
                         }
+                        // flushing
+                        sw.WriteLine(sb.ToString().Trim());
                         _msgBuffer.Clear();
                         sw.Flush();
                         sw.Close();

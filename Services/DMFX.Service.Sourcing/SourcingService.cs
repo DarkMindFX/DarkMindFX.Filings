@@ -119,6 +119,9 @@ namespace DMFX.Service.Sourcing
 
                     if (Global.Importer.CurrentState == Importer.EImportState.Idle)
                     {
+                        string sCompanies = string.Empty;
+                        
+                        
                         // preparing parameters for import
                         ImporterParams impParams = new ImporterParams();
                         impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
@@ -130,10 +133,14 @@ namespace DMFX.Service.Sourcing
                             {
                                 if (!impParams.CompanyCodes.Contains(c))
                                 {
+                                    sCompanies += " " + c;
                                     impParams.CompanyCodes.Add(c);
                                 }
                             }
                         }
+
+                        _logger.Log(EErrorType.Info, 
+                            string.Format(" ****** Starting import: From {0} to {1}, Regulator: {2}, Companies: {3}", impParams.DateStart, impParams.DateEnd, !string.IsNullOrEmpty(impParams.RegulatorCode) ? impParams.RegulatorCode : "All" , !string.IsNullOrEmpty(sCompanies) ? sCompanies : "All"));
 
                         // starting import process
                         response.Success = Global.Importer.StartImport(impParams);

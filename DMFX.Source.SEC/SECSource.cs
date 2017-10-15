@@ -33,7 +33,7 @@ namespace DMFX.Source.SEC
         {
             _dictionary = initParams.Dictionary;
             _storage = initParams.Storage;
-            _logger = _logger;
+            _logger = initParams.Logger;
         }
 
         public ISourceExtractResult ExtractReports(ISourceExtractParams extractParams)

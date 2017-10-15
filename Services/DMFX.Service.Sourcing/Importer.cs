@@ -333,6 +333,8 @@ namespace DMFX.Service.Sourcing
                     
                 }
             }
+
+            CurrentState = EImportState.Idle;
         }
 
         #region Support method
@@ -938,6 +940,9 @@ namespace DMFX.Service.Sourcing
         {
             DateTime dtSrart = DateTime.UtcNow;
 
+            DateTime dtLocalStart = DateTime.UtcNow;
+            DateTime dtLocalEnd = DateTime.UtcNow;
+
             _logger.Log(EErrorType.Info, string.Format("ProcessSubmission - {0} / {1} / {2}", regulatorCode, companyCode, submissionInfo.Name));
 
             try
@@ -958,14 +963,16 @@ namespace DMFX.Service.Sourcing
                 extrItemsParams.Filing = srcItemInfo;
                 extrItemsParams.Items.Add(srcFilingItemInfo);
 
+                dtLocalStart = DateTime.UtcNow;
                 _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
 
                 ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
+                dtLocalEnd = DateTime.UtcNow;
 
                 if (extrResult != null && _isRunning)
                 {
 
-                    _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}", extrResult.Items.Count));
+                    _logger.Log(EErrorType.Info, string.Format("Files extracted: {0}\t Time: {1}", extrResult.Items.Count, dtLocalEnd - dtLocalStart));
 
                     ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
                     if (filingContent != null && _isRunning)
@@ -985,11 +992,29 @@ namespace DMFX.Service.Sourcing
 
                                 IFilingParserParams parserParams = parser.CreateFilingParserParams();
                                 parserParams.FileContent = ms;
+
+                                dtLocalStart = DateTime.UtcNow;
                                 IFilingParserResult parserResults = parser.Parse(parserParams);
+                                dtLocalEnd = DateTime.UtcNow;
 
                                 if (parserResults != null && parserResults.Success)
                                 {
+                                    _logger.Log(EErrorType.Info, string.Format("Parsing done: {0} / {1} / {2}\t Time: {3}",
+                                        regulatorCode,
+                                        companyCode,
+                                        submissionInfo.Name,
+                                        dtLocalEnd - dtLocalStart));
+
+                                    dtLocalStart = DateTime.UtcNow;
                                     StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+                                    dtLocalEnd = DateTime.UtcNow;
+
+                                    _logger.Log(EErrorType.Info, string.Format("Filing stored: {0} / {1} / {2}\t Time: {3}",
+                                        regulatorCode,
+                                        companyCode,
+                                        submissionInfo.Name,
+                                        dtLocalEnd - dtLocalStart));
+
                                 }
                                 else
                                 {
@@ -1052,7 +1077,7 @@ namespace DMFX.Service.Sourcing
             // 2. if any - importing from source
             if (vldResult.Success && vldResult.Delta != null && vldResult.Delta.Count > 0)
             {
-                _logger.Log(EErrorType.Info, string.Format("Delta: {0}", vldResult.Delta.Count));
+                _logger.Log(EErrorType.Info, string.Format("Delta {0} / {1}: {2}", regulatorCode, companyCode, vldResult.Delta.Count));
 
                 ISourceSubmissionsInfoResult subInfoResult = GetListOfSubmissions(regulatorCode, companyCode, source, vldResult);
 
@@ -1093,6 +1118,9 @@ namespace DMFX.Service.Sourcing
 
         private bool StoreFiling(string regulatorCode, string companyCode, ISourceSubmissionInfo submissionInfo, IFilingParserResult parserResults)
         {
+            DateTime dtLocalStart = DateTime.UtcNow;
+            DateTime dtLocalEnd = DateTime.UtcNow;
+
             int totalRecordsCount = 0;
             foreach (var s in parserResults.Statements)
             {
@@ -1120,14 +1148,11 @@ namespace DMFX.Service.Sourcing
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
 
-
-
             // preparing filing data records
             foreach (var statement in parserResults.Statements)
             {
                 foreach (var r in statement.Records)
                 {
-
                     insertParams.Data.Add(new Interfaces.DAL.FilingRecord()
                     {
                         Code = r.Title,
@@ -1149,7 +1174,11 @@ namespace DMFX.Service.Sourcing
                 parserResults.PeriodEnd.ToString(),
                 totalRecordsCount));
 
+            dtLocalStart = DateTime.UtcNow;
             _dal.InsertFilingDetails(insertParams);
+            dtLocalEnd = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, string.Format("DAL call: Time {0}", dtLocalEnd - dtLocalEnd));
 
             return true;
 
