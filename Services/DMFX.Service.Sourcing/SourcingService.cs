@@ -119,13 +119,20 @@ namespace DMFX.Service.Sourcing
 
                     if (Global.Importer.CurrentState == Importer.EImportState.Idle)
                     {
-                        string sCompanies = string.Empty;
-                        
+                        string sCompanies = string.Empty;                        
                         
                         // preparing parameters for import
                         ImporterParams impParams = new ImporterParams();
-                        impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.MinValue;
-                        impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
+                        if (request.DaysBack != null)
+                        {
+                            impParams.DateEnd = DateTime.UtcNow;
+                            impParams.DateStart = impParams.DateEnd - TimeSpan.FromDays((double)request.DaysBack);
+                        }
+                        else
+                        {
+                            impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.Parse(ConfigurationManager.AppSettings["UpdateFromDate"]);
+                            impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
+                        }
                         impParams.RegulatorCode = request.RegulatorCode;
                         if (request.CompanyCodes != null)
                         {
@@ -147,7 +154,7 @@ namespace DMFX.Service.Sourcing
                     }
                     else
                     {
-                        response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.ImporterError, Type = Interfaces.EErrorType.Error, Message = string.Format("Importing is running, current state - {0}", Global.Importer.CurrentState) });
+                        response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.ImporterBusy, Type = Interfaces.EErrorType.Error, Message = string.Format("Importing is running, current state - {0}", Global.Importer.CurrentState) });
                         response.Success = false;
                     }
                 }

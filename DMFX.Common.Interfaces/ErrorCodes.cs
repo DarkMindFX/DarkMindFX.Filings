@@ -26,6 +26,8 @@ namespace DMFX.Interfaces
         UserAccountExists = 9,
         InvalidSession = 10,
         EmptyColection = 11,
+        SchedulerBusy = 12,
+        ImporterBusy = 13,
         GeneralError = 99999
     }
 }

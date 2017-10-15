@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4389B305-B381-4B50-B1A8-BBB5259A0524}</ProjectGuid>
+    <ProjectGuid>{71718C81-146D-4248-98CF-27902EBF1F36}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMFX.Service.Sourcing</RootNamespace>
-    <AssemblyName>DMFX.Service.Sourcing</AssemblyName>
+    <RootNamespace>DMFX.Service.Scheduler</RootNamespace>
+    <AssemblyName>DMFX.Service.Scheduler</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -43,39 +43,38 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ServiceStack, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.4.5.12\lib\net45\ServiceStack.dll</HintPath>
+    <Reference Include="ServiceStack, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.4.5.14\lib\net45\ServiceStack.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Client, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Client.4.5.12\lib\net45\ServiceStack.Client.dll</HintPath>
+    <Reference Include="ServiceStack.Client, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.Client.4.5.14\lib\net45\ServiceStack.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Common, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Common.4.5.12\lib\net45\ServiceStack.Common.dll</HintPath>
+    <Reference Include="ServiceStack.Common, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.Common.4.5.14\lib\net45\ServiceStack.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.12\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\..\..\packages\ServiceStack.Interfaces.4.5.14\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.OrmLite, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.OrmLite.4.5.12\lib\net45\ServiceStack.OrmLite.dll</HintPath>
+    <Reference Include="ServiceStack.OrmLite, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.OrmLite.4.5.14\lib\net45\ServiceStack.OrmLite.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Redis, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Redis.4.5.12\lib\net45\ServiceStack.Redis.dll</HintPath>
+    <Reference Include="ServiceStack.Redis, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.Redis.4.5.14\lib\net45\ServiceStack.Redis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Server, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Server.4.5.12\lib\net45\ServiceStack.Server.dll</HintPath>
+    <Reference Include="ServiceStack.Server, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.Server.4.5.14\lib\net45\ServiceStack.Server.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Text, Version=4.5.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Text.4.5.12\lib\net45\ServiceStack.Text.dll</HintPath>
+    <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -92,9 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\Publish DMFX.Service.Sourcing.pubxml" />
+    <None Include="Properties\PublishProfiles\DMFX.Service.Schedler Publish.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -103,43 +103,33 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Plugins\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.DALDatabase.dll" />
-    <Content Include="Plugins\DMFX.Dictionaries.dll" />
-    <Content Include="Plugins\DMFX.FilingInterfaces.dll" />
     <Content Include="Plugins\DMFX.Logging.dll" />
-    <Content Include="Plugins\DMFX.SEC.Api.dll" />
-    <Content Include="Plugins\DMFX.SECParser.dll" />
-    <Content Include="Plugins\DMFX.Source.SEC.dll" />
-    <Content Include="Plugins\DMFX.Storage.dll" />
-    <Content Include="Plugins\HtmlAgilityPack.dll" />
     <Content Include="Plugins\ServiceStack.Client.dll" />
     <Content Include="Plugins\ServiceStack.Interfaces.dll" />
     <Content Include="Plugins\ServiceStack.Text.dll" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppHost.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Importer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SourcingService.cs" />
+    <Compile Include="Scheduler.cs" />
+    <Compile Include="SchedulerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
       <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
       <Name>DMFX.Common.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DMFX.Interfaces\DMFX.FilingInterfaces.csproj">
-      <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
-      <Name>DMFX.FilingInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMFX.Services.Common\DMFX.Service.Common.csproj">
+      <Project>{3dec5fd8-e026-4d58-a688-21ced13dc09d}</Project>
+      <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +149,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>63320</DevelopmentServerPort>
+          <DevelopmentServerPort>8794</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/srcapi/</IISUrl>
+          <IISUrl>http://localhost/schdlapi</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -172,15 +162,10 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.DALDatabase\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.SECParsers\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.SEC\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Storage\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
+    <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

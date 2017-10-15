@@ -1,28 +1,23 @@
-﻿using System;
-using System.ComponentModel.Composition.Hosting;
+﻿using DMFX.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.IO;
-using DMFX.Interfaces;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace DMFX.Service.Sourcing
+namespace DMFX.Service.Common
 {
-    public class Global : System.Web.HttpApplication
+    public class GlobalBase : System.Web.HttpApplication
     {
         static CompositionContainer _container = null;
-        static Importer _importer = null;
         static Thread keepAliveThread = new Thread(KeepAlive);
-        
-        public static Importer Importer
-        {
-            get
-            {
-                return _importer;
-            }
-        }
-
+        static ILogger _logger = null;
 
         public static CompositionContainer Container
         {
@@ -32,7 +27,15 @@ namespace DMFX.Service.Sourcing
             }
         }
 
-        protected void Application_Start(object sender, EventArgs e)
+        public static ILogger Logger
+        {
+            get
+            {
+                return _logger;
+            }
+        }
+
+        public void InitApp()
         {
             string rootFolder = Server.MapPath("~");
 
@@ -65,27 +68,23 @@ namespace DMFX.Service.Sourcing
                 logger.Value.Init(loggerParams);
             }
 
-            logger.Value.Log(EErrorType.Info, "Starting service DMFX.Service.Sourcing");
+            _logger = logger.Value;
+        }
 
-            // initializing importer
-            _importer = new Importer(_container);
-
-            new AppHost().Init();
-
+        public void StartKeepAlive()
+        {
             if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
             {
                 keepAliveThread.Start();
-                logger.Value.Log(EErrorType.Info, "Starting KeepAlive thread");
+                _logger.Log(EErrorType.Info, "Starting KeepAlive thread");
             }
-
         }
 
-        protected void Application_End(object sender, EventArgs e)
+        public void StopKeepAlive()
         {
             try
             {
-                Lazy<ILogger> logger = _container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]);
-                logger.Value.Dispose();
+                _logger.Log(EErrorType.Info, "Stopping KeepAlive thread");
 
                 if (Boolean.Parse(ConfigurationManager.AppSettings["KeepAlive"]))
                 {
@@ -96,6 +95,7 @@ namespace DMFX.Service.Sourcing
             {
             }
         }
+                
 
         static void KeepAlive()
         {
@@ -116,7 +116,7 @@ namespace DMFX.Service.Sourcing
                 {
                     break;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                 }
             }

@@ -35,6 +35,7 @@ namespace DMFX.Service.Mail
                 }
                 else
                 {
+                    _logger.Log(EErrorType.Error, "Invalid session token");
                     response.Success = false;
                     response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
                 }

@@ -1103,15 +1103,16 @@ namespace DMFX.Service.Sourcing
                         }
                     } // foreach
                 }
-
-                if (!_companiesProcessed.Contains(companyCode))
-                {
-                    _companiesProcessed.Add(companyCode);
-                }
+                
             }
             else
             {
                 _logger.Log(EErrorType.Info, string.Format("No Delta - skipping {0}", companyCode));
+            }
+
+            if (!_companiesProcessed.Contains(companyCode))
+            {
+                _companiesProcessed.Add(companyCode);
             }
 
         }

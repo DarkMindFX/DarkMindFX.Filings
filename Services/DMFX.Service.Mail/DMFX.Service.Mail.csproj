@@ -105,6 +105,9 @@
     <Content Include="Global.asax" />
     <Content Include="Plugins\DMFX.Common.Interfaces.dll" />
     <Content Include="Plugins\DMFX.Logging.dll" />
+    <Content Include="Plugins\ServiceStack.Client.dll" />
+    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\ServiceStack.Text.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +176,9 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

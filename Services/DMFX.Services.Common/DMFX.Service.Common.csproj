@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{944B12E2-8A35-4470-9219-54CCE3278E3A}</ProjectGuid>
+    <ProjectGuid>{3DEC5FD8-E026-4D58-A688-21CED13DC09D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMFX.Service.DTO</RootNamespace>
-    <AssemblyName>DMFX.Service.DTO</AssemblyName>
+    <RootNamespace>DMFX.Service.Common</RootNamespace>
+    <AssemblyName>DMFX.Service.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ServiceStack, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.4.5.14\lib\net45\ServiceStack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Client, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Client.4.5.14\lib\net45\ServiceStack.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Common, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.4.5.14\lib\net45\ServiceStack.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.12\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.14\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,40 +63,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\ActivateAccount.cs" />
-    <Compile Include="Accounts\CloseSession.cs" />
-    <Compile Include="Accounts\CreateAccount.cs" />
-    <Compile Include="Common\Echo.cs" />
-    <Compile Include="Scheduler\GetSchedulerState.cs" />
-    <Compile Include="Scheduler\StartScheduler.cs" />
-    <Compile Include="Sourcing\ForceRunImport.cs" />
-    <Compile Include="Sourcing\ForceStopImport.cs" />
-    <Compile Include="Accounts\GetAccountInfo.cs" />
-    <Compile Include="Filings\GetCompanies.cs" />
-    <Compile Include="Filings\GetCompanyFilingsInfo.cs" />
-    <Compile Include="Filings\GetFilingData.cs" />
-    <Compile Include="Sourcing\GetImportCurrentState.cs" />
-    <Compile Include="Filings\GetRegulators.cs" />
-    <Compile Include="Accounts\InitSession.cs" />
-    <Compile Include="Accounts\Login.cs" />
+    <Compile Include="GlobalBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestBase.cs" />
-    <Compile Include="ResponseBase.cs" />
-    <Compile Include="Mail\SendMail.cs" />
-    <Compile Include="Accounts\UpdateAccount.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="ServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
       <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
       <Name>DMFX.Common.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DMFX.Interfaces\DMFX.FilingInterfaces.csproj">
-      <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
-      <Name>DMFX.FilingInterfaces</Name>
+    <ProjectReference Include="..\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
+      <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
+      <Name>DMFX.Service.DTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

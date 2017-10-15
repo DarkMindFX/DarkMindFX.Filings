@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ForceRunImport/{SessionToken}", "GET")]
+    [Route("/ForceRunImport/{DaysBack}/{SessionToken}", "GET")]
+    [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DateStart}/{DateEnd}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DateStart}/{DateEnd}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
     [Route("/ForceRunImport", "PUT")]
@@ -32,6 +34,12 @@ namespace DMFX.Service.DTO
         }
 
         public string[] CompanyCodes
+        {
+            get;
+            set;
+        }
+
+        public decimal? DaysBack
         {
             get;
             set;

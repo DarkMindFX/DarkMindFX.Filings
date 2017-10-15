@@ -108,6 +108,9 @@
     <Content Include="Plugins\DMFX.Dictionaries.dll" />
     <Content Include="Plugins\DMFX.FilingInterfaces.dll" />
     <Content Include="Plugins\DMFX.Logging.dll" />
+    <Content Include="Plugins\ServiceStack.Client.dll" />
+    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\ServiceStack.Text.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -160,8 +163,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.DALDatabase\*.dll" "$(ProjectDir)Plugins\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
