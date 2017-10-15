@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C41EB4FF-B636-47A4-82D2-2A4E4CF56CDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Sourcing", "Services\DMFX.Service.Sourcing\DMFX.Service.Sourcing.csproj", "{4389B305-B381-4B50-B1A8-BBB5259A0524}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Source.SEC", "DMFX.Source.SEC\DMFX.Source.SEC.csproj", "{EF65FF57-5C1B-4E3B-95BA-6DF1891E1A1F}"
 EndProject
@@ -36,6 +39,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.DALDatabase", "DMFX.DALDatabase\DMFX.DALDatabase.csproj", "{B13AA6DA-C166-4B0A-84DE-63D41172DD88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Filings", "Services\DMFX.Service.Filings\DMFX.Service.Filings.csproj", "{A0DD90E7-2B24-429F-A42B-3D0FD6996480}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{347396DF-0E08-4235-A020-1884CFB00C0B}"
 EndProject
@@ -52,8 +58,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Storage", "DMFX.Storage\DMFX.Storage.csproj", "{356237D0-0810-4E96-AF9B-94F52EF0106A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Accounts", "Services\DMFX.Service.Accounts\DMFX.Service.Accounts.csproj", "{434EEA1D-7956-4D88-AE31-60C8151DC7B9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Mail", "Services\DMFX.Service.Mail\DMFX.Service.Mail.csproj", "{D4EB7996-C9DA-463E-8C89-261263E61B13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Mail", "Tests\DMFX.Test.Service.Mail\DMFX.Test.Service.Mail.csproj", "{5AD0A739-A822-4096-88B7-40A701EC94F5}"
 EndProject
@@ -62,8 +74,21 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Common", "Services\DMFX.Services.Common\DMFX.Service.Common.csproj", "{3DEC5FD8-E026-4D58-A688-21CED13DC09D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Scheduler", "Services\DMFX.Service.Scheduler\DMFX.Service.Scheduler.csproj", "{71718C81-146D-4248-98CF-27902EBF1F36}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins-Out", "Plugins-Out", "{BAE2669B-9082-40E6-809D-BF8DEEFF2EC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.PluginsBuildControl", "DMFX.PluginsBuildControl\DMFX.PluginsBuildControl.csproj", "{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE} = {4D9AAF14-0FFB-49DF-B931-ECC8DCE51ADE}
+		{5D57122D-1DA7-482D-8F5F-4F5B5D96108F} = {5D57122D-1DA7-482D-8F5F-4F5B5D96108F}
+		{EF65FF57-5C1B-4E3B-95BA-6DF1891E1A1F} = {EF65FF57-5C1B-4E3B-95BA-6DF1891E1A1F}
+		{1BD5D8AC-BA4F-4D76-9C49-31671FB13E8B} = {1BD5D8AC-BA4F-4D76-9C49-31671FB13E8B}
+		{356237D0-0810-4E96-AF9B-94F52EF0106A} = {356237D0-0810-4E96-AF9B-94F52EF0106A}
+		{B13AA6DA-C166-4B0A-84DE-63D41172DD88} = {B13AA6DA-C166-4B0A-84DE-63D41172DD88}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +200,10 @@ Global
 		{71718C81-146D-4248-98CF-27902EBF1F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71718C81-146D-4248-98CF-27902EBF1F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71718C81-146D-4248-98CF-27902EBF1F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
