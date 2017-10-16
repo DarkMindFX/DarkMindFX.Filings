@@ -1,5 +1,6 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Interfaces.DAL;
+using DMFX.Service.Common;
 using DMFX.Service.DTO;
 using ServiceStack;
 using System;
@@ -14,19 +15,15 @@ using System.Web.Helpers;
 
 namespace DMFX.Service.Accounts
 {
-    public class AccountService : ServiceStack.Service
+    public class AccountService : ServiceBase
     {
         private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
-        private ILogger _logger = null;
-
 
 
         public AccountService()
         {
             _dal = Global.Container.GetExport<Interfaces.DAL.IDal>().Value;
-            _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
-
             _compContainer = Global.Container;
             InitDAL();
         }
@@ -412,12 +409,7 @@ namespace DMFX.Service.Accounts
 
 
         #region Support methods
-        protected void TransferHeader(RequestBase request, ResponseBase response)
-        {
-            response.RequestID = request.RequestID;
-            response.SessionToken = request.SessionToken;
-        }
-
+        
         private void InitDAL()
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringAccounts"]));
@@ -451,6 +443,11 @@ namespace DMFX.Service.Accounts
             result = client.Post<SendMailResponse>(sendMailRequest);
 
             return result;
+        }
+
+        protected override bool IsValidSessionToken(RequestBase request)
+        {
+            return true;
         }
 
 

@@ -14,8 +14,7 @@ namespace DMFX.DALDatabase
     [Export(typeof(IDal))]
     public class DBDal : IDal, IDisposable
     {
-        private SqlConnection _connAccounts = null;
-        private SqlConnection _connFilings = null;
+
         private object _lockConn = new object();
         private static string schema = "[dbo]";
         private IDalParams _dalParams = null;
@@ -212,7 +211,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
 
             // User name
             SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, createAccountParams.Name);
@@ -246,7 +245,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
 
             // User name
             SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.Name);
@@ -285,7 +284,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
             
             // User email
             SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email != null ? (object)accParams.Email : DBNull.Value );
@@ -330,7 +329,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
 
             // Account key
             SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.AccountKey);
@@ -361,7 +360,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
 
             
             // Session id
@@ -388,7 +387,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connAccounts;
+            cmd.Connection = conn;
 
             // Session Token
             SqlParameter paramSessionToken = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
@@ -427,7 +426,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connFilings;
+            cmd.Connection = conn;
 
    
             DataSet ds = new DataSet();
@@ -469,7 +468,7 @@ namespace DMFX.DALDatabase
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Connection = _connFilings;
+            cmd.Connection = conn;
 
             // User email
             SqlParameter paramRegCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpParams.RegulatorCode);
@@ -515,7 +514,7 @@ namespace DMFX.DALDatabase
         #region Support method
         private SqlConnection OpenConnection(string name)
         {
-            SqlConnection conn = _connAccounts = new SqlConnection(_dalParams.Parameters[name]);
+            SqlConnection conn = new SqlConnection(_dalParams.Parameters[name]);
             conn.Open();
 
             return conn;
