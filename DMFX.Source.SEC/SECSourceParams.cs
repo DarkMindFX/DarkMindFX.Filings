@@ -240,6 +240,11 @@ namespace DMFX.Source.SEC
 
     public class SECSourceinitParams : ISourceInitParams
     {
+        public SECSourceinitParams()
+        {
+            ExtractFromStorage = false;
+        }
+
         public IDictionary Dictionary
         {
             get;
@@ -253,6 +258,12 @@ namespace DMFX.Source.SEC
         }
 
         public IStorage Storage
+        {
+            get;
+            set;
+        }
+
+        public bool ExtractFromStorage
         {
             get;
             set;

@@ -43,12 +43,67 @@ namespace DMFX.Storage
             }
         }
 
-        public void Save(string regulatorCode, string companyCode, string filingName, string contentName, byte[] content)
+        public EErrorCodes Save(string regulatorCode, string companyCode, string filingName, string contentName, List<byte> content)
         {
-            string filingFolder = PrepareFilingFolder(regulatorCode, companyCode, filingName);
-            string fileName = Path.Combine(filingFolder, contentName);
+            try
+            {
+                string filingFolder = PrepareFilingFolder(regulatorCode, companyCode, filingName);
+                string fileName = Path.Combine(filingFolder, contentName);
 
-            File.WriteAllBytes(fileName, content);
+                File.WriteAllBytes(fileName, content.ToArray());
+
+                return EErrorCodes.Success;
+            }
+            catch (Exception)
+            {
+                return EErrorCodes.GeneralError;
+            }
+        }
+
+        public EErrorCodes Load(string regulatorCode, string companyCode, string filingName, string contentName, List<byte> content)
+        {
+            try
+            {
+                string filePath = Path.Combine(_rootFolder, regulatorCode, companyCode, filingName, contentName);
+                if (File.Exists(filePath))
+                {
+                    byte[] arr = File.ReadAllBytes(filePath);
+
+                    content.AddRange(arr);
+
+                    return EErrorCodes.Success;
+                }
+                else
+                {
+                    return EErrorCodes.FileNotFound;
+                }
+            }
+            catch (Exception)
+            {
+                return EErrorCodes.GeneralError;
+            }
+        }
+
+        public EErrorCodes ListItems(string regulatorCode, string companyCode, string filingName, List<string> items)
+        {
+            try
+            {
+                string filingDirPath = Path.Combine(_rootFolder, regulatorCode, companyCode, filingName);
+                if (Directory.Exists(filingDirPath))
+                {
+                    items.AddRange( Directory.EnumerateFiles(filingDirPath) );
+
+                    return EErrorCodes.Success;
+                }
+                else
+                {
+                    return EErrorCodes.FilingNotFound;
+                }
+            }
+            catch (Exception)
+            {
+                return EErrorCodes.GeneralError;
+            }
         }
 
         private string PrepareFilingFolder(string regulatorCode, string companyCode, string filingName)
@@ -74,5 +129,7 @@ namespace DMFX.Storage
             return filingFolder;
 
         }
+
+        
     }
 }

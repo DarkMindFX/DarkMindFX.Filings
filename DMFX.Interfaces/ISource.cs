@@ -233,6 +233,12 @@ namespace DMFX.Interfaces
             get;
             set;
         }
+
+        bool ExtractFromStorage
+        {
+            get;
+            set;
+        }
     }
 
     public interface ISource

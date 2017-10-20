@@ -21,6 +21,7 @@ namespace DMFX.Source.SEC
         private IDictionary _dictionary = null;
         private IStorage _storage = null;
         private ILogger _logger = null;
+        private bool _extractFromStorage = false;
 
         [ImportingConstructor]
         public SECSource()
@@ -34,6 +35,7 @@ namespace DMFX.Source.SEC
             _dictionary = initParams.Dictionary;
             _storage = initParams.Storage;
             _logger = initParams.Logger;
+            _extractFromStorage = initParams.ExtractFromStorage;
         }
 
         public ISourceExtractResult ExtractReports(ISourceExtractParams extractParams)
@@ -145,7 +147,10 @@ namespace DMFX.Source.SEC
                 int count = 0;
                 foreach (var item in secInfoParams.Items)
                 {
-                    Submission submission = _secApi.ArchivesEdgarDataCIKSubmission(cik, item.Name);
+                    Submission submission = !_extractFromStorage ? 
+                        GetSubmissionFromApi(cik, item.Name) : 
+                        GetSubmissionFromStorage(infoParams.RegulatorCode, infoParams.CompanyCode, item.Name);
+
                     if (submission != null)
                     {
                         try
@@ -156,7 +161,9 @@ namespace DMFX.Source.SEC
 
                             if (subFileInfo != null)
                             {
-                                indexFile = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, item.Name, subFileInfo.Name);
+                                indexFile = !_extractFromStorage ?  
+                                    _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, item.Name, subFileInfo.Name) : 
+                                    LoadFromStorage(infoParams.RegulatorCode, infoParams.CompanyCode, item.Name, subFileInfo.Name);
                             }
 
                             if (indexFile != null)
@@ -164,7 +171,10 @@ namespace DMFX.Source.SEC
                                 SECSourceSubmissionInfo submissionInfo = ExtractReportDetailsIndexHTML(indexFile);
                                 if (submissionInfo != null && !string.IsNullOrEmpty(submissionInfo.Type))
                                 {
-                                    PutToStorage(infoParams.RegulatorCode, infoParams.CompanyCode, submission.Name, indexFile);
+                                    if (!_extractFromStorage)
+                                    {
+                                        PutToStorage(infoParams.RegulatorCode, infoParams.CompanyCode, submission.Name, indexFile);
+                                    }                                   
 
                                     submissionInfo.Name = item.Name;
                                     result.Submissions.Add(submissionInfo);
@@ -198,26 +208,38 @@ namespace DMFX.Source.SEC
 
         public ISourceExtractResult ExtractFilingItems(ISourceExtractFilingItemsParams extractItemsParams)
         {
+          
             SECSourceExtractResult result = new SECSourceExtractResult();
             SECSourceExtractFilingItemsParams extractSECItemsParams = extractItemsParams as SECSourceExtractFilingItemsParams;
             if (extractSECItemsParams != null)
             {
+                
                 string cik = _dictionary.LookupRegulatorCompanyCode(extractSECItemsParams.RegulatorCode, extractSECItemsParams.CompanyCode); // TODO: lookup in dictionary
                 if (!string.IsNullOrEmpty(cik))
                 {
                     foreach (var item in extractSECItemsParams.Items)
                     {
-                        SubmissionFile file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, extractSECItemsParams.Filing.Name, item.Name);
+                        SubmissionFile file = null;
+                        if (!_extractFromStorage)
+                        {
+                            file = _secApi.ArchivesEdgarDataCIKSubmissionFile(cik, extractSECItemsParams.Filing.Name, item.Name);
+                        }
+                        else
+                        {
+                            file = LoadFromStorage(extractSECItemsParams.RegulatorCode, extractSECItemsParams.CompanyCode, extractSECItemsParams.Filing.Name, item.Name);
+                        }
                         if (file != null)
                         {
                             SECSourceItem sourceItem = ToSourceItem(extractItemsParams.RegulatorCode, extractItemsParams.CompanyCode, extractSECItemsParams.Filing.Name, file);
                             
                             result.Items.Add(sourceItem);
                         }
-
                     }
 
-                    PutToStorage(result.Items);
+                    if (!_extractFromStorage)
+                    {
+                        PutToStorage(result.Items);
+                    }
                 }
             }
 
@@ -260,6 +282,51 @@ namespace DMFX.Source.SEC
 
         #region Support  methods
 
+        private Submission GetSubmissionFromApi(string cik, string name)
+        {
+            Submission result = _secApi.ArchivesEdgarDataCIKSubmission(cik, name);
+
+            return result;
+        }
+
+        private Submission GetSubmissionFromStorage(string regualtorCode, string companyCode, string name)
+        {
+            Submission result = null;
+
+            List<string> items = new List<string>();
+            if (_storage.ListItems(regualtorCode, companyCode, name, items) == EErrorCodes.Success)
+            {
+                result = new Submission(name, DateTime.UtcNow);
+                foreach (var item in items)
+                {
+                    result.Files.Add(new SubmissionFileInfo(Path.GetFileName(item), DateTime.UtcNow));
+                }
+            }
+
+            return result;
+        }
+
+        private Submission GetSubmission<SECApi>(string cik, string name)
+        {
+            Submission result = null;
+
+            return result;
+        }
+
+        private SubmissionFile LoadFromStorage(string regulatorCode, string companyCode, string filingName, string name)
+        {
+            SubmissionFile file = null;
+            List<byte> content = new List<byte>();
+            EErrorCodes loadRes = _storage.Load(regulatorCode, companyCode, filingName, name, content);
+            if (loadRes == EErrorCodes.Success)
+            {
+                file = new SubmissionFile(name);
+                file.Content = content;
+            }
+
+            return file;
+        }
+
         private SECSourceItem ToSourceItem(string regulatorCode, string companyCode, string filingName, SubmissionFile file)
         {
             SECSourceItem result = new SECSourceItem();
@@ -287,7 +354,7 @@ namespace DMFX.Source.SEC
                 {
                     try
                     { 
-                        _storage.Save(item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name, item.Content.ToArray());
+                        _storage.Save(item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name, item.Content);
                         if (_logger != null)
                         {
                             _logger.Log(EErrorType.Info, string.Format("Item saved: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));

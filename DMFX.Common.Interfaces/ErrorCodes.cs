@@ -28,6 +28,7 @@ namespace DMFX.Interfaces
         EmptyColection = 11,
         SchedulerBusy = 12,
         ImporterBusy = 13,
+        FilingNotFound = 14,
         GeneralError = 99999
     }
 }

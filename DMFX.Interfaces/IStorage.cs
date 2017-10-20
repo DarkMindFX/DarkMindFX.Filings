@@ -30,8 +30,29 @@ namespace DMFX.Interfaces
         /// <param name="companyCode"></param>
         /// <param name="filingName"></param>
         /// <param name="contentName"></param>
-        /// <param name="content"></param>
-        void Save(string regulatorCode, string companyCode, string filingName, string contentName, byte[] content);
+        /// <param name="content">content to be saved</param>
+        EErrorCodes Save(string regulatorCode, string companyCode, string filingName, string contentName, List<byte> content);
+
+        /// <summary>
+        /// Loads content of the filing
+        /// </summary>
+        /// <param name="regulatorCode"></param>
+        /// <param name="companyCode"></param>
+        /// <param name="filingName"></param>
+        /// <param name="contentName"></param>
+        /// <param name="content">returns extracted content</param>
+        /// <returns></returns>
+        EErrorCodes Load(string regulatorCode, string companyCode, string filingName, string contentName, List<byte> content);
+
+        /// <summary>
+        /// Returns list of the items in the given filing
+        /// </summary>
+        /// <param name="regulatorCode"></param>
+        /// <param name="companyCode"></param>
+        /// <param name="filingName"></param>
+        /// <param name="items">returns list of items in the filing</param>
+        /// <returns></returns>
+        EErrorCodes ListItems(string regulatorCode, string companyCode, string filingName, List<string> items);
 
         IStorageParams CreateStorageParams();
     }
