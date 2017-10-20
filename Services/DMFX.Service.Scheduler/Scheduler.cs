@@ -93,7 +93,7 @@ namespace DMFX.Service.Scheduler
             bool result = false;
             try
             {
-                _logger.Log(EErrorType.Error, "Failed to start scheduler");
+                _logger.Log(EErrorType.Info, "Starting scheduler");
 
                 _errors.Clear();
 

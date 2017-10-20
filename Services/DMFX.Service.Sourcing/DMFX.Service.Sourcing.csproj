@@ -57,7 +57,7 @@
     </Reference>
     <Reference Include="ServiceStack.Interfaces, Version=4.0.0.0, Culture=neutral, PublicKeyToken=e06fbc6124f57c43, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.Interfaces.4.5.14\lib\portable-wp80+sl5+net45+win8+wpa81+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll</HintPath>
-	  <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ServiceStack.OrmLite, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ServiceStack.OrmLite.4.5.14\lib\net45\ServiceStack.OrmLite.dll</HintPath>
@@ -113,7 +113,6 @@
     <Content Include="Plugins\DMFX.Storage.dll" />
     <Content Include="Plugins\HtmlAgilityPack.dll" />
     <Content Include="Plugins\ServiceStack.Client.dll" />
-    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
     <Content Include="Plugins\ServiceStack.Text.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -140,6 +139,10 @@
     <ProjectReference Include="..\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMFX.Services.Common\DMFX.Service.Common.csproj">
+      <Project>{3dec5fd8-e026-4d58-a688-21ced13dc09d}</Project>
+      <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

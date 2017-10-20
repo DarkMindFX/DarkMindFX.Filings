@@ -1,5 +1,7 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Service.DTO;
+using ServiceStack;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace DMFX.Service.Common
     public abstract class ServiceBase : ServiceStack.Service
     {
         protected ILogger _logger = null;
+        protected bool _logRequests = false;
 
         public ServiceBase()
         {
@@ -59,6 +62,10 @@ namespace DMFX.Service.Common
         #region Support methods
         protected void TransferHeader(RequestBase request, ResponseBase response)
         {
+            if (_logRequests)
+            {
+                LogRequest(request);
+            }
             response.RequestID = request.RequestID;
             response.SessionToken = request.SessionToken;
         }
@@ -66,6 +73,15 @@ namespace DMFX.Service.Common
         protected virtual bool IsValidSessionToken(RequestBase request)
         {
             throw new NotImplementedException();
+        }
+
+        private void LogRequest(RequestBase request)
+        {
+            if (_logger != null)
+            {
+                string strRequest = request.ToJson();
+                _logger.Log(EErrorType.Info, string.Format("Request:\t{0}", strRequest));
+            }
         }
         #endregion
 

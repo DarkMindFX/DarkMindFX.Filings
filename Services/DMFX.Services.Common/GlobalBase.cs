@@ -35,7 +35,7 @@ namespace DMFX.Service.Common
             }
         }
 
-        public void InitApp()
+        public void InitApp(TypeCatalog externalTypeCatalog = null)
         {
             string rootFolder = Server.MapPath("~");
 
@@ -53,6 +53,10 @@ namespace DMFX.Service.Common
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(dcatalog);
+            if (externalTypeCatalog != null)
+            {
+                catalog.Catalogs.Add(externalTypeCatalog);
+            }
             _container = new CompositionContainer(catalog);
             _container.ComposeExportedValue("ServiceRootFolder", rootFolder);
             _container.ComposeParts(this);
@@ -116,7 +120,7 @@ namespace DMFX.Service.Common
                 {
                     break;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }

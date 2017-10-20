@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Service.Common;
 using DMFX.Service.DTO;
 using System;
 using System.Collections.Generic;
@@ -9,55 +10,21 @@ using System.Web;
 
 namespace DMFX.Service.Filings
 {
-    public class FilingsService : ServiceStack.Service
+    public class FilingsService : ServiceBase
     {
         private IDictionary _dictionary = null;
         private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
-        private ILogger _logger = null;
+
 
         public FilingsService()
         {
             _dictionary = Global.Container.GetExport<IDictionary>("DB").Value;
             _compContainer = Global.Container;
-            _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
             InitDAL();
         }
 
-        public object Any(Echo request)
-        {
-            DateTime dtStart = DateTime.UtcNow;
-
-            _logger.Log(EErrorType.Info, " ****** Call start: Echo");
-
-            EchoResponse response = new EchoResponse();
-
-            try
-            {
-                TransferHeader(request, response);
-
-                response.Message = request.Message;
-                response.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-                response.Success = false;
-                response.Errors.Add(new Error()
-                {
-                    Code = EErrorCodes.GeneralError,
-                    Type = EErrorType.Error,
-                    Message = string.Format("Unpexcted error: {0}", ex.Message)
-                });
-            }
-
-            DateTime dtEnd = DateTime.UtcNow;
-
-            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: Echo\tTime: {0}", dtEnd - dtStart));
-
-            return response;
-        }
+    
 
         public object Any(GetRegulators request)
         {
@@ -283,12 +250,7 @@ namespace DMFX.Service.Filings
 
 
         #region Support methods
-        protected void TransferHeader(RequestBase request, ResponseBase response)
-        {
-            response.RequestID = request.RequestID;
-            response.SessionToken = request.SessionToken;
-        }
-
+        
         private void InitDAL()
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
@@ -303,18 +265,30 @@ namespace DMFX.Service.Filings
             _dal = dal.Value;
         }
 
+        protected override bool IsValidSessionToken(RequestBase request)
+        {
+            return ValidateSession(request.SessionToken) == EErrorCodes.Success;
+        }
+
         private EErrorCodes ValidateSession(string sessionToken)
         {
             EErrorCodes result = EErrorCodes.InvalidSession;
 
-            Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
-
-            sinfo.SessionId = !string.IsNullOrEmpty(sessionToken) ? sessionToken : string.Empty;
-
-            sinfo = _dal.GetSessionInfo(sinfo, true);
-            if (sinfo != null)
+            if (sessionToken == ConfigurationManager.AppSettings["ServiceSessionToken"])
             {
                 result = EErrorCodes.Success;
+            }
+            else
+            {
+                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+
+                sinfo.SessionId = !string.IsNullOrEmpty(sessionToken) ? sessionToken : string.Empty;
+
+                sinfo = _dal.GetSessionInfo(sinfo, true);
+                if (sinfo != null)
+                {
+                    result = EErrorCodes.Success;
+                }
             }
 
             return result;

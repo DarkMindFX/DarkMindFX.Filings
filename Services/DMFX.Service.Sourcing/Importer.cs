@@ -67,7 +67,6 @@ namespace DMFX.Service.Sourcing
         private IStorage _storage = null;
         private IDictionary _dictionary = null;
         private ImporterParams _impParams = null;
-        private IParsersRepository _parsersRepository = null;
         private bool _isRunning = false;
 
         public Importer(CompositionContainer compContainer)

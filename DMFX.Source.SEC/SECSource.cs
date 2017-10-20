@@ -293,7 +293,7 @@ namespace DMFX.Source.SEC
                             _logger.Log(EErrorType.Info, string.Format("Item saved: {0}/{1}/{2}/{3}", item.RegulatorCode, item.CompanyCode, item.FilingName, item.Name));
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if (_logger != null)
                         {

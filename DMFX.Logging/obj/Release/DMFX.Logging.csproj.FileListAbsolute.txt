@@ -1,13 +1,13 @@
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Logging.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Logging.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Common.Interfaces.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Common.Interfaces.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.csprojResolveAssemblyReference.cache
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.dll
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Client.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Interfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Text.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\DMFX.Common.Interfaces.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Client.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Interfaces.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Text.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.csprojResolveAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.dll
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.pdb

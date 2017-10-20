@@ -51,16 +51,16 @@ namespace DMFX.DALDatabase
             cmd.Connection = conn;
 
             // Company code
-            SqlParameter paramCompanyCode = new SqlParameter("@company_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.CompanyCode);
 
             // Regulator code
-            SqlParameter paramRegulatorCode = new SqlParameter("@regulator_code", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.RegulatorCode);
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.RegulatorCode);
 
             // Period start
-            SqlParameter paramPeriodStart = new SqlParameter("@start_dt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
+            SqlParameter paramPeriodStart = new SqlParameter("@StartDt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodStart);
 
             // Period end
-            SqlParameter paramPeriodEnd = new SqlParameter("@end_dt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodEnd);
+            SqlParameter paramPeriodEnd = new SqlParameter("@EndDt", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, infoParams.PeriodEnd);
 
             cmd.Parameters.Add(paramCompanyCode);
             cmd.Parameters.Add(paramRegulatorCode);
@@ -113,13 +113,13 @@ namespace DMFX.DALDatabase
             cmd.Connection = conn;
 
             // Company code
-            SqlParameter paramCompanyCode = new SqlParameter("@Company_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.CompanyCode);
 
             // Regulator code
-            SqlParameter paramRegulatorCode = new SqlParameter("@regulator_code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.RegulatorCode);
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.RegulatorCode);
 
             // Filing name
-            SqlParameter paramFilingName = new SqlParameter("@filing_name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.Name);
+            SqlParameter paramFilingName = new SqlParameter("@FilingName", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingParams.Name);
 
             cmd.Parameters.Add(paramCompanyCode);
             cmd.Parameters.Add(paramRegulatorCode);

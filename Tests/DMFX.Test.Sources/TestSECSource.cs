@@ -28,6 +28,8 @@ namespace DMFX.Test.Sources
             ISourceValidateParams vldParams = secSource.CreateValidateParams();
             vldParams.CompanyCode = ConfigurationManager.AppSettings["SEC_AAPL_CODE"];
             vldParams.RegulatorCode = ConfigurationManager.AppSettings["SECCode"];
+            vldParams.UpdateFromDate = DateTime.Now - TimeSpan.FromDays(90);
+            vldParams.UpdateToDate = DateTime.Now;
 
             ISourceValidateResult result = secSource.ValidateSourceDelta(vldParams);
 

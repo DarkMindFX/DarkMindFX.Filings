@@ -28,38 +28,6 @@ namespace DMFX.Service.Accounts
             InitDAL();
         }
 
-        public object Any(Echo request)
-        {
-            _logger.Log(EErrorType.Info, " ****** Call start: Echo");
-
-            EchoResponse response = new EchoResponse();
-
-            try
-            {
-                TransferHeader(request, response);
-
-
-                response.Message = request.Message;
-                response.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(ex);
-                response.Success = false;
-                response.Errors.Add(new Error()
-                {
-                    Code = EErrorCodes.GeneralError,
-                    Type = EErrorType.Error,
-                    Message = string.Format("Unpexcted error: {0}", ex.Message)
-                });
-            }
-
-            _logger.Log(EErrorType.Info, " ****** Call end: Echo");
-
-            return response;
-        }
-
         public object Any(CreateAccount request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: CreateAccount");
@@ -447,7 +415,7 @@ namespace DMFX.Service.Accounts
 
         protected override bool IsValidSessionToken(RequestBase request)
         {
-            return true;
+            return request.SessionToken != null && request.SessionToken.Equals(ConfigurationManager.AppSettings["ServiceSessionToken"]);
         }
 
 

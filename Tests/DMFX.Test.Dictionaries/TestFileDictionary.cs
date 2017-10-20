@@ -16,11 +16,11 @@ namespace DMFX.Test.Dictionaries
         {
 
             DMFX.Dictionaries.FileDictionary fileDictionary = new DMFX.Dictionaries.FileDictionary();
-            string secCode = ConfigurationSettings.AppSettings["SECCode"];
-            string ticker = ConfigurationSettings.AppSettings["SEC_AAPL_CODE"];
+            string secCode = ConfigurationManager.AppSettings["SECCode"];
+            string ticker = ConfigurationManager.AppSettings["SEC_AAPL_CODE"];
             string appleCIK = fileDictionary.LookupRegulatorCompanyCode(secCode, ticker);
 
-            Assert.AreEqual(appleCIK, ConfigurationSettings.AppSettings["SEC_AAPL_CIK"], "Invalid AAPL CIK");
+            Assert.AreEqual(appleCIK, ConfigurationManager.AppSettings["SEC_AAPL_CIK"], "Invalid AAPL CIK");
         }
     }
 }
