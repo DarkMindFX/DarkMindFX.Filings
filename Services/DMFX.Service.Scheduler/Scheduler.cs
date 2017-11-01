@@ -171,7 +171,16 @@ namespace DMFX.Service.Scheduler
             importerJob.Hour = 0;
             importerJob.JobUrl = ConfigurationManager.AppSettings["ImporterJobUrl"];
 
+            // performing DB sanitization
+            SchedulerJob sanitizeJob = new SchedulerJob();
+            sanitizeJob.Name = "Daily Sanitization Tasks";
+            sanitizeJob.LastRun = DateTime.MinValue;
+            sanitizeJob.Interval = TimeSpan.FromDays(1);
+            sanitizeJob.Hour = 0;
+            sanitizeJob.JobUrl = ConfigurationManager.AppSettings["SanitizerJobUrl"];
+
             _jobs.Add(importerJob);
+            _jobs.Add(sanitizeJob);
         }
 
         private void RunJobs()

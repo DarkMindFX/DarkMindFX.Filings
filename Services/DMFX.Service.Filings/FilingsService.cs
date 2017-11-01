@@ -89,17 +89,29 @@ namespace DMFX.Service.Filings
                 try
                 {
                     List<Interfaces.CompanyInfo> companies = _dictionary.GetCompaniesByRegulator(request.RegulatorCode);
-                    var rnd = new Random(DateTime.UtcNow.Millisecond);
-                    foreach (var c in companies)
+                    if (companies.Count > 0)
                     {
-                        response.Companies.Add(new DTO.CompanyInfo()
+                        foreach (var c in companies)
                         {
-                            Name = c.Name,
-                            Code = c.Code,
-                            LastUpdate = c.LastUpdated != DateTime.MinValue ? (DateTime?)c.LastUpdated : null
+                            response.Companies.Add(new DTO.CompanyInfo()
+                            {
+                                Name = c.Name,
+                                Code = c.Code,
+                                LastUpdate = c.LastUpdated != DateTime.MinValue ? (DateTime?)c.LastUpdated : null
+                            });
+                        }
+                    }
+                    else
+                    {
+                        response.Errors.Add(new Error()
+                        {
+                            Code = EErrorCodes.EmptyCollection,
+                            Type = EErrorType.Warning,
+                            Message = string.Format("No companies found for regulator {0}", request.RegulatorCode)
                         });
                     }
 
+                    response.RegulatorCode = request.RegulatorCode;
                     response.Success = true;
                 }
                 catch (Exception ex)
@@ -188,6 +200,8 @@ namespace DMFX.Service.Filings
             
             GetFilingDataResponse response = new GetFilingDataResponse();
 
+            TransferHeader(request, response);
+
             EErrorCodes valSession = ValidateSession(request.SessionToken);
 
             if (valSession == EErrorCodes.Success)
@@ -206,26 +220,40 @@ namespace DMFX.Service.Filings
 
                     response.CompanyCode = request.CompanyCode;
                     response.RegulatorCode = request.RegulatorCode;
-                    response.FilingName = filingDataResult.FilingInfo.Name;
-                    response.PeriodStart = filingDataResult.FilingInfo.PeriodStart;
-                    response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd;
-                    response.Submitted = filingDataResult.FilingInfo.Submitted;
-                    response.Type = filingDataResult.FilingInfo.Type;
-
-                    foreach (var fd in filingDataResult.Data)
+                    if (filingDataResult.FilingInfo != null)
                     {
-                        response.FilingData.Add(new DTO.FilingRecord()
+
+                        response.FilingName = filingDataResult.FilingInfo.Name;
+                        response.PeriodStart = filingDataResult.FilingInfo.PeriodStart;
+                        response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd;
+                        response.Submitted = filingDataResult.FilingInfo.Submitted;
+                        response.Type = filingDataResult.FilingInfo.Type;
+
+                        foreach (var fd in filingDataResult.Data)
                         {
-                            Code = fd.Code,
-                            Value = fd.Value,
-                            UnitName = fd.Unit,
-                            PeriodEnd = fd.PeriodEnd,
-                            PeriodStart = fd.PeriodStart
+                            response.FilingData.Add(new DTO.FilingRecord()
+                            {
+                                Code = fd.Code,
+                                Value = fd.Value,
+                                UnitName = fd.Unit,
+                                PeriodEnd = fd.PeriodEnd,
+                                PeriodStart = fd.PeriodStart
+                            });
+                        }
+
+
+                        response.Success = true;
+                    }
+                    else
+                    {
+                        response.Success = false;
+                        response.Errors.Add(new Error()
+                        {
+                            Code = EErrorCodes.SubmissionNotFound,
+                            Type = EErrorType.Error,
+                            Message = "Filing not found"
                         });
                     }
-
-
-                    response.Success = true;
                 }
                 catch (Exception ex)
                 {

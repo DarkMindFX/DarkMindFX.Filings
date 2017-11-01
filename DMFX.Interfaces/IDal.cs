@@ -561,6 +561,8 @@ namespace DMFX.Interfaces.DAL
         /// <param name="cmpParams"></param>
         /// <returns></returns>
         GetRegulatorCompaniesResult GetCompaniesByRegulator(GetRegulatorCompaniesParams cmpParams);
+
+        
         
 
 

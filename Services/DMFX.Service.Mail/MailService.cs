@@ -58,7 +58,7 @@ namespace DMFX.Service.Mail
                     {
                         response.Errors.Add(
                             new Error() {
-                                Code = EErrorCodes.EmptyColection,
+                                Code = EErrorCodes.EmptyCollection,
                                 Type = EErrorType.Warning,
                                 Message = "No emails sent - details were not provided" });
                     }

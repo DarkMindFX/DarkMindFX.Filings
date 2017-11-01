@@ -133,34 +133,38 @@ namespace DMFX.DALDatabase
 
             if (ds.Tables.Count >= 2)
             {
-                // first table - metadata
-                CompanyFilingInfo filingInfo = new CompanyFilingInfo();
-                filingInfo.Name = (string)ds.Tables[0].Rows[0]["Filing_Name"];
-                filingInfo.Type = (string)ds.Tables[0].Rows[0]["Type_Code"];
-                filingInfo.PeriodEnd = (DateTime)ds.Tables[0].Rows[0]["End_Dt"];
-                filingInfo.PeriodStart = (DateTime)ds.Tables[0].Rows[0]["Start_Dt"];
-                filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submit_Dt"];
-                result.FilingInfo = filingInfo;
-
-                // second table - filing data
-                foreach (DataRow r in ds.Tables[1].Rows)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
-                    string valLabel = (string)r["Value_Label"];
 
-                    if (cmpFilingParams.Values == null || cmpFilingParams.Values.Count == 0 || cmpFilingParams.Values.Contains(valLabel))
+                    // first table - metadata
+                    CompanyFilingInfo filingInfo = new CompanyFilingInfo();
+                    filingInfo.Name = (string)ds.Tables[0].Rows[0]["Filing_Name"];
+                    filingInfo.Type = (string)ds.Tables[0].Rows[0]["Type_Code"];
+                    filingInfo.PeriodEnd = (DateTime)ds.Tables[0].Rows[0]["End_Dt"];
+                    filingInfo.PeriodStart = (DateTime)ds.Tables[0].Rows[0]["Start_Dt"];
+                    filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submit_Dt"];
+                    result.FilingInfo = filingInfo;
+
+                    // second table - filing data
+                    foreach (DataRow r in ds.Tables[1].Rows)
                     {
-                        DateTime periodStart = (DateTime)r["Start_Dttm"];
-                        DateTime periodEnd = (DateTime)r["End_Dttm"];
+                        string valLabel = (string)r["Value_Label"];
 
-                        FilingRecord fr = new FilingRecord();
-                        fr.Code = valLabel;
-                        fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
-                        fr.PeriodEnd = periodEnd;
-                        fr.PeriodStart = periodStart;
-                        fr.Unit = (string)r["Unit"];
-                        fr.Value = (decimal)r["Value"];
+                        if (cmpFilingParams.Values == null || cmpFilingParams.Values.Count == 0 || cmpFilingParams.Values.Contains(valLabel))
+                        {
+                            DateTime periodStart = (DateTime)r["Start_Dttm"];
+                            DateTime periodEnd = (DateTime)r["End_Dttm"];
 
-                        result.Data.Add(fr);
+                            FilingRecord fr = new FilingRecord();
+                            fr.Code = valLabel;
+                            fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
+                            fr.PeriodEnd = periodEnd;
+                            fr.PeriodStart = periodStart;
+                            fr.Unit = (string)r["Unit"];
+                            fr.Value = (decimal)r["Value"];
+
+                            result.Data.Add(fr);
+                        }
                     }
                 }
             }
@@ -507,6 +511,22 @@ namespace DMFX.DALDatabase
             conn.Close();
 
             return result;
+        }
+
+        public void Sanitize()
+        {
+            string spName = "[SP_UTILS_Unlock_Db]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
 
         #endregion

@@ -65,6 +65,8 @@
     <Compile Include="ResponseBase.cs" />
     <Compile Include="Mail\SendMail.cs" />
     <Compile Include="Accounts\UpdateAccount.cs" />
+    <Compile Include="TechUtils\ClearLayer.cs" />
+    <Compile Include="TechUtils\Sanitize.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">

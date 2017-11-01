@@ -25,7 +25,7 @@ namespace DMFX.Interfaces
         UserAccountNotValidated = 8,
         UserAccountExists = 9,
         InvalidSession = 10,
-        EmptyColection = 11,
+        EmptyCollection = 11,
         SchedulerBusy = 12,
         ImporterBusy = 13,
         FilingNotFound = 14,

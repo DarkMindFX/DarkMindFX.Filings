@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -19,6 +20,8 @@ namespace DMFX.Service.Common
         static Thread keepAliveThread = new Thread(KeepAlive);
         static ILogger _logger = null;
 
+        private const string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
+
         public static CompositionContainer Container
         {
             get
@@ -38,6 +41,8 @@ namespace DMFX.Service.Common
         public void InitApp(TypeCatalog externalTypeCatalog = null)
         {
             string rootFolder = Server.MapPath("~");
+
+            JsConfig<DateTime>.SerializeFn = t => t.ToString(DateTimeFormat);
 
             // Preparing logs folder
             string logsFolder = Path.Combine(rootFolder, ConfigurationManager.AppSettings["LogsFolder"]);
