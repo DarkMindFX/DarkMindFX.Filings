@@ -1,16 +1,12 @@
 ﻿using DMFX.Interfaces;
 using ServiceStack.Text;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DMFX.Service.Common
 {
@@ -54,7 +50,7 @@ namespace DMFX.Service.Common
             // preparing plugins folder
             string pluginsFolder = Path.Combine(rootFolder, ConfigurationManager.AppSettings["PluginsFolder"]);
 
-            DirectoryCatalog dcatalog = new DirectoryCatalog(pluginsFolder, "*.dll");
+             DirectoryCatalog dcatalog = new DirectoryCatalog(pluginsFolder, "*.dll");
 
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(dcatalog);

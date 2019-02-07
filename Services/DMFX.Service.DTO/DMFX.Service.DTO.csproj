@@ -48,6 +48,12 @@
     <Compile Include="Accounts\CloseSession.cs" />
     <Compile Include="Accounts\CreateAccount.cs" />
     <Compile Include="Common\Echo.cs" />
+    <Compile Include="QuotesSourcing\ForceRunImportQuotes.cs" />
+    <Compile Include="QuotesSourcing\ForceStopImportQuotes.cs" />
+    <Compile Include="QuotesSourcing\GetImportQuotesCurrentState.cs" />
+    <Compile Include="Quotes\GetQuotes.cs" />
+    <Compile Include="Quotes\TickerInfo.cs" />
+    <Compile Include="Quotes\TickerQuotes.cs" />
     <Compile Include="Scheduler\GetSchedulerState.cs" />
     <Compile Include="Scheduler\StartScheduler.cs" />
     <Compile Include="Sourcing\ForceRunImport.cs" />
@@ -81,6 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
