@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IQuotesDal.cs" />
+    <Compile Include="IQuotesData.cs" />
     <Compile Include="IQuotesSource.cs" />
     <Compile Include="IQuotesStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

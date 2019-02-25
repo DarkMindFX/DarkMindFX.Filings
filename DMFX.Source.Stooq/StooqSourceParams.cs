@@ -70,6 +70,10 @@ namespace DMFX.Source.Stooq
 
     public class StooqSourceGetQuotesResult : ResultBase, IQuotesSourceGetQuotesResult
     {
+        public StooqSourceGetQuotesResult()
+        {
+            QuotesData = new BaseQuotesData();
+        }
         public IQuotesData QuotesData
         {
             get;

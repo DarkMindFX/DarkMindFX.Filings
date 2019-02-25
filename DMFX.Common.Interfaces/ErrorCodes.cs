@@ -29,6 +29,10 @@ namespace DMFX.Interfaces
         SchedulerBusy = 12,
         ImporterBusy = 13,
         FilingNotFound = 14,
+
+        QuotesSourceFail = 101,
+        QuotesNotFound = 102,
+
         GeneralError = 99999
     }
 }

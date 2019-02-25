@@ -29,31 +29,40 @@ namespace DMFX.Source.Stooq
 
             StooqSourceGetQuotesResult result = new StooqSourceGetQuotesResult();
 
-            var quotes = api.Download(getQuotesParams.Ticker,
-                            getQuotesParams.PeriodStart,
-                            getQuotesParams.PeriodEnd,
-                            getQuotesParams.Country,
-                            getQuotesParams.TimeFrame == ETimeFrame.Daily ? StooqApi.ETimeFrame.Daily : (getQuotesParams.TimeFrame == ETimeFrame.Weekly ? StooqApi.ETimeFrame.Weekly : StooqApi.ETimeFrame.Monthly));
-
-
-            foreach (var q in quotes.Quotes)
+            try
             {
-                IQuotesRecord newRec = result.QuotesData.CreateQuotesRecord();
-                newRec.Close = q.Close;
-                newRec.High = q.High;
-                newRec.Open = q.Open;
-                newRec.Low = q.Low;
-                newRec.Volume = q.Volume;
-                newRec.Time = ToPeriodStart(q.PeriodEnd, getQuotesParams.TimeFrame);
 
-                result.QuotesData.AddRecord(newRec);
+                var quotes = api.Download(getQuotesParams.Ticker,
+                                getQuotesParams.PeriodStart,
+                                getQuotesParams.PeriodEnd,
+                                getQuotesParams.Country,
+                                getQuotesParams.TimeFrame == ETimeFrame.Daily ? StooqApi.ETimeFrame.Daily : (getQuotesParams.TimeFrame == ETimeFrame.Weekly ? StooqApi.ETimeFrame.Weekly : StooqApi.ETimeFrame.Monthly));
 
+
+                foreach (var q in quotes.Quotes)
+                {
+                    IQuotesRecord newRec = result.QuotesData.CreateQuotesRecord();
+                    newRec.Close = q.Close;
+                    newRec.High = q.High;
+                    newRec.Open = q.Open;
+                    newRec.Low = q.Low;
+                    newRec.Volume = q.Volume;
+                    newRec.Time = ToPeriodStart(q.PeriodEnd, getQuotesParams.TimeFrame);
+
+                    result.QuotesData.AddRecord(newRec);
+
+                }
+
+                result.QuotesData.Country = getQuotesParams.Country;
+                result.QuotesData.Ticker = getQuotesParams.Ticker;
+                result.QuotesData.TimeFrame = getQuotesParams.TimeFrame;
+                result.Success = true;
             }
-
-            result.QuotesData.Country = getQuotesParams.Country;
-            result.QuotesData.Ticker = getQuotesParams.Ticker;
-            result.QuotesData.TimeFrame = getQuotesParams.TimeFrame;
-            result.Success = true;
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.AddError(Interfaces.EErrorCodes.QuotesSourceFail, Interfaces.EErrorType.Error, ex.Message);
+            }
 
             return result;
         }

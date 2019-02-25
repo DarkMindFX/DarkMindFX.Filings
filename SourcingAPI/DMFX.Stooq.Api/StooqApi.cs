@@ -36,6 +36,12 @@ namespace DMFX.Stooq.Api
             {
                 string text = sr.ReadToEnd();
 
+                if (!string.IsNullOrEmpty(resp.Headers["Content-disposition"]) && resp.Headers["Content-disposition"].Contains("error"))
+                {
+                    throw new InvalidOperationException(text);
+                }     
+                
+
                 result = new CSVQuotes();
                 result.Ticker = ticker.ToUpper();
                 result.Quotes = ParseCSV(text, header);

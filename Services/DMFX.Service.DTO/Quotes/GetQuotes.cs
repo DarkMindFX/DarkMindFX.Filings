@@ -12,6 +12,23 @@ namespace DMFX.Service.DTO
     [Route("/GetCompanies", "POST")]
     public class GetQuotes : RequestBase, IReturn<GetQuotesResponse>
     {
+        public string Ticker
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
     }
 
     public class GetQuotesResponse : ResponseBase

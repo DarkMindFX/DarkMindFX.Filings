@@ -48,5 +48,23 @@ namespace DMFX.Text.StoopApi
             Assert.IsNotNull(quotes.Quotes, "Quotes array is not created");
             Assert.AreNotEqual(quotes.Quotes.Count, 0, "SPY quotes were not retrieved");
         }
+
+        [Test]
+        public void DownloadMonthly_InvalidTicker()
+        {
+            try
+            {
+                DMFX.Stooq.Api.StooqApi api = new Stooq.Api.StooqApi();
+
+                DMFX.Stooq.Api.CSVQuotes quotes = api.Download("#INVALID_TICKER#", DateTime.Parse("2005/2/25"), DateTime.Now, "US", Stooq.Api.StooqApi.ETimeFrame.Monthly);
+
+                Assert.Fail("Failed to handle invalid ticker");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotEmpty(ex.Message);
+            }
+            
+        }
     }
 }
