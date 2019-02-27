@@ -12,7 +12,9 @@ namespace DMFX.QuotesInterfaces
     {
         Daily,
         Weekly,
-        Monthly
+        Monthly,
+        Quarterly,
+        Annually
     }
 
     public interface IQuotesSourceInitParams

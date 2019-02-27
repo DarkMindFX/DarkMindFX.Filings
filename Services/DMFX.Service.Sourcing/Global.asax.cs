@@ -26,8 +26,6 @@ namespace DMFX.Service.Sourcing
         {
             InitApp();
 
-            Logger.Log(EErrorType.Info, "Starting service DMFX.Service.Filings");
-
             // initializing importer
             _importer = new Importer(Global.Container);
 

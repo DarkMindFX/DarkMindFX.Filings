@@ -113,8 +113,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Portfolio", "Tests\DMFX.Test.Portfolio\DMFX.Test.Portfolio.csproj", "{863400AF-A113-4CE1-9C56-92E5FCD6735B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Portfolio", "Services\DMFX.Service.Portfolio\DMFX.Service.Portfolio.csproj", "{2C237752-385F-4877-A689-9F9A2D5EDCE4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Quotes", "Services\DMFX.Service.Quotes\DMFX.Service.Quotes.csproj", "{5527547C-24B7-409D-99B0-7B8A595965E2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

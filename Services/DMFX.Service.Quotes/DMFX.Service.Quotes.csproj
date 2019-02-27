@@ -136,6 +136,14 @@
     <Compile Include="QuotesService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
+      <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
+      <Name>DMFX.Common.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DMFX.QuotesInterfaces\DMFX.QuotesInterfaces.csproj">
+      <Project>{c69fad89-d66e-4996-876a-e346bcbd3546}</Project>
+      <Name>DMFX.QuotesInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
@@ -147,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
+    <Folder Include="Storage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -184,8 +193,8 @@
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.QuotesDAL\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.QuotesDAL\*.dll" "$(ProjectDir)Plugins\DMFX.QuotesDAL\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

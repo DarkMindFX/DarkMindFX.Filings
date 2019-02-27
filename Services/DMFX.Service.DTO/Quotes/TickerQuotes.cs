@@ -8,17 +8,11 @@ namespace DMFX.Service.DTO
 {
     public class TickerQuotes
     {
-        public enum EPeriod
-        {
-            None,
-            Daily,
-            Weekly,
-            Monthly
-        }
+        
 
         public TickerQuotes()
         {
-            TimePeriod = EPeriod.None;
+            TimePeriod = ETimeFrame.Monthly;
             Quotes = new List<QuoteRecord>();
         }
 
@@ -28,7 +22,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public EPeriod TimePeriod
+        public ETimeFrame TimePeriod
         {
             get;
             set;

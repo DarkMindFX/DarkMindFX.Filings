@@ -175,12 +175,12 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.DALDatabase\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.SECParsers\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.SEC\*.dll" "$(ProjectDir)Plugins\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Storage\*.dll" "$(ProjectDir)Plugins\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.DALDatabase\*.dll" "$(ProjectDir)Plugins\DMFX.DALDatabase\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\DMFX.Dictionaries\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.SECParsers\*.dll" "$(ProjectDir)Plugins\DMFX.SECParsers\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.SEC\*.dll" "$(ProjectDir)Plugins\DMFX.Source.SEC\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Storage\*.dll" "$(ProjectDir)Plugins\DMFX.Storage\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>

@@ -50,10 +50,18 @@ namespace DMFX.Service.Common
             // preparing plugins folder
             string pluginsFolder = Path.Combine(rootFolder, ConfigurationManager.AppSettings["PluginsFolder"]);
 
-             DirectoryCatalog dcatalog = new DirectoryCatalog(pluginsFolder, "*.dll");
-
+            DirectoryCatalog dcatalog = new DirectoryCatalog(pluginsFolder, "*.dll");
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(dcatalog);
+
+            // adding subfolders - if any
+            foreach (var subdir in Directory.GetDirectories(pluginsFolder))
+            {
+                dcatalog = new DirectoryCatalog(subdir, "*.dll");
+                catalog.Catalogs.Add(dcatalog);
+            }
+
+            
             if (externalTypeCatalog != null)
             {
                 catalog.Catalogs.Add(externalTypeCatalog);
