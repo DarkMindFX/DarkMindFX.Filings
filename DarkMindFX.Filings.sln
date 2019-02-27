@@ -114,6 +114,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Portfolio", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Portfolio", "Services\DMFX.Service.Portfolio\DMFX.Service.Portfolio.csproj", "{2C237752-385F-4877-A689-9F9A2D5EDCE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Quotes", "Services\DMFX.Service.Quotes\DMFX.Service.Quotes.csproj", "{5527547C-24B7-409D-99B0-7B8A595965E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -272,6 +274,10 @@ Global
 		{2C237752-385F-4877-A689-9F9A2D5EDCE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C237752-385F-4877-A689-9F9A2D5EDCE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C237752-385F-4877-A689-9F9A2D5EDCE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5527547C-24B7-409D-99B0-7B8A595965E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5527547C-24B7-409D-99B0-7B8A595965E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5527547C-24B7-409D-99B0-7B8A595965E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5527547C-24B7-409D-99B0-7B8A595965E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -301,5 +307,6 @@ Global
 		{D09D15ED-0B43-41D0-A6F9-9C5A8A35C677} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 		{863400AF-A113-4CE1-9C56-92E5FCD6735B} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 		{2C237752-385F-4877-A689-9F9A2D5EDCE4} = {C41EB4FF-B636-47A4-82D2-2A4E4CF56CDA}
+		{5527547C-24B7-409D-99B0-7B8A595965E2} = {C41EB4FF-B636-47A4-82D2-2A4E4CF56CDA}
 	EndGlobalSection
 EndGlobal

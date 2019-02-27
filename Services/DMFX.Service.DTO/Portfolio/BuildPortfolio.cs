@@ -59,8 +59,6 @@ namespace DMFX.Service.DTO
         }
     }
 
-    
-
     public class BuildPortfolioResult : ResponseBase
     {
         public decimal Return
