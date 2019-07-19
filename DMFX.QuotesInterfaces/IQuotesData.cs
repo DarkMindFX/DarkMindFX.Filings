@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.QuotesInterfaces
 {
-    public interface IQuotesRecord
+    public interface ITimeSeriesRecord
     {
         DateTime Time
         {
@@ -14,31 +14,25 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
-        decimal Open
+        IList<decimal> Values
         {
             get;
             set;
         }
 
-        decimal High
+        IList<string> ValueNames
+        {
+            get;
+            set;
+        } 
+
+        decimal this[string column]
         {
             get;
             set;
         }
 
-        decimal Low
-        {
-            get;
-            set;
-        }
-
-        decimal Close
-        {
-            get;
-            set;
-        }
-
-        decimal Volume
+        decimal this[int i]
         {
             get;
             set;
@@ -46,48 +40,110 @@ namespace DMFX.QuotesInterfaces
 
     }
 
-    public class BaseQuotesRecord : IQuotesRecord
+    public class BaseQuotesRecord : ITimeSeriesRecord
     {
-        public decimal Close
+        public BaseQuotesRecord()
         {
-            get;
-            set;
+            ValueNames = new List<string>();
+            ValueNames.Add("Open");
+            ValueNames.Add("High");
+            ValueNames.Add("Low");
+            ValueNames.Add("Close");
+            ValueNames.Add("Volume");
+
+            Values = new List<decimal>(new decimal[ValueNames.Count]);
         }
 
-        public decimal High
-        {
-            get;
-            set;
-        }
-
-        public decimal Low
-        {
-            get;
-            set;
-        }
-
-        public decimal Open
-        {
-            get;
-            set;
-        }
-
+        
         public DateTime Time
         {
             get;
             set;
         }
 
-        public decimal Volume
+        public IList<string> ValueNames
         {
             get;
             set;
+        }
+
+        public IList<decimal> Values
+        {
+            get;
+            set;
+        }        
+
+        public decimal this[string column]
+        {
+            get
+            {
+                int index = ValueNames.IndexOf(column);
+                return this[index];
+            }
+            set
+            {
+                int index = ValueNames.IndexOf(column);
+                this[index] = value;
+            }
+        }
+
+        public decimal this[int i]
+        {
+            get
+            {
+                return Values[i];
+            }
+            set
+            {
+                Values[i] = value;
+            }
         }
 
         public override string ToString()
         {
             return Time.ToShortDateString() + " " + Open.ToString() + " " + High.ToString() + " " + Low.ToString() + " " + Close.ToString();
         }
+
+        public decimal Open
+        {
+            get
+            {
+                return Values[0];
+            }
+        }
+
+        public decimal High
+        {
+            get
+            {
+                return Values[1];
+            }
+        }
+
+        public decimal Low
+        {
+            get
+            {
+                return Values[2];
+            }
+        }
+
+        public decimal Close
+        {
+            get
+            {
+                return Values[3];
+            }
+        }
+
+        public decimal Volume
+        {
+            get
+            {
+                return Values[4];
+            }
+        }
+
     }
 
     public interface IQuotesData
@@ -110,15 +166,15 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
-        List<IQuotesRecord> Quotes
+        List<ITimeSeriesRecord> Quotes
         {
             get;
             set;
         }
 
-        void AddRecord(IQuotesRecord newRecord);
+        void AddRecord(ITimeSeriesRecord newRecord);
 
-        IQuotesRecord CreateQuotesRecord();
+        ITimeSeriesRecord CreateQuotesRecord();
 
     }
 
@@ -126,7 +182,8 @@ namespace DMFX.QuotesInterfaces
     {
         public BaseQuotesData()
         {
-            Quotes = new List<IQuotesRecord>();
+            Quotes = new List<ITimeSeriesRecord>();
+            Country = "US";
         }
 
         public string Country
@@ -135,7 +192,7 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
-        public List<IQuotesRecord> Quotes
+        public List<ITimeSeriesRecord> Quotes
         {
             get;
             set;
@@ -153,12 +210,12 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
-        public void AddRecord(IQuotesRecord newRecord)
+        public void AddRecord(ITimeSeriesRecord newRecord)
         {
-            (Quotes as List<IQuotesRecord>).Add(newRecord);
+            (Quotes as List<ITimeSeriesRecord>).Add(newRecord);
         }
 
-        public IQuotesRecord CreateQuotesRecord()
+        public ITimeSeriesRecord CreateQuotesRecord()
         {
             return new BaseQuotesRecord();
         }

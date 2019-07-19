@@ -348,7 +348,7 @@ namespace DMFX.Portfolio
                 returns.Add(getQuotesResult.Quotes[i].Ticker, new List<double>());
                 for (int d = 0; d < getQuotesResult.Quotes[i].Quotes.Count(); ++d)
                 {
-                    double ret = (double)(getQuotesResult.Quotes[i].Quotes[d].Close - getQuotesResult.Quotes[i].Quotes[d].Open) / (double)getQuotesResult.Quotes[i].Quotes[d].Open;
+                    double ret = (double)(getQuotesResult.Quotes[i].Quotes[d]["Close"] - getQuotesResult.Quotes[i].Quotes[d]["Open"]) / (double)getQuotesResult.Quotes[i].Quotes[d]["Open"];
                     returns[getQuotesResult.Quotes[i].Ticker].Add(ret);
                     avgRet += ret;
                 }

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     public class TickerQuotes
-    {
-        
+    {        
 
         public TickerQuotes()
         {

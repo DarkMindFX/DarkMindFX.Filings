@@ -102,18 +102,31 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Plugins\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.DALDatabase.dll" />
-    <Content Include="Plugins\DMFX.Dictionaries.dll" />
-    <Content Include="Plugins\DMFX.FilingInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging.dll" />
-    <Content Include="Plugins\DMFX.SEC.Api.dll" />
-    <Content Include="Plugins\DMFX.SECParser.dll" />
-    <Content Include="Plugins\DMFX.Source.SEC.dll" />
-    <Content Include="Plugins\DMFX.Storage.dll" />
-    <Content Include="Plugins\HtmlAgilityPack.dll" />
-    <Content Include="Plugins\ServiceStack.Client.dll" />
-    <Content Include="Plugins\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.DALDatabase.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.Dictionaries.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Client.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.SECParsers\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.SECParsers\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.SECParsers\DMFX.SECParser.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\DMFX.SEC.Api.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\DMFX.Source.SEC.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\HtmlAgilityPack.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\ServiceStack.Client.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Source.SEC\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.Storage\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Storage\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Storage\DMFX.Storage.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

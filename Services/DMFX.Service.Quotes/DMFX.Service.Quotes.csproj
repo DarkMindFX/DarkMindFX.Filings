@@ -125,6 +125,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Client.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\CsvHelper.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesDAL.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesInterfaces.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\System.ValueTuple.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +164,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Plugins\" />
     <Folder Include="Storage\" />
   </ItemGroup>
   <PropertyGroup>

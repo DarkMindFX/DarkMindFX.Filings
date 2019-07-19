@@ -9,14 +9,14 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2C237752-385F-4877-A689-9F9A2D5EDCE4}</ProjectGuid>
+    <ProjectGuid>{E38DFF80-ABE0-4701-B198-6E9888E5E847}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMFX.Service.Portfolio</RootNamespace>
-    <AssemblyName>DMFX.Service.Portfolio</AssemblyName>
+    <RootNamespace>DMFX.Service.QuotesSourcing</RootNamespace>
+    <AssemblyName>DMFX Service.QuotesSourcing</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -125,22 +125,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Client.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\alglibnet2.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\AutoDiff.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\DMFX.Portfolio.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\DMFX.PortfolioInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\DMFX.QuotesInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Portfolio\MathNet.Numerics.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PortfolioService.cs" />
+    <Compile Include="QuotesSourcingService.cs" />
     <Compile Include="AppHost.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,7 +153,9 @@
       <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -181,7 +171,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>7698</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/prtflapi/</IISUrl>
+          <IISUrl>http://localhost:7698/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -199,8 +189,9 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Portfolio\*.dll" "$(ProjectDir)Plugins\DMFX.Portfolio\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.QuotesDAL\*.dll" "$(ProjectDir)Plugins\"
+</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>

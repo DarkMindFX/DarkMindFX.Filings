@@ -17,6 +17,12 @@ namespace DMFX.QuotesInterfaces
         Annually
     }
 
+    public enum ETimeSeriesType
+    {
+        Price,
+        Indicator
+    }
+
     public interface IQuotesSourceInitParams
     {
         IQuotesStorage Storage

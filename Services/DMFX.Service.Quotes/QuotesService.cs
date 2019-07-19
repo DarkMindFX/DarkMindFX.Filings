@@ -27,6 +27,8 @@ namespace DMFX.Service.Quotes
             _logger.Log(EErrorType.Info, " ****** Call start: GetQuotes");
             GetQuotesResponse response = new GetQuotesResponse();
 
+            TransferHeader(request, response);
+
             try
             {
                 if (IsValidSessionToken(request))
@@ -86,13 +88,13 @@ namespace DMFX.Service.Quotes
             tickerQuotes.PeriodEnd = quotesData.Quotes.LastOrDefault().Time;
             tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord()
             {
-                AdjClose = x.Close,
-                Close = x.Close,
-                Open = x.Open,
-                High = x.High,
-                Low = x.Low,
+                AdjClose = x["Close"],
+                Close = x["Close"],
+                Open = x["Open"],
+                High = x["High"],
+                Low = x["Low"],
                 Time = x.Time,
-                Volume = x.Volume
+                Volume = x["Volume"]
             }).ToList());
 
             response.Quotes = tickerQuotes;

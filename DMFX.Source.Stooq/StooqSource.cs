@@ -41,12 +41,12 @@ namespace DMFX.Source.Stooq
 
                 foreach (var q in quotes.Quotes)
                 {
-                    IQuotesRecord newRec = result.QuotesData.CreateQuotesRecord();
-                    newRec.Close = q.Close;
-                    newRec.High = q.High;
-                    newRec.Open = q.Open;
-                    newRec.Low = q.Low;
-                    newRec.Volume = q.Volume;
+                    ITimeSeriesRecord newRec = result.QuotesData.CreateQuotesRecord();
+                    newRec["Close"] = q.Close;
+                    newRec["High"] = q.High;
+                    newRec["Open"] = q.Open;
+                    newRec["Low"] = q.Low;
+                    newRec["Volume"] = q.Volume;
                     newRec.Time = ToPeriodStart(q.PeriodEnd, getQuotesParams.TimeFrame);
 
                     result.QuotesData.AddRecord(newRec);

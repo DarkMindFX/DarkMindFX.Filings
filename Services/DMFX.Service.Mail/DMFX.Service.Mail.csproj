@@ -103,11 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Plugins\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging.dll" />
-    <Content Include="Plugins\ServiceStack.Client.dll" />
-    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
-    <Content Include="Plugins\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Client.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetCompanies/{CountryCode}/{Ticker}/{TimeFrame}/{SessionToken}", "GET")]
-    [Route("/GetCompanies/{CountryCode}/{Ticker}/{TimeFrame}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
-    [Route("/GetCompanies", "POST")]
+    [Route("/GetQuotes/{CountryCode}/{Ticker}/{TimeFrame}/{SessionToken}", "GET")]
+    [Route("/GetQuotes/{CountryCode}/{Ticker}/{TimeFrame}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
+    [Route("/GetQuotes", "POST")]
     public class GetQuotes : RequestBase, IReturn<GetQuotesResponse>
     {
         public string Ticker

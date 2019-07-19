@@ -43,13 +43,13 @@ namespace DMFX.QuotesDAL
                             reader.ReadHeader();
                             while (reader.Read())
                             {
-                                IQuotesRecord record = new BaseQuotesRecord();
+                                ITimeSeriesRecord record = new BaseQuotesRecord();
                                 record.Time = reader.GetField<DateTime>("Time");
-                                record.Open = reader.GetField<decimal>("Open");
-                                record.High = reader.GetField<decimal>("High");
-                                record.Low = reader.GetField<decimal>("Low");
-                                record.Close = reader.GetField<decimal>("Close");
-                                record.Volume = reader.GetField<decimal>("Volume");
+                                record["Open"] = reader.GetField<decimal>("Open");
+                                record["High"] = reader.GetField<decimal>("High");
+                                record["Low"] = reader.GetField<decimal>("Low");
+                                record["Close"] = reader.GetField<decimal>("Close");
+                                record["Volume"] = reader.GetField<decimal>("Volume");
 
                                 if (record.Time <= getQuotesParams.PeriodEnd && record.Time >= getQuotesParams.PeriodStart)
                                 {

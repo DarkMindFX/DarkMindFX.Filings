@@ -103,14 +103,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Plugins\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.DALDatabase.dll" />
-    <Content Include="Plugins\DMFX.Dictionaries.dll" />
-    <Content Include="Plugins\DMFX.FilingInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging.dll" />
-    <Content Include="Plugins\ServiceStack.Client.dll" />
-    <Content Include="Plugins\ServiceStack.Interfaces.dll" />
-    <Content Include="Plugins\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.DALDatabase.dll" />
+    <Content Include="Plugins\DMFX.DALDatabase\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.Dictionaries.dll" />
+    <Content Include="Plugins\DMFX.Dictionaries\DMFX.FilingInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Client.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
