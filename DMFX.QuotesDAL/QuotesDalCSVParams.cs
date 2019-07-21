@@ -96,5 +96,14 @@ namespace DMFX.QuotesDAL
 
     class QuotesDalCSVSaveQuotesResult : ResultBase, IQuotesDalSaveQuotesResult
     {
+        public QuotesDalCSVSaveQuotesResult()
+        {
+            TimeSeriesSaved = 0;
+        }
+        public uint TimeSeriesSaved
+        {
+            get;
+            set;
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace DMFX.QuotesInterfaces
 
     public enum ETimeFrame
     {
+        Undefined = 0,
         Daily,
         Weekly,
         Monthly,
@@ -17,10 +18,21 @@ namespace DMFX.QuotesInterfaces
         Annually
     }
 
+    public enum EUnit
+    {
+        Undefined = 1,
+
+        USD = 2,
+        EUR = 3,
+        Percent = 4,
+
+        Value = 5
+    }
+
     public enum ETimeSeriesType
     {
-        Price,
-        Indicator
+        Price = 1,
+        Indicator = 2
     }
 
     public interface IQuotesSourceInitParams

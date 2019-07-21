@@ -75,7 +75,50 @@ namespace DMFX.Test.QuotesDal
             IQuotesDalSaveQuotesParams saveParams = dal.CreateSaveQuotesParams();
             saveParams.Quotes.Add(getQuotesResult.QuotesData);
 
+            getQuotesResult.QuotesData.Unit = EUnit.USD;
+            getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
+
             IQuotesDalSaveQuotesResult saveResult = dal.SaveQuotes(saveParams);
+
+            Assert.IsTrue(saveResult.Success);
+            Assert.IsTrue(!saveResult.HasWarnings, "Unexpected warnings while performing save");
+            Assert.IsTrue(!saveResult.HasErrors, "Unexpected errors while performing save");
+            
+        }
+
+        [Test]
+        public void SaveQuotes_Multiple_Success()
+        {
+            IQuotesSource source = CreateSource();
+            IQuotesDal dal = PrepareQuotesDal();
+            IQuotesDalSaveQuotesParams saveParams = dal.CreateSaveQuotesParams();
+
+            string[] tickers = { ConfigurationManager.AppSettings["TickerSPY"], ConfigurationManager.AppSettings["TickerQQQ"] };
+
+            foreach (var t in tickers)
+            {
+
+                IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
+                getQuotesParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+                getQuotesParams.Ticker = t;
+                getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
+                getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
+                getQuotesParams.TimeFrame = ETimeFrame.Daily;
+
+                IQuotesSourceGetQuotesResult getQuotesResult = source.GetQuotes(getQuotesParams);
+
+                saveParams.Quotes.Add(getQuotesResult.QuotesData);
+
+                getQuotesResult.QuotesData.Unit = EUnit.USD;
+                getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
+            }
+
+            IQuotesDalSaveQuotesResult saveResult = dal.SaveQuotes(saveParams);
+
+            Assert.IsTrue(saveResult.Success);
+            Assert.IsTrue(!saveResult.HasWarnings, "Unexpected warnings while performing save");
+            Assert.IsTrue(!saveResult.HasErrors, "Unexpected errors while performing save");
+
         }
 
         #region Support methods

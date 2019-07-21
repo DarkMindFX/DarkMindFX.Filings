@@ -59,6 +59,7 @@ namespace DMFX.QuotesInterfaces
 
     public interface IQuotesDalSaveQuotesParams
     {
+
         List<IQuotesData> Quotes
         {
             get;
@@ -67,7 +68,12 @@ namespace DMFX.QuotesInterfaces
     }
 
     public interface IQuotesDalSaveQuotesResult : IResult
-    {        
+    {       
+        uint TimeSeriesSaved
+        {
+            get;
+            set;
+        } 
     }
 
     public interface IQuotesDal

@@ -11,6 +11,16 @@ namespace DMFX.Service.QuotesSourcing
     public class Global : GlobalBase
     {
 
+        static TimeSeriesImporter _importer = null;
+
+        public static TimeSeriesImporter Importer
+        {
+            get
+            {
+                return _importer;
+            }
+        }
+
         protected void Application_Start(object sender, EventArgs e)
         {
             InitApp();

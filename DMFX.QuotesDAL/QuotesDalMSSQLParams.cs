@@ -85,6 +85,7 @@ namespace DMFX.QuotesDAL
             Quotes = new List<IQuotesData>();
         }
 
+        
         public List<IQuotesData> Quotes
         {
             get;
@@ -94,5 +95,15 @@ namespace DMFX.QuotesDAL
 
     class QuotesDalMSSQLSaveQuotesResult : ResultBase, IQuotesDalSaveQuotesResult
     {
+        public QuotesDalMSSQLSaveQuotesResult()
+        {
+            TimeSeriesSaved = 0;
+        }
+
+        public uint TimeSeriesSaved
+        {
+            get;
+            set;
+        }
     }
 }

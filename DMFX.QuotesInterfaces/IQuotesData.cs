@@ -166,6 +166,18 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        EUnit Unit
+        {
+            get;
+            set;
+        }
+
+        ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+
         List<ITimeSeriesRecord> Quotes
         {
             get;
@@ -204,7 +216,19 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        public ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+
         public ETimeFrame TimeFrame
+        {
+            get;
+            set;
+        }
+
+        public EUnit Unit
         {
             get;
             set;
