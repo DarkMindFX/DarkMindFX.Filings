@@ -10,7 +10,7 @@ namespace DMFX.Service.DTO
     [Route("/GetTimeSeries/{CountryCode}/{Ticker}/{TimeFrame}/{SessionToken}", "GET")]
     [Route("/GetTimeSeries/{CountryCode}/{Ticker}/{TimeFrame}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
     [Route("/GetTimeSeries", "POST")]
-    public class GetTimeSeries : RequestBase, IReturn<GetQuotesResponse>
+    public class GetTimeSeries : RequestBase, IReturn<GetTimeSeriesResponse>
     {
         public string Ticker
         {
@@ -30,7 +30,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public ETimeFrame TimeFrame
+        public QuotesInterfaces.ETimeFrame TimeFrame
         {
             get;
             set;
@@ -43,9 +43,9 @@ namespace DMFX.Service.DTO
         }
     }
 
-    public class GetQuotesResponse : ResponseBase
+    public class GetTimeSeriesResponse : ResponseBase
     {
-        public TickerQuotes Quotes
+        public TickerQuotes Values
         {
             get;
             set;

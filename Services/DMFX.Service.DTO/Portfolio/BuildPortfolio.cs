@@ -9,7 +9,7 @@ namespace DMFX.Service.DTO
 {
 
     [Route("/BuildPortfolio", "POST")]
-    public class BuildPortfolio : RequestBase, IReturn<GetQuotesResponse>
+    public class BuildPortfolio : RequestBase, IReturn<GetTimeSeriesResponse>
     {
         public BuildPortfolio()
         {

@@ -11,7 +11,7 @@ namespace DMFX.Service.DTO
 
         public TickerQuotes()
         {
-            TimePeriod = ETimeFrame.Monthly;
+            TimePeriod = QuotesInterfaces.ETimeFrame.Daily;
             Quotes = new List<QuoteRecord>();
         }
 
@@ -21,7 +21,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public ETimeFrame TimePeriod
+        public QuotesInterfaces.ETimeFrame TimePeriod
         {
             get;
             set;

@@ -27,7 +27,7 @@ namespace DMFX.Test.QuotesDal
             IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationManager.AppSettings["TickerSPY"]);
-            getParams.TimeFrame = ETimeFrame.Monthly;
+            getParams.TimeFrame = ETimeFrame.Daily;
 
             IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
 

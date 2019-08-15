@@ -2,6 +2,7 @@
 using DMFX.QuotesInterfaces;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
+using DMFX.Service.DTO.TimeSeries;
 using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
@@ -22,10 +23,37 @@ namespace DMFX.Service.Quotes
             InitDAL();
         }
 
-        public GetQuotesResponse Any(GetTimeSeries request)
+        public GetTimeSeriesListResponse Any(GetTimeSeriesList request)
         {
-            _logger.Log(EErrorType.Info, " ****** Call start: GetQuotes");
-            GetQuotesResponse response = new GetQuotesResponse();
+            _logger.Log(EErrorType.Info, " ****** Call start: GetTimeSeriesList");
+            GetTimeSeriesListResponse response = new GetTimeSeriesListResponse();
+
+            TransferHeader(request, response);
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: GetTimeSeriesList");
+
+            return response;
+        }
+
+        public GetTimeSeriesResponse Any(GetTimeSeries request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetTimeSeries");
+            GetTimeSeriesResponse response = new GetTimeSeriesResponse();
 
             TransferHeader(request, response);
 
@@ -50,7 +78,8 @@ namespace DMFX.Service.Quotes
                     }
                     else
                     {
-                        response.Success = false;                        
+                        response.Success = false;
+                        response.Errors.AddRange(getResult.Errors);
                     }
                 }                
                 else
@@ -78,12 +107,12 @@ namespace DMFX.Service.Quotes
 
         #region Support methods
 
-        private void TranslateToTickerQuotes(GetQuotesResponse response, IQuotesDalGetQuotesResult getResult)
+        private void TranslateToTickerQuotes(GetTimeSeriesResponse response, IQuotesDalGetQuotesResult getResult)
         {
             IQuotesData quotesData = getResult.Quotes[0];
             TickerQuotes tickerQuotes = new TickerQuotes();
             tickerQuotes.Code = quotesData.Ticker;
-            tickerQuotes.TimePeriod = (DTO.ETimeFrame)quotesData.TimeFrame;
+            tickerQuotes.TimePeriod = quotesData.TimeFrame;
             tickerQuotes.PeriodStart = quotesData.Quotes.FirstOrDefault().Time;
             tickerQuotes.PeriodEnd = quotesData.Quotes.LastOrDefault().Time;
             tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord()
@@ -97,7 +126,7 @@ namespace DMFX.Service.Quotes
                 Volume = x["Volume"]
             }).ToList());
 
-            response.Quotes = tickerQuotes;
+            response.Values = tickerQuotes;
 
         }
 
@@ -113,6 +142,7 @@ namespace DMFX.Service.Quotes
 
             IQuotesDalInitParams initParams = _dal.CreateInitParams();
             initParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["CSVDalRootFolder"]);
+            initParams.Parameters["ConnectionStringTimeSeries"] = ConfigurationManager.AppSettings["ConnectionStringTimeSeries"];
             _dal.Init(initParams);
 
         }

@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Sourcing", "Services\DMFX.Service.Sourcing\DMFX.Service.Sourcing.csproj", "{4389B305-B381-4B50-B1A8-BBB5259A0524}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -40,6 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.DALDatabase", "DMFX.DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Filings", "Services\DMFX.Service.Filings\DMFX.Service.Filings.csproj", "{A0DD90E7-2B24-429F-A42B-3D0FD6996480}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -59,11 +61,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Storage", "DMFX.Storag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Accounts", "Services\DMFX.Service.Accounts\DMFX.Service.Accounts.csproj", "{434EEA1D-7956-4D88-AE31-60C8151DC7B9}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Mail", "Services\DMFX.Service.Mail\DMFX.Service.Mail.csproj", "{D4EB7996-C9DA-463E-8C89-261263E61B13}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -75,6 +79,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Common", "Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Scheduler", "Services\DMFX.Service.Scheduler\DMFX.Service.Scheduler.csproj", "{71718C81-146D-4248-98CF-27902EBF1F36}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -93,6 +98,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.PluginsBuildControl", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.TechUtils", "Services\DMFX.Service.TechUtils\DMFX.Service.TechUtils.csproj", "{F079866D-6AA6-432A-B9FB-9935889CD661}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Stooq.Api", "SourcingAPI\DMFX.Stooq.Api\DMFX.Stooq.Api.csproj", "{B1F8E682-AB4D-4EEF-AC97-EF6183A25BE6}"
 EndProject
@@ -114,11 +122,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Portfolio", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Portfolio", "Services\DMFX.Service.Portfolio\DMFX.Service.Portfolio.csproj", "{2C237752-385F-4877-A689-9F9A2D5EDCE4}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Quotes", "Services\DMFX.Service.Quotes\DMFX.Service.Quotes.csproj", "{5527547C-24B7-409D-99B0-7B8A595965E2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -126,6 +136,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Quotes", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.QuotesSourcing", "Services\DMFX Service.QuotesSourcing\DMFX.Service.QuotesSourcing.csproj", "{E38DFF80-ABE0-4701-B198-6E9888E5E847}"
 	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
 		{F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355} = {F01E9B96-CA46-4E0A-9F37-3BCCF4C9B355}
 	EndProjectSection
 EndProject
@@ -138,6 +149,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Client.Common", "Services\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj", "{70F85E1F-CDE2-49AE-B162-E338197931F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Client.Mail", "Services\Clients\DMFX.Client.Mail\DMFX.Client.Mail.csproj", "{58113942-4E89-48F6-A365-ADEAF324BDB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.ServicesBuildControl", "Services\DMFX.ServicesBuildControl\DMFX.ServicesBuildControl.csproj", "{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -325,6 +338,10 @@ Global
 		{58113942-4E89-48F6-A365-ADEAF324BDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58113942-4E89-48F6-A365-ADEAF324BDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58113942-4E89-48F6-A365-ADEAF324BDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -361,5 +378,6 @@ Global
 		{7F456EA1-67D8-4A99-B24C-760671DDA847} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
 		{70F85E1F-CDE2-49AE-B162-E338197931F9} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
 		{58113942-4E89-48F6-A365-ADEAF324BDB4} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {C41EB4FF-B636-47A4-82D2-2A4E4CF56CDA}
 	EndGlobalSection
 EndGlobal

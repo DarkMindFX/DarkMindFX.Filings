@@ -25,42 +25,69 @@ namespace DMFX.QuotesDAL
         {
             IQuotesDalGetQuotesResult result = new QuotesDalMSSQLGetQuotesResult();
 
-            string spName = "[SP_Get_TimeSeries]";
+            string spName = "[SP_Get_Ticker_Timeseries_Values]";
             SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
+                       
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
 
-            // TODO: add list of SP params here
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            SqlParameter paramTypeId = new SqlParameter("@IN_Period_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, (int)getQuotesParams.TimeFrame);
 
-            // TODO: uncomment when ready
-            // da.Fill(ds);
+            SqlParameter paramTickerId = new SqlParameter("@IN_Ticker_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, 0);
 
-            if (ds.Tables.Count >= 1)
+            cmd.Parameters.Add(paramTypeId);
+            cmd.Parameters.Add(paramTickerId);
+
+            for (int i = 0; i < getQuotesParams.Tickers.Count; ++i)
             {
-                BaseQuotesData qdata = new BaseQuotesData();
-                qdata.Ticker = getQuotesParams.Tickers[0]; // TODO: for now only one ticker can be requested at a time
-                qdata.Country = getQuotesParams.Country;
-                qdata.TimeFrame = getQuotesParams.TimeFrame;
-                // first table - company filings info records
-                foreach (DataRow row in ds.Tables[0].Rows)
+                // getting ID of the current ticker
+                paramTickerId.Value = GetTickerId(getQuotesParams.Tickers[i], conn);
+                
+                DataSet ds = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                try
                 {
-                    BaseQuotesRecord qrec = new BaseQuotesRecord();
-                    qrec.Time = (DateTime)row[0];
-                    for (int i = 1; i < row.Table.Columns.Count - 1; ++i)
+
+                    da.Fill(ds);
+
+                    if (ds.Tables.Count >= 1)
                     {
-                        qrec[i] = (decimal)row[i];
+
+                        BaseQuotesData qdata = new BaseQuotesData();
+                        qdata.Ticker = getQuotesParams.Tickers[i];
+                        qdata.Country = getQuotesParams.Country;
+                        qdata.TimeFrame = getQuotesParams.TimeFrame;
+
+                        foreach (DataRow row in ds.Tables[0].Rows)
+                        {
+                            BaseQuotesRecord qrec = new BaseQuotesRecord();
+                            qrec.Time = (DateTime)row[0];
+                            for (int r = 1; r < row.Table.Columns.Count - 1; ++r)
+                            {
+                                qrec[r-1] = (decimal)row[r];
+                            }
+
+                            qdata.AddRecord(qrec);
+                        }
+
+                        result.Quotes.Add(qdata);
                     }
 
-                    qdata.AddRecord(qrec);
                 }
-
-                result.Quotes.Add(qdata);
+                catch (Exception ex)
+                {
+                    result.Errors.Add(new Interfaces.Error()
+                    {
+                        Code = Interfaces.EErrorCodes.QuotesNotFound,
+                        Type = Interfaces.EErrorType.Error,
+                        Message = string.Format("'{0}, {1}': failed to read timeseries. SQL message: {2}", getQuotesParams.Tickers[i], getQuotesParams.TimeFrame, ex.Message)
+                    });
+                }
             }
 
             if (result.Quotes.Count == 0 && getQuotesParams.Tickers.Count != 0)
