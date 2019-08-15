@@ -1,6 +1,7 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
+using DMFX.Service.DTO.TimeSeriesSourcing;
 using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
@@ -10,14 +11,12 @@ namespace DMFX.Service.QuotesSourcing
 {
     public class QuotesSourcingService : ServiceBase
     {
-
     
         public QuotesSourcingService()
         {
-
         }
 
-        public object Any(ForceRunImport request)
+        public object Any(ForceRunImportTimeSeries request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: ForceRunImport");
 
@@ -25,7 +24,6 @@ namespace DMFX.Service.QuotesSourcing
 
             try
             {
-
                 TransferHeader(request, response);
 
                 if (IsValidSessionToken(request))
@@ -47,9 +45,9 @@ namespace DMFX.Service.QuotesSourcing
                             impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.Parse(ConfigurationManager.AppSettings["UpdateFromDate"]);
                             impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         }
-                        
+                        impParams.Tickers = new System.Collections.Generic.HashSet<string>(request.SymbolCodes);
 
-                        
+
                         // starting import process
                         response.Success = Global.Importer.StartImport(impParams);
                     }
@@ -83,7 +81,7 @@ namespace DMFX.Service.QuotesSourcing
             return response;
         }
 
-        public object Any(ForceStopImport request)
+        public object Any(ForceStopImportTimeSeries request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: ForceStopImport");
 
@@ -129,6 +127,53 @@ namespace DMFX.Service.QuotesSourcing
             }
 
             _logger.Log(EErrorType.Info, " ****** Call end: ForceRunImport");
+
+            return response;
+        }
+
+        public object Any(GetImporterTimeSeriesState request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetImporterTimeSeriesState");
+
+            GetImporterTimeSeriesStateResponse response = new GetImporterTimeSeriesStateResponse();
+
+            try
+            {
+                TransferHeader(request, response);
+
+                if (IsValidSessionToken(request))
+                {
+                    _logger.Log(EErrorType.Info, string.Format("Current Importer state: {0}", Global.Importer.CurrentState.ToString()));
+                    response.State = Global.Importer.CurrentState.ToString();
+                    response.LastImportRun = Global.Importer.ImportStart;
+                    response.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
+                    foreach (var cmp in Global.Importer.TickersProcessed)
+                    {
+                        DTO.TickerInfo info = new DTO.TickerInfo() { Code = cmp };
+                        response.TimeSeriesProcessed.Add(info);
+                    }
+                    response.ProcessedCount = response.TimeSeriesProcessed.Count;
+                    response.Success = true;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: GetImporterTimeSeriesState");
 
             return response;
         }

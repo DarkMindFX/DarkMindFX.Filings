@@ -67,11 +67,14 @@ namespace DMFX.Service.QuotesSourcing
             {
                 _compContainer = compContainer;
                 Errors = new List<Error>();
+                _tickersProcessed = new HashSet<string>();
 
                 _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
 
                 InitDAL();
-              
+
+                _logger.Log(EErrorType.Info, "TimeSeriesImporter ready");
+
             }
             catch (Exception ex)
             {
@@ -87,9 +90,10 @@ namespace DMFX.Service.QuotesSourcing
         {
             if (CurrentState == EImportState.Idle)
             {
+                _tickersProcessed.Clear();
                 _isRunning = true;
                 _impParams = impParams;
-                
+
                 _importStart = DateTime.UtcNow;
                 _errorsLog.Clear();
 
@@ -107,6 +111,7 @@ namespace DMFX.Service.QuotesSourcing
         public bool StopImport()
         {
             _isRunning = false;
+            _importEnd = DateTime.UtcNow;
             return true;
         }
 
@@ -176,12 +181,12 @@ namespace DMFX.Service.QuotesSourcing
 
         private void InitDAL()
         {
-            _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
+            _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringTimeSeries"]));
 
-            Lazy<IQuotesDal> dal = _compContainer.GetExport<IQuotesDal>();
+            Lazy<IQuotesDal> dal = _compContainer.GetExport<IQuotesDal>(ConfigurationManager.AppSettings["DALType"]);
             IQuotesDalInitParams dalParams = dal.Value.CreateInitParams();
-            dalParams.Parameters.Add("ConnectionStringTimeSeries", ConfigurationManager.AppSettings["ConnectionStringQuotes"]);
-           
+            dalParams.Parameters.Add("ConnectionStringTimeSeries", ConfigurationManager.AppSettings["ConnectionStringTimeSeries"]);
+
             dal.Value.Init(dalParams);
 
             _dal = dal.Value;
@@ -221,13 +226,46 @@ namespace DMFX.Service.QuotesSourcing
                     }
                     if (source != null && source.Value != null)
                     {
-                        // preparing source
-                        
+                        CurrentState = EImportState.ImportSources;
 
-                        // preparing params
+                        foreach (var t in _impParams.Tickers)
+                        {
+                            try
+                            {
+                                _logger.Log(EErrorType.Info, string.Format("Importing {0}", t));
+                                IQuotesDalSaveQuotesParams saveParams = _dal.CreateSaveQuotesParams();
 
-                        
+                                IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
+                                getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
+                                getQuotesParams.Ticker = t;
+                                getQuotesParams.PeriodStart = _impParams.DateStart;
+                                getQuotesParams.PeriodEnd = _impParams.DateEnd;
+                                getQuotesParams.TimeFrame = ETimeFrame.Daily;
 
+                                CurrentState = EImportState.ImportSources;
+
+                                IQuotesSourceGetQuotesResult getQuotesResult = source.Value.GetQuotes(getQuotesParams);
+
+                                saveParams.Quotes.Add(getQuotesResult.QuotesData);
+
+                                getQuotesResult.QuotesData.Unit = EUnit.USD;
+                                getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
+
+                                CurrentState = EImportState.Saving;
+
+                                IQuotesDalSaveQuotesResult saveResult = _dal.SaveQuotes(saveParams);
+
+                                _tickersProcessed.Add(t);
+
+                                _logger.Log(EErrorType.Info, string.Format("Import {0} done", t));
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.Log(ex);
+                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", src) });
+                            }
+
+                        }
                     }
                     else
                     {

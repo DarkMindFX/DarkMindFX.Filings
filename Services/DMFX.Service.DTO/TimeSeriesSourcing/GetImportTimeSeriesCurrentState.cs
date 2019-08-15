@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMFX.Service.DTO.QuotesSourcing
+namespace DMFX.Service.DTO.TimeSeriesSourcing
 {
-    [Route("/GetImporterQuotesState/{SessionToken}", "GET")]
-    [Route("/GetImporterQuotesState", "POST")]
-    public class GetImporterQuotesState : RequestBase, IReturn<GetImporterQuotesStateResponse>
+    [Route("/GetImporterTimeSeriesState/{SessionToken}", "GET")]
+    [Route("/GetImporterTimeSeriesState", "POST")]
+    public class GetImporterTimeSeriesState : RequestBase, IReturn<GetImporterTimeSeriesStateResponse>
     {
     }
 
-    public class GetImporterQuotesStateResponse : ResponseBase
+    public class GetImporterTimeSeriesStateResponse : ResponseBase
     {
-        public GetImporterQuotesStateResponse()
+        public GetImporterTimeSeriesStateResponse()
         {
-            QuotesProcessed = new List<TickerInfo>();
+            TimeSeriesProcessed = new List<TickerInfo>();
         }
         public string State
         {
@@ -43,7 +43,7 @@ namespace DMFX.Service.DTO.QuotesSourcing
             set;
         }
 
-        public List<TickerInfo> QuotesProcessed
+        public List<TickerInfo> TimeSeriesProcessed
         {
             get;
             set;

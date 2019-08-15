@@ -173,6 +173,95 @@ namespace DMFX.Test.Service.Accounts
 
         }
 
+        [TestCase("040.GetSessionInfo.Success")]
+        public void GetSessionInfo_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+
+            // 1. initializing the session
+            InitSession request = new InitSession()
+            {
+                 AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                 RequestID = "D3770630-9532-457D-8EBB-DBF99F6A23D3",
+                 SessionToken = null
+            };
+
+            InitSessionResponse response = Post<InitSession, InitSessionResponse>("InitSession", request);
+
+            string sessionToken = response.SessionToken;
+
+            // 2. getting session information
+            GetSessionInfo getSesionInfo = PrepareRequest<GetSessionInfo>(name);
+            getSesionInfo.SessionToken = sessionToken;
+
+            GetSessionInfoResponse sessionInfo = Post<GetSessionInfo, GetSessionInfoResponse>("GetSessionInfo", getSesionInfo);
+
+            RunFinalizeSql(name, "ConnectionStringAccounts");
+
+            Assert.AreEqual(sessionInfo.Success, true, "Session was not found");
+            Assert.AreNotEqual(sessionInfo.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
+            Assert.IsEmpty(sessionInfo.Errors, "Errors are not empty");
+        }
+
+        [TestCase("041.GetSessionInfo.InvalidSession")]
+        public void GetSessionInfo_InvalidSession(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+
+            
+            GetSessionInfo getSesionInfo = PrepareRequest<GetSessionInfo>(name);
+            getSesionInfo.SessionToken = ConfigurationManager.AppSettings["InvalidSessionToken"];
+
+            GetSessionInfoResponse sessionInfo = Post<GetSessionInfo, GetSessionInfoResponse>("GetSessionInfo", getSesionInfo);
+
+            RunFinalizeSql(name, "ConnectionStringAccounts");
+
+            Assert.AreEqual(sessionInfo.Success, false, "Session with invalid token was unpetedly found");
+            Assert.IsNotEmpty(sessionInfo.Errors, "Errors are empty");
+            Assert.AreEqual(sessionInfo.Errors[0].Code, EErrorCodes.InvalidSession, "Wrong error code returned");
+        }
+
+        [TestCase("042.GetSessionInfo.Closed")]
+        public void GetSessionInfo_Closed(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+
+            // 1. initializing the session
+            InitSession initReq = new InitSession()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                RequestID = "D3770630-9532-457D-8EBB-DBF99F6A23D3",
+                SessionToken = null
+            };
+
+            InitSessionResponse initResp = Post<InitSession, InitSessionResponse>("InitSession", initReq);
+
+            string sessionToken = initResp.SessionToken;
+
+            // 2. closing session
+            CloseSession closeReq = new CloseSession()
+            {
+                SessionToken = sessionToken
+            };
+
+            CloseSessionResponse closeRes = Post<CloseSession, CloseSessionResponse>("CloseSession", closeReq);
+
+            // 3. getting session information
+            GetSessionInfo getSesionInfo = PrepareRequest<GetSessionInfo>(name);
+            getSesionInfo.SessionToken = sessionToken;
+
+            GetSessionInfoResponse sessionInfo = Post<GetSessionInfo, GetSessionInfoResponse>("GetSessionInfo", getSesionInfo);
+          
+            RunFinalizeSql(name, "ConnectionStringAccounts");
+
+            Assert.AreEqual(sessionInfo.Success, true, "Session was not found");
+            Assert.AreNotEqual(sessionInfo.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
+            Assert.AreNotEqual(sessionInfo.SessionEnd, DateTime.MinValue, "SessionEnd time was not provided");
+            Assert.IsNotEmpty(sessionInfo.Errors, "Errors are empty");
+            Assert.AreEqual(sessionInfo.Errors[0].Type, EErrorType.Warning, "Warning of closed session is expected");
+            Assert.AreEqual(sessionInfo.Errors[0].Code, EErrorCodes.SessionClosed, "Invalid code returned");
+        }
+
 
 
     }

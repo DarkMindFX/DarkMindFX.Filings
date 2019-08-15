@@ -308,15 +308,14 @@ namespace DMFX.Service.Filings
             }
             else
             {
-                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+                GetSessionInfo sinfo = new GetSessionInfo();
+                sinfo.SessionToken = sessionToken;
+                sinfo.CheckActive = true;
 
-                sinfo.SessionId = !string.IsNullOrEmpty(sessionToken) ? sessionToken : string.Empty;
+                DMFX.Client.Accounts.ServiceClient accnts = new Client.Accounts.ServiceClient();
+                GetSessionInfoResponse sInfoResp = accnts.PostGetSessionInfo(sinfo);
 
-                sinfo = _dal.GetSessionInfo(sinfo, true);
-                if (sinfo != null)
-                {
-                    result = EErrorCodes.Success;
-                }
+                result = sInfoResp.Success ? EErrorCodes.Success : sInfoResp.Errors[0].Code;
             }
 
             return result;

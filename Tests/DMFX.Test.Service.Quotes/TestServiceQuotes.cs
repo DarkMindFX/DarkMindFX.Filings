@@ -34,9 +34,9 @@ namespace DMFX.Test.Service.Quotes
         [TestCase("000.GetQuotes.Success")]
         public void TestGetQuotesSuccess(string name)
         {
-            GetQuotes request = PrepareRequest<GetQuotes>(name);
+            GetTimeSeries request = PrepareRequest<GetTimeSeries>(name);
 
-            GetQuotesResponse response = Post<GetQuotes, GetQuotesResponse>("GetQuotes", request);
+            GetQuotesResponse response = Post<GetTimeSeries, GetQuotesResponse>("GetQuotes", request);
 
             Assert.IsTrue(response.Success, "Failed to get quotes");
         }
@@ -45,9 +45,9 @@ namespace DMFX.Test.Service.Quotes
         [TestCase("002.GetQuotes.InvalidTicker")]
         public void TestGetQuotesFail(string name)
         {
-            GetQuotes request = PrepareRequest<GetQuotes>(name);
+            GetTimeSeries request = PrepareRequest<GetTimeSeries>(name);
 
-            GetQuotesResponse response = Post<GetQuotes, GetQuotesResponse>("GetQuotes", request);
+            GetQuotesResponse response = Post<GetTimeSeries, GetQuotesResponse>("GetQuotes", request);
 
             Assert.IsFalse(response.Success, "GetQuotes succeeded unexpectedly");
         }

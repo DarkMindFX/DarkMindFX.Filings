@@ -22,7 +22,7 @@ namespace DMFX.Service.Quotes
             InitDAL();
         }
 
-        public GetQuotesResponse Any(GetQuotes request)
+        public GetQuotesResponse Any(GetTimeSeries request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: GetQuotes");
             GetQuotesResponse response = new GetQuotesResponse();

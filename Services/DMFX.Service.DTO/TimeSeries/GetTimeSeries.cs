@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetQuotes/{CountryCode}/{Ticker}/{TimeFrame}/{SessionToken}", "GET")]
-    [Route("/GetQuotes/{CountryCode}/{Ticker}/{TimeFrame}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
-    [Route("/GetQuotes", "POST")]
-    public class GetQuotes : RequestBase, IReturn<GetQuotesResponse>
+    [Route("/GetTimeSeries/{CountryCode}/{Ticker}/{TimeFrame}/{SessionToken}", "GET")]
+    [Route("/GetTimeSeries/{CountryCode}/{Ticker}/{TimeFrame}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
+    [Route("/GetTimeSeries", "POST")]
+    public class GetTimeSeries : RequestBase, IReturn<GetQuotesResponse>
     {
         public string Ticker
         {

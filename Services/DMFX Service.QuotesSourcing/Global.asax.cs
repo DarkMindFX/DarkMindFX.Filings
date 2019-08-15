@@ -25,6 +25,8 @@ namespace DMFX.Service.QuotesSourcing
         {
             InitApp();
 
+            _importer = new TimeSeriesImporter(Global.Container);
+
             new AppHost().Init();
 
             StartKeepAlive();

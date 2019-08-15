@@ -28,6 +28,47 @@ namespace DMFX.Service.Accounts
             InitDAL();
         }
 
+        public object Any(GetSessionInfo request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetSessionInfo");
+            GetSessionInfoResponse response = new GetSessionInfoResponse();
+            TransferHeader(request, response);
+
+            try
+            {
+                Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
+
+                sinfo.SessionId = !string.IsNullOrEmpty(request.SessionToken) ? request.SessionToken : string.Empty;
+
+                sinfo = _dal.GetSessionInfo(sinfo, request.CheckActive);
+                if (sinfo != null)
+                {
+                    response.SessionStart = sinfo.SessionStart;
+                    response.SessionEnd = sinfo.SessionEnd;
+                    if (response.SessionEnd > DateTime.MinValue)
+                    {
+                        response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Warning });
+                    }
+                    response.Success = true;
+                    
+                }
+                else
+                {
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Message = "Invalid session token", Type = EErrorType.Error });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unexpected error: {0}", ex.Message) });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: GetSessionInfo");
+
+            return response;
+        }
+
         public object Any(CreateAccount request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: CreateAccount");
@@ -406,9 +447,8 @@ namespace DMFX.Service.Accounts
             sendMailRequest.SessionToken = ConfigurationManager.AppSettings["MailServiceSessionToken"];
             sendMailRequest.Details.Add(datails);
 
-
-            JsonServiceClient client = new JsonServiceClient(ConfigurationManager.AppSettings["MailServiceURL"]);
-            result = client.Post<SendMailResponse>(sendMailRequest);
+            Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();                   
+            result = client.PostSendMail(sendMailRequest);
 
             return result;
         }
