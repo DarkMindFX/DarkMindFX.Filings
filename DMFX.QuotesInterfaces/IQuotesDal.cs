@@ -15,7 +15,7 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public interface IQuotesDalGetQuotesParams
+    public interface IQuotesDalGetTimeSeriesValuesParams
     {
         List<string> Tickers
         {
@@ -48,7 +48,7 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public interface IQuotesDalGetQuotesResult : IResult
+    public interface IQuotesDalGetTimeseriesValuesResult : IResult
     {
         List<IQuotesData> Quotes
         {
@@ -57,7 +57,7 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public interface IQuotesDalSaveQuotesParams
+    public interface IQuotesDalSaveTimeseriesValuesParams
     {
 
         List<IQuotesData> Quotes
@@ -67,13 +67,141 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public interface IQuotesDalSaveQuotesResult : IResult
+    public interface IQuotesDalSaveTimeseriesValuesResult : IResult
     {       
         uint TimeSeriesSaved
         {
             get;
             set;
         } 
+    }
+
+    public interface IQuotesDalGetTimeSeriesListParams
+    {
+        string CountryCode
+        {
+            get;
+            set;
+        }
+
+        ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TimeSeriesListItem
+    {
+        public string Ticker
+        {
+            get;
+            set;
+        }
+
+        public string CountryCode
+        {
+            get;
+            set;
+        }        
+
+        public EUnit Unit
+        {
+            get;
+            set;
+        }
+
+        public ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IQuotesDalGetTimeSeriesListResult : IResult
+    {
+        IList<TimeSeriesListItem> Timeseries
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IQuotesDalGetTimeSeriesInfoParams
+    {
+        string Ticker
+        {
+            get;
+            set;
+        }
+
+        string CountryCode
+        {
+            get;
+            set;
+        }
+    }
+
+    public class TimeSeriesInfoListItem
+    {
+        public ETimeFrame Timeframe
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodStart
+        {
+            get;
+            set;
+        }
+
+        public DateTime PeriodEnd
+        {
+            get;
+            set;
+        }
+
+        public DateTime? LastUpdated
+        {
+            get;
+            set;
+        }          
+    }
+
+    public interface IQuotesDalGetTimeSeriesInfoResult : IResult
+    {
+        string Ticker
+        {
+            get;
+            set;
+        }
+
+        string CountryCode
+        {
+            get;
+            set;
+        }
+
+        IList<TimeSeriesInfoListItem> Series
+        {
+            get;
+            set;
+        }
+
+        EUnit Unit
+        {
+            get;
+            set;
+        }
+
+        ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+
+        
     }
 
     public interface IQuotesDal
@@ -89,15 +217,40 @@ namespace DMFX.QuotesInterfaces
         /// </summary>
         /// <param name="getQuotesParams"></param>
         /// <returns></returns>
-        IQuotesDalGetQuotesResult GetQuotes(IQuotesDalGetQuotesParams getQuotesParams);
+        IQuotesDalGetTimeseriesValuesResult GetTimseriesValues(IQuotesDalGetTimeSeriesValuesParams getQuotesParams);
 
-        IQuotesDalSaveQuotesResult SaveQuotes(IQuotesDalSaveQuotesParams saveQuotesParams);
+
+        /// <summary>
+        /// Returns list of time series / tickers corresponding to given params
+        /// </summary>
+        /// <param name="getTsList"></param>
+        /// <returns></returns>
+        IQuotesDalGetTimeSeriesListResult GetTimeSeriesList(IQuotesDalGetTimeSeriesListParams getTsList);
+
+        /// <summary>
+        /// Returns list of time series / tickers corresponding to given params
+        /// </summary>
+        /// <param name="getTsList"></param>
+        /// <returns></returns>
+        IQuotesDalGetTimeSeriesInfoResult GetTimeSeriesInfo(IQuotesDalGetTimeSeriesInfoParams getTsInfoParams);
+
+
+        /// <summary>
+        /// Saves the list of ticker values to storage
+        /// </summary>
+        /// <param name="saveQuotesParams"></param>
+        /// <returns></returns>
+        IQuotesDalSaveTimeseriesValuesResult SaveTimeseriesValues(IQuotesDalSaveTimeseriesValuesParams saveQuotesParams);
 
         IQuotesDalInitParams CreateInitParams();
 
-        IQuotesDalGetQuotesParams CreateGetQuotesParams();
+        IQuotesDalGetTimeSeriesValuesParams CreateGetQuotesParams();
 
-        IQuotesDalSaveQuotesParams CreateSaveQuotesParams();
+        IQuotesDalSaveTimeseriesValuesParams CreateSaveTimeseriesValuesParams();
+
+        IQuotesDalGetTimeSeriesInfoParams CreateGetTimeSeriesInfoParams();
+
+        IQuotesDalGetTimeSeriesListParams CreateGetTimeSeriesListParams();
 
 
     }

@@ -19,9 +19,9 @@ namespace DMFX.QuotesDAL
             _rootFolder = initParams.Parameters["RootFolder"];
         }
 
-        public IQuotesDalGetQuotesResult GetQuotes(IQuotesDalGetQuotesParams getQuotesParams)
+        public IQuotesDalGetTimeseriesValuesResult GetTimseriesValues(IQuotesDalGetTimeSeriesValuesParams getQuotesParams)
         {
-            IQuotesDalGetQuotesResult result = new QuotesDalCSVGetQuotesResult();
+            IQuotesDalGetTimeseriesValuesResult result = new QuotesDalCSVGetQuotesResult();
 
             foreach (var t in getQuotesParams.Tickers)
             {
@@ -79,15 +79,25 @@ namespace DMFX.QuotesDAL
             return result;
         }
 
-        public IQuotesDalSaveQuotesResult SaveQuotes(IQuotesDalSaveQuotesParams saveQuotesParams)
+        public IQuotesDalGetTimeSeriesListResult GetTimeSeriesList(IQuotesDalGetTimeSeriesListParams getTsList)
         {
             throw new NotImplementedException();
         }
 
+        public IQuotesDalGetTimeSeriesInfoResult GetTimeSeriesInfo(IQuotesDalGetTimeSeriesInfoParams getTsInfoParams)
+        {
+            throw new NotImplementedException();
+        }
 
+        public IQuotesDalSaveTimeseriesValuesResult SaveTimeseriesValues(IQuotesDalSaveTimeseriesValuesParams saveQuotesParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        
         #region Create* methods
 
-        public IQuotesDalGetQuotesParams CreateGetQuotesParams()
+        public IQuotesDalGetTimeSeriesValuesParams CreateGetQuotesParams()
         {
             return new QuotesDalCSVGetQuotesParams();
         }
@@ -97,13 +107,22 @@ namespace DMFX.QuotesDAL
             return new QuotesDalCSVInitParams();
         }
 
-        public IQuotesDalSaveQuotesParams CreateSaveQuotesParams()
+        public IQuotesDalSaveTimeseriesValuesParams CreateSaveTimeseriesValuesParams()
         {
 
             return new QuotesDalCSVSaveQuotesParams();
+        }        
+
+        public IQuotesDalGetTimeSeriesInfoParams CreateGetTimeSeriesInfoParams()
+        {
+            throw new NotImplementedException();
         }
 
-        
+        public IQuotesDalGetTimeSeriesListParams CreateGetTimeSeriesListParams()
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
     }

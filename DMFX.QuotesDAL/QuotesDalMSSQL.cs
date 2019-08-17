@@ -21,9 +21,9 @@ namespace DMFX.QuotesDAL
             _dalParams = initParams;
         }
 
-        public IQuotesDalGetQuotesResult GetQuotes(IQuotesDalGetQuotesParams getQuotesParams)
+        public IQuotesDalGetTimeseriesValuesResult GetTimseriesValues(IQuotesDalGetTimeSeriesValuesParams getQuotesParams)
         {
-            IQuotesDalGetQuotesResult result = new QuotesDalMSSQLGetQuotesResult();
+            IQuotesDalGetTimeseriesValuesResult result = new QuotesDalMSSQLGetQuotesResult();
 
             string spName = "[SP_Get_Ticker_Timeseries_Values]";
             SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
@@ -102,9 +102,9 @@ namespace DMFX.QuotesDAL
             return result;
         }
 
-        public IQuotesDalSaveQuotesResult SaveQuotes(IQuotesDalSaveQuotesParams saveQuotesParams)
+        public IQuotesDalSaveTimeseriesValuesResult SaveTimeseriesValues(IQuotesDalSaveTimeseriesValuesParams saveQuotesParams)
         {
-            IQuotesDalSaveQuotesResult result = new QuotesDalMSSQLSaveQuotesResult();
+            IQuotesDalSaveTimeseriesValuesResult result = new QuotesDalMSSQLSaveQuotesResult();
 
             SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
 
@@ -165,10 +165,20 @@ namespace DMFX.QuotesDAL
             return result;
         }
 
+        public IQuotesDalGetTimeSeriesListResult GetTimeSeriesList(IQuotesDalGetTimeSeriesListParams getTsList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQuotesDalGetTimeSeriesInfoResult GetTimeSeriesInfo(IQuotesDalGetTimeSeriesInfoParams getTsInfoParams)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #region Create* methods
 
-        public IQuotesDalGetQuotesParams CreateGetQuotesParams()
+        public IQuotesDalGetTimeSeriesValuesParams CreateGetQuotesParams()
         {
             return new QuotesDalMSSQLGetQuotesParams();
         }
@@ -178,10 +188,20 @@ namespace DMFX.QuotesDAL
             return new QuotesDalMSSQLInitParams();
         }
 
-        public IQuotesDalSaveQuotesParams CreateSaveQuotesParams()
+        public IQuotesDalSaveTimeseriesValuesParams CreateSaveTimeseriesValuesParams()
         {
 
             return new QuotesDalMSSQLSaveQuotesParams();
+        }
+
+        public IQuotesDalGetTimeSeriesInfoParams CreateGetTimeSeriesInfoParams()
+        {
+            return new QuotesDalMSSQLGetTimeSeriesInfoParams();
+        }
+
+        public IQuotesDalGetTimeSeriesListParams CreateGetTimeSeriesListParams()
+        {
+            return new QuotesDalMSSQLGetTimeSeriesListParams();
         }
 
         #endregion
@@ -429,7 +449,9 @@ namespace DMFX.QuotesDAL
             conn.Open();
 
             return conn;
-        }
+        }          
+
+
 
         #endregion
 

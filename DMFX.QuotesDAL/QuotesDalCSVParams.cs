@@ -24,7 +24,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalCSVGetQuotesParams : IQuotesDalGetQuotesParams
+    class QuotesDalCSVGetQuotesParams : IQuotesDalGetTimeSeriesValuesParams
     {
         public QuotesDalCSVGetQuotesParams()
         {
@@ -67,7 +67,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalCSVGetQuotesResult : ResultBase, IQuotesDalGetQuotesResult
+    class QuotesDalCSVGetQuotesResult : ResultBase, IQuotesDalGetTimeseriesValuesResult
     {
         public QuotesDalCSVGetQuotesResult()
         {
@@ -80,7 +80,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalCSVSaveQuotesParams : IQuotesDalSaveQuotesParams
+    class QuotesDalCSVSaveQuotesParams : IQuotesDalSaveTimeseriesValuesParams
     {
         public QuotesDalCSVSaveQuotesParams()
         {
@@ -94,7 +94,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalCSVSaveQuotesResult : ResultBase, IQuotesDalSaveQuotesResult
+    class QuotesDalCSVSaveQuotesResult : ResultBase, IQuotesDalSaveTimeseriesValuesResult
     {
         public QuotesDalCSVSaveQuotesResult()
         {

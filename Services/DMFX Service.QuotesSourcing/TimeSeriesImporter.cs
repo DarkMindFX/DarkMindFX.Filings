@@ -233,7 +233,7 @@ namespace DMFX.Service.QuotesSourcing
                             try
                             {
                                 _logger.Log(EErrorType.Info, string.Format("Importing {0}", t));
-                                IQuotesDalSaveQuotesParams saveParams = _dal.CreateSaveQuotesParams();
+                                IQuotesDalSaveTimeseriesValuesParams saveParams = _dal.CreateSaveTimeseriesValuesParams();
 
                                 IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
                                 getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
@@ -253,7 +253,7 @@ namespace DMFX.Service.QuotesSourcing
 
                                 CurrentState = EImportState.Saving;
 
-                                IQuotesDalSaveQuotesResult saveResult = _dal.SaveQuotes(saveParams);
+                                IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
 
                                 _tickersProcessed.Add(t);
 

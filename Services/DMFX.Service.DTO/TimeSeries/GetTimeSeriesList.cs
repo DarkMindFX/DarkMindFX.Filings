@@ -37,13 +37,7 @@ namespace DMFX.Service.DTO.TimeSeries
         {
             get;
             set;
-        }
-
-        public IList<ETimeFrame> TimeFrames
-        {
-            get;
-            set;
-        }
+        }        
 
         public EUnit Unit
         {

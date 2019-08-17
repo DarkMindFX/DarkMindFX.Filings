@@ -331,13 +331,13 @@ namespace DMFX.Portfolio
             matCov = new double[nInstruments, nInstruments];
 
             // getting instruments and calculating avg returns and stdevs for given time period
-            IQuotesDalGetQuotesParams getQuotesParams = _quotesDal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getQuotesParams = _quotesDal.CreateGetQuotesParams();
             getQuotesParams.PeriodStart = builderParams.PeriodStart;
             getQuotesParams.PeriodEnd = builderParams.PeriodEnd;
             getQuotesParams.TimeFrame = (QuotesInterfaces.ETimeFrame)builderParams.TimeFrame;
             getQuotesParams.Tickers.AddRange( builderParams.Instruments );
 
-            IQuotesDalGetQuotesResult getQuotesResult = _quotesDal.GetQuotes(getQuotesParams);
+            IQuotesDalGetTimeseriesValuesResult getQuotesResult = _quotesDal.GetTimseriesValues(getQuotesParams);
 
             Dictionary<string, List<double>> returns = new Dictionary<string, List<double>>();
 

@@ -24,12 +24,12 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationManager.AppSettings["TickerSPY"]);
             getParams.TimeFrame = ETimeFrame.Daily;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -44,12 +44,12 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationManager.AppSettings["InvalidTicker"]);
             getParams.TimeFrame = ETimeFrame.Daily;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsFalse(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -72,13 +72,13 @@ namespace DMFX.Test.QuotesDal
             IQuotesSourceGetQuotesResult getQuotesResult = source.GetQuotes(getQuotesParams);
 
             IQuotesDal dal = PrepareQuotesDal();
-            IQuotesDalSaveQuotesParams saveParams = dal.CreateSaveQuotesParams();
+            IQuotesDalSaveTimeseriesValuesParams saveParams = dal.CreateSaveTimeseriesValuesParams();
             saveParams.Quotes.Add(getQuotesResult.QuotesData);
 
             getQuotesResult.QuotesData.Unit = EUnit.USD;
             getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
 
-            IQuotesDalSaveQuotesResult saveResult = dal.SaveQuotes(saveParams);
+            IQuotesDalSaveTimeseriesValuesResult saveResult = dal.SaveTimeseriesValues(saveParams);
 
             Assert.IsTrue(saveResult.Success);
             Assert.IsTrue(!saveResult.HasWarnings, "Unexpected warnings while performing save");
@@ -91,7 +91,7 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesSource source = CreateSource();
             IQuotesDal dal = PrepareQuotesDal();
-            IQuotesDalSaveQuotesParams saveParams = dal.CreateSaveQuotesParams();
+            IQuotesDalSaveTimeseriesValuesParams saveParams = dal.CreateSaveTimeseriesValuesParams();
 
             string[] tickers = { ConfigurationManager.AppSettings["TickerSPY"], ConfigurationManager.AppSettings["TickerQQQ"] };
 
@@ -113,7 +113,7 @@ namespace DMFX.Test.QuotesDal
                 getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
             }
 
-            IQuotesDalSaveQuotesResult saveResult = dal.SaveQuotes(saveParams);
+            IQuotesDalSaveTimeseriesValuesResult saveResult = dal.SaveTimeseriesValues(saveParams);
 
             Assert.IsTrue(saveResult.Success);
             Assert.IsTrue(!saveResult.HasWarnings, "Unexpected warnings while performing save");

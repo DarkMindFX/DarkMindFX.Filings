@@ -22,7 +22,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLGetQuotesParams : IQuotesDalGetQuotesParams
+    class QuotesDalMSSQLGetQuotesParams : IQuotesDalGetTimeSeriesValuesParams
     {
         public QuotesDalMSSQLGetQuotesParams()
         {
@@ -65,7 +65,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLGetQuotesResult : ResultBase, IQuotesDalGetQuotesResult
+    class QuotesDalMSSQLGetQuotesResult : ResultBase, IQuotesDalGetTimeseriesValuesResult
     {
         public QuotesDalMSSQLGetQuotesResult()
         {
@@ -78,7 +78,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLSaveQuotesParams : IQuotesDalSaveQuotesParams
+    class QuotesDalMSSQLSaveQuotesParams : IQuotesDalSaveTimeseriesValuesParams
     {
         public QuotesDalMSSQLSaveQuotesParams()
         {
@@ -93,7 +93,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLSaveQuotesResult : ResultBase, IQuotesDalSaveQuotesResult
+    class QuotesDalMSSQLSaveQuotesResult : ResultBase, IQuotesDalSaveTimeseriesValuesResult
     {
         public QuotesDalMSSQLSaveQuotesResult()
         {
@@ -101,6 +101,85 @@ namespace DMFX.QuotesDAL
         }
 
         public uint TimeSeriesSaved
+        {
+            get;
+            set;
+        }
+    }
+
+    class QuotesDalMSSQLGetTimeSeriesInfoParams : IQuotesDalGetTimeSeriesInfoParams
+    {
+        public string CountryCode
+        {
+            get;
+            set;
+        }
+
+        public string Ticker
+        {
+            get;
+            set;
+        }
+    }
+
+    class QuotesDalMSSQLGetTimeSeriesInfoResult : ResultBase, IQuotesDalGetTimeSeriesInfoResult
+    {
+
+        public QuotesDalMSSQLGetTimeSeriesInfoResult()
+        {
+            Series = new List<TimeSeriesInfoListItem>();
+        }
+
+        public string CountryCode
+        {
+            get;
+            set;
+        }
+
+        
+        public string Ticker
+        {
+            get;
+            set;
+        }
+
+        public IList<TimeSeriesInfoListItem> Series
+        {
+            get;
+            set;
+        }
+
+        public ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+
+        public EUnit Unit
+        {
+            get;
+            set;
+        }
+    }
+
+    class QuotesDalMSSQLGetTimeSeriesListParams : IQuotesDalGetTimeSeriesListParams
+    {
+        public string CountryCode
+        {
+            get;
+            set;
+        }
+
+        public ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+    }
+
+    class QuotesDalMSSQLGetTimeSeriesListResult : ResultBase, IQuotesDalGetTimeSeriesListResult
+    {
+        public IList<TimeSeriesListItem> Timeseries
         {
             get;
             set;

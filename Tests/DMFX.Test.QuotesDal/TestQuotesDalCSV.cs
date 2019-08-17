@@ -28,12 +28,12 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
             getParams.Tickers.Add( ConfigurationSettings.AppSettings["TickerSPY"] );
             getParams.TimeFrame = ETimeFrame.Monthly;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -48,12 +48,12 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsFalse(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -66,13 +66,13 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerSPY"]);
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerQQQ"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -90,13 +90,13 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsFalse(result.Success);
             Assert.IsNotNull(result.Quotes);
@@ -108,13 +108,13 @@ namespace DMFX.Test.QuotesDal
         {
             IQuotesDal dal = PrepareQuotesDal();
 
-            IQuotesDalGetQuotesParams getParams = dal.CreateGetQuotesParams();
+            IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
             getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerSPY"]);
             getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicket"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
-            IQuotesDalGetQuotesResult result = dal.GetQuotes(getParams);
+            IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
 
             Assert.IsTrue(result.Success);
             Assert.IsTrue(result.HasWarnings);

@@ -32,6 +32,113 @@ namespace DMFX.Service.Quotes
 
             try
             {
+                if (IsValidSessionToken(request))
+                {
+                    IQuotesDalGetTimeSeriesListParams getTSListParams = _dal.CreateGetTimeSeriesListParams();
+                    getTSListParams.CountryCode = request.CountryCode;
+                    getTSListParams.Type = request.Type;
+
+                    IQuotesDalGetTimeSeriesListResult getTSListResult = _dal.GetTimeSeriesList(getTSListParams);
+
+                    if (getTSListResult.Success)
+                    {
+                        foreach (var t in getTSListResult.Timeseries)
+                        {
+                            response.TimeSeries.Add(
+                                new DTO.TimeSeries.TimeSeriesListItem()
+                                {
+                                     CountryCode = request.CountryCode,
+                                     Ticker = t.Ticker,
+                                     Unit = t.Unit,
+                                     Type = t.Type
+                                }
+                            );
+                            
+                        }
+
+                        response.Success = true;
+                        
+                    }
+                    else
+                    {
+                        response.Errors.AddRange(getTSListResult.Errors);
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: GetTimeSeriesList");
+
+            return response;
+        }
+
+        public GetTimeSeriesInfoResponse Any(GetTimeSeriesInfo request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: GetTimeSeriesInfo");
+            GetTimeSeriesInfoResponse response = new GetTimeSeriesInfoResponse();
+
+            TransferHeader(request, response);
+
+            try
+            {
+                if (IsValidSessionToken(request))
+                {
+                    IQuotesDalGetTimeSeriesInfoParams getTInfoParams = _dal.CreateGetTimeSeriesInfoParams();
+                    getTInfoParams.CountryCode = request.CountryCode;
+                    getTInfoParams.Ticker = request.Ticker;
+
+                    IQuotesDalGetTimeSeriesInfoResult getTInfoResult = _dal.GetTimeSeriesInfo(getTInfoParams);
+
+                    if (getTInfoResult.Success)
+                    {
+                        response.Ticker = request.Ticker;
+                        response.Type = getTInfoResult.Type;
+                        response.Unit = getTInfoResult.Unit;
+                        response.CountryCode = request.CountryCode;
+
+
+                        foreach (var t in getTInfoResult.Series)
+                        {
+                            response.Series.Add(
+                                new TimeSeriesInfoItem()
+                                {
+                                    TimeFrame = (DTO.ETimeFrame)t.Timeframe,
+                                    LastUpdated = t.LastUpdated,
+                                    PeriodEnd = t.PeriodEnd,
+                                    PeriodStart = t.PeriodStart
+                                     
+                                }
+                                );
+                        }
+
+                        response.Success = true;
+
+                    }
+                    else
+                    {
+                        response.Errors.AddRange(getTInfoResult.Errors);
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
             }
             catch (Exception ex)
             {
@@ -61,14 +168,14 @@ namespace DMFX.Service.Quotes
             {
                 if (IsValidSessionToken(request))
                 {
-                    IQuotesDalGetQuotesParams getParams = _dal.CreateGetQuotesParams();
+                    IQuotesDalGetTimeSeriesValuesParams getParams = _dal.CreateGetQuotesParams();
                     getParams.Country = request.CountryCode;
                     getParams.Tickers.Add(request.Ticker);
                     getParams.PeriodEnd = request.PeriodEnd != null ? (DateTime)request.PeriodEnd : DateTime.Now;
                     getParams.PeriodStart = request.PeriodStart != null ? (DateTime)request.PeriodStart : DateTime.Parse(ConfigurationManager.AppSettings["DefaultPeriodStart"]);
                     getParams.TimeFrame = (QuotesInterfaces.ETimeFrame)request.TimeFrame;
 
-                    IQuotesDalGetQuotesResult getResult = _dal.GetQuotes(getParams);
+                    IQuotesDalGetTimeseriesValuesResult getResult = _dal.GetTimseriesValues(getParams);
                     // copying list of errors - there can be also warnings too
                     response.Errors.AddRange(response.Errors);
                     if (getResult.Success)
@@ -107,7 +214,7 @@ namespace DMFX.Service.Quotes
 
         #region Support methods
 
-        private void TranslateToTickerQuotes(GetTimeSeriesResponse response, IQuotesDalGetQuotesResult getResult)
+        private void TranslateToTickerQuotes(GetTimeSeriesResponse response, IQuotesDalGetTimeseriesValuesResult getResult)
         {
             IQuotesData quotesData = getResult.Quotes[0];
             TickerQuotes tickerQuotes = new TickerQuotes();
