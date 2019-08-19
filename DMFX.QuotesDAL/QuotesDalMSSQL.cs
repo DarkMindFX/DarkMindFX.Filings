@@ -27,7 +27,7 @@ namespace DMFX.QuotesDAL
 
             string spName = "[SP_Get_Ticker_Timeseries_Values]";
             SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
-                       
+
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
@@ -45,7 +45,7 @@ namespace DMFX.QuotesDAL
             {
                 // getting ID of the current ticker
                 paramTickerId.Value = GetTickerId(getQuotesParams.Tickers[i], conn);
-                
+
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -69,7 +69,7 @@ namespace DMFX.QuotesDAL
                             qrec.Time = (DateTime)row[0];
                             for (int r = 1; r < row.Table.Columns.Count - 1; ++r)
                             {
-                                qrec[r-1] = (decimal)row[r];
+                                qrec[r - 1] = (decimal)row[r];
                             }
 
                             qdata.AddRecord(qrec);
@@ -117,13 +117,14 @@ namespace DMFX.QuotesDAL
                     tickerId = AddTicker(q.Ticker, conn);
                 }
 
+                int unitId = (int)q.Unit;
+                int timeFrameId = (int)q.TimeFrame;
+                int typeId = (int)q.Type;
+
                 // getting TS info for this ticker
-                int tsId = GetTimeSeriesId(tickerId, conn);
+                int tsId = GetTimeSeriesId(tickerId, timeFrameId, conn);
                 if (tsId == Int32.MinValue)
-                {
-                    int unitId = (int)q.Unit;
-                    int timeFrameId = (int)q.TimeFrame;
-                    int typeId = (int)q.Type;
+                {                 
 
                     // creating new record
                     tsId = CreateTimeseries(tickerId, unitId, typeId, timeFrameId, q.Quotes[0].ValueNames.ToList(), conn);
@@ -172,7 +173,69 @@ namespace DMFX.QuotesDAL
 
         public IQuotesDalGetTimeSeriesInfoResult GetTimeSeriesInfo(IQuotesDalGetTimeSeriesInfoParams getTsInfoParams)
         {
-            throw new NotImplementedException();
+            IQuotesDalGetTimeSeriesInfoResult result = new QuotesDalMSSQLGetTimeSeriesInfoResult();
+
+            string spName = "[SP_GetTimeseries_Info_By_Ticket]";
+
+            SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            SqlParameter paramTicker = new SqlParameter("@IN_Ticker", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, getTsInfoParams.Ticker);
+
+            SqlParameter paramCountryCode = new SqlParameter("@IN_Country_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, getTsInfoParams.CountryCode);
+
+            cmd.Parameters.Add(paramTicker);
+            cmd.Parameters.Add(paramCountryCode);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+
+            const int cColumnCount = 10; //
+
+            if (ds.Tables.Count >= 1)
+            {
+                // getting data from the first record
+                result.CountryCode = getTsInfoParams.CountryCode;
+                result.Ticker = getTsInfoParams.Ticker;
+                result.Unit = (EUnit)ds.Tables[0].Rows[0][0];
+                result.Type = (ETimeSeriesType)ds.Tables[0].Rows[0][1];
+                for (int i = 1; i <= cColumnCount && !DBNull.Value.Equals(ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]); ++i)
+                {
+                    result.Columns.Add((string)ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]);
+                }
+
+                // creating list of available timeframes
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    result.Series.Add(new TimeSeriesInfoListItem()
+                    {
+                        PeriodStart = (DateTime)r["Period_Start"],
+                        PeriodEnd = (DateTime)r["Period_End"],
+                        Timeframe = (ETimeFrame)r["PeriodTypeName"]
+
+                    });
+                }
+                
+            }
+            else
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.TickerNotFound,
+                    Type = Interfaces.EErrorType.Error,
+                    Message = string.Format("Failed to find info for ticker {0}, countrty {1}", getTsInfoParams.Ticker, getTsInfoParams.CountryCode)
+                });
+            }
+
+            return result;
         }
 
 
@@ -333,7 +396,7 @@ namespace DMFX.QuotesDAL
             }
         }
 
-        private int GetTimeSeriesId(int tickerId, SqlConnection conn)
+        private int GetTimeSeriesId(int tickerId, int periodId, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -345,8 +408,11 @@ namespace DMFX.QuotesDAL
 
             var paramTickerId = new SqlParameter("@IN_Ticker_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, tickerId);
 
+            var paramPeriodId = new SqlParameter("@IN_Period_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, periodId);
+
 
             cmd.Parameters.Add(paramTickerId);
+            cmd.Parameters.Add(paramPeriodId);
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
@@ -449,7 +515,7 @@ namespace DMFX.QuotesDAL
             conn.Open();
 
             return conn;
-        }          
+        }
 
 
 

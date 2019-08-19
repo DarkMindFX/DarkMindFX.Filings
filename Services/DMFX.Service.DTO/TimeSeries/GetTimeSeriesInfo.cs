@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO.TimeSeries
 {
-    [Route("/GetTimeSeries/{CountryCode}/{Ticker}/{SessionToken}", "GET")]
-    [Route("/GetTimeSeries", "POST")]
+    [Route("/GetTimeSeriesInfo/{CountryCode}/{Ticker}/{SessionToken}", "GET")]
+    [Route("/GetTimeSeriesInfo", "POST")]
     public class GetTimeSeriesInfo : RequestBase, IReturn<GetTimeSeriesInfoResponse>
     {
         public string CountryCode
@@ -60,6 +60,12 @@ namespace DMFX.Service.DTO.TimeSeries
 
     public class GetTimeSeriesInfoResponse : ResponseBase
     {
+        public GetTimeSeriesInfoResponse()
+        {
+            Series = new List<TimeSeriesInfoItem>();
+            Columns = new List<string>();
+        }
+
         public string CountryCode
         {
             get;
@@ -85,6 +91,12 @@ namespace DMFX.Service.DTO.TimeSeries
         }
 
         public IList<TimeSeriesInfoItem> Series
+        {
+            get;
+            set;
+        }
+
+        public IList<string> Columns
         {
             get;
             set;

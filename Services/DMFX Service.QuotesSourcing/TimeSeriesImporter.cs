@@ -240,7 +240,7 @@ namespace DMFX.Service.QuotesSourcing
                                 getQuotesParams.Ticker = t;
                                 getQuotesParams.PeriodStart = _impParams.DateStart;
                                 getQuotesParams.PeriodEnd = _impParams.DateEnd;
-                                getQuotesParams.TimeFrame = ETimeFrame.Daily;
+                                getQuotesParams.TimeFrame = (ETimeFrame)_impParams.TimeFrame;
 
                                 CurrentState = EImportState.ImportSources;
 

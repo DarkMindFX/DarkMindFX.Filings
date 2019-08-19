@@ -110,20 +110,22 @@ namespace DMFX.Service.Quotes
                         response.Type = getTInfoResult.Type;
                         response.Unit = getTInfoResult.Unit;
                         response.CountryCode = request.CountryCode;
-
-
+                        
                         foreach (var t in getTInfoResult.Series)
                         {
                             response.Series.Add(
                                 new TimeSeriesInfoItem()
                                 {
                                     TimeFrame = (DTO.ETimeFrame)t.Timeframe,
-                                    LastUpdated = t.LastUpdated,
                                     PeriodEnd = t.PeriodEnd,
                                     PeriodStart = t.PeriodStart
-                                     
                                 }
                                 );
+                        }
+
+                        foreach (var c in getTInfoResult.Columns)
+                        {
+                            response.Columns.Add(c);
                         }
 
                         response.Success = true;

@@ -8,7 +8,7 @@ namespace DMFX.Service.DTO
 {
     public enum ETimeFrame
     {
-        Daily,
+        Daily = 1,
         Weekly,
         Monthly,
         Quarterly,

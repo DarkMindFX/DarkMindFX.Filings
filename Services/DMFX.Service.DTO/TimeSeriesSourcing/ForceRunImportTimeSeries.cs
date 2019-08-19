@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ForceRunImportTimeSeries/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DaysBack}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DaysBack}/{SymbolCodes}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{SymbolCodes}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DaysBack}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DaysBack}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
     [Route("/ForceRunImportTimeSeries", "PUT")]
     public class ForceRunImportTimeSeries : RequestBase, IReturn<ForceRunImportTimeSeriesResponse>
     {
@@ -34,6 +34,12 @@ namespace DMFX.Service.DTO
         }
 
         public decimal? DaysBack
+        {
+            get;
+            set;
+        }
+
+        public ETimeFrame? Timeframe
         {
             get;
             set;

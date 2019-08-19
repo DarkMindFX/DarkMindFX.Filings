@@ -46,6 +46,7 @@ namespace DMFX.Service.QuotesSourcing
                             impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         }
                         impParams.Tickers = new System.Collections.Generic.HashSet<string>(request.SymbolCodes);
+                        impParams.TimeFrame = request.Timeframe ?? ETimeFrame.Daily;
 
 
                         // starting import process

@@ -162,11 +162,7 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
-        public DateTime? LastUpdated
-        {
-            get;
-            set;
-        }          
+            
     }
 
     public interface IQuotesDalGetTimeSeriesInfoResult : IResult
@@ -184,6 +180,12 @@ namespace DMFX.QuotesInterfaces
         }
 
         IList<TimeSeriesInfoListItem> Series
+        {
+            get;
+            set;
+        }
+
+        IList<string> Columns
         {
             get;
             set;

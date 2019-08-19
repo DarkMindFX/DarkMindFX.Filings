@@ -33,6 +33,7 @@ namespace DMFX.Interfaces
 
         QuotesSourceFail = 101,
         QuotesNotFound = 102,
+        TickerNotFound = 103,
 
         GeneralError = 99999
     }

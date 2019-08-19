@@ -128,6 +128,7 @@ namespace DMFX.QuotesDAL
         public QuotesDalMSSQLGetTimeSeriesInfoResult()
         {
             Series = new List<TimeSeriesInfoListItem>();
+            Columns = new List<string>();
         }
 
         public string CountryCode
@@ -144,6 +145,12 @@ namespace DMFX.QuotesDAL
         }
 
         public IList<TimeSeriesInfoListItem> Series
+        {
+            get;
+            set;
+        }
+
+        public IList<string> Columns
         {
             get;
             set;
