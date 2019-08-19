@@ -23,10 +23,10 @@ namespace DMFX.Service.Quotes
             InitDAL();
         }
 
-        public GetTimeSeriesListResponse Any(GetTimeSeriesList request)
+        public GetTickerListResponse Any(GetTickerList request)
         {
-            _logger.Log(EErrorType.Info, " ****** Call start: GetTimeSeriesList");
-            GetTimeSeriesListResponse response = new GetTimeSeriesListResponse();
+            _logger.Log(EErrorType.Info, " ****** Call start: GetTickerList");
+            GetTickerListResponse response = new GetTickerListResponse();
 
             TransferHeader(request, response);
 
@@ -34,18 +34,18 @@ namespace DMFX.Service.Quotes
             {
                 if (IsValidSessionToken(request))
                 {
-                    IQuotesDalGetTimeSeriesListParams getTSListParams = _dal.CreateGetTimeSeriesListParams();
+                    IQuotesDalGetTickersListParams getTSListParams = _dal.CreateGetTickersListParams();
                     getTSListParams.CountryCode = request.CountryCode;
                     getTSListParams.Type = request.Type;
 
-                    IQuotesDalGetTimeSeriesListResult getTSListResult = _dal.GetTimeSeriesList(getTSListParams);
+                    IQuotesDalGetTickersListResult getTSListResult = _dal.GetTickersList(getTSListParams);
 
                     if (getTSListResult.Success)
                     {
-                        foreach (var t in getTSListResult.Timeseries)
+                        foreach (var t in getTSListResult.Tickers)
                         {
-                            response.TimeSeries.Add(
-                                new DTO.TimeSeries.TimeSeriesListItem()
+                            response.Tickers.Add(
+                                new DTO.TimeSeries.TickerListItem()
                                 {
                                      CountryCode = request.CountryCode,
                                      Ticker = t.Ticker,
@@ -82,7 +82,7 @@ namespace DMFX.Service.Quotes
                 });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: GetTimeSeriesList");
+            _logger.Log(EErrorType.Info, " ****** Call end: GetTickersList");
 
             return response;
         }

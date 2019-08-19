@@ -169,7 +169,7 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLGetTimeSeriesListParams : IQuotesDalGetTimeSeriesListParams
+    class QuotesDalMSSQLGetTickersListParams : IQuotesDalGetTickersListParams
     {
         public string CountryCode
         {
@@ -184,9 +184,9 @@ namespace DMFX.QuotesDAL
         }
     }
 
-    class QuotesDalMSSQLGetTimeSeriesListResult : ResultBase, IQuotesDalGetTimeSeriesListResult
+    class QuotesDalMSSQLGetTickersListResult : ResultBase, IQuotesDalGetTickersListResult
     {
-        public IList<TimeSeriesListItem> Timeseries
+        public IList<TickersListItem> Tickers
         {
             get;
             set;

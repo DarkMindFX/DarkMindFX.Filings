@@ -59,7 +59,7 @@
     <Compile Include="TimeSeriesSourcing\GetImportTimeSeriesCurrentState.cs" />
     <Compile Include="TimeSeries\GetTimeSeries.cs" />
     <Compile Include="TimeSeries\GetTimeSeriesInfo.cs" />
-    <Compile Include="TimeSeries\GetTimeSeriesList.cs" />
+    <Compile Include="TimeSeries\GetTickerList.cs" />
     <Compile Include="TimeSeries\TickerInfo.cs" />
     <Compile Include="TimeSeries\TickerQuotes.cs" />
     <Compile Include="Scheduler\GetSchedulerState.cs" />

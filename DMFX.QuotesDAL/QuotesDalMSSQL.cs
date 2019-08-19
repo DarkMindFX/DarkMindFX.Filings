@@ -166,7 +166,7 @@ namespace DMFX.QuotesDAL
             return result;
         }
 
-        public IQuotesDalGetTimeSeriesListResult GetTimeSeriesList(IQuotesDalGetTimeSeriesListParams getTsList)
+        public IQuotesDalGetTickersListResult GetTickersList(IQuotesDalGetTickersListParams getTsList)
         {
             throw new NotImplementedException();
         }
@@ -262,9 +262,9 @@ namespace DMFX.QuotesDAL
             return new QuotesDalMSSQLGetTimeSeriesInfoParams();
         }
 
-        public IQuotesDalGetTimeSeriesListParams CreateGetTimeSeriesListParams()
+        public IQuotesDalGetTickersListParams CreateGetTickersListParams()
         {
-            return new QuotesDalMSSQLGetTimeSeriesListParams();
+            return new QuotesDalMSSQLGetTickersListParams();
         }
 
         #endregion

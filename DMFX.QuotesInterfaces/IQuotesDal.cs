@@ -76,7 +76,7 @@ namespace DMFX.QuotesInterfaces
         } 
     }
 
-    public interface IQuotesDalGetTimeSeriesListParams
+    public interface IQuotesDalGetTickersListParams
     {
         string CountryCode
         {
@@ -91,7 +91,7 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public class TimeSeriesListItem
+    public class TickersListItem
     {
         public string Ticker
         {
@@ -118,9 +118,9 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
-    public interface IQuotesDalGetTimeSeriesListResult : IResult
+    public interface IQuotesDalGetTickersListResult : IResult
     {
-        IList<TimeSeriesListItem> Timeseries
+        IList<TickersListItem> Tickers
         {
             get;
             set;
@@ -227,7 +227,7 @@ namespace DMFX.QuotesInterfaces
         /// </summary>
         /// <param name="getTsList"></param>
         /// <returns></returns>
-        IQuotesDalGetTimeSeriesListResult GetTimeSeriesList(IQuotesDalGetTimeSeriesListParams getTsList);
+        IQuotesDalGetTickersListResult GetTickersList(IQuotesDalGetTickersListParams getTsList);
 
         /// <summary>
         /// Returns list of time series / tickers corresponding to given params
@@ -252,7 +252,7 @@ namespace DMFX.QuotesInterfaces
 
         IQuotesDalGetTimeSeriesInfoParams CreateGetTimeSeriesInfoParams();
 
-        IQuotesDalGetTimeSeriesListParams CreateGetTimeSeriesListParams();
+        IQuotesDalGetTickersListParams CreateGetTickersListParams();
 
 
     }

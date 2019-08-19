@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO.TimeSeries
 {
-    [Route("/GetTimeSeries/{CountryCode}/{Type}/{SessionToken}", "GET")]
-    [Route("/GetTimeSeries", "POST")]
-    public class GetTimeSeriesList : RequestBase , IReturn<GetTimeSeriesListResponse>
+    [Route("/GetTickerList/{CountryCode}/{Type}/{SessionToken}", "GET")]
+    [Route("/GetTickerList", "POST")]
+    public class GetTickerList : RequestBase , IReturn<GetTickerListResponse>
     {
         public string CountryCode
         {
@@ -25,7 +25,7 @@ namespace DMFX.Service.DTO.TimeSeries
         }
     }
 
-    public class TimeSeriesListItem
+    public class TickerListItem
     {
         public string Ticker
         {
@@ -53,7 +53,7 @@ namespace DMFX.Service.DTO.TimeSeries
 
     }
 
-    public class GetTimeSeriesListResponse : ResponseBase
+    public class GetTickerListResponse : ResponseBase
     {
         public string CountryCode
         {
@@ -61,7 +61,7 @@ namespace DMFX.Service.DTO.TimeSeries
             set;
         }
 
-        public IList<TimeSeriesListItem> TimeSeries
+        public IList<TickerListItem> Tickers
         {
             get;
             set;
