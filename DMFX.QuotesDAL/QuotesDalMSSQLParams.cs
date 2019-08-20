@@ -186,6 +186,11 @@ namespace DMFX.QuotesDAL
 
     class QuotesDalMSSQLGetTickersListResult : ResultBase, IQuotesDalGetTickersListResult
     {
+        public QuotesDalMSSQLGetTickersListResult()
+        {
+            Tickers = new List<TickersListItem>();
+        }
+
         public IList<TickersListItem> Tickers
         {
             get;

@@ -55,6 +55,10 @@ namespace DMFX.Service.DTO.TimeSeries
 
     public class GetTickerListResponse : ResponseBase
     {
+        public GetTickerListResponse()
+        {
+            Tickers = new List<TickerListItem>();
+        }
         public string CountryCode
         {
             get;

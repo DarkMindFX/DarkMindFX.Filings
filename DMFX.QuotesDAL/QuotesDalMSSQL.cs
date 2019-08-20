@@ -168,7 +168,51 @@ namespace DMFX.QuotesDAL
 
         public IQuotesDalGetTickersListResult GetTickersList(IQuotesDalGetTickersListParams getTsList)
         {
-            throw new NotImplementedException();
+            IQuotesDalGetTickersListResult result = new QuotesDalMSSQLGetTickersListResult();
+
+            string spName = "[SP_Get_Tickers_List]";
+            SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            SqlParameter paramTypeId = new SqlParameter("@IN_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, (int)getTsList.Type);
+
+            cmd.Parameters.Add(paramTypeId);
+  
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    result.Tickers.Add(new TickersListItem() {
+                        CountryCode = getTsList.CountryCode,
+                        Ticker = (string)r["Ticker_Name"],
+                        Unit = (EUnit)r["TS_Unit_Id"],
+                        Type = getTsList.Type });
+                }
+
+                result.Success = true;
+            }
+            else
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.EmptyCollection,
+                    Message = string.Format("Failed to find tickers for {0}, {1}", getTsList.Type, getTsList.CountryCode)
+                });
+            }
+
+            return result;
         }
 
         public IQuotesDalGetTimeSeriesInfoResult GetTimeSeriesInfo(IQuotesDalGetTimeSeriesInfoParams getTsInfoParams)
