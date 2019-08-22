@@ -5,7 +5,9 @@
   </namespaces>
   <sections>
     <section name="StatementOfOperations">
+      <value tag="us-gaap:Revenues" code="Revenues" suffix="" />
       <value tag="us-gaap:SalesRevenueNet" code="SalesRevenueNet" suffix="" />
+      <value tag="us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax" code="RevenueFromContractWithCustomerExcludingAssessedTax" suffix="" />      
       <value tag="us-gaap:CostOfGoodsAndServicesSold" code="CostOfGoodsAndServicesSold" suffix="" />
       <value tag="us-gaap:GrossProfit" code="GrossProfit" suffix="" />
       <value tag="us-gaap:ResearchAndDevelopmentExpense" code="ResearchAndDevelopmentExpense" suffix="" />
@@ -67,6 +69,7 @@
       <value tag="us-gaap:OtherAssetsNoncurrent" code="OtherAssetsNoncurrent" suffix="" />
       <value tag="us-gaap:Assets" code="Assets" suffix="" />
       <value tag="us-gaap:AccountsPayableCurrent" code="AccountsPayableCurrent" suffix="" />
+      <value tag="us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent" code="AccountsPayableCurrent" suffix="" />
       <value tag="us-gaap:AccruedLiabilitiesCurrent" code="AccruedLiabilitiesCurrent" suffix="" />
       <value tag="us-gaap:DeferredRevenueCurrent" code="DeferredRevenueCurrent" suffix="" />
       <value tag="us-gaap:CommercialPaper" code="CommercialPaper" suffix="" />
@@ -85,7 +88,7 @@
       <value tag="us-gaap:CommonStockValue" code="CommonStockValue" suffix="" />
       <value tag="us-gaap:TreasuryStockValue" code="TreasuryStockValue" suffix="" />
       <value tag="us-gaap:AdditionalPaidInCapital" code="AdditionalPaidInCapital" suffix="" />
-      <value tag="" code="" suffix="" />
+      <value tag="us-gaap:CommonStockDividendsPerShareDeclared" code="CommonStockDividendsPerShareDeclared" suffix="" />
       <value tag="" code="" suffix="" />
     </section>
     <section name="CashFlowStatement">
@@ -138,6 +141,7 @@
       <value tag="us-gaap:CapitalLeaseObligationsIncurred" code="CapitalLeaseObligationsIncurred" suffix="" />
       <value tag="us-gaap:DepreciationDepletionAndAmortization" code="DepreciationDepletionAndAmortization" suffix="" />
       <value tag="us-gaap:RecognitionOfDeferredRevenue" code="RecognitionOfDeferredRevenue" suffix="" />
+      <value tag="" code="" suffix="" />
     </section>
     <section name="EarningsPerShare">
       <value tag="us-gaap:WeightedAverageNumberOfSharesOutstandingBasic" code="WeightedAverageNumberOfSharesOutstandingBasic" suffix="" />
