@@ -34,7 +34,7 @@ namespace DMFX.DALDatabase
             _dalParams = dalParams;
         }
 
-        
+
 
         #region IDal implementation
 
@@ -129,7 +129,7 @@ namespace DMFX.DALDatabase
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            da.Fill(ds); 
+            da.Fill(ds);
 
             if (ds.Tables.Count >= 2)
             {
@@ -167,6 +167,68 @@ namespace DMFX.DALDatabase
                         }
                     }
                 }
+            }
+
+            conn.Close();
+
+            return result;
+        }
+
+        public GetCompanyFilingRatiosResult GetCompanyFilingRatios(GetCompanyFilingRatiosParams cmpFilingRatiosParams)
+        {
+            string spName = "[SP_Get_Company_Filing_Ratios]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
+
+            GetCompanyFilingRatiosResult result = new GetCompanyFilingRatiosResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            // Company code
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingRatiosParams.CompanyCode);
+
+            // Regulator code
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingRatiosParams.RegulatorCode);
+
+            // Filing name
+            SqlParameter paramFilingName = new SqlParameter("@FilingName", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpFilingRatiosParams.Name);
+
+            cmd.Parameters.Add(paramCompanyCode);
+            cmd.Parameters.Add(paramRegulatorCode);
+            cmd.Parameters.Add(paramFilingName);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+
+            if (ds.Tables.Count >= 1)
+            {
+                // second table - filing data
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    string valLabel = (string)r["Ratio_Symbol"];
+
+                    if (cmpFilingRatiosParams.Values == null || cmpFilingRatiosParams.Values.Count == 0 || cmpFilingRatiosParams.Values.Contains(valLabel))
+                    {
+                        DateTime periodStart = (DateTime)r["Start_Dttm"];
+                        DateTime periodEnd = (DateTime)r["End_Dttm"];
+
+                        FilingRecord fr = new FilingRecord();
+                        fr.Code = valLabel;
+                        fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
+                        fr.PeriodEnd = periodEnd;
+                        fr.PeriodStart = periodStart;
+                        fr.Unit = !System.DBNull.Value.Equals(r["Unit"]) ?  (string)r["Unit"] : null;
+                        fr.Value = (decimal)r["Ratio_Value"];
+
+                        result.Data.Add(fr);
+                    }
+                }
+
             }
 
             conn.Close();
@@ -289,12 +351,12 @@ namespace DMFX.DALDatabase
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Connection = conn;
-            
+
             // User email
-            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email != null ? (object)accParams.Email : DBNull.Value );
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.Email != null ? (object)accParams.Email : DBNull.Value);
 
             // User pwd hash
-            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey != null ? (object)accParams.AccountKey : DBNull.Value );
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, accParams.AccountKey != null ? (object)accParams.AccountKey : DBNull.Value);
 
             cmd.Parameters.Add(paramEmail);
             cmd.Parameters.Add(paramAccountKey);
@@ -303,7 +365,7 @@ namespace DMFX.DALDatabase
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
-            da.Fill(ds); 
+            da.Fill(ds);
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
@@ -366,7 +428,7 @@ namespace DMFX.DALDatabase
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Connection = conn;
 
-            
+
             // Session id
             SqlParameter paramSessionId = new SqlParameter("@SessionToken", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionId);
 
@@ -426,19 +488,19 @@ namespace DMFX.DALDatabase
             SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
             GetRegulatorsResult result = new GetRegulatorsResult();
-            
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Connection = conn;
 
-   
+
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
 
 
-            da.Fill(ds); 
+            da.Fill(ds);
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
@@ -501,7 +563,7 @@ namespace DMFX.DALDatabase
                     cmpInfo.LastFilingInfo.Submitted = DBNull.Value != r["Last_Report_Submit_Dt"] ? (DateTime)r["Last_Report_Submit_Dt"] : DateTime.MinValue;
 
                     result.Companies.Add(cmpInfo);
-                }              
+                }
             }
             else
             {

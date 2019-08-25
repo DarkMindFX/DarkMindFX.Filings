@@ -426,6 +426,10 @@ namespace DMFX.Source.SEC
                     }
                     // extracting report file name
                     HtmlNode nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='EX-101.INS']/..");
+                    if (nodeFilingData == null)
+                    {
+                        nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='XML']/..");
+                    }
                     if (nodeFilingData != null)
                     {
                         HtmlNode nodeFileName = nodeFilingData.SelectSingleNode("td/a");

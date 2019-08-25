@@ -260,6 +260,65 @@ namespace DMFX.Interfaces.DAL
         }
     }
 
+    public class GetCompanyFilingRatiosParams
+    {
+        public GetCompanyFilingRatiosParams(string[] valueCodes = null)
+        {
+            Values = new HashSet<string>();
+
+            if (valueCodes != null)
+            {
+                foreach (var code in valueCodes)
+                {
+                    if (!Values.Contains(code))
+                    {
+                        Values.Add(code);
+                    }
+                }
+            }
+        }
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+        public string RegulatorCode
+        {
+            get;
+            set;
+        }
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public HashSet<string> Values
+        {
+            get;
+            set;
+        }
+    }
+
+    public class GetCompanyFilingRatiosResult
+    {
+        public GetCompanyFilingRatiosResult()
+        {
+            Data = new List<FilingRecord>();
+        }
+        public CompanyFilingInfo FilingInfo
+        {
+            get;
+            set;
+        }
+
+        public List<FilingRecord> Data
+        {
+            get;
+            set;
+        }
+    }
+
     public class GetUserAccountInfoParams
     {
         public string Email
@@ -510,6 +569,13 @@ namespace DMFX.Interfaces.DAL
         /// <param name="cmpFilingParams"></param>
         /// <returns></returns>
         GetCompanyFilingResult GetCompanyFilingData(GetCompanyFilingParams cmpFilingParams);
+
+        /// <summary>
+        /// For the given filing of the given company returns set of calculated financial ratios
+        /// </summary>
+        /// <param name="cmlFilingRatiosParams"></param>
+        /// <returns></returns>
+        GetCompanyFilingRatiosResult GetCompanyFilingRatios(GetCompanyFilingRatiosParams cmlFilingRatiosParams);
 
         /// <summary>
         /// Create user accont record

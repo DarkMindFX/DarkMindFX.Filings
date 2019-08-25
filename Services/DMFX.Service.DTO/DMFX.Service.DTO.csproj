@@ -49,6 +49,7 @@
     <Compile Include="Accounts\CreateAccount.cs" />
     <Compile Include="Accounts\GetSessionInfo.cs" />
     <Compile Include="Common\Echo.cs" />
+    <Compile Include="Filings\GetFilingRatios.cs" />
     <Compile Include="Portfolio\BuildPortfolio.cs" />
     <Compile Include="Portfolio\GetPortfolio.cs" />
     <Compile Include="Portfolio\Portfolio.cs" />

@@ -24,7 +24,7 @@ namespace DMFX.Service.Filings
             InitDAL();
         }
 
-    
+
 
         public object Any(GetRegulators request)
         {
@@ -197,7 +197,7 @@ namespace DMFX.Service.Filings
         {
             DateTime dtStart = DateTime.UtcNow;
             _logger.Log(EErrorType.Info, " ****** Call start: GetFilingData");
-            
+
             GetFilingDataResponse response = new GetFilingDataResponse();
 
             TransferHeader(request, response);
@@ -276,9 +276,76 @@ namespace DMFX.Service.Filings
             return response;
         }
 
+        public object Any(GetFilingRatios request)
+        {
+            DateTime dtStart = DateTime.UtcNow;
+            _logger.Log(EErrorType.Info, " ****** Call start: GetFilingRatios");
+
+            GetFilingRatiosResponse response = new GetFilingRatiosResponse();
+
+            TransferHeader(request, response);
+
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
+
+            if (valSession == EErrorCodes.Success)
+            {
+
+                try
+                {
+                    Interfaces.DAL.GetCompanyFilingRatiosParams filingRatiosParams = new Interfaces.DAL.GetCompanyFilingRatiosParams(request.RatioCodes.ToArray())
+                    {
+                        CompanyCode = request.CompanyCode,
+                        Name = request.FilingName,
+                        RegulatorCode = request.RegulatorCode,
+                    };
+
+                    Interfaces.DAL.GetCompanyFilingRatiosResult filingRatiosResult = _dal.GetCompanyFilingRatios(filingRatiosParams);
+
+                    response.CompanyCode = request.CompanyCode;
+                    response.RegulatorCode = request.RegulatorCode;
+
+                    response.FilingName = request.FilingName;
+
+                    foreach (var fd in filingRatiosResult.Data)
+                    {
+                        response.Ratios.Add(new DTO.RatioRecord()
+                        {
+                            Code = fd.Code,
+                            Value = fd.Value,
+                            UnitName = fd.Unit,
+                            PeriodEnd = fd.PeriodEnd,
+                            PeriodStart = fd.PeriodStart
+                        });
+                    }
+
+
+                    response.Success = true;
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(ex);
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                }
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
+            }
+
+            DateTime dtEnd = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetFilingRatios\tTime:{0}", dtEnd - dtStart));
+
+            return response;
+        }
+
 
         #region Support methods
-        
+
         private void InitDAL()
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
