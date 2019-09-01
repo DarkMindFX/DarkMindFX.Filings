@@ -350,7 +350,9 @@ namespace DMFX.SECParser
                 {
                     // TODO: WARNING! this supports only 10-K and 10-Q report types - need to change in future for other types of reports
                     if (ctx.StartDate != DateTime.MinValue &&
-                        (endDate - ctx.StartDate).Days >= (type == "10-Q" ? 80/*10-Q*/ : 350/*10-K*/))
+                        (endDate - ctx.StartDate).Days >= (type == "10-Q" ? 80/*10-Q*/ : 350/*10-K*/) &&
+                        (endDate - ctx.StartDate).Days <= (type == "10-Q" ? 100/*10-Q*/ : 370/*10-K*/)
+                       )
                     {
                         secResult.FilingData["DocumentPeriodStartDate"] = ctx.StartDate.ToShortDateString();
                         break;
@@ -404,7 +406,11 @@ namespace DMFX.SECParser
                             context.Instant,
                             valueTag.Attributes["id"] != null ? valueTag.Attributes["id"].Value : null
                         );
-                        statementSection.Records.Add(record);
+
+                        if (!statementSection.Records.Contains(record))
+                        {
+                            statementSection.Records.Add(record);
+                        }                        
                     }
                 }
             }

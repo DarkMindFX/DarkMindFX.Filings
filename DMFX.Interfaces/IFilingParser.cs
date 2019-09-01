@@ -69,6 +69,42 @@ namespace DMFX.Interfaces
             get;
             set;
         }
+
+        public override bool Equals(object obj)
+        {
+            StatementRecord other = obj as StatementRecord;
+            if (other != null)
+            {
+                return SourceFactId.Equals(other.SourceFactId) || 
+                    (Title.Equals(other.Title) && PeriodStart.Equals(other.PeriodStart) && PeriodEnd.Equals(other.PeriodEnd));
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            if (!string.IsNullOrEmpty(SourceFactId))
+            {
+                return SourceFactId.GetHashCode();
+            }
+            else
+            {
+                unchecked // Overflow is fine, just wrap
+                {
+                    int hash = 117;
+
+                    hash = hash * 123 + Title.GetHashCode();
+                    hash = hash * 123 + PeriodStart.GetHashCode();
+                    hash = hash * 123 + PeriodEnd.GetHashCode();
+
+                    return hash;
+                }
+            }
+        }
+
     }
 
 
@@ -76,7 +112,7 @@ namespace DMFX.Interfaces
     {
         public Statement(string title = null)
         {
-            Records = new List<StatementRecord>();
+            Records = new HashSet<StatementRecord>();
             Title = title;
         }
 
@@ -86,7 +122,7 @@ namespace DMFX.Interfaces
             set;
         }
 
-        public List<StatementRecord> Records
+        public HashSet<StatementRecord> Records
         {
             get;
         }
