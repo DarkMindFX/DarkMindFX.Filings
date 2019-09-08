@@ -64,7 +64,7 @@
       <value tag="us-gaap:OtherAssetsNoncurrent" code="OtherAssetsNoncurrent" suffix="" />
       <value tag="us-gaap:Assets" code="Assets" suffix="" />
       <value tag="us-gaap:AccountsPayableCurrent" code="AccountsPayableCurrent" suffix="" />
-      <value tag="us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent" code="AccountsPayableCurrent" suffix="" />
+      <value tag="us-gaap:AccountsPayableAndAccruedLiabilitiesCurrent" code="AccountsPayableAndAccruedLiabilitiesCurrent" suffix="" />
       <value tag="us-gaap:AccruedLiabilitiesCurrent" code="AccruedLiabilitiesCurrent" suffix="" />
       <value tag="us-gaap:DeferredRevenueCurrent" code="DeferredRevenueCurrent" suffix="" />
       <value tag="us-gaap:CommercialPaper" code="CommercialPaper" suffix="" />
@@ -84,7 +84,18 @@
       <value tag="us-gaap:TreasuryStockValue" code="TreasuryStockValue" suffix="" />
       <value tag="us-gaap:AdditionalPaidInCapital" code="AdditionalPaidInCapital" suffix="" />
       <value tag="us-gaap:CommonStockDividendsPerShareDeclared" code="CommonStockDividendsPerShareDeclared" suffix="" />
-      <value tag="" code="" suffix="" />
+      <value tag="us-gaap:NotesAndLoansReceivableNetCurrent" code="NotesAndLoansReceivableNetCurrent" suffix="" />
+      <value tag="us-gaap:MarketableSecuritiesNoncurrent" code="MarketableSecuritiesNoncurrent" suffix="" />
+      <value tag="us-gaap:NotesAndLoansReceivableNetNoncurrent" code="NotesAndLoansReceivableNetNoncurrent" suffix="" />
+      <value tag="us-gaap:PropertySubjectToOrAvailableForOperatingLeaseNet" code="PropertySubjectToOrAvailableForOperatingLeaseNet" suffix="" />
+      <value tag="us-gaap:EquityMethodInvestments" code="EquityMethodInvestments" suffix="" />
+      <value tag="us-gaap:DeferredTaxAssetsNetNoncurrent" code="DeferredTaxAssetsNetNoncurrent" suffix="" />
+      <value tag="us-gaap:OtherLiabilitiesCurrent" code="DeferredTaxAssetsNetNoncurrent" suffix="" />
+      <value tag="us-gaap:ContractWithCustomerLiabilityCurrent" code="ContractWithCustomerLiabilityCurrent" suffix="" />
+      <value tag="us-gaap:DeferredTaxLiabilitiesNoncurrent" code="DeferredTaxLiabilitiesNoncurrent" suffix="" />
+      <value tag="us-gaap:RedeemableNoncontrollingInterestEquityCarryingAmount" code="RedeemableNoncontrollingInterestEquityCarryingAmount" suffix="" />
+      <value tag="us-gaap:AdditionalPaidInCapitalCommonStock" code="AdditionalPaidInCapitalCommonStock" suffix="" />
+      <value tag="us-gaap:MinorityInterest" code="MinorityInterest" suffix="" />
     </section>
     <section name="CashFlowStatement">
       <value tag="us-gaap:DepreciationAmortizationAndAccretionNet" code="DepreciationAmortizationAndAccretionNet" suffix="" />
@@ -118,7 +129,6 @@
       <value tag="us-gaap:ProceedsFromRepaymentsOfCommercialPaper" code="ProceedsFromRepaymentsOfCommercialPaper" suffix="" />
       <value tag="us-gaap:NetCashProvidedByUsedInFinancingActivities" code="NetCashProvidedByUsedInFinancingActivities" suffix="" />
       <value tag="us-gaap:CashAndCashEquivalentsPeriodIncreaseDecrease" code="CashAndCashEquivalentsPeriodIncreaseDecrease" suffix="" />
-      <value tag="us-gaap:CashAndCashEquivalentsAtCarryingValue" code="CashAndCashEquivalentsAtCarryingValue" suffix="" />
       <value tag="us-gaap:IncomeTaxesPaidNet" code="IncomeTaxesPaidNet" suffix="" />
       <value tag="us-gaap:InterestPaid" code="InterestPaid" suffix="" />
       <value tag="us-gaap:InterestPaidNet" code="InterestPaidNet" suffix="" />

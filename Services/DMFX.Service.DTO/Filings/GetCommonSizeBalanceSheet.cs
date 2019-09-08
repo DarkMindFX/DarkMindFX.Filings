@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/GetFilingData/{RegulatorCode}/{CompanyCode}/{FilingName}/{SessionToken}", "GET")]
-    [Route("/GetFilingData", "POST")]
-    public class GetFilingData : RequestBase, IReturn<GetFilingDataResponse>
+    [Route("/GetCommonSizeBalanceSheet/{RegulatorCode}/{CompanyCode}/{FilingName}/{SessionToken}", "GET")]
+    [Route("/GetCommonSizeBalanceSheet", "POST")]
+    public class GetCommonSizeBalanceSheet : RequestBase, IReturn<GetCommonSizeBalanceSheetResponse>
     {
-        public GetFilingData()
+        public GetCommonSizeBalanceSheet()
         {
             Values = new List<string>();
         }
@@ -41,13 +41,11 @@ namespace DMFX.Service.DTO
         }
     }
 
-    
-
-    public class GetFilingDataResponse : ResponseBase
+    public class GetCommonSizeBalanceSheetResponse : ResponseBase
     {
-        public GetFilingDataResponse()
+        public GetCommonSizeBalanceSheetResponse()
         {
-            FilingData = new List<FilingRecord>();
+            BalanceSheetData = new List<FilingRecord>();
         }
 
         public string RegulatorCode
@@ -92,7 +90,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public List<FilingRecord> FilingData
+        public List<FilingRecord> BalanceSheetData
         {
             get;
             set;
