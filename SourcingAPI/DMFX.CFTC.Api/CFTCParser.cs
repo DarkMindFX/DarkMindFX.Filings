@@ -13,7 +13,7 @@ namespace DMFX.CFTC.Api
     {
         #region abstract methods to overload
 
-        
+
         /// <summary>
         /// Returns the list of column indexes and corresponding time series names to be used
         /// </summary>
@@ -60,12 +60,14 @@ namespace DMFX.CFTC.Api
             set;
         }
 
+        string[] SplitLine(string line);
+
         #endregion
     }
 
     public interface ICFTCParserResult
     {
-        HashSet<CFTCInstrumentQuotes> Instruments
+        Dictionary<string, CFTCInstrumentQuotes> Instruments
         {
             get;
             set;
@@ -75,7 +77,7 @@ namespace DMFX.CFTC.Api
     public class CFTCParser
     {
         public CFTCParser()
-        {            
+        {
         }
 
         public ICFTCParserResult Parse(ICFTCParserParams parserParams)
@@ -99,12 +101,16 @@ namespace DMFX.CFTC.Api
                 if (data != null)
                 {
                     Stream dataStream = Decompress(data);
+                    data = null;
+                    System.GC.Collect();
                     if (dataStream != null)
                     {
                         StreamReader sr = new StreamReader(dataStream);
                         string txt = sr.ReadToEnd();
 
                         ParseCSV(txt, true, parserParams, result);
+
+                        dataStream.Close();
                     }
                 }
             }
@@ -115,6 +121,9 @@ namespace DMFX.CFTC.Api
         private byte[] ServiceCall(string url)
         {
             byte[] response = null;
+
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             using (WebClient client = new WebClient())
             {
@@ -144,32 +153,43 @@ namespace DMFX.CFTC.Api
 
         private void ParseCSV(string text, bool header, ICFTCParserParams parserParams, ICFTCParserResult result)
         {
-
             CFTCInstrumentQuotes curInstrument = null;
 
             int colName = 0;
             int colReportDate = 2;
             int colCFTCMarketCode = 3;
 
-
-            string[] lines = text.Split(new char[] { '\r' });
+            StringReader sr = new StringReader(text);
+            
+            string line = null;
             bool headerSkipped = false;
-            foreach (var line in lines)
+            do
             {
-                if (header && !headerSkipped)
+                line = sr.ReadLine();
+                if (line != null && header && !headerSkipped)
                 {
                     headerSkipped = true;
                 }
-                else
+                else if (line != null)
                 {
 
-                    string[] vals = line.Trim().Split(new char[] { ',' });
+                    string[] vals = parserParams.SplitLine(line.Trim());
                     if (vals.Count() >= parserParams.ColumnsToTimeseriesMapping.Keys.Max() + 1)
                     {
                         // reading common values
-                        string name = vals[colName];
+
+                        DateTime repDate;
+                        if (!DateTime.TryParse(vals[colReportDate], out repDate))
+                        {
+                            // fixing line with bad comma in description
+                            int badComma = line.IndexOf(',');
+                            StringBuilder sb = new StringBuilder(line);
+                            sb[badComma] = ':';
+                            vals = parserParams.SplitLine(sb.ToString().Trim());
+                        }
+
+                        string name = vals[colName].Trim(new char[] { '"' });
                         string marketCode = vals[colCFTCMarketCode];
-                        DateTime repDate = DateTime.Parse(vals[colReportDate]);
 
                         // checking - if its new instrument 
                         if (curInstrument == null || !curInstrument.Ticker.Equals(parserParams.TickerPrefix + marketCode))
@@ -181,11 +201,21 @@ namespace DMFX.CFTC.Api
                             };
                             curInstrument.Timeseries.AddRange(parserParams.ColumnsToTimeseriesMapping.Values);
 
-                            result.Instruments.Add(curInstrument);
+                            CFTCInstrumentQuotes instrument = null;
+                            if (!result.Instruments.TryGetValue(curInstrument.Ticker, out instrument))
+                            {
+                                result.Instruments.Add(curInstrument.Ticker, curInstrument);
+                            }
+                            else
+                            {
+                                curInstrument = instrument;
+                            }
+
                         }
 
                         // creating new record
                         CFTCRecord rec = new CFTCRecord(parserParams.ColumnsToTimeseriesMapping.Count);
+                        rec.ReportDate = repDate;
                         int i = 0;
                         foreach (int col in parserParams.ColumnsToTimeseriesMapping.Keys)
                         {
@@ -196,9 +226,11 @@ namespace DMFX.CFTC.Api
                         curInstrument.Quotes.Add(rec);
 
 
+
                     }
                 }
             }
+            while (line != null);
 
         }
 

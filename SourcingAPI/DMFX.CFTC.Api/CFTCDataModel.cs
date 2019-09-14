@@ -48,7 +48,7 @@ namespace DMFX.CFTC.Api
             string str = ReportDate.ToShortDateString() + " ";
             for (int i = 0; i < _values.Count; ++i)
             {
-                str += _values[i].ToString() + (i + 1 < _values.Count ? " " : string.Empty);
+                str += _values[i].ToString("0.00") + (i + 1 < _values.Count ? " " : string.Empty);
             }
 
             return str;
@@ -90,6 +90,11 @@ namespace DMFX.CFTC.Api
         public override int GetHashCode()
         {
             return Ticker.GetHashCode() * 23 + Description.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Description + " (" + Ticker + ")";
         }
     }
 }
