@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78194D02-7E3B-4890-8C1C-A6EA106567DB}</ProjectGuid>
+    <ProjectGuid>{D46056D2-2524-4010-8CFD-05E424625562}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMFX.Source.CFTC</RootNamespace>
-    <AssemblyName>DMFX.Source.CFTC</AssemblyName>
+    <RootNamespace>DMFX.CFTC.Api</RootNamespace>
+    <AssemblyName>DMFX.CFTC.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,19 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CFTCSource.cs" />
-    <Compile Include="CFTCSourceParams.cs" />
+    <Compile Include="CFTCApi.cs" />
+    <Compile Include="CFTCDataModel.cs" />
+    <Compile Include="CFTCParser.cs" />
+    <Compile Include="CFTCParserParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
-      <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
-      <Name>DMFX.Common.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DMFX.QuotesInterfaces\DMFX.QuotesInterfaces.csproj">
-      <Project>{c69fad89-d66e-4996-876a-e346bcbd3546}</Project>
-      <Name>DMFX.QuotesInterfaces</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
