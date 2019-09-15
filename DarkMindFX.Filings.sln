@@ -156,6 +156,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.CFTC.Api", "SourcingAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.CFTCApi", "Tests\DMFX.Test.CFTCApi\DMFX.Test.CFTCApi.csproj", "{E05C3E6C-93FD-4FAC-BF83-EDAF1D1B6D8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonResources", "CommonResources", "{A8AB40E7-1462-4CC1-98D8-2AC72146A9BC}"
+	ProjectSection(SolutionItems) = preProject
+		CommonResources\SECCompanyList.xml = CommonResources\SECCompanyList.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

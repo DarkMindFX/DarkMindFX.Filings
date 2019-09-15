@@ -53,6 +53,37 @@ namespace DMFX.CFTC.Api
         }
     }
 
+    public class CFTCParserParamsCOTFinFut : CFTCParserParamsBase
+    {
+        public CFTCParserParamsCOTFinFut()
+        {
+            Init();
+        }
+
+        private void Init()
+        {
+            TickerPrefix = "COT.FinFut.";
+            RecentDataPath = string.Format("/files/dea/history/fut_fin_txt_{0}.zip", DateTime.Now.Year);
+
+            for (int i = DateTime.Now.Year - 1; i > 2016; --i)
+            {
+                HistorticalDataPaths.Add(string.Format("/files/dea/history/fut_fin_txt_{0}.zip", i));
+            }
+            HistorticalDataPaths.Add("/files/dea/history/fin_com_txt_2006_2016.zip");
+
+            ColumnsToTimeseriesMapping.Add(7, "Open_Interest_All");
+            ColumnsToTimeseriesMapping.Add(8, "Dealer_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(9, "Dealer_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(11, "Asset_Mgr_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(12, "Asset_Mgr_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(14, "Lev_Money_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(15, "Lev_Money_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(17, "Other_Rept_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(18, "Other_Rept_Positions_Short_All");
+
+        }
+    }
+
     public class CFTCParserParamsCOTFinFutOpt : CFTCParserParamsBase
     {
         public CFTCParserParamsCOTFinFutOpt()
@@ -83,6 +114,38 @@ namespace DMFX.CFTC.Api
 
         }
     }
+
+    public class CFTCParserParamsCOTCmdtsFut : CFTCParserParamsBase
+    {
+        public CFTCParserParamsCOTCmdtsFut()
+        {
+            Init();
+        }
+
+        private void Init()
+        {
+            TickerPrefix = "COT.CmdtsFut.";
+            RecentDataPath = string.Format("/files/dea/history/fut_disagg_txt_{0}.zip", DateTime.Now.Year);
+
+            for (int i = DateTime.Now.Year - 1; i > 2016; --i)
+            {
+                HistorticalDataPaths.Add(string.Format("/files/dea/history/fut_disagg_txt_{0}.zip", i));
+            }
+            HistorticalDataPaths.Add("/files/dea/history/fut_disagg_txt_hist_2006_2016.zip");
+
+            ColumnsToTimeseriesMapping.Add(7, "Open_Interest_All");
+            ColumnsToTimeseriesMapping.Add(8, "Prod_Merc_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(9, "Prod_Merc_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(10, "Swap_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(11, "Swap_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(13, "M_Money_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(14, "M_Money_Positions_Short_All");
+            ColumnsToTimeseriesMapping.Add(16, "Other_Rept_Positions_Long_All");
+            ColumnsToTimeseriesMapping.Add(18, "Other_Rept_Positions_Short_All");
+
+        }
+    }
+
     public class CFTCParserParamsCOTCmdtsFutOpt : CFTCParserParamsBase
     {
         public CFTCParserParamsCOTCmdtsFutOpt()
@@ -115,6 +178,8 @@ namespace DMFX.CFTC.Api
 
    
     }
+
+    
 
     public class CFTCParserResult : ICFTCParserResult
     {

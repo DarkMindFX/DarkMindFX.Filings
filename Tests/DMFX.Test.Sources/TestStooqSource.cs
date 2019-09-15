@@ -59,6 +59,92 @@ namespace DMFX.Test.Sources
             
         }
 
+        [Test]
+        public void TestStooq_CanImport_Single_Success()
+        {
+            IQuotesSource source = CreateSource();
+
+            IQuotesSourceCanImportParams canImportParams = source.CreateCanImportParams();
+             
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["SEC_AAPL_CODE"]);
+            
+
+            IQuotesSourceCanImportResult canImportResult = source.CanImport(canImportParams);
+
+            Assert.IsNotNull(canImportResult);
+            Assert.IsTrue(canImportResult.Success);
+            Assert.False(canImportResult.HasErrors, "Unexpected error occured");
+            Assert.IsNotNull(canImportResult.Tickers);
+            Assert.AreEqual(canImportResult.Tickers.Count, 1, "Invalid number of tickers returned");
+            Assert.AreEqual(canImportResult.Tickers[0], ConfigurationManager.AppSettings["SEC_AAPL_CODE"], "Expected tickers were not returned");
+
+        }
+
+        [Test]
+        public void TestStooq_CanImport_Single_Fail()
+        {
+            IQuotesSource source = CreateSource();
+
+            IQuotesSourceCanImportParams canImportParams = source.CreateCanImportParams();
+
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["STOOQ_TICKER_INVALID"]);
+
+
+            IQuotesSourceCanImportResult canImportResult = source.CanImport(canImportParams);
+
+            Assert.IsNotNull(canImportResult);
+            Assert.IsFalse(canImportResult.Success);
+            Assert.False(canImportResult.HasErrors, "Unexpected error occured");
+            Assert.IsNotNull(canImportResult.Tickers);
+            Assert.AreEqual(canImportResult.Tickers.Count, 0, "Invalid number of tickers returned");
+            
+
+        }
+
+        [Test]
+        public void TestStooq_CanImport_Multiple_Success()
+        {
+            IQuotesSource source = CreateSource();
+
+            IQuotesSourceCanImportParams canImportParams = source.CreateCanImportParams();
+
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["SEC_AAPL_CODE"]);
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["SEC_MMM_CODE"]);
+
+
+            IQuotesSourceCanImportResult canImportResult = source.CanImport(canImportParams);
+
+            Assert.IsNotNull(canImportResult);
+            Assert.IsTrue(canImportResult.Success);
+            Assert.False(canImportResult.HasErrors, "Unexpected error occured");
+            Assert.IsNotNull(canImportResult.Tickers);
+            Assert.AreEqual(canImportResult.Tickers.Count, 2, "Invalid number of tickers returned");
+            Assert.Contains(ConfigurationManager.AppSettings["SEC_AAPL_CODE"], canImportResult.Tickers.ToArray(), "Expected ticker AAPL was not returned");
+            Assert.Contains(ConfigurationManager.AppSettings["SEC_MMM_CODE"], canImportResult.Tickers.ToArray(), "Expected ticker MMM was not returned");
+        }
+
+        [Test]
+        public void TestStooq_CanImport_Multiple_PartialSuccess()
+        {
+            IQuotesSource source = CreateSource();
+
+            IQuotesSourceCanImportParams canImportParams = source.CreateCanImportParams();
+
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["SEC_AAPL_CODE"]);
+            canImportParams.Tickers.Add(ConfigurationManager.AppSettings["STOOQ_TICKER_INVALID"]);
+
+
+            IQuotesSourceCanImportResult canImportResult = source.CanImport(canImportParams);
+
+            Assert.IsNotNull(canImportResult);
+            Assert.IsTrue(canImportResult.Success);
+            Assert.False(canImportResult.HasErrors, "Unexpected error occured");
+            Assert.IsNotNull(canImportResult.Tickers);
+            Assert.AreEqual(canImportResult.Tickers.Count, 1, "Invalid number of tickers returned");
+            Assert.Contains(ConfigurationManager.AppSettings["SEC_AAPL_CODE"], canImportResult.Tickers.ToArray(), "Expected ticker AAPL was not returned");
+           
+        }
+
         #region Support methods
         IQuotesSource CreateSource()
         {

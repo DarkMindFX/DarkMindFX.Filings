@@ -80,4 +80,30 @@ namespace DMFX.Source.CFTC
             set;
         }
     }
+
+    public class CFTCSourceCanImportParams : IQuotesSourceCanImportParams
+    {
+        public CFTCSourceCanImportParams()
+        {
+        }
+
+        public IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
+
+    public class CFTCSourceCanImportResult : ResultBase, IQuotesSourceCanImportResult
+    {
+        public CFTCSourceCanImportResult()
+        {
+        }
+
+        public IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
 }

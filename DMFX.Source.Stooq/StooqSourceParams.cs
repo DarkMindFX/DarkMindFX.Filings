@@ -80,4 +80,32 @@ namespace DMFX.Source.Stooq
             set;
         }
     }
+
+    public class StooqSourceCanImportParams : IQuotesSourceCanImportParams
+    {
+        public StooqSourceCanImportParams()
+        {
+            Tickers = new List<string>();
+        }
+
+        public IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
+
+    public class StooqSourceCanImportResult : ResultBase, IQuotesSourceCanImportResult
+    {
+        public StooqSourceCanImportResult()
+        {
+            Tickers = new List<string>();
+        }
+
+        public IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
 }

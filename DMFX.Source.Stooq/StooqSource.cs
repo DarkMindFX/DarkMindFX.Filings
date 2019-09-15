@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace DMFX.Source.Stooq
 {
@@ -21,6 +22,11 @@ namespace DMFX.Source.Stooq
         public IQuotesSourceInitParams CreateInitParams()
         {
             return new StooqSourceInitParams();
+        }
+
+        public IQuotesSourceCanImportParams CreateCanImportParams()
+        {
+            return new StooqSourceCanImportParams();
         }
 
         public IQuotesSourceGetQuotesResult GetQuotes(IQuotesSourceGetQuotesParams getQuotesParams)
@@ -67,6 +73,28 @@ namespace DMFX.Source.Stooq
             return result;
         }
 
+        public IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams)
+        {
+            IQuotesSourceCanImportResult result = new StooqSourceCanImportResult();
+
+            string xmlFile = Resources.SECCompanyList;
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlFile);
+
+            XmlNodeList xnList = doc.SelectNodes("/companies/company");
+            foreach (XmlNode xn in xnList)
+            {
+                if (canImportParams.Tickers.IndexOf(xn.Attributes["ticker"].Value) >= 0)
+                {
+                    result.Tickers.Add(xn.Attributes["ticker"].Value);
+                }
+            }
+
+            result.Success = result.Tickers.Count > 0;
+            
+            return result;
+        }
+
         public void Init(IQuotesSourceInitParams initParams)
         {
             _initParams = initParams;
@@ -91,6 +119,8 @@ namespace DMFX.Source.Stooq
 
             return result;
         }
+
+        
         #endregion
     }
 }

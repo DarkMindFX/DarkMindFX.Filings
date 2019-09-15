@@ -203,10 +203,11 @@ namespace DMFX.Service.QuotesSourcing
                 // validating if there are anything need to be imported
                 CurrentState = EImportState.Init;
 
-                List<string> sources = new List<string>();
-                sources.Add("Stooq");
+                var sources = _compContainer.GetExports<IQuotesSource>();
 
-                foreach (var src in sources)
+                IQuotesSourceCanImportParams canImportParams = null;
+
+                foreach (var source in sources)
                 {
                     // break if stopped
                     if (!_isRunning)
@@ -214,21 +215,23 @@ namespace DMFX.Service.QuotesSourcing
                         break;
                     }
 
-                    Lazy<IQuotesSource> source = null;
-                    try
+                    List<string> tickersToImport = new List<string>();
+
+                    // checking which of the given tickers can be imported
+                    canImportParams = source.Value.CreateCanImportParams();
+                    _impParams.Tickers.ToList().ForEach(x => canImportParams.Tickers.Add(x));
+
+                    IQuotesSourceCanImportResult canImportResult = source.Value.CanImport(canImportParams);
+                    if (canImportResult.Success)
                     {
-                        source = _compContainer.GetExport<IQuotesSource>(src);
+                        tickersToImport.AddRange(canImportResult.Tickers);
                     }
-                    catch (Exception ex)
-                    {
-                        _logger.Log(ex);
-                        Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", src) });
-                    }
-                    if (source != null && source.Value != null)
+
+                    if (tickersToImport.Count > 0)
                     {
                         CurrentState = EImportState.ImportSources;
 
-                        foreach (var t in _impParams.Tickers)
+                        foreach (var t in tickersToImport)
                         {
                             try
                             {
@@ -262,15 +265,11 @@ namespace DMFX.Service.QuotesSourcing
                             catch (Exception ex)
                             {
                                 _logger.Log(ex);
-                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", src) });
+                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed '{0}'. Error: {1}", t, ex.Message) });
                             }
 
                         }
-                    }
-                    else
-                    {
-                        Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", src) });
-                    }
+                    }                    
                 }
             }
             else

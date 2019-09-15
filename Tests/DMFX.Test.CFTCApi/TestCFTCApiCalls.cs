@@ -52,6 +52,46 @@ namespace DMFX.Test.CFTCApi
         }
 
         [Test]
+        public void ImportRecent_COTFinFut_Recent_Success()
+        {
+            ICFTCParserParams parserParams = new CFTCParserParamsCOTFinFut();
+            parserParams.OnlyLast = true;
+
+            CFTCParser parser = new CFTCParser();
+
+            ICFTCParserResult result = parser.Parse(parserParams);
+
+            Assert.NotNull(result);
+            Assert.IsNotEmpty(result.Instruments);
+            Assert.NotNull(result.Instruments.FirstOrDefault());
+            Assert.IsNotEmpty(result.Instruments.FirstOrDefault().Value.Quotes);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Ticker);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Description);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Ticker, string.Empty);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Description, string.Empty);
+        }
+
+        [Test]
+        public void ImportRecent_COTFinFut_Historical_Success()
+        {
+            ICFTCParserParams parserParams = new CFTCParserParamsCOTFinFut();
+            parserParams.OnlyLast = false;
+
+            CFTCParser parser = new CFTCParser();
+
+            ICFTCParserResult result = parser.Parse(parserParams);
+
+            Assert.NotNull(result);
+            Assert.IsNotEmpty(result.Instruments);
+            Assert.NotNull(result.Instruments.FirstOrDefault());
+            Assert.IsNotEmpty(result.Instruments.FirstOrDefault().Value.Quotes);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Ticker);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Description);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Ticker, string.Empty);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Description, string.Empty);
+        }
+
+        [Test]
         public void ImportRecent_COTCmdtsFutOpt_Recent_Success()
         {
             ICFTCParserParams parserParams = new CFTCParserParamsCOTCmdtsFutOpt();
@@ -75,6 +115,46 @@ namespace DMFX.Test.CFTCApi
         public void ImportRecent_COTCmdtsFutOpt_Historical_Success()
         {
             ICFTCParserParams parserParams = new CFTCParserParamsCOTCmdtsFutOpt();
+            parserParams.OnlyLast = false;
+
+            CFTCParser parser = new CFTCParser();
+
+            ICFTCParserResult result = parser.Parse(parserParams);
+
+            Assert.NotNull(result);
+            Assert.IsNotEmpty(result.Instruments);
+            Assert.NotNull(result.Instruments.FirstOrDefault());
+            Assert.IsNotEmpty(result.Instruments.FirstOrDefault().Value.Quotes);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Ticker);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Description);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Ticker, string.Empty);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Description, string.Empty);
+        }
+
+        [Test]
+        public void ImportRecent_COTCmdtsFut_Recent_Success()
+        {
+            ICFTCParserParams parserParams = new CFTCParserParamsCOTCmdtsFut();
+            parserParams.OnlyLast = true;
+
+            CFTCParser parser = new CFTCParser();
+
+            ICFTCParserResult result = parser.Parse(parserParams);
+
+            Assert.NotNull(result);
+            Assert.IsNotEmpty(result.Instruments);
+            Assert.NotNull(result.Instruments.FirstOrDefault());
+            Assert.IsNotEmpty(result.Instruments.FirstOrDefault().Value.Quotes);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Ticker);
+            Assert.NotNull(result.Instruments.FirstOrDefault().Value.Description);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Ticker, string.Empty);
+            Assert.AreNotEqual(result.Instruments.FirstOrDefault().Value.Description, string.Empty);
+        }
+
+        [Test]
+        public void ImportRecent_COTCmdtsFut_Historical_Success()
+        {
+            ICFTCParserParams parserParams = new CFTCParserParamsCOTCmdtsFut();
             parserParams.OnlyLast = false;
 
             CFTCParser parser = new CFTCParser();

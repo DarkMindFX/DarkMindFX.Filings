@@ -54,8 +54,15 @@
       <Project>{c69fad89-d66e-4996-876a-e346bcbd3546}</Project>
       <Name>DMFX.QuotesInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SourcingAPI\DMFX.CFTC.Api\DMFX.CFTC.Api.csproj">
+      <Project>{d46056d2-2524-4010-8cfd-05e424625562}</Project>
+      <Name>DMFX.CFTC.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /s /y "$(TargetDir)*.dll" "..\..\Plugins-Out\DMFX.Source.CFTC\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

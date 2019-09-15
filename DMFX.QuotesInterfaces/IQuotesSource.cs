@@ -98,6 +98,24 @@ namespace DMFX.QuotesInterfaces
         }
     }
 
+    public interface IQuotesSourceCanImportParams
+    {
+        IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IQuotesSourceCanImportResult : IResult
+    {
+        IList<string> Tickers
+        {
+            get;
+            set;
+        }
+    }
+
     public interface IQuotesSource
     {
         /// <summary>
@@ -113,9 +131,19 @@ namespace DMFX.QuotesInterfaces
         /// <returns></returns>
         IQuotesSourceGetQuotesResult GetQuotes(IQuotesSourceGetQuotesParams getQuotesParams);
 
+        /// <summary>
+        /// This method is used to check which quotes can be imported. The list of tickers is provided in the parameters
+        /// The response will contain the subset of tickers which this source supports
+        /// </summary>
+        /// <param name="canImportParams"></param>
+        /// <returns></returns>
+        IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams);
+
         IQuotesSourceInitParams CreateInitParams();
 
         IQuotesSourceGetQuotesParams CreateGetQuotesParams();
+
+        IQuotesSourceCanImportParams CreateCanImportParams();
 
     }
 }
