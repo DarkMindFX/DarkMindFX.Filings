@@ -14,11 +14,7 @@ namespace DMFX.Source.CFTC
     {
         IQuotesSourceInitParams _initParams = null;
 
-        public IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams)
-        {
-            IQuotesSourceCanImportResult result = new CFTCSourceCanImportResult();
-            
-            ICFTCParserParams[] paramTypes = new ICFTCParserParams[]
+        static ICFTCParserParams[] s_paramTypes = new ICFTCParserParams[]
             {
                 new CFTCParserParamsCOTCmdtsFut(),
                 new CFTCParserParamsCOTCmdtsFutOpt(),
@@ -26,13 +22,18 @@ namespace DMFX.Source.CFTC
                 new CFTCParserParamsCOTFinFutOpt()
             };
 
+        public IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams)
+        {
+            IQuotesSourceCanImportResult result = new CFTCSourceCanImportResult();
+            
+            
             foreach (var ticker in canImportParams.Tickers)
             {
                 bool found = false;
                 int i = 0;
-                while (!found && i < paramTypes.Count())
+                while (!found && i < s_paramTypes.Count())
                 {
-                    found = ticker.IndexOf(paramTypes[i].TickerPrefix) >= 0;
+                    found = ticker.IndexOf(s_paramTypes[i].TickerPrefix) >= 0;
                     ++i;
                 }
 
@@ -49,11 +50,64 @@ namespace DMFX.Source.CFTC
 
         public IQuotesSourceGetQuotesResult GetQuotes(IQuotesSourceGetQuotesParams getQuotesParams)
         {
-            IQuotesSourceGetQuotesResult result = new CFTCSourceGetQuotesResult();
-            ICFTCParserParams parserParams = new CFTCParserParamsCOTFinFutOpt();
-            parserParams.OnlyLast = getQuotesParams.PeriodEnd.Year == DateTime.Now.Year ? true : false;            
+            // For COT reports we don't extract selected items only because it will be too expensive
+            // Rather we're loading the whole report with all items there
+            // For this purposes we only identifying the types of items we need to extract based on indicator prefixes
+
+            IQuotesSourceGetQuotesResult result = new CFTCSourceGetQuotesResult();                       
 
             CFTCParser cftcParser = new CFTCParser();
+
+            // checking which types we need and preparing parameters
+            List<ICFTCParserParams> parserParams = new List<ICFTCParserParams>();
+            foreach (var pt in s_paramTypes)
+            {
+                ICFTCParserParams cotTypeParams = null;
+
+                // at least one ticker has a prefix of given type - adding corresponding params object to parse proper report
+                if (getQuotesParams.Tickers.Count(x => x.Contains(pt.TickerPrefix)) > 0)
+                {
+                    cotTypeParams = pt.Clone();
+                    cotTypeParams.OnlyLast = getQuotesParams.PeriodEnd.Year == DateTime.Now.Year ? true : false;
+                    parserParams.Add(cotTypeParams);
+                }
+                
+            }
+
+            // for the list of parameters - calling parser to load proper report
+            foreach (var parserParam in parserParams)
+            {
+                ICFTCParserResult parserResult = cftcParser.Parse(parserParam);
+
+                foreach (CFTCInstrumentQuotes i in parserResult.Instruments.Values)
+                {
+                    IQuotesData qd = new BaseQuotesData();
+                    qd.Country = getQuotesParams.Country;
+                    qd.Ticker = i.Ticker;
+                    qd.Name = i.Description;
+                    qd.Unit = TickerUnit(i.Ticker);
+                    qd.Type = TickerType(i.Ticker);
+                    qd.TimeFrame = ETimeFrame.Weekly;
+                    
+                    foreach (var q in i.Quotes)
+                    {
+                        ITimeSeriesRecord tsr = new CustomTimeseriesRecord(i.Timeseries, q.ReportDate, q.Values);
+                        qd.AddRecord(tsr);
+                    }
+
+                    result.QuotesData.Add(qd);
+                }
+            }
+
+            result.Success = result.QuotesData.Count > 0;
+            if (result.Success && result.QuotesData.Count < getQuotesParams.Tickers.Count)
+            {
+                result.AddError(Interfaces.EErrorCodes.QuotesNotFound, Interfaces.EErrorType.Warning, "Not all quotes were found");
+            }
+            else if (!result.Success)
+            {
+                result.AddError(Interfaces.EErrorCodes.QuotesNotFound, Interfaces.EErrorType.Error, "Requested tickers are not supported or quotes for them not found");
+            }
 
             return result;
         }

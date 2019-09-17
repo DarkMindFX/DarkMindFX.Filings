@@ -33,7 +33,7 @@ namespace DMFX.Source.Stooq
         {
             StooqApi api = new StooqApi();
 
-            StooqSourceGetQuotesResult result = new StooqSourceGetQuotesResult();
+            IQuotesSourceGetQuotesResult result = new StooqSourceGetQuotesResult();
             foreach (var t in getQuotesParams.Tickers)
             {
                 IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();

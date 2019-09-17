@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.CFTC.Api
 {
-    public interface ICFTCParserParams
+    public interface ICFTCParserParams 
     {
         #region abstract methods to overload
 
@@ -59,6 +59,12 @@ namespace DMFX.CFTC.Api
             get;
             set;
         }
+
+        /// <summary>
+        /// Use this method to clone the object & content
+        /// </summary>
+        /// <returns></returns>
+        ICFTCParserParams Clone();
 
         string[] SplitLine(string line);
 

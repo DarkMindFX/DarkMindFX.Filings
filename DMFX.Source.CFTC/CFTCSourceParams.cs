@@ -90,6 +90,7 @@ namespace DMFX.Source.CFTC
     {
         public CFTCSourceCanImportParams()
         {
+            Tickers = new List<string>();
         }
 
         public IList<string> Tickers
@@ -103,6 +104,7 @@ namespace DMFX.Source.CFTC
     {
         public CFTCSourceCanImportResult()
         {
+            Tickers = new List<string>();
         }
 
         public IList<string> Tickers

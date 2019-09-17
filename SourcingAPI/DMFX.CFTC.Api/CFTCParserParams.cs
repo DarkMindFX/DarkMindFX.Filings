@@ -51,6 +51,8 @@ namespace DMFX.CFTC.Api
 
             return vals;
         }
+
+        public abstract ICFTCParserParams Clone();
     }
 
     public class CFTCParserParamsCOTFinFut : CFTCParserParamsBase
@@ -81,6 +83,15 @@ namespace DMFX.CFTC.Api
             ColumnsToTimeseriesMapping.Add(17, "Other_Rept_Positions_Long_All");
             ColumnsToTimeseriesMapping.Add(18, "Other_Rept_Positions_Short_All");
 
+        }
+
+        public override ICFTCParserParams Clone()
+        {
+            ICFTCParserParams result = new CFTCParserParamsCOTFinFut()
+            {
+                OnlyLast = this.OnlyLast
+            };
+            return result;
         }
     }
 
@@ -113,6 +124,15 @@ namespace DMFX.CFTC.Api
             ColumnsToTimeseriesMapping.Add(18, "Other_Rept_Positions_Short_All");
 
         }
+
+        public override ICFTCParserParams Clone()
+        {
+            ICFTCParserParams result = new CFTCParserParamsCOTFinFutOpt()
+            {
+                OnlyLast = this.OnlyLast
+            };
+            return result;
+        }
     }
 
     public class CFTCParserParamsCOTCmdtsFut : CFTCParserParamsBase
@@ -143,6 +163,15 @@ namespace DMFX.CFTC.Api
             ColumnsToTimeseriesMapping.Add(16, "Other_Rept_Positions_Long_All");
             ColumnsToTimeseriesMapping.Add(18, "Other_Rept_Positions_Short_All");
 
+        }
+
+        public override ICFTCParserParams Clone()
+        {
+            ICFTCParserParams result = new CFTCParserParamsCOTCmdtsFut()
+            {
+                OnlyLast = this.OnlyLast
+            };
+            return result;
         }
     }
 
@@ -176,7 +205,16 @@ namespace DMFX.CFTC.Api
 
         }
 
-   
+        public override ICFTCParserParams Clone()
+        {
+            ICFTCParserParams result = new CFTCParserParamsCOTCmdtsFutOpt()
+            {
+                OnlyLast = this.OnlyLast
+            };
+            return result;
+        }
+
+
     }
 
     

@@ -41,6 +41,13 @@ namespace DMFX.CFTC.Api
             }
         }
 
+        public IList<decimal> Values
+        {
+            get
+            {
+                return _values;
+            }
+        }
         
 
         public override string ToString()

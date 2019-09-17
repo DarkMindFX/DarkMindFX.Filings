@@ -146,9 +146,90 @@ namespace DMFX.QuotesInterfaces
 
     }
 
+    public class CustomTimeseriesRecord : ITimeSeriesRecord
+    {
+        public CustomTimeseriesRecord(IList<string> columnNames, DateTime time, IList<decimal> values = null)
+        {
+            if (values != null && columnNames.Count != values.Count)
+            {
+                throw new ArgumentException("Mismatch between column names and values counts");
+            }
+            Time = time;
+            var valNames = new List<string>();
+            valNames.AddRange(columnNames);
+            ValueNames = valNames;
+
+            Values = new List<decimal>(values != null ? values : new decimal[ValueNames.Count]);            
+        }
+
+
+        public DateTime Time
+        {
+            get;
+            set;
+        }
+
+        public IList<string> ValueNames
+        {
+            get;
+            set;
+        }
+
+        public IList<decimal> Values
+        {
+            get;
+            set;
+        }
+
+        public decimal this[string column]
+        {
+            get
+            {
+                int index = ValueNames.IndexOf(column);
+                return this[index];
+            }
+            set
+            {
+                int index = ValueNames.IndexOf(column);
+                this[index] = value;
+            }
+        }
+
+        public decimal this[int i]
+        {
+            get
+            {
+                return Values[i];
+            }
+            set
+            {
+                Values[i] = value;
+            }
+        }
+
+        public override string ToString()
+        {
+            string result = Time.ToShortDateString() + " ";
+            for (int i = 0; i < Values.Count; ++i)
+            {
+                result += Values[i] + (i + 1 < Values.Count ? " " : string.Empty);
+            }
+
+            return result;
+        }        
+
+    }
+
+
     public interface IQuotesData
     {
         string Ticker
+        {
+            get;
+            set;
+        }
+
+        string Name
         {
             get;
             set;
@@ -229,6 +310,12 @@ namespace DMFX.QuotesInterfaces
         }
 
         public EUnit Unit
+        {
+            get;
+            set;
+        }
+
+        public string Name
         {
             get;
             set;
