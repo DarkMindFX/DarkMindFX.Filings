@@ -231,45 +231,48 @@ namespace DMFX.Service.QuotesSourcing
                     {
                         CurrentState = EImportState.ImportSources;
 
+                        IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
                         foreach (var t in tickersToImport)
                         {
-                            try
-                            {
-                                _logger.Log(EErrorType.Info, string.Format("Importing {0}", t));
-                                IQuotesDalSaveTimeseriesValuesParams saveParams = _dal.CreateSaveTimeseriesValuesParams();
-
-                                IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
-                                getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
-                                getQuotesParams.Ticker = t;
-                                getQuotesParams.PeriodStart = _impParams.DateStart;
-                                getQuotesParams.PeriodEnd = _impParams.DateEnd;
-                                getQuotesParams.TimeFrame = (ETimeFrame)_impParams.TimeFrame;
-
-                                CurrentState = EImportState.ImportSources;
-
-                                IQuotesSourceGetQuotesResult getQuotesResult = source.Value.GetQuotes(getQuotesParams);
-
-                                saveParams.Quotes.Add(getQuotesResult.QuotesData);
-
-                                getQuotesResult.QuotesData.Unit = EUnit.USD;
-                                getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
-
-                                CurrentState = EImportState.Saving;
-
-                                IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
-
-                                _tickersProcessed.Add(t);
-
-                                _logger.Log(EErrorType.Info, string.Format("Import {0} done", t));
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.Log(ex);
-                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed '{0}'. Error: {1}", t, ex.Message) });
-                            }
-
+                            getQuotesParams.Tickers.Add(t);
                         }
-                    }                    
+                        try
+                        {
+                            
+                            IQuotesDalSaveTimeseriesValuesParams saveParams = _dal.CreateSaveTimeseriesValuesParams();
+
+
+                            getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
+
+                            getQuotesParams.PeriodStart = _impParams.DateStart;
+                            getQuotesParams.PeriodEnd = _impParams.DateEnd;
+                            getQuotesParams.TimeFrame = (ETimeFrame)_impParams.TimeFrame;
+
+                            CurrentState = EImportState.ImportSources;
+
+                            IQuotesSourceGetQuotesResult getQuotesResult = source.Value.GetQuotes(getQuotesParams);
+
+                            saveParams.Quotes.AddRange(getQuotesResult.QuotesData);
+
+                            CurrentState = EImportState.Saving;
+
+                            IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
+
+                            foreach (var t in tickersToImport)
+                            {
+                                _tickersProcessed.Add(t);
+                            }
+
+                            _logger.Log(EErrorType.Info, string.Format("Import done"));
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Log(ex);
+                            Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed. Error: {0}", ex.Message) });
+                        }
+
+
+                    }
                 }
             }
             else

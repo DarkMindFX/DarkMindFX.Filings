@@ -64,7 +64,7 @@ namespace DMFX.Test.QuotesDal
 
             IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
             getQuotesParams.Country = ConfigurationManager.AppSettings["CountryUS"];
-            getQuotesParams.Ticker = ConfigurationManager.AppSettings["TickerSPY"];
+            getQuotesParams.Tickers.Add(ConfigurationManager.AppSettings["TickerSPY"]);
             getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
             getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
             getQuotesParams.TimeFrame = ETimeFrame.Daily;
@@ -73,10 +73,10 @@ namespace DMFX.Test.QuotesDal
 
             IQuotesDal dal = PrepareQuotesDal();
             IQuotesDalSaveTimeseriesValuesParams saveParams = dal.CreateSaveTimeseriesValuesParams();
-            saveParams.Quotes.Add(getQuotesResult.QuotesData);
+            saveParams.Quotes.AddRange(getQuotesResult.QuotesData);
 
-            getQuotesResult.QuotesData.Unit = EUnit.USD;
-            getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
+            getQuotesResult.QuotesData[0].Unit = source.TickerUnit(ConfigurationManager.AppSettings["TickerSPY"]);
+            getQuotesResult.QuotesData[0].Type = source.TickerType(ConfigurationManager.AppSettings["TickerSPY"]);
 
             IQuotesDalSaveTimeseriesValuesResult saveResult = dal.SaveTimeseriesValues(saveParams);
 
@@ -93,25 +93,26 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
             IQuotesDalSaveTimeseriesValuesParams saveParams = dal.CreateSaveTimeseriesValuesParams();
 
-            string[] tickers = { ConfigurationManager.AppSettings["TickerSPY"], ConfigurationManager.AppSettings["TickerQQQ"] };
+            string[] tickers = {
+                ConfigurationManager.AppSettings["TickerSPY"],
+                ConfigurationManager.AppSettings["TickerQQQ"] };
+
+            IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
 
             foreach (var t in tickers)
             {
-
-                IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
-                getQuotesParams.Country = ConfigurationManager.AppSettings["CountryUS"];
-                getQuotesParams.Ticker = t;
-                getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
-                getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
-                getQuotesParams.TimeFrame = ETimeFrame.Daily;
-
-                IQuotesSourceGetQuotesResult getQuotesResult = source.GetQuotes(getQuotesParams);
-
-                saveParams.Quotes.Add(getQuotesResult.QuotesData);
-
-                getQuotesResult.QuotesData.Unit = EUnit.USD;
-                getQuotesResult.QuotesData.Type = ETimeSeriesType.Price;
+                getQuotesParams.Tickers.Add(t);
             }
+
+            getQuotesParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+
+            getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
+            getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
+            getQuotesParams.TimeFrame = ETimeFrame.Daily;
+
+            IQuotesSourceGetQuotesResult getQuotesResult = source.GetQuotes(getQuotesParams);
+
+            saveParams.Quotes.AddRange(getQuotesResult.QuotesData);
 
             IQuotesDalSaveTimeseriesValuesResult saveResult = dal.SaveTimeseriesValues(saveParams);
 

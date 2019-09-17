@@ -58,7 +58,7 @@ namespace DMFX.QuotesInterfaces
 
     public interface IQuotesSourceGetQuotesParams
     {
-        string Ticker
+        IList<string> Tickers
         {
             get;
             set;
@@ -91,7 +91,7 @@ namespace DMFX.QuotesInterfaces
 
     public interface IQuotesSourceGetQuotesResult : IResult
     {
-        IQuotesData QuotesData
+        IList<IQuotesData> QuotesData
         {
             get;
             set;
@@ -138,6 +138,20 @@ namespace DMFX.QuotesInterfaces
         /// <param name="canImportParams"></param>
         /// <returns></returns>
         IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams);
+
+        /// <summary>
+        /// Returns unit of the given ticket
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <returns></returns>
+        EUnit TickerUnit(string ticker);
+
+        /// <summary>
+        /// Returns the type of the timeseries - i.e. price, indicator etc.
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <returns></returns>
+        ETimeSeriesType TickerType(string ticker);
 
         IQuotesSourceInitParams CreateInitParams();
 

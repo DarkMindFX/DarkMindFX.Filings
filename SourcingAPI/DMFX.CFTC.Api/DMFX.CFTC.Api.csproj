@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CFTCApi.cs" />
     <Compile Include="CFTCDataModel.cs" />
     <Compile Include="CFTCParser.cs" />
     <Compile Include="CFTCParserParams.cs" />

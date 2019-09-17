@@ -20,7 +20,7 @@ namespace DMFX.Test.Sources
 
             IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
             getQuotesParams.Country = ConfigurationManager.AppSettings["STOOQ_COUNTRY"];
-            getQuotesParams.Ticker = ConfigurationManager.AppSettings["STOOQ_TICKER_SPY"];
+            getQuotesParams.Tickers.Add(ConfigurationManager.AppSettings["STOOQ_TICKER_SPY"]);
             getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
             getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
             getQuotesParams.TimeFrame = ETimeFrame.Monthly;
@@ -31,8 +31,8 @@ namespace DMFX.Test.Sources
             Assert.IsTrue(getQuotesResult.Success);
             Assert.False(getQuotesResult.HasErrors, "Unexpected error occured");
             Assert.IsNotNull(getQuotesResult.QuotesData, "QuotesData object was not created");
-            Assert.IsNotNull(getQuotesResult.QuotesData.Quotes, "Quotes array was not created");
-            Assert.Greater(getQuotesResult.QuotesData.Quotes.Count(), 0, "Quotes were not read");
+            Assert.IsNotNull(getQuotesResult.QuotesData[0].Quotes, "Quotes array was not created");
+            Assert.Greater(getQuotesResult.QuotesData[0].Quotes.Count(), 0, "Quotes were not read");
 
         }
 
@@ -43,7 +43,7 @@ namespace DMFX.Test.Sources
 
             IQuotesSourceGetQuotesParams getQuotesParams = source.CreateGetQuotesParams();
             getQuotesParams.Country = ConfigurationManager.AppSettings["STOOQ_COUNTRY"];
-            getQuotesParams.Ticker = ConfigurationManager.AppSettings["STOOQ_TICKER_INVALID"];
+            getQuotesParams.Tickers.Add(ConfigurationManager.AppSettings["STOOQ_TICKER_INVALID"]);
             getQuotesParams.PeriodStart = DateTime.Parse("2009/1/1");
             getQuotesParams.PeriodEnd = DateTime.Parse("2019/1/1");
             getQuotesParams.TimeFrame = ETimeFrame.Monthly;
@@ -54,8 +54,7 @@ namespace DMFX.Test.Sources
             Assert.IsFalse(getQuotesResult.Success);
             Assert.True(getQuotesResult.HasErrors, "No errors reported");
             Assert.IsNotNull(getQuotesResult.QuotesData, "QuotesData object was not created");
-            Assert.IsNotNull(getQuotesResult.QuotesData.Quotes, "Quotes array was not created");
-            Assert.AreEqual(getQuotesResult.QuotesData.Quotes.Count(), 0, "Quotes object is not empty");
+            Assert.AreEqual(getQuotesResult.QuotesData.Count(), 0, "Quotes object is not empty");
             
         }
 

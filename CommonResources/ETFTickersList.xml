@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<etfs>
+  <etf ticker="SPY" name="SPDR SnP 500" />
+  <etf ticker="QQQ" name="Invesco QQQ Trust" />
+</etfs>

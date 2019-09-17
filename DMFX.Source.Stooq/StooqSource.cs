@@ -34,40 +34,62 @@ namespace DMFX.Source.Stooq
             StooqApi api = new StooqApi();
 
             StooqSourceGetQuotesResult result = new StooqSourceGetQuotesResult();
-
-            try
+            foreach (var t in getQuotesParams.Tickers)
             {
-
-                var quotes = api.Download(getQuotesParams.Ticker,
-                                getQuotesParams.PeriodStart,
-                                getQuotesParams.PeriodEnd,
-                                getQuotesParams.Country,
-                                getQuotesParams.TimeFrame == ETimeFrame.Daily ? StooqApi.ETimeFrame.Daily : (getQuotesParams.TimeFrame == ETimeFrame.Weekly ? StooqApi.ETimeFrame.Weekly : StooqApi.ETimeFrame.Monthly));
-
-
-                foreach (var q in quotes.Quotes)
+                IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();
+                canImportParams.Tickers.Add(t);
+                IQuotesSourceCanImportResult canImportRes = CanImport(canImportParams);
+                if (canImportRes.Success)
                 {
-                    ITimeSeriesRecord newRec = result.QuotesData.CreateQuotesRecord();
-                    newRec["Close"] = q.Close;
-                    newRec["High"] = q.High;
-                    newRec["Open"] = q.Open;
-                    newRec["Low"] = q.Low;
-                    newRec["Volume"] = q.Volume;
-                    newRec.Time = ToPeriodStart(q.PeriodEnd, getQuotesParams.TimeFrame);
+                    try
+                    {
 
-                    result.QuotesData.AddRecord(newRec);
+                        IQuotesData qd = new BaseQuotesData();
 
+                        var quotes = api.Download(t,
+                                        getQuotesParams.PeriodStart,
+                                        getQuotesParams.PeriodEnd,
+                                        getQuotesParams.Country,
+                                        getQuotesParams.TimeFrame == ETimeFrame.Daily ? StooqApi.ETimeFrame.Daily : (getQuotesParams.TimeFrame == ETimeFrame.Weekly ? StooqApi.ETimeFrame.Weekly : StooqApi.ETimeFrame.Monthly));
+
+                        foreach (var q in quotes.Quotes)
+                        {
+                            ITimeSeriesRecord newRec = qd.CreateQuotesRecord();
+                            newRec["Close"] = q.Close;
+                            newRec["High"] = q.High;
+                            newRec["Open"] = q.Open;
+                            newRec["Low"] = q.Low;
+                            newRec["Volume"] = q.Volume;
+                            newRec.Time = ToPeriodStart(q.PeriodEnd, getQuotesParams.TimeFrame);
+
+                            qd.AddRecord(newRec);
+                        }
+
+                        qd.Country = getQuotesParams.Country;
+                        qd.Ticker = t;
+                        qd.TimeFrame = getQuotesParams.TimeFrame;
+                        qd.Type = this.TickerType(t);
+                        qd.Unit = this.TickerUnit(t);
+
+                        result.QuotesData.Add(qd);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Success = false;
+                        result.AddError(Interfaces.EErrorCodes.QuotesSourceFail, Interfaces.EErrorType.Error, ex.Message);
+                    }
                 }
-
-                result.QuotesData.Country = getQuotesParams.Country;
-                result.QuotesData.Ticker = getQuotesParams.Ticker;
-                result.QuotesData.TimeFrame = getQuotesParams.TimeFrame;
-                result.Success = true;
             }
-            catch (Exception ex)
+
+            result.Success = result.QuotesData.Count > 0;
+            if (result.Success && result.QuotesData.Count != getQuotesParams.Tickers.Count)
             {
-                result.Success = false;
-                result.AddError(Interfaces.EErrorCodes.QuotesSourceFail, Interfaces.EErrorType.Error, ex.Message);
+                result.AddError(Interfaces.EErrorCodes.QuotesNotFound, Interfaces.EErrorType.Warning, "Not all quotes were found");
+            }
+            else if (!result.Success)
+            {
+                result.AddError(Interfaces.EErrorCodes.QuotesNotFound, Interfaces.EErrorType.Error, "Requested tickers are not supported or quotes for them not found");
             }
 
             return result;
@@ -77,22 +99,71 @@ namespace DMFX.Source.Stooq
         {
             IQuotesSourceCanImportResult result = new StooqSourceCanImportResult();
 
-            string xmlFile = Resources.SECCompanyList;
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xmlFile);
+            string xmlFile = null;
 
-            XmlNodeList xnList = doc.SelectNodes("/companies/company");
-            foreach (XmlNode xn in xnList)
+            List<string> tickers = new List<string>();
+
+            // SEC companies
+            xmlFile = Resources.SECCompanyList;
+            XmlDocument docCompanies = new XmlDocument();
+            docCompanies.LoadXml(xmlFile);
+
+            XmlNodeList xnList = docCompanies.SelectNodes("/companies/company");
+            tickers.AddRange(xnList.Cast<XmlNode>()
+                               .Select(node => node.Attributes["ticker"].Value));
+
+            // ETFs
+            xmlFile = Resources.ETFTickersList;
+            XmlDocument docETFs = new XmlDocument();
+            docETFs.LoadXml(xmlFile);
+
+            xnList = docETFs.SelectNodes("/etfs/etf");
+            tickers.AddRange(xnList.Cast<XmlNode>()
+                               .Select(node => node.Attributes["ticker"].Value));
+
+            foreach (string t in tickers)
             {
-                if (canImportParams.Tickers.IndexOf(xn.Attributes["ticker"].Value) >= 0)
+                if (canImportParams.Tickers.IndexOf(t) >= 0)
                 {
-                    result.Tickers.Add(xn.Attributes["ticker"].Value);
+                    result.Tickers.Add(t);
                 }
             }
 
             result.Success = result.Tickers.Count > 0;
-            
+
             return result;
+        }
+
+        public EUnit TickerUnit(string ticker)
+        {
+            IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();
+            canImportParams.Tickers.Add(ticker);
+
+            IQuotesSourceCanImportResult canImportRes = CanImport(canImportParams);
+            if (canImportRes.Success)
+            {
+                return EUnit.USD;
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported ticker provided");
+            }
+        }
+
+        public ETimeSeriesType TickerType(string ticker)
+        {
+            IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();
+            canImportParams.Tickers.Add(ticker);
+
+            IQuotesSourceCanImportResult canImportRes = CanImport(canImportParams);
+            if (canImportRes.Success)
+            {
+                return ETimeSeriesType.Price;
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported ticker provided");
+            }
         }
 
         public void Init(IQuotesSourceInitParams initParams)
@@ -120,7 +191,7 @@ namespace DMFX.Source.Stooq
             return result;
         }
 
-        
+
         #endregion
     }
 }

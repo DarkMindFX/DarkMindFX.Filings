@@ -37,6 +37,11 @@ namespace DMFX.Source.CFTC
 
     public class CFTCSourceGetQuotesParams : IQuotesSourceGetQuotesParams
     {
+        public CFTCSourceGetQuotesParams()
+        {
+            Tickers = new List<string>();
+        }
+
         public string Country
         {
             get;
@@ -55,7 +60,7 @@ namespace DMFX.Source.CFTC
             set;
         }
 
-        public string Ticker
+        public IList<string> Tickers
         {
             get;
             set;
@@ -72,9 +77,9 @@ namespace DMFX.Source.CFTC
     {
         public CFTCSourceGetQuotesResult()
         {
-            QuotesData = new BaseQuotesData();
+            QuotesData = new List<IQuotesData>();
         }
-        public IQuotesData QuotesData
+        public IList<IQuotesData> QuotesData
         {
             get;
             set;

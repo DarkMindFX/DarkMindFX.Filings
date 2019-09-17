@@ -73,12 +73,16 @@
   <ItemGroup>
     <None Include="Resources\SECCompanyList.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ETFTickersList.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(TargetDir)*.dll" "..\..\Plugins-Out\DMFX.Source.Stooq\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)CommonResources\SECCompanyList.xml" "$(ProjectDir)Resources\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)CommonResources\SECCompanyList.xml" "$(ProjectDir)Resources\"
+xcopy /s /y "$(SolutionDir)CommonResources\ETFTickersList.xml" "$(ProjectDir)Resources\"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

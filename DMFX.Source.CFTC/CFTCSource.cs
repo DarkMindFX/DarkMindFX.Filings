@@ -12,6 +12,8 @@ namespace DMFX.Source.CFTC
     [Export("CFTC", typeof(IQuotesSource))]
     public class CFTCSource : IQuotesSource
     {
+        IQuotesSourceInitParams _initParams = null;
+
         public IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams)
         {
             IQuotesSourceCanImportResult result = new CFTCSourceCanImportResult();
@@ -47,12 +49,51 @@ namespace DMFX.Source.CFTC
 
         public IQuotesSourceGetQuotesResult GetQuotes(IQuotesSourceGetQuotesParams getQuotesParams)
         {
-            throw new NotImplementedException();
+            IQuotesSourceGetQuotesResult result = new CFTCSourceGetQuotesResult();
+            ICFTCParserParams parserParams = new CFTCParserParamsCOTFinFutOpt();
+            parserParams.OnlyLast = getQuotesParams.PeriodEnd.Year == DateTime.Now.Year ? true : false;            
+
+            CFTCParser cftcParser = new CFTCParser();
+
+            return result;
         }
 
         public void Init(IQuotesSourceInitParams initParams)
         {
-            
+            _initParams = initParams;
+
+        }
+
+        public EUnit TickerUnit(string ticker)
+        {
+            IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();
+            canImportParams.Tickers.Add(ticker);
+
+            IQuotesSourceCanImportResult canImportRes = CanImport(canImportParams);
+            if (canImportRes.Success)
+            {
+                return EUnit.Value;
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported ticker provided"); 
+            }
+        }
+
+        public ETimeSeriesType TickerType(string ticker)
+        {
+            IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();
+            canImportParams.Tickers.Add(ticker);
+
+            IQuotesSourceCanImportResult canImportRes = CanImport(canImportParams);
+            if (canImportRes.Success)
+            {
+                return ETimeSeriesType.Indicator;
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported ticker provided");
+            }
         }
 
         #region Create* functions

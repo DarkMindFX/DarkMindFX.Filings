@@ -158,6 +158,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.CFTCApi", "Tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonResources", "CommonResources", "{A8AB40E7-1462-4CC1-98D8-2AC72146A9BC}"
 	ProjectSection(SolutionItems) = preProject
+		CommonResources\ETFTickersList.xml = CommonResources\ETFTickersList.xml
 		CommonResources\SECCompanyList.xml = CommonResources\SECCompanyList.xml
 	EndProjectSection
 EndProject

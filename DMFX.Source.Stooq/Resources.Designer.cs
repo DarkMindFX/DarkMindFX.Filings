@@ -61,6 +61,19 @@ namespace DMFX.Source.Stooq {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;etfs&gt;
+        ///  &lt;etf ticker=&quot;SPY&quot; name=&quot;SPDR SnP 500&quot; /&gt;
+        ///  &lt;etf ticker=&quot;QQQ&quot; name=&quot;Invesco QQQ Trust&quot; /&gt;
+        ///&lt;/etfs&gt;.
+        /// </summary>
+        internal static string ETFTickersList {
+            get {
+                return ResourceManager.GetString("ETFTickersList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;companies&gt;
         ///  &lt;company ticker=&quot;MMM&quot; name=&quot;3M Company&quot; industry=&quot;Industrials&quot; subindustry=&quot;Industrial Conglomerates&quot; cik=&quot;66740&quot; /&gt;
