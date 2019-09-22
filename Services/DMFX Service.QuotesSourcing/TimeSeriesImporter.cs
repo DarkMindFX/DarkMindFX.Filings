@@ -203,11 +203,13 @@ namespace DMFX.Service.QuotesSourcing
                 // validating if there are anything need to be imported
                 CurrentState = EImportState.Init;
 
+                string[] sourceNames = new string[] { "Stooq", "CFTC" };
+
                 var sources = _compContainer.GetExports<IQuotesSource>();
 
                 IQuotesSourceCanImportParams canImportParams = null;
 
-                foreach (var source in sources)
+                foreach (var n in sourceNames)
                 {
                     // break if stopped
                     if (!_isRunning)
@@ -215,65 +217,67 @@ namespace DMFX.Service.QuotesSourcing
                         break;
                     }
 
-                    List<string> tickersToImport = new List<string>();
+                    var source = _compContainer.GetExport<IQuotesSource>(n);
 
-                    // checking which of the given tickers can be imported
-                    canImportParams = source.Value.CreateCanImportParams();
-                    _impParams.Tickers.ToList().ForEach(x => canImportParams.Tickers.Add(x));
-
-                    IQuotesSourceCanImportResult canImportResult = source.Value.CanImport(canImportParams);
-                    if (canImportResult.Success)
+                    if (source != null)
                     {
-                        tickersToImport.AddRange(canImportResult.Tickers);
-                    }
+                        List<string> tickersToImport = new List<string>();
 
-                    if (tickersToImport.Count > 0)
-                    {
-                        CurrentState = EImportState.ImportSources;
+                        // checking which of the given tickers can be imported
+                        canImportParams = source.Value.CreateCanImportParams();
+                        _impParams.Tickers.ToList().ForEach(x => canImportParams.Tickers.Add(x));
 
-                        IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
-                        foreach (var t in tickersToImport)
+                        IQuotesSourceCanImportResult canImportResult = source.Value.CanImport(canImportParams);
+                        if (canImportResult.Success)
                         {
-                            getQuotesParams.Tickers.Add(t);
+                            tickersToImport.AddRange(canImportResult.Tickers);
                         }
-                        try
+
+                        if (tickersToImport.Count > 0)
                         {
-                            
-                            IQuotesDalSaveTimeseriesValuesParams saveParams = _dal.CreateSaveTimeseriesValuesParams();
-
-
-                            getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
-
-                            getQuotesParams.PeriodStart = _impParams.DateStart;
-                            getQuotesParams.PeriodEnd = _impParams.DateEnd;
-                            getQuotesParams.TimeFrame = (ETimeFrame)_impParams.TimeFrame;
-
                             CurrentState = EImportState.ImportSources;
 
-                            IQuotesSourceGetQuotesResult getQuotesResult = source.Value.GetQuotes(getQuotesParams);
-
-                            saveParams.Quotes.AddRange(getQuotesResult.QuotesData);
-
-                            CurrentState = EImportState.Saving;
-
-                            IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
-
+                            IQuotesSourceGetQuotesParams getQuotesParams = source.Value.CreateGetQuotesParams();
                             foreach (var t in tickersToImport)
                             {
-                                _tickersProcessed.Add(t);
+                                getQuotesParams.Tickers.Add(t);
                             }
+                            try
+                            {
 
-                            _logger.Log(EErrorType.Info, string.Format("Import done"));
+                                IQuotesDalSaveTimeseriesValuesParams saveParams = _dal.CreateSaveTimeseriesValuesParams();
+
+                                getQuotesParams.Country = ConfigurationManager.AppSettings["DefaultCountry"];
+
+                                getQuotesParams.PeriodStart = _impParams.DateStart;
+                                getQuotesParams.PeriodEnd = _impParams.DateEnd;
+                                getQuotesParams.TimeFrame = (ETimeFrame)_impParams.TimeFrame;
+
+                                CurrentState = EImportState.ImportSources;
+
+                                IQuotesSourceGetQuotesResult getQuotesResult = source.Value.GetQuotes(getQuotesParams);
+
+                                saveParams.Quotes.AddRange(getQuotesResult.QuotesData);
+
+                                CurrentState = EImportState.Saving;
+
+                                IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
+
+                                foreach (var t in tickersToImport)
+                                {
+                                    _tickersProcessed.Add(t);
+                                }
+
+                                _logger.Log(EErrorType.Info, string.Format("Import done"));
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.Log(ex);
+                                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed. Error: {0}", ex.Message) });
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            _logger.Log(ex);
-                            Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed. Error: {0}", ex.Message) });
-                        }
-
-
                     }
-                }
+                } // foreach
             }
             else
             {

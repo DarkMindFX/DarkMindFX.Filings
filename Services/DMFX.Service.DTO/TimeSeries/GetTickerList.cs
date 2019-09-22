@@ -33,6 +33,12 @@ namespace DMFX.Service.DTO.TimeSeries
             set;
         }
 
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public string CountryCode
         {
             get;

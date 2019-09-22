@@ -65,9 +65,10 @@ namespace DMFX.QuotesDAL
 
                         foreach (DataRow row in ds.Tables[0].Rows)
                         {
-                            BaseQuotesRecord qrec = new BaseQuotesRecord();
-                            qrec.Time = (DateTime)row[0];
-                            for (int r = 1; r < row.Table.Columns.Count - 1; ++r)
+                            int valCount = row.ItemArray.Count(x => !DBNull.Value.Equals(x));
+                            ITimeSeriesRecord qrec = new CustomTimeseriesRecord(new List<string>( new string[valCount - 1] ), (DateTime)row[0]);
+                            
+                            for (int r = 1; r <= valCount-1; ++r)
                             {
                                 qrec[r - 1] = (decimal)row[r];
                             }
@@ -114,7 +115,7 @@ namespace DMFX.QuotesDAL
                 int tickerId = GetTickerId(q.Ticker, conn);
                 if (tickerId == Int32.MinValue)
                 {
-                    tickerId = AddTicker(q.Ticker, conn);
+                    tickerId = AddTicker(q.Ticker, q.Name, null, conn);
                 }
 
                 int unitId = (int)q.Unit;
@@ -195,7 +196,8 @@ namespace DMFX.QuotesDAL
                 {
                     result.Tickers.Add(new TickersListItem() {
                         CountryCode = getTsList.CountryCode,
-                        Ticker = (string)r["Ticker_Name"],
+                        Ticker = (string)r["Ticker_Symbol"],
+                        Name = (string)r["Ticker_Name"],
                         Unit = (EUnit)r["TS_Unit_Id"],
                         Type = getTsList.Type });
                 }
@@ -248,8 +250,9 @@ namespace DMFX.QuotesDAL
                 // getting data from the first record
                 result.CountryCode = getTsInfoParams.CountryCode;
                 result.Ticker = getTsInfoParams.Ticker;
-                result.Unit = (EUnit)ds.Tables[0].Rows[0][0];
-                result.Type = (ETimeSeriesType)ds.Tables[0].Rows[0][1];
+                result.Name = (string)ds.Tables[0].Rows[0][0];
+                result.Unit = (EUnit)ds.Tables[0].Rows[0][1];
+                result.Type = (ETimeSeriesType)ds.Tables[0].Rows[0][2];
                 for (int i = 1; i <= cColumnCount && !DBNull.Value.Equals(ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]); ++i)
                 {
                     result.Columns.Add((string)ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]);
@@ -392,8 +395,8 @@ namespace DMFX.QuotesDAL
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
 
-            var paramTickerName = new SqlParameter("@IN_Ticker_Name", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, ticker);
-            cmd.Parameters.Add(paramTickerName);
+            var paramTicker = new SqlParameter("@IN_Ticker_Symbol", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, ticker);
+            cmd.Parameters.Add(paramTicker);
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
@@ -411,7 +414,7 @@ namespace DMFX.QuotesDAL
             }
         }
 
-        private int AddTicker(string ticker, SqlConnection conn)
+        private int AddTicker(string ticker, string name, string notes, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -421,8 +424,14 @@ namespace DMFX.QuotesDAL
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
 
-            var paramTickerName = new SqlParameter("@IN_Ticker_Name", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, ticker);
+            var paramTickerSymbol = new SqlParameter("@IN_Ticker_Symbol", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, ticker);
+            cmd.Parameters.Add(paramTickerSymbol);
+
+            var paramTickerName = new SqlParameter("@IN_Ticker_Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(name) ? name : string.Empty);
             cmd.Parameters.Add(paramTickerName);
+
+            var paramTickerNotes = new SqlParameter("@IN_Ticker_Notes", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(notes) ? notes : string.Empty);
+            cmd.Parameters.Add(paramTickerNotes);
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
@@ -498,6 +507,9 @@ namespace DMFX.QuotesDAL
 
             var paramTimeFrameId = new SqlParameter("@IN_TS_Period_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, timeframeId);
             cmd.Parameters.Add(paramTimeFrameId);
+
+            var paramTSColumnsCount = new SqlParameter("@IN_TS_Columns_Count", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, columns.Count);
+            cmd.Parameters.Add(paramTSColumnsCount);
 
             for (int i = 0; i < columns.Count; ++i)
             {

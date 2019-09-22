@@ -48,43 +48,19 @@ namespace DMFX.Service.DTO
 
     public class QuoteRecord
     {
+        public QuoteRecord(DateTime t , IList<decimal> values)
+        {
+            Time = t;
+            Values = new List<decimal>(values);
+        }
+
         public DateTime Time
         {
             get;
             set;
         }
 
-        public decimal Open
-        {
-            get;
-            set;
-        }
-
-        public decimal High
-        {
-            get;
-            set;
-        }
-
-        public decimal Low
-        {
-            get;
-            set;
-        }
-
-        public decimal Close
-        {
-            get;
-            set;
-        }
-
-        public decimal AdjClose
-        {
-            get;
-            set;
-        }
-
-        public decimal Volume
+        public List<decimal> Values
         {
             get;
             set;

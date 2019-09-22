@@ -49,6 +49,7 @@ namespace DMFX.Service.Quotes
                                 {
                                      CountryCode = request.CountryCode,
                                      Ticker = t.Ticker,
+                                     Name = t.Name,
                                      Unit = t.Unit,
                                      Type = t.Type
                                 }
@@ -109,6 +110,7 @@ namespace DMFX.Service.Quotes
                         response.Ticker = request.Ticker;
                         response.Type = getTInfoResult.Type;
                         response.Unit = getTInfoResult.Unit;
+                        response.Name = getTInfoResult.Name;
                         response.CountryCode = request.CountryCode;
                         
                         foreach (var t in getTInfoResult.Series)
@@ -224,16 +226,7 @@ namespace DMFX.Service.Quotes
             tickerQuotes.TimePeriod = quotesData.TimeFrame;
             tickerQuotes.PeriodStart = quotesData.Quotes.FirstOrDefault().Time;
             tickerQuotes.PeriodEnd = quotesData.Quotes.LastOrDefault().Time;
-            tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord()
-            {
-                AdjClose = x["Close"],
-                Close = x["Close"],
-                Open = x["Open"],
-                High = x["High"],
-                Low = x["Low"],
-                Time = x.Time,
-                Volume = x["Volume"]
-            }).ToList());
+            tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord( x.Time, x.Values )).ToList());
 
             response.Values = tickerQuotes;
 

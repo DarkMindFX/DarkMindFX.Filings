@@ -24,6 +24,12 @@ namespace DMFX.Service.DTO.TimeSeries
             set;
         }
 
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public EUnit Unit
         {
             get;
@@ -73,6 +79,12 @@ namespace DMFX.Service.DTO.TimeSeries
         }
 
         public string Ticker
+        {
+            get;
+            set;
+        }
+
+        public string Name
         {
             get;
             set;

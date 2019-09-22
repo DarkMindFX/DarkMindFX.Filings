@@ -14,6 +14,14 @@ namespace DMFX.Source.Stooq
     public class StooqSource : IQuotesSource
     {
         IQuotesSourceInitParams _initParams = null;
+
+        Dictionary<string, string> _tickers = new Dictionary<string, string>();
+
+        public StooqSource()
+        {
+            InitCanImportList();
+        }
+
         public IQuotesSourceGetQuotesParams CreateGetQuotesParams()
         {
             return new StooqSourceGetQuotesParams();
@@ -98,32 +106,11 @@ namespace DMFX.Source.Stooq
         public IQuotesSourceCanImportResult CanImport(IQuotesSourceCanImportParams canImportParams)
         {
             IQuotesSourceCanImportResult result = new StooqSourceCanImportResult();
+                       
 
-            string xmlFile = null;
-
-            List<string> tickers = new List<string>();
-
-            // SEC companies
-            xmlFile = Resources.SECCompanyList;
-            XmlDocument docCompanies = new XmlDocument();
-            docCompanies.LoadXml(xmlFile);
-
-            XmlNodeList xnList = docCompanies.SelectNodes("/companies/company");
-            tickers.AddRange(xnList.Cast<XmlNode>()
-                               .Select(node => node.Attributes["ticker"].Value));
-
-            // ETFs
-            xmlFile = Resources.ETFTickersList;
-            XmlDocument docETFs = new XmlDocument();
-            docETFs.LoadXml(xmlFile);
-
-            xnList = docETFs.SelectNodes("/etfs/etf");
-            tickers.AddRange(xnList.Cast<XmlNode>()
-                               .Select(node => node.Attributes["ticker"].Value));
-
-            foreach (string t in tickers)
+            foreach (string t in canImportParams.Tickers)
             {
-                if (canImportParams.Tickers.IndexOf(t) >= 0)
+                if (_tickers.ContainsKey(t))
                 {
                     result.Tickers.Add(t);
                 }
@@ -172,7 +159,36 @@ namespace DMFX.Source.Stooq
         }
 
         #region Support methods
-        DateTime ToPeriodStart(DateTime end, ETimeFrame timeFrame)
+
+        private void InitCanImportList()
+        {
+            string xmlFile = null;
+
+            // SEC companies
+            xmlFile = Resources.SECCompanyList;
+            XmlDocument docCompanies = new XmlDocument();
+            docCompanies.LoadXml(xmlFile);
+
+            XmlNodeList xnList = docCompanies.SelectNodes("/companies/company");
+            foreach (XmlNode v in xnList)
+            {
+                _tickers.Add(v.Attributes["ticker"].Value, v.Attributes["name"].Value);
+            }
+
+            // ETFs
+            xmlFile = Resources.ETFTickersList;
+            XmlDocument docETFs = new XmlDocument();
+            docETFs.LoadXml(xmlFile);
+
+            xnList = docETFs.SelectNodes("/etfs/etf");
+
+            foreach (XmlNode v in xnList)
+            {
+                _tickers.Add(v.Attributes["ticker"].Value, v.Attributes["name"].Value);
+            }
+        }
+
+        private DateTime ToPeriodStart(DateTime end, ETimeFrame timeFrame)
         {
             DateTime result = end;
             switch (timeFrame)

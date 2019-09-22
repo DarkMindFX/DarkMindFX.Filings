@@ -2,4 +2,5 @@
 <etfs>
   <etf ticker="SPY" name="SPDR SnP 500" />
   <etf ticker="QQQ" name="Invesco QQQ Trust" />
+  <etf ticker="TLT" name="iShares 20+ Year Treasury Bond ETF" />
 </etfs>

@@ -144,6 +144,12 @@ namespace DMFX.QuotesDAL
             set;
         }
 
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public IList<TimeSeriesInfoListItem> Series
         {
             get;

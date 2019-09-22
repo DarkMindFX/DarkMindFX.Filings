@@ -99,6 +99,12 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        public string Name
+        {
+            get;
+            set;
+        }
+
         public string CountryCode
         {
             get;
@@ -168,6 +174,12 @@ namespace DMFX.QuotesInterfaces
     public interface IQuotesDalGetTimeSeriesInfoResult : IResult
     {
         string Ticker
+        {
+            get;
+            set;
+        }
+
+        string Name
         {
             get;
             set;
