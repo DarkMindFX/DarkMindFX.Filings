@@ -75,7 +75,7 @@ namespace DMFX.Interfaces
             StatementRecord other = obj as StatementRecord;
             if (other != null)
             {
-                return SourceFactId.Equals(other.SourceFactId) || 
+                return (!string.IsNullOrEmpty(SourceFactId) && SourceFactId.Equals(other.SourceFactId)) || 
                     (Title.Equals(other.Title) && PeriodStart.Equals(other.PeriodStart) && PeriodEnd.Equals(other.PeriodEnd));
             }
             else

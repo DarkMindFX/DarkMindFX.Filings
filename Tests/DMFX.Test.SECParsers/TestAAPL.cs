@@ -35,11 +35,11 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 60, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 40, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 58, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 68, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 20, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 20, Actual - {1}", result.Statements[4].Title, result.Statements[4].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 20, Actual - {1}", result.Statements[4].Title, result.Statements[4].Records.Count));
 
         }
 
@@ -65,11 +65,11 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 60, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 40, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 58, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 68, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 20, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 20, Actual - {1}", result.Statements[4].Title, result.Statements[4].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 20, Actual - {1}", result.Statements[4].Title, result.Statements[4].Records.Count));
         }
 
         [Test]
@@ -94,10 +94,10 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 34, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 21, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 58, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 64, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - 60, Actual - {1}", result.Statements[0].Title, result.Statements[0].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 40, Actual - {1}", result.Statements[1].Title, result.Statements[1].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 58, Actual - {1}", result.Statements[2].Title, result.Statements[2].Records.Count));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 68, Actual - {1}", result.Statements[3].Title, result.Statements[3].Records.Count));
             Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned, Expected - greater 20, Actual - {1}", result.Statements[4].Title, result.Statements[4].Records.Count));
         }
 
@@ -123,11 +123,11 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 68, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 37, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 60, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 69, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 20, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
+            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title));
         }
 
         [Test]
@@ -152,11 +152,11 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 68, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 36, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 60, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 62, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 20, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
+            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title));
         }
 
         [Test]
@@ -181,10 +181,10 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Statements.Count, 5, string.Format("AAPL 10Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
-            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 30, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 6, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 50, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 48, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
+            Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title));
+            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 4, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title));
+            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title));
+            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title));
             Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AAPL 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title));
         }
 
