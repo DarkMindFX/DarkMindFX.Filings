@@ -47,7 +47,8 @@ namespace DMFX.Service.DTO
     {
         public GetFilingDataResponse()
         {
-            FilingData = new List<FilingRecord>();
+            FilingData = new List<FilingNumRecord>();
+            FilingStrData = new List<FilingStrRecord>();
         }
 
         public string RegulatorCode
@@ -92,7 +93,13 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public List<FilingRecord> FilingData
+        public List<FilingNumRecord> FilingData
+        {
+            get;
+            set;
+        }
+
+        public List<FilingStrRecord> FilingStrData
         {
             get;
             set;

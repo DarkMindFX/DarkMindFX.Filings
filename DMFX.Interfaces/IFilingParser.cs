@@ -18,7 +18,7 @@ namespace DMFX.Interfaces
 
     public class StatementRecord
     {
-        public StatementRecord(string title, decimal value, string unit, DateTime periodStart, DateTime periodEnd, DateTime instant, string sourceFactId)
+        public StatementRecord(string title, object value, string unit, DateTime periodStart, DateTime periodEnd, DateTime instant, string sourceFactId, string factId = null)
         {
             Title = title;
             Value = value;
@@ -27,6 +27,7 @@ namespace DMFX.Interfaces
             PeriodEnd = periodEnd;
             Instant = instant;
             SourceFactId = sourceFactId;
+            FactId = factId;
         }
         public string Title
         {
@@ -34,7 +35,7 @@ namespace DMFX.Interfaces
             set;
         }
 
-        public decimal Value
+        public object Value
         {
             get;
             set;
@@ -70,13 +71,19 @@ namespace DMFX.Interfaces
             set;
         }
 
+        public string FactId
+        {
+            get;
+            set;
+        }
+
         public override bool Equals(object obj)
         {
             StatementRecord other = obj as StatementRecord;
             if (other != null)
             {
                 return (!string.IsNullOrEmpty(SourceFactId) && SourceFactId.Equals(other.SourceFactId)) || 
-                    (Title.Equals(other.Title) && PeriodStart.Equals(other.PeriodStart) && PeriodEnd.Equals(other.PeriodEnd));
+                    (Title.Equals(other.Title) && PeriodStart.Equals(other.PeriodStart) && PeriodEnd.Equals(other.PeriodEnd) && (FactId != null && FactId.Equals(other.FactId)));
             }
             else
             {

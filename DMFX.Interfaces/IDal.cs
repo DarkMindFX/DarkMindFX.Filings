@@ -24,7 +24,13 @@ namespace DMFX.Interfaces.DAL
             set;
         }
 
-        public decimal Value
+        public decimal? Value
+        {
+            get;
+            set;
+        }
+
+        public string Value_Str
         {
             get;
             set;
@@ -55,6 +61,12 @@ namespace DMFX.Interfaces.DAL
         }
 
         public string SourceFactId
+        {
+            get;
+            set;
+        }
+
+        public string FactId
         {
             get;
             set;
@@ -247,6 +259,7 @@ namespace DMFX.Interfaces.DAL
         {
             Data = new List<FilingRecord>();
         }
+
         public CompanyFilingInfo FilingInfo
         {
             get;

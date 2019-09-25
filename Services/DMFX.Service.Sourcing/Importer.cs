@@ -1137,9 +1137,10 @@ namespace DMFX.Service.Sourcing
                         PeriodEnd = r.PeriodEnd,
                         PeriodStart = r.PeriodStart,
                         Unit = r.Unit,
-                        Value = r.Value,
-                        SourceFactId = r.SourceFactId
-
+                        Value = r.Value is decimal ? (decimal?)r.Value : null,
+                        Value_Str = r.Value is string ? (string)r.Value : null,
+                        SourceFactId = r.SourceFactId,
+                        FactId = r.FactId
                     });
                 }
             }

@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    public class FilingRecord
+    public class FilingRecordBase
     {
         public string Code
-        {
-            get;
-            set;
-        }
-
-        public decimal Value
         {
             get;
             set;
@@ -32,10 +26,36 @@ namespace DMFX.Service.DTO
             set;
         }
 
+        public string FactId
+        {
+            get;
+            set;
+        }
+ 
+    }
+    public class FilingNumRecord : FilingRecordBase
+    {
+         public decimal Value
+        {
+            get;
+            set;
+        }
+
         public string UnitName
         {
             get;
             set;
         }
+    }
+
+    public class FilingStrRecord : FilingRecordBase
+    {
+ 
+        public string Value
+        {
+            get;
+            set;
+        }
+
     }
 }

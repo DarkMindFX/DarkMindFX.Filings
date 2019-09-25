@@ -45,7 +45,7 @@ namespace DMFX.Service.DTO
     {
         public GetCommonSizeBalanceSheetResponse()
         {
-            BalanceSheetData = new List<FilingRecord>();
+            BalanceSheetData = new List<FilingRecordBase>();
         }
 
         public string RegulatorCode
@@ -90,7 +90,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public List<FilingRecord> BalanceSheetData
+        public List<FilingRecordBase> BalanceSheetData
         {
             get;
             set;

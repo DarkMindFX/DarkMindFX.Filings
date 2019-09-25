@@ -231,14 +231,37 @@ namespace DMFX.Service.Filings
 
                         foreach (var fd in filingDataResult.Data)
                         {
-                            response.FilingData.Add(new DTO.FilingRecord()
+                            if (fd.Value != null)
                             {
-                                Code = fd.Code,
-                                Value = fd.Value,
-                                UnitName = fd.Unit,
-                                PeriodEnd = fd.PeriodEnd,
-                                PeriodStart = fd.PeriodStart
-                            });
+                                response.FilingData.Add(new DTO.FilingNumRecord()
+                                {
+                                    Code = fd.Code,
+                                    Value = (decimal)fd.Value,
+                                    UnitName = fd.Unit,
+                                    PeriodEnd = fd.PeriodEnd,
+                                    PeriodStart = fd.PeriodStart
+                                });
+                            }
+                            else if (fd.Value_Str != null)
+                            {
+                                response.FilingStrData.Add(new DTO.FilingStrRecord()
+                                {
+                                    Code = fd.Code,
+                                    Value = fd.Value_Str,
+                                    PeriodEnd = fd.PeriodEnd,
+                                    PeriodStart = fd.PeriodStart
+                                });
+                            }
+                            
+                        }
+
+                        if (response.FilingData.Count == 0)
+                        {
+                            response.FilingData = null;
+                        }
+                        if (response.FilingStrData.Count == 0)
+                        {
+                            response.FilingStrData = null;
                         }
 
 
@@ -311,7 +334,7 @@ namespace DMFX.Service.Filings
                         response.Ratios.Add(new DTO.RatioRecord()
                         {
                             Code = fd.Code,
-                            Value = fd.Value,
+                            Value = fd.Value != null ? (decimal)fd.Value : 0,
                             UnitName = fd.Unit,
                             PeriodEnd = fd.PeriodEnd,
                             PeriodStart = fd.PeriodStart
@@ -375,10 +398,10 @@ namespace DMFX.Service.Filings
 
                     foreach (var fd in filingCSBSResult.Data)
                     {
-                        response.BalanceSheetData.Add(new DTO.FilingRecord()
+                        response.BalanceSheetData.Add(new DTO.FilingNumRecord()
                         {
                             Code = fd.Code,
-                            Value = fd.Value,
+                            Value = fd.Value != null ? (decimal)fd.Value : 0,
                             PeriodEnd = fd.PeriodEnd,
                             PeriodStart = fd.PeriodStart
                         });

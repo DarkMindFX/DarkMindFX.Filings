@@ -25,10 +25,12 @@ namespace DMFX.DALDatabase
 
             dtFilingData.Columns.Add(new DataColumn("Code", typeof(string)));
             dtFilingData.Columns.Add(new DataColumn("Value", typeof(Decimal)));
+            dtFilingData.Columns.Add(new DataColumn("Value_Str", typeof(string)));
             dtFilingData.Columns.Add(new DataColumn("PeriodStart", typeof(DateTime)));
             dtFilingData.Columns.Add(new DataColumn("PeriodEnd", typeof(DateTime)));
             dtFilingData.Columns.Add(new DataColumn("UnitName", typeof(string)));
             dtFilingData.Columns.Add(new DataColumn("SourceFactId", typeof(string)));
+            dtFilingData.Columns.Add(new DataColumn("MultivalueFactId", typeof(string)));
 
             return dtFilingData;
         }

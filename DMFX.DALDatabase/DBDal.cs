@@ -145,7 +145,7 @@ namespace DMFX.DALDatabase
                     filingInfo.Submitted = (DateTime)ds.Tables[0].Rows[0]["Submit_Dt"];
                     result.FilingInfo = filingInfo;
 
-                    // second table - filing data
+                    
                     foreach (DataRow r in ds.Tables[1].Rows)
                     {
                         string valLabel = (string)r["Value_Label"];
@@ -160,9 +160,10 @@ namespace DMFX.DALDatabase
                             fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
                             fr.PeriodEnd = periodEnd;
                             fr.PeriodStart = periodStart;
-                            fr.Unit = (string)r["Unit"];
-                            fr.Value = (decimal)r["Value"];
-
+                            fr.Unit = !DBNull.Value.Equals(r["Unit"]) ? (string)r["Unit"] : null;
+                            fr.Value = !DBNull.Value.Equals(r["Value"]) ? (decimal?)r["Value"] : null;
+                            fr.Value_Str = !DBNull.Value.Equals(r["Value_Str"]) ? (string)r["Value_Str"] : null;
+                            fr.FactId = !DBNull.Value.Equals(r["FactId"]) ? (string)r["FactId"] : null;
                             result.Data.Add(fr);
                         }
                     }
@@ -693,10 +694,12 @@ namespace DMFX.DALDatabase
 
                 rowFilingData["Code"] = r.Code;
                 rowFilingData["Value"] = r.Value;
+                rowFilingData["Value_Str"] = r.Value_Str;
                 rowFilingData["UnitName"] = r.Unit;
                 rowFilingData["PeriodStart"] = r.PeriodStart != DateTime.MinValue ? r.PeriodStart : r.Instant;
                 rowFilingData["PeriodEnd"] = r.PeriodEnd != DateTime.MinValue ? r.PeriodEnd : r.Instant;
                 rowFilingData["SourceFactId"] = r.SourceFactId;
+                rowFilingData["MultivalueFactId"] = r.FactId;
 
                 dtFilingData.Rows.Add(rowFilingData);
             }
