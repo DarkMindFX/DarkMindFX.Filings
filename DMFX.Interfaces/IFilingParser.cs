@@ -112,6 +112,11 @@ namespace DMFX.Interfaces
             }
         }
 
+        public override string ToString()
+        {
+            return Title + ": " + Value;
+        }
+
     }
 
 
@@ -132,6 +137,11 @@ namespace DMFX.Interfaces
         public HashSet<StatementRecord> Records
         {
             get;
+        }
+
+        public override string ToString()
+        {
+            return Title + " (" + Records.Count + " records)";
         }
     }
 

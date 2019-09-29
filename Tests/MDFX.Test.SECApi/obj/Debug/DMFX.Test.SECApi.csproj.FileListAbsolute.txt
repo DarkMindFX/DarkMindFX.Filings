@@ -11,6 +11,6 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\nunit
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Client.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Interfaces.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Text.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csprojResolveAssemblyReference.cache

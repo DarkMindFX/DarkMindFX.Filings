@@ -163,6 +163,7 @@ namespace DMFX.DALDatabase
                             fr.Unit = !DBNull.Value.Equals(r["Unit"]) ? (string)r["Unit"] : null;
                             fr.Value = !DBNull.Value.Equals(r["Value"]) ? (decimal?)r["Value"] : null;
                             fr.Value_Str = !DBNull.Value.Equals(r["Value_Str"]) ? (string)r["Value_Str"] : null;
+                            fr.Value_Dttm = !DBNull.Value.Equals(r["Value_Dttm"]) ? (DateTime?)r["Value_Dttm"] : null;
                             fr.FactId = !DBNull.Value.Equals(r["FactId"]) ? (string)r["FactId"] : null;
                             result.Data.Add(fr);
                         }
@@ -693,8 +694,21 @@ namespace DMFX.DALDatabase
                 DataRow rowFilingData = dtFilingData.NewRow();
 
                 rowFilingData["Code"] = r.Code;
-                rowFilingData["Value"] = r.Value;
-                rowFilingData["Value_Str"] = r.Value_Str;
+                if (r.Value != null)
+                    rowFilingData["Value"] = (decimal)r.Value;
+                else
+                    rowFilingData["Value"] = DBNull.Value;
+
+                if (r.Value_Str != null)
+                    rowFilingData["Value_Str"] = r.Value_Str;
+                else
+                    rowFilingData["Value_Str"] = DBNull.Value;
+
+                if (r.Value_Dttm != null)
+                    rowFilingData["Value_Dttm"] = r.Value_Dttm;
+                else
+                    rowFilingData["Value_Dttm"] = DBNull.Value;
+
                 rowFilingData["UnitName"] = r.Unit;
                 rowFilingData["PeriodStart"] = r.PeriodStart != DateTime.MinValue ? r.PeriodStart : r.Instant;
                 rowFilingData["PeriodEnd"] = r.PeriodEnd != DateTime.MinValue ? r.PeriodEnd : r.Instant;

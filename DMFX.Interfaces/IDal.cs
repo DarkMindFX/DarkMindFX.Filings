@@ -12,7 +12,7 @@ namespace DMFX.Interfaces.DAL
         {
             get;
         }
-    }
+    } 
 
     #region Params / results strcutures
 
@@ -31,6 +31,12 @@ namespace DMFX.Interfaces.DAL
         }
 
         public string Value_Str
+        {
+            get;
+            set;
+        }
+
+        public DateTime? Value_Dttm
         {
             get;
             set;

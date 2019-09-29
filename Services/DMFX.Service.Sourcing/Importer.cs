@@ -1139,6 +1139,7 @@ namespace DMFX.Service.Sourcing
                         Unit = r.Unit,
                         Value = r.Value is decimal ? (decimal?)r.Value : null,
                         Value_Str = r.Value is string ? (string)r.Value : null,
+                        Value_Dttm = r.Value is DateTime ? (DateTime?)r.Value : null,
                         SourceFactId = r.SourceFactId,
                         FactId = r.FactId
                     });

@@ -104,5 +104,11 @@ namespace DMFX.Service.DTO
             get;
             set;
         }
+
+        public List<FilingDttmRecord> FilingDttmData
+        {
+            get;
+            set;
+        }
     }
 }

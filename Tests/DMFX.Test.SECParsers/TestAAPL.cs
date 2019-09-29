@@ -221,5 +221,61 @@ namespace DMFX.Test.SECParsers
                 }
             }
         }
+
+        [Test]
+        public void AAPL_Form4_Success_20190502()
+        {
+            DMFX.SECParser.SECForm4.SECForm4DefaultParser parser = new DMFX.SECParser.SECForm4.SECForm4DefaultParser();
+
+            // parser
+            SECParser.SECParserParams secParams = new SECParser.SECParserParams();
+
+            // parameters
+            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190502"]), FileMode.Open);
+
+            // running parser
+            var result = parser.Parse(secParams);
+
+            // checking error code
+            Assert.AreEqual(result.Success, true, "AAPL Form 4 2019/05/02: Parse failed with {0} errors", result.Errors.Count.ToString());
+
+            
+        }
+
+        [Test]
+        public void AAPL_Form4_Success_20190812()
+        {
+            DMFX.SECParser.SECForm4.SECForm4DefaultParser parser = new DMFX.SECParser.SECForm4.SECForm4DefaultParser();
+
+            // parser
+            SECParser.SECParserParams secParams = new SECParser.SECParserParams();
+
+            // parameters
+            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190812"]), FileMode.Open);
+
+            // running parser
+            var result = parser.Parse(secParams);
+
+            // checking error code
+            Assert.AreEqual(result.Success, true, "AAPL Form 4 2019/08/12: Parse failed with {0} errors", result.Errors.Count.ToString());
+        }
+
+        [Test]
+        public void AAPL_Form4_Success_20190824()
+        {
+            DMFX.SECParser.SECForm4.SECForm4DefaultParser parser = new DMFX.SECParser.SECForm4.SECForm4DefaultParser();
+
+            // parser
+            SECParser.SECParserParams secParams = new SECParser.SECParserParams();
+
+            // parameters
+            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190824"]), FileMode.Open);
+
+            // running parser
+            var result = parser.Parse(secParams);
+
+            // checking error code
+            Assert.AreEqual(result.Success, true, "AAPL Form 4 2019/08/24: Parse failed with {0} errors", result.Errors.Count.ToString());
+        }
     }
 }

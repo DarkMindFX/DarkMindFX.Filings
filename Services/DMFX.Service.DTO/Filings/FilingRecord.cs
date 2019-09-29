@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    public class FilingRecordBase
+    public abstract class FilingRecordBase
     {
         public string Code
         {
@@ -52,6 +52,17 @@ namespace DMFX.Service.DTO
     {
  
         public string Value
+        {
+            get;
+            set;
+        }
+
+    }
+
+    public class FilingDttmRecord : FilingRecordBase
+    {
+
+        public DateTime Value
         {
             get;
             set;

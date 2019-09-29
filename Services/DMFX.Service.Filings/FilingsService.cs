@@ -239,7 +239,9 @@ namespace DMFX.Service.Filings
                                     Value = (decimal)fd.Value,
                                     UnitName = fd.Unit,
                                     PeriodEnd = fd.PeriodEnd,
-                                    PeriodStart = fd.PeriodStart
+                                    PeriodStart = fd.PeriodStart,
+                                    FactId = fd.FactId
+                                    
                                 });
                             }
                             else if (fd.Value_Str != null)
@@ -249,10 +251,22 @@ namespace DMFX.Service.Filings
                                     Code = fd.Code,
                                     Value = fd.Value_Str,
                                     PeriodEnd = fd.PeriodEnd,
-                                    PeriodStart = fd.PeriodStart
+                                    PeriodStart = fd.PeriodStart,
+                                    FactId = fd.FactId
                                 });
                             }
-                            
+                            else if (fd.Value_Dttm != null)
+                            {
+                                response.FilingDttmData.Add(new DTO.FilingDttmRecord()
+                                {
+                                    Code = fd.Code,
+                                    Value = (DateTime)fd.Value_Dttm,
+                                    PeriodEnd = fd.PeriodEnd,
+                                    PeriodStart = fd.PeriodStart,
+                                    FactId = fd.FactId
+                                });
+                            }
+
                         }
 
                         if (response.FilingData.Count == 0)

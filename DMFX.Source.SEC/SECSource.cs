@@ -396,11 +396,11 @@ namespace DMFX.Source.SEC
                 {
                     subInfo.Type = "10-K";
                 }
-                /*
-                else if (nodeType.InnerText.Contains("8-K"))
+                
+                else if (nodeType.InnerText.Contains("Form 4"))
                 {
-                    subInfo.Type = "8-K";
-                }*/
+                    subInfo.Type = "4";
+                }
 
                 if (!string.IsNullOrEmpty(subInfo.Type))
                 {
@@ -428,7 +428,19 @@ namespace DMFX.Source.SEC
                     HtmlNode nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='EX-101.INS']/..");
                     if (nodeFilingData == null)
                     {
-                        nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='XML']/..");
+                        switch (subInfo.Type)
+                        {
+                            case "10-Q":
+                            case "10-K":
+                                nodeFilingData = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div/table/tr/td[text()='XML']/..");
+                                break;
+                            case "4":
+                                {
+                                    var fileNodes = doc.DocumentNode.SelectNodes("//div[@id='formDiv']/div/table/tr/td[text()='4']/..");
+                                    nodeFilingData = fileNodes.FirstOrDefault(x => x.SelectSingleNode("td/a") != null && x.SelectSingleNode("td/a").InnerText.IndexOf(".xml") >= 0);
+                                }
+                                break;
+                        }
                     }
                     if (nodeFilingData != null)
                     {
