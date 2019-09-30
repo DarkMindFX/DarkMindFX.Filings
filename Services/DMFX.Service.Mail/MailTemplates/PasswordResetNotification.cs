@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+  <type>
+    PasswordResetNotification
+  </type>
+  <subject>
+    [No-Reply] DarkMindFX - Password changed
+  </subject>
+  <body>
+    <div>
+      <div style="background-color: #888888; font-family: Arial; padding: 20px;">
+        <div style="color: #FFFFFF;">
+          <b>
+            DARKMIND<span style="color:#FF8C00;">FX</span>
+          </b>
+        </div>
+      </div>
+      <div style="font-family: Arial; padding: 20px;">
+        Hello, {0}<br/>
+        <br/>
+        Your account's password was reset<br/>
+        <br/>     
+        New Password: <b>{1}</b>
+        <br/>     
+        <br/>     
+        In case of any questions feel free to reach us via email <a href="mailto:contact@darkmindfx.com" style="color: #114455;">support@darkmindfx.com</a>
+        <br/>
+        <br/>
+        You DarkMindFX Team -
+      </div>
+      <div style="background-color: #888888; font-family: Arial; padding: 20px;">
+        <div >
+          <a href="http://www.darkmindfx.com" style="color: #FFFFFF;">www.darkmindfx.com</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</template>
