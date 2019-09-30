@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/ChangePassword/{Email}/{Name}/{Pwd}/{SessionToken}", "GET")]
+    [Route("/ChangePassword/{Email}/{Pwd}/{SessionToken}", "GET")]
     [Route("/ChangePassword", "POST")]
     public class ChangePassword : RequestBase, IReturn<ChangePasswordResponse>
     {
