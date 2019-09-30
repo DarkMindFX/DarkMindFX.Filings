@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+  <type>
+    NewReportNotification
+  </type>
+  <subject>
+    [No-Reply] DarkMindFX - New Filing: {1}/{2}, Type: {3}
+  </subject>
+  <body>
+    <div>
+      <div style="background-color: #888888; font-family: Arial; padding: 20px;">
+        <div style="color: #FFFFFF;">
+          <b>
+            DARKMIND<span style="color:#FF8C00;">FX</span>
+          </b>
+        </div>
+      </div>
+      <div style="font-family: Arial; padding: 20px;">
+        Hello, {0}<br/>
+        <br/>
+        New report is available<br/>
+        <br/>
+        Regulator: {1}<br/>
+        Company: {2}<br/>
+        Report Type: {3}<br/>
+        Report Name: {4}<br/>
+        Submitted: {5}<br/>
+        <br/>
+        You can use <a href="http://www.darkmindfx.com/filingsapiref/reference.html">DarkMindFX API</a> to read the full content of the report as well as any analuytical ratios and statements (if applicable)
+        <br/>
+        In case of any questions feel free to reach us via email <a href="mailto:contact@darkmindfx.com" style="color: #114455;">support@darkmindfx.com</a>
+        <br/>
+        <br/>
+        You DarkMindFX Team -
+      </div>
+      <div style="background-color: #888888; font-family: Arial; padding: 20px;">
+        <div >
+          <a href="http://www.darkmindfx.com" style="color: #FFFFFF;">www.darkmindfx.com</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</template>
