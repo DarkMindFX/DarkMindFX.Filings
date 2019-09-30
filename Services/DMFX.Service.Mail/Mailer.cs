@@ -46,8 +46,9 @@ namespace DMFX.Service.Mail
             _mailSender.Init(senderSettings);
         }
 
-        public void Send(List<MailParams> mails)
+        public ResultBase Send(List<MailParams> mails)
         {
+            ResultBase result = new ResultBase();
             List<EmailDetails> emails = new List<EmailDetails>();
             foreach (var mp in mails)
             {
@@ -58,18 +59,31 @@ namespace DMFX.Service.Mail
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(EErrorType.Error, string.Format("Failed to send email:\r\n\tTo:  {0}\r\n\tType: {1}\r\nError:  {2}", mp.ToAddress, mp.Type, ex.Message));
+                    result.Errors.Add(new Error() { Code = EErrorCodes.MailSendFailed, Message = ex.Message, Type = EErrorType.Warning });
+                    _logger.Log(EErrorType.Error, string.Format("Failed to prepare email details:\r\n\tTo:  {0}\r\n\tType: {1}\r\nError:  {2}", mp.ToAddress, mp.Type, ex.Message));
                 }
             }
 
             try
             {
-                _mailSender.Send(emails);
+                if (emails.Count > 0)
+                {
+                    _mailSender.Send(emails);
+                    result.Success = true;
+                }
+                else
+                {
+                    throw new ArgumentNullException("No email details were prepared");
+                }
             }
             catch (Exception ex)
             {
+                result.Success = false;
+                result.Errors.Add(new Error() { Code = EErrorCodes.MailSendFailed, Message = ex.Message, Type = EErrorType.Error });
                 _logger.Log(ex);
             }
+
+            return result;
         }
 
         #region Support methods

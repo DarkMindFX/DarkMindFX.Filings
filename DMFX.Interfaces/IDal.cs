@@ -413,6 +413,12 @@ namespace DMFX.Interfaces.DAL
 
     public class GetUserAccountInfoResult : ResultBase
     {
+        public int UserId
+        {
+            get;
+            set;
+        }
+
         public string Name
         {
             get;

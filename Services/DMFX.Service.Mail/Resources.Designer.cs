@@ -67,22 +67,104 @@ namespace DMFX.Service.Mail {
         ///    AccountCreatedConfirmation
         ///  &lt;/type&gt;
         ///  &lt;subject&gt;
-        ///    DarkMindFX - Account Created
+        ///    [No-Reply] DarkMindFX - Account Created
         ///  &lt;/subject&gt;
         ///  &lt;body&gt;
         ///    &lt;div&gt;
-        ///      Hello, {0}&lt;br/&gt;
-        ///      &lt;br/&gt;
-        ///      We are happy that you&apos;re with us! Your account was created successfully.&lt;br/&gt;
-        ///      Your login: {1}&lt;br/&gt;
-        ///      Account Key: &lt;b&gt;{2}&lt;/b&gt;&lt;br/&gt;
-        ///      You can use your Account Key to access DarkMindFX API functionality - please keep it in secret&lt;br/&gt;
-        ///      &lt;br/&gt;
-        ///      In case of an [rest of string was truncated]&quot;;.
+        ///      &lt;div style=&quot;background-color: #888888; font-family: Arial; padding: 20px;&quot;&gt;
+        ///        &lt;div style=&quot;color: #FFFFFF;&quot;&gt;
+        ///          &lt;b&gt;
+        ///            DARKMIND&lt;span style=&quot;color:#FF8C00;&quot;&gt;FX&lt;/span&gt;
+        ///          &lt;/b&gt;
+        ///        &lt;/div&gt;
+        ///      &lt;/div&gt;
+        ///      &lt;div style=&quot;font-family: Arial; padding: 20px;&quot;&gt;
+        ///        Hello, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AccountCreatedConfirmation {
             get {
                 return ResourceManager.GetString("AccountCreatedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;template&gt;
+        ///  &lt;type&gt;
+        ///    NewReportNotification
+        ///  &lt;/type&gt;
+        ///  &lt;subject&gt;
+        ///    [No-Reply] DarkMindFX - New Filing: {1}/{2}, Type: {3}
+        ///  &lt;/subject&gt;
+        ///  &lt;body&gt;
+        ///    &lt;div&gt;
+        ///      &lt;div style=&quot;background-color: #888888; font-family: Arial; padding: 20px;&quot;&gt;
+        ///        &lt;div style=&quot;color: #FFFFFF;&quot;&gt;
+        ///          &lt;b&gt;
+        ///            DARKMIND&lt;span style=&quot;color:#FF8C00;&quot;&gt;FX&lt;/span&gt;
+        ///          &lt;/b&gt;
+        ///        &lt;/div&gt;
+        ///      &lt;/div&gt;
+        ///      &lt;div style=&quot;font-family: Arial; padding: 20px;&quot;&gt;
+        ///     [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string NewReportNotification {
+            get {
+                return ResourceManager.GetString("NewReportNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;template&gt;
+        ///  &lt;type&gt;
+        ///    PasswordChangedConfirmation
+        ///  &lt;/type&gt;
+        ///  &lt;subject&gt;
+        ///    [No-Reply] DarkMindFX - Password changed
+        ///  &lt;/subject&gt;
+        ///  &lt;body&gt;
+        ///    &lt;div&gt;
+        ///      &lt;div style=&quot;background-color: #888888; font-family: Arial; padding: 20px;&quot;&gt;
+        ///        &lt;div style=&quot;color: #FFFFFF;&quot;&gt;
+        ///          &lt;b&gt;
+        ///            DARKMIND&lt;span style=&quot;color:#FF8C00;&quot;&gt;FX&lt;/span&gt;
+        ///          &lt;/b&gt;
+        ///        &lt;/div&gt;
+        ///      &lt;/div&gt;
+        ///      &lt;div style=&quot;font-family: Arial; padding: 20px;&quot;&gt;
+        ///        Hell [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PasswordChangedConfirmation {
+            get {
+                return ResourceManager.GetString("PasswordChangedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;template&gt;
+        ///  &lt;type&gt;
+        ///    PasswordResetNotification
+        ///  &lt;/type&gt;
+        ///  &lt;subject&gt;
+        ///    [No-Reply] DarkMindFX - Password changed
+        ///  &lt;/subject&gt;
+        ///  &lt;body&gt;
+        ///    &lt;div&gt;
+        ///      &lt;div style=&quot;background-color: #888888; font-family: Arial; padding: 20px;&quot;&gt;
+        ///        &lt;div style=&quot;color: #FFFFFF;&quot;&gt;
+        ///          &lt;b&gt;
+        ///            DARKMIND&lt;span style=&quot;color:#FF8C00;&quot;&gt;FX&lt;/span&gt;
+        ///          &lt;/b&gt;
+        ///        &lt;/div&gt;
+        ///      &lt;/div&gt;
+        ///      &lt;div style=&quot;font-family: Arial; padding: 20px;&quot;&gt;
+        ///        Hello, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PasswordResetNotification {
+            get {
+                return ResourceManager.GetString("PasswordResetNotification", resourceCulture);
             }
         }
     }

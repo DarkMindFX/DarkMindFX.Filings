@@ -377,19 +377,19 @@ namespace DMFX.DALDatabase
             cmd.Connection = conn;
 
             // User name
-            SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.Name);
+            SqlParameter paramName = new SqlParameter("@Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, NullHandler(updateAccountParams.Name));
 
             // User email
-            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.Email);
+            SqlParameter paramEmail = new SqlParameter("@Email", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, NullHandler(updateAccountParams.Email));
 
             // User pwd hash
-            SqlParameter paramPwdHash = new SqlParameter("@PwdHash", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.PwdHash);
+            SqlParameter paramPwdHash = new SqlParameter("@PwdHash", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, NullHandler(updateAccountParams.PwdHash));
 
             // User account key
-            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.AccountKey);
+            SqlParameter paramAccountKey = new SqlParameter("@AccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, NullHandler(updateAccountParams.AccountKey));
 
             // User status
-            SqlParameter paramStatus = new SqlParameter("@Status", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, updateAccountParams.State);
+            SqlParameter paramStatus = new SqlParameter("@Status", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, NullHandler(updateAccountParams.State));
 
             cmd.Parameters.Add(paramName);
             cmd.Parameters.Add(paramEmail);
@@ -431,6 +431,7 @@ namespace DMFX.DALDatabase
             da.Fill(ds);
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
+                result.UserId = (int)ds.Tables[0].Rows[0]["User_Id"];
                 result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
                 result.Name = (string)ds.Tables[0].Rows[0]["User_Name"];
                 result.Email = (string)ds.Tables[0].Rows[0]["Email"];
@@ -657,6 +658,14 @@ namespace DMFX.DALDatabase
         #endregion
 
         #region Support method
+
+        private object NullHandler(object value)
+        {
+            if (value != null)
+                return value;
+
+            return DBNull.Value;
+        }
         private SqlConnection OpenConnection(string name)
         {
             SqlConnection conn = new SqlConnection(_dalParams.Parameters[name]);

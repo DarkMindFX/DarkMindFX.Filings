@@ -20,7 +20,7 @@ namespace DMFX.Test.QuotesDal
         {
             string dir = AppDomain.CurrentDomain.BaseDirectory;
 
-            csvRoot = Path.Combine(dir, "..", ConfigurationSettings.AppSettings["CSVDalRootFolder"]);
+            csvRoot = Path.Combine(dir, "..", ConfigurationManager.AppSettings["CSVDalRootFolder"]);
         }
 
         [Test]
@@ -29,8 +29,8 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
 
             IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
-            getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
-            getParams.Tickers.Add( ConfigurationSettings.AppSettings["TickerSPY"] );
+            getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+            getParams.Tickers.Add( ConfigurationManager.AppSettings["TickerSPY"] );
             getParams.TimeFrame = ETimeFrame.Monthly;
 
             IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
@@ -38,8 +38,8 @@ namespace DMFX.Test.QuotesDal
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Quotes);
             Assert.AreEqual(result.Quotes.Count, 1);
-            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationSettings.AppSettings["TickerSPY"]);
-            Assert.AreEqual(result.Quotes[0].Country, ConfigurationSettings.AppSettings["CountryUS"]);
+            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationManager.AppSettings["TickerSPY"]);
+            Assert.AreEqual(result.Quotes[0].Country, ConfigurationManager.AppSettings["CountryUS"]);
             Assert.AreNotEqual(result.Quotes[0].Quotes.Count(), 0);
         }
 
@@ -49,8 +49,8 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
 
             IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
-            getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
+            getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["InvalidTicker"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
             IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
@@ -67,9 +67,9 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
 
             IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
-            getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerSPY"]);
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerQQQ"]);
+            getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["TickerSPY"]);
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["TickerQQQ"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
             IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
@@ -77,11 +77,11 @@ namespace DMFX.Test.QuotesDal
             Assert.IsTrue(result.Success);
             Assert.IsNotNull(result.Quotes);
             Assert.AreEqual(result.Quotes.Count, 2);
-            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationSettings.AppSettings["TickerSPY"]);
-            Assert.AreEqual(result.Quotes[0].Country, ConfigurationSettings.AppSettings["CountryUS"]);
+            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationManager.AppSettings["TickerSPY"]);
+            Assert.AreEqual(result.Quotes[0].Country, ConfigurationManager.AppSettings["CountryUS"]);
             Assert.AreNotEqual(result.Quotes[0].Quotes.Count(), 0);
-            Assert.AreEqual(result.Quotes[1].Ticker, ConfigurationSettings.AppSettings["TickerQQQ"]);
-            Assert.AreEqual(result.Quotes[1].Country, ConfigurationSettings.AppSettings["CountryUS"]);
+            Assert.AreEqual(result.Quotes[1].Ticker, ConfigurationManager.AppSettings["TickerQQQ"]);
+            Assert.AreEqual(result.Quotes[1].Country, ConfigurationManager.AppSettings["CountryUS"]);
             Assert.AreNotEqual(result.Quotes[1].Quotes.Count(), 0);
         }
 
@@ -91,9 +91,9 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
 
             IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
-            getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicker"]);
+            getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["InvalidTicker"]);
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["InvalidTicker"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
             IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
@@ -109,9 +109,9 @@ namespace DMFX.Test.QuotesDal
             IQuotesDal dal = PrepareQuotesDal();
 
             IQuotesDalGetTimeSeriesValuesParams getParams = dal.CreateGetQuotesParams();
-            getParams.Country = ConfigurationSettings.AppSettings["CountryUS"];
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["TickerSPY"]);
-            getParams.Tickers.Add(ConfigurationSettings.AppSettings["InvalidTicket"]);
+            getParams.Country = ConfigurationManager.AppSettings["CountryUS"];
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["TickerSPY"]);
+            getParams.Tickers.Add(ConfigurationManager.AppSettings["InvalidTicket"]);
             getParams.TimeFrame = ETimeFrame.Monthly;
 
             IQuotesDalGetTimeseriesValuesResult result = dal.GetTimseriesValues(getParams);
@@ -120,8 +120,8 @@ namespace DMFX.Test.QuotesDal
             Assert.IsTrue(result.HasWarnings);
             Assert.IsNotNull(result.Quotes);
             Assert.AreEqual(result.Quotes.Count, 1);
-            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationSettings.AppSettings["TickerSPY"]);
-            Assert.AreEqual(result.Quotes[0].Country, ConfigurationSettings.AppSettings["CountryUS"]);
+            Assert.AreEqual(result.Quotes[0].Ticker, ConfigurationManager.AppSettings["TickerSPY"]);
+            Assert.AreEqual(result.Quotes[0].Country, ConfigurationManager.AppSettings["CountryUS"]);
             Assert.AreNotEqual(result.Quotes[0].Quotes.Count(), 0);
             
         }

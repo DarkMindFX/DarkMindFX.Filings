@@ -121,4 +121,13 @@
   <data name="AccountCreatedConfirmation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>MailTemplates\AccountCreatedConfirmation.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="NewReportNotification" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MailTemplates\NewReportNotification.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PasswordChangedConfirmation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MailTemplates\PasswordChangedConfirmation.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
+  <data name="PasswordResetNotification" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MailTemplates\PasswordResetNotification.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  </data>
 </root>

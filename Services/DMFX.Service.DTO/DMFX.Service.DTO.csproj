@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\ActivateAccount.cs" />
+    <Compile Include="Accounts\ChangePassword.cs" />
     <Compile Include="Accounts\CloseSession.cs" />
     <Compile Include="Accounts\CreateAccount.cs" />
     <Compile Include="Accounts\GetSessionInfo.cs" />
+    <Compile Include="Accounts\ResetPassword.cs" />
     <Compile Include="Common\Echo.cs" />
     <Compile Include="Filings\FilingRecord.cs" />
     <Compile Include="Filings\GetCommonSizeBalanceSheet.cs" />

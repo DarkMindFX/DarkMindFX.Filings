@@ -387,8 +387,53 @@ namespace DMFX.Service.Accounts
                     updateParams.AccountKey = sessionInfo.AccountKey;
                     updateParams.Email = request.Email;
                     updateParams.Name = request.Name;
-                    updateParams.PwdHash = request.PwdHash;
+                    updateParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
                     updateParams.State = request.State;
+
+                    _dal.UpdateUserAccount(updateParams);
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unexpected error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: UpdateAccount");
+
+            return response;
+        }
+
+        public object Any(ChangePassword request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: UpdateAccount");
+            UpdateAccountResponse response = new UpdateAccountResponse();
+            TransferHeader(request, response);
+            try
+            {
+                SessionInfo sessionParams = new SessionInfo();
+                sessionParams.SessionId = request.SessionToken;
+
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                if (sessionInfo != null)
+                {
+                    // getting account details
+                    CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
+                    updateParams.AccountKey = sessionInfo.AccountKey;
+                    updateParams.Email = request.Email;
+                    updateParams.PwdHash = request.Pwd;
 
                     _dal.UpdateUserAccount(updateParams);
                 }
@@ -418,7 +463,7 @@ namespace DMFX.Service.Accounts
 
 
         #region Support methods
-        
+
         private void InitDAL()
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringAccounts"]));

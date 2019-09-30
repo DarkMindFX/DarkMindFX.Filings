@@ -23,7 +23,7 @@ namespace DMFX.Service.DTO
             set;
         }
 
-        public string PwdHash
+        public string Pwd
         {
             get;
             set;

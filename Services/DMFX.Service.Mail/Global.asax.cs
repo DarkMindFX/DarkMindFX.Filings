@@ -35,7 +35,10 @@ namespace DMFX.Service.Mail
         private TypeCatalog PrepareMessageGenerators()
         {
             var msgCatalog = new TypeCatalog(
-                typeof(MsgGenAccountCreatedConfirmation)
+                typeof(MsgGenAccountCreatedConfirmation),
+                typeof(MsgGenNewReportNotification),
+                typeof(MsgGenPasswordChangedConfirmation),
+                typeof(MsgGenPasswordResetNotification)
                 );
 
             return msgCatalog;
