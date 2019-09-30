@@ -9,7 +9,7 @@ namespace DMFX.Service.DTO
 {
     [Route("/ChangePassword/{Email}/{Name}/{Pwd}/{SessionToken}", "GET")]
     [Route("/ChangePassword", "POST")]
-    public class CreateAccount : RequestBase, IReturn<CreateAccountResponse>
+    public class ChangePassword : RequestBase, IReturn<ChangePasswordResponse>
     {
         public string Email
         {
@@ -25,12 +25,8 @@ namespace DMFX.Service.DTO
         
     }
 
-    public class CreateAccountResponse : ResponseBase
+    public class ChangePasswordResponse : ResponseBase
     {
-        public string AccountKey
-        {
-            get; set;
-        }
     }
 
 }
