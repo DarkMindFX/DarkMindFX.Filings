@@ -395,9 +395,10 @@ namespace DMFX.DALDatabase
             cmd.Parameters.Add(paramEmail);
             cmd.Parameters.Add(paramPwdHash);
             cmd.Parameters.Add(paramAccountKey);
+            cmd.Parameters.Add(paramStatus);
 
-            // TODO: uncomment when SP ready
-            // cmd.ExecuteNonQuery();
+
+            cmd.ExecuteNonQuery();
 
             conn.Close();
 

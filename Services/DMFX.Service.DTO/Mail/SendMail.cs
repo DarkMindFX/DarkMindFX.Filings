@@ -1,4 +1,5 @@
 ﻿using ServiceStack;
+using ServiceStack.ServiceHost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace DMFX.Service.DTO
     }
 
     [Route("/SendMail")]
-    public class SendMail : RequestBase, IReturn<InitSessionResponse>
+    public class SendMail : RequestBase, IReturn<SendMailResponse>
     {
         public SendMail()
         {

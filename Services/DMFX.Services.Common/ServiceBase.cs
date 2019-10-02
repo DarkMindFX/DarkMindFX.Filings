@@ -1,6 +1,5 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Service.DTO;
-using ServiceStack;
 using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.Common
 {
-    public abstract class ServiceBase : ServiceStack.Service
+    public abstract class ServiceBase : ServiceStack.ServiceInterface.Service
     {
         protected ILogger _logger = null;
         protected bool _logRequests = false;

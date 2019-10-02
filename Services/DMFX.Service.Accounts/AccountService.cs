@@ -50,7 +50,7 @@ namespace DMFX.Service.Accounts
                         response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Warning });
                     }
                     response.Success = true;
-                    
+
                 }
                 else
                 {
@@ -274,7 +274,7 @@ namespace DMFX.Service.Accounts
                         response.DateCreated = accResult.DateCreated;
                         response.DateExpiresStr = accResult.DateExpires.ToString();
                         response.DateCreatedStr = accResult.DateCreated.ToString();
-                        
+
                         response.Success = true;
                     }
                     else
@@ -343,12 +343,12 @@ namespace DMFX.Service.Accounts
                 else
                 {
                     response.Success = false;
-                    response.Errors.Add( new Error()
-                        {
-                            Code = EErrorCodes.UserAccountNotFound,
-                            Type = EErrorType.Error,
-                            Message = "User account was not found."
-                        }
+                    response.Errors.Add(new Error()
+                    {
+                        Code = EErrorCodes.UserAccountNotFound,
+                        Type = EErrorType.Error,
+                        Message = "User account was not found."
+                    }
                     );
                 }
             }
@@ -382,10 +382,7 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
                 if (sessionInfo != null)
                 {
-                    // getting user details
 
-
-                    // getting account details
                     CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
                     updateParams.AccountKey = sessionInfo.AccountKey;
                     updateParams.Email = request.Email;
@@ -394,6 +391,8 @@ namespace DMFX.Service.Accounts
                     updateParams.State = request.State;
 
                     _dal.UpdateUserAccount(updateParams);
+
+                    response.Success = true;
                 }
                 else
                 {
@@ -432,7 +431,7 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
                 if (sessionInfo != null)
                 {
-                    // getting account details
+                    // updating account details
                     CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
                     updateParams.AccountKey = sessionInfo.AccountKey;
                     updateParams.Email = request.Email;
@@ -440,7 +439,89 @@ namespace DMFX.Service.Accounts
 
                     _dal.UpdateUserAccount(updateParams);
 
-                    SendMailResponse mailerResponse = SendAccountConfirmEmail(updateParams.Email, sessionInfo.AccountKey, request.Pwd);
+                    // getting account details
+                    GetUserAccountInfoParams accInfoParams = new GetUserAccountInfoParams();
+                    accInfoParams.AccountKey = sessionInfo.AccountKey;
+
+                    GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accInfoParams);
+                    if (accResult != null)
+                    {
+                        SendMailResponse mailerResponse = SendPasswordChangedNotificationEmail(updateParams.Email, accResult.Name);
+                        if (!mailerResponse.Success)
+                        {
+                            response.Errors.Add(new Error()
+                            {
+                                Code = EErrorCodes.MailSendFailed,
+                                Message = "Mail services returned errors. Check other errors",
+                                Type = EErrorType.Warning
+                            });
+                            response.Errors.AddRange(mailerResponse.Errors);
+                        }
+                    }
+
+                    response.Success = true;
+
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unexpected error: {0}", ex.Message)
+                });
+            }
+
+            _logger.Log(EErrorType.Info, " ****** Call end: ChangePassword");
+
+            return response;
+        }
+
+        public object Any(ResetPassword request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: ChangePassword");
+            UpdateAccountResponse response = new UpdateAccountResponse();
+            TransferHeader(request, response);
+            try
+            {
+                // getting account details
+                GetUserAccountInfoParams accInfoParams = new GetUserAccountInfoParams();
+                accInfoParams.Email = request.Email;
+
+                GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accInfoParams);
+                if (accResult != null && accResult.Success)
+                {
+                    string newPassword = EncodeUtils.GenerateRandomPassword();
+                    // getting account details
+                    CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
+                    updateParams.AccountKey = accResult.AccountKey;
+                    updateParams.Email = request.Email;
+                    updateParams.PwdHash = EncodeUtils.GetPasswordHash(newPassword);
+
+                    _dal.UpdateUserAccount(updateParams);
+
+                    SendMailResponse mailerResponse = SendPasswordResetNotificationEmail(updateParams.Email, accResult.Name, newPassword);
+                    if (!mailerResponse.Success)
+                    {
+                        response.Errors.Add(new Error()
+                        {
+                            Code = EErrorCodes.MailSendFailed,
+                            Message = "Mail services returned errors. Check other errors",
+                            Type = EErrorType.Warning
+                        });
+                        response.Errors.AddRange(mailerResponse.Errors);
+                    }
+
+
                 }
                 else
                 {
@@ -497,7 +578,7 @@ namespace DMFX.Service.Accounts
             sendMailRequest.SessionToken = ConfigurationManager.AppSettings["MailServiceSessionToken"];
             sendMailRequest.Details.Add(datails);
 
-            Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();                   
+            Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();
             result = client.PostSendMail(sendMailRequest);
 
             return result;

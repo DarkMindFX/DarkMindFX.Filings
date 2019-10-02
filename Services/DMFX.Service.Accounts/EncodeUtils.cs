@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Helpers;
 
@@ -58,6 +59,24 @@ namespace DMFX.Service.Accounts
             bool result = pwdHash.Equals(GetPasswordHash(pwd));
 
             return result;
+        }
+
+        public static string GenerateRandomPassword(uint minLength = 12, uint maxLength = 16)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            Random rnd = new Random(DateTime.Now.Millisecond);
+
+            int length = rnd.Next((int)minLength, (int)maxLength);
+
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!@#$%&";
+            for (int i = 0; i < length; ++i)
+            {
+                sb.Append(chars[rnd.Next(0, chars.Length - 1)]);
+            }
+
+            return sb.ToString();
+
         }
 
         static byte[] GetBytes(string str)

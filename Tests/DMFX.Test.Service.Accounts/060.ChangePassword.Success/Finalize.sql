@@ -25,7 +25,7 @@ INNER JOIN dbo.UM_Account_Key_T a ON a.account_Key_Id = u.Account_Key_Id
 WHERE a.Account_Key_Value = @accountKey
 
 -- throwing error
-IF @userName <> 'AccountsUnitTestUser_Updated' THROW 50001, 'User name was not updated', 1
-IF @email <> 'AccountsUnitTestUser_Updated@test.com' THROW 50001, 'Email was not updated', 1
+IF @userName <> 'AccountsUnitTestUser' THROW 50001, 'User name was updated', 1
+IF @email <> 'AccountsUnitTestUser@test.com' THROW 50001, 'Email was updated', 1
 IF @pwdHash <> 'B2cXi/G+Y0cP7jkZklo02sI2oguDjRKO4xg0OBymze4=' THROW 50001, 'Password hash was not updated', 1
 

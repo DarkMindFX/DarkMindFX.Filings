@@ -1,4 +1,5 @@
 ﻿using ServiceStack;
+using ServiceStack.ServiceClient.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,5 @@
 ﻿using Funq;
-using ServiceStack;
-
+using ServiceStack.WebHost.Endpoints;
 
 namespace DMFX.Service.Accounts
 {

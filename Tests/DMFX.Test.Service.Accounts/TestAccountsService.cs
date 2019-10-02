@@ -279,16 +279,67 @@ namespace DMFX.Test.Service.Accounts
 
             string sessionToken = initResp.SessionToken;
 
-            // 2. closing session
+            // 2. update user
             UpdateAccount updateReq = base.PrepareRequest<UpdateAccount>(name);
             updateReq.SessionToken = sessionToken;
 
-            UpdateAccountResponse updateRes = Post<UpdateAccount, UpdateAccountResponse>("CloseSession", updateReq);
+            UpdateAccountResponse updateRes = Post<UpdateAccount, UpdateAccountResponse>("UpdateAccount", updateReq);
+            
+            RunFinalizeSql(name, "ConnectionStringAccounts");
 
+            Assert.True(updateRes.Success, "Account was not updated - success = false");
+            Assert.IsEmpty(updateRes.Errors, "Unexpected errors returned");            
+
+            
+        }
+
+        [TestCase("060.ChangePassword.Success")]
+        public void ChangePassword_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+
+            // 1. initializing the session
+            InitSession initReq = new InitSession()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                RequestID = "D3770630-9532-457D-8EBB-DBF99F6A23D3",
+                SessionToken = null
+            };
+
+            InitSessionResponse initResp = Post<InitSession, InitSessionResponse>("InitSession", initReq);
+
+            string sessionToken = initResp.SessionToken;
+
+            // 2. changing password
+            ChangePassword updateReq = base.PrepareRequest<ChangePassword>(name);
+            updateReq.SessionToken = sessionToken;
+
+            ChangePasswordResponse updateRes = Post<ChangePassword, ChangePasswordResponse>("ChangePassword", updateReq);
 
             RunFinalizeSql(name, "ConnectionStringAccounts");
 
-            
+            Assert.True(updateRes.Success, "Password was not updated - success = false");
+            Assert.IsEmpty(updateRes.Errors, "Unexpected errors returned");
+
+
+        }
+
+        [TestCase("070.ResetPassword.Success")]
+        public void ResetPassword_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+                        
+            // 1. resetting password
+            ResetPassword updateReq = base.PrepareRequest<ResetPassword>(name);
+
+            ResetPasswordResponse updateRes = Post<ResetPassword, ResetPasswordResponse>("ResetPassword", updateReq);
+
+            RunFinalizeSql(name, "ConnectionStringAccounts");
+
+            Assert.True(updateRes.Success, "Password was not updated - success = false");
+            Assert.IsEmpty(updateRes.Errors, "Unexpected errors returned");
+
+
         }
 
 
