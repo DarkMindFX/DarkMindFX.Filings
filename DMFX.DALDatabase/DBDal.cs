@@ -431,7 +431,7 @@ namespace DMFX.DALDatabase
             da.Fill(ds);
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                result.UserId = (int)ds.Tables[0].Rows[0]["User_Id"];
+                result.UserId = (Int64)ds.Tables[0].Rows[0]["User_Id"];
                 result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
                 result.Name = (string)ds.Tables[0].Rows[0]["User_Name"];
                 result.Email = (string)ds.Tables[0].Rows[0]["Email"];

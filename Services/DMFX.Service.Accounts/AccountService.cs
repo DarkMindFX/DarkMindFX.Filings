@@ -90,7 +90,7 @@ namespace DMFX.Service.Accounts
                     createParams.AccountKey = EncodeUtils.CreateAccountKey();
                     createParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
                     createParams.ActivationCode = EncodeUtils.CreateActivationCode();
-                    createParams.State = "pending"; // TODO; change to consts
+                    createParams.State = "Pending"; // TODO; change to consts
 
                     _dal.CreateUserAccount(createParams);
 
@@ -382,6 +382,9 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
                 if (sessionInfo != null)
                 {
+                    // getting user details
+
+
                     // getting account details
                     CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
                     updateParams.AccountKey = sessionInfo.AccountKey;
@@ -418,7 +421,7 @@ namespace DMFX.Service.Accounts
 
         public object Any(ChangePassword request)
         {
-            _logger.Log(EErrorType.Info, " ****** Call start: UpdateAccount");
+            _logger.Log(EErrorType.Info, " ****** Call start: ChangePassword");
             UpdateAccountResponse response = new UpdateAccountResponse();
             TransferHeader(request, response);
             try
@@ -433,9 +436,11 @@ namespace DMFX.Service.Accounts
                     CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
                     updateParams.AccountKey = sessionInfo.AccountKey;
                     updateParams.Email = request.Email;
-                    updateParams.PwdHash = request.Pwd;
+                    updateParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
 
                     _dal.UpdateUserAccount(updateParams);
+
+                    SendMailResponse mailerResponse = SendAccountConfirmEmail(updateParams.Email, sessionInfo.AccountKey, request.Pwd);
                 }
                 else
                 {
@@ -456,7 +461,7 @@ namespace DMFX.Service.Accounts
                 });
             }
 
-            _logger.Log(EErrorType.Info, " ****** Call end: UpdateAccount");
+            _logger.Log(EErrorType.Info, " ****** Call end: ChangePassword");
 
             return response;
         }
@@ -493,6 +498,43 @@ namespace DMFX.Service.Accounts
             sendMailRequest.Details.Add(datails);
 
             Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();                   
+            result = client.PostSendMail(sendMailRequest);
+
+            return result;
+        }
+
+        private SendMailResponse SendPasswordChangedNotificationEmail(string email, string userName)
+        {
+            SendMailResponse result = null;
+            MailDetails datails = new MailDetails();
+            datails.MessageType = "PasswordChangedConfirmation";
+            datails.ToAddress = email;
+            datails.Parameters.Add("UserName", userName);
+
+            SendMail sendMailRequest = new SendMail();
+            sendMailRequest.SessionToken = ConfigurationManager.AppSettings["MailServiceSessionToken"];
+            sendMailRequest.Details.Add(datails);
+
+            Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();
+            result = client.PostSendMail(sendMailRequest);
+
+            return result;
+        }
+
+        private SendMailResponse SendPasswordResetNotificationEmail(string email, string userName, string newPassword)
+        {
+            SendMailResponse result = null;
+            MailDetails datails = new MailDetails();
+            datails.MessageType = "PasswordResetNotification";
+            datails.ToAddress = email;
+            datails.Parameters.Add("UserName", userName);
+            datails.Parameters.Add("Password", newPassword);
+
+            SendMail sendMailRequest = new SendMail();
+            sendMailRequest.SessionToken = ConfigurationManager.AppSettings["MailServiceSessionToken"];
+            sendMailRequest.Details.Add(datails);
+
+            Client.Mail.ServiceClient client = new Client.Mail.ServiceClient();
             result = client.PostSendMail(sendMailRequest);
 
             return result;

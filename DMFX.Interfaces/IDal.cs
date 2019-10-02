@@ -413,7 +413,7 @@ namespace DMFX.Interfaces.DAL
 
     public class GetUserAccountInfoResult : ResultBase
     {
-        public int UserId
+        public Int64 UserId
         {
             get;
             set;
@@ -470,6 +470,12 @@ namespace DMFX.Interfaces.DAL
 
     public class CreateUpdateUserAccountParams
     {
+        public int UserId
+        {
+            get;
+            set;
+        }
+
         public string Name
         {
             get;

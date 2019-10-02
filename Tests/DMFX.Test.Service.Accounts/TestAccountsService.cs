@@ -262,6 +262,35 @@ namespace DMFX.Test.Service.Accounts
             Assert.AreEqual(sessionInfo.Errors[0].Code, EErrorCodes.SessionClosed, "Invalid code returned");
         }
 
+        [TestCase("050.UpdateAccount.Success")]
+        public void UpdateAccount_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAccounts");
+
+            // 1. initializing the session
+            InitSession initReq = new InitSession()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                RequestID = "D3770630-9532-457D-8EBB-DBF99F6A23D3",
+                SessionToken = null
+            };
+
+            InitSessionResponse initResp = Post<InitSession, InitSessionResponse>("InitSession", initReq);
+
+            string sessionToken = initResp.SessionToken;
+
+            // 2. closing session
+            UpdateAccount updateReq = base.PrepareRequest<UpdateAccount>(name);
+            updateReq.SessionToken = sessionToken;
+
+            UpdateAccountResponse updateRes = Post<UpdateAccount, UpdateAccountResponse>("CloseSession", updateReq);
+
+
+            RunFinalizeSql(name, "ConnectionStringAccounts");
+
+            
+        }
+
 
 
     }
