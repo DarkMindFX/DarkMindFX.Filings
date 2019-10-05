@@ -37,22 +37,24 @@ namespace DMFX.Portfolio
 
         public override string ToString()
         {
+            string result = null;
             switch (Property)
             {
                 
                 case EProtfolioProperty.Return:
-                    return "Return " + Operation.ToString() + " " + Value;
+                    result = "Return " + Operation.ToString() + " " + Value;
                     break;
                 case EProtfolioProperty.StDev:
-                    return "StDev " + Operation.ToString() + " " + Value;
+                    result = "StDev " + Operation.ToString() + " " + Value;
                     break;
                 case EProtfolioProperty.SharpeRatio:
-                    return "SharpeRatio " + Operation.ToString() + " " + Value;
+                    result = "SharpeRatio " + Operation.ToString() + " " + Value;
                     break;
                 default:
-                    return Ticker + " " + Operation.ToString() + " " + Value;
+                    result = Ticker + " " + Operation.ToString() + " " + Value;
                     break;
             }
+            return result;
         }
     }
 

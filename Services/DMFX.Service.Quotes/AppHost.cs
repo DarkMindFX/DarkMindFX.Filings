@@ -1,6 +1,5 @@
-﻿using DMFX.Service.Quotes;
-using Funq;
-using ServiceStack;
+﻿using Funq;
+using ServiceStack.WebHost.Endpoints;
 
 
 namespace DMFX.Service.Quotes
