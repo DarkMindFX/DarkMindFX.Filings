@@ -36,6 +36,7 @@ namespace DMFX.Service.Common
 
         public void InitApp(TypeCatalog externalTypeCatalog = null)
         {
+
             string rootFolder = Server.MapPath("~");
 
             JsConfig<DateTime>.SerializeFn = t => t.ToString(DateTimeFormat);

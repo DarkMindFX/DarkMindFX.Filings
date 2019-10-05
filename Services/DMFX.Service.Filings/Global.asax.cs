@@ -1,10 +1,12 @@
-﻿using System;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition;
-using System.Configuration;
-using System.IO;
-using DMFX.Interfaces;
+﻿using DMFX.Service.Filings;
 using DMFX.Service.Common;
+using ServiceStack.WebHost.Endpoints;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.SessionState;
 
 namespace DMFX.Service.Filings
 {
@@ -15,14 +17,12 @@ namespace DMFX.Service.Filings
         {
             InitApp();
 
-            Logger.Log(EErrorType.Info, "Starting service DMFX.Service.Filings");
-
             new AppHost().Init();
 
             StartKeepAlive();
         }
 
-        protected void Application_End(object sender, EventArgs e)
+        protected void Application_Stop(object sender, EventArgs e)
         {
             StopKeepAlive();
         }

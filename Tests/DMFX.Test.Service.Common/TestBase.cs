@@ -6,6 +6,7 @@ using System.Reflection;
 using ServiceStack;
 using DMFX.Service.DTO;
 using System.Collections.Generic;
+using ServiceStack.ServiceClient.Web;
 
 namespace DMFX.Test.Service.Common
 {

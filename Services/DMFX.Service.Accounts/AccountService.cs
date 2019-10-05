@@ -2,16 +2,10 @@
 using DMFX.Interfaces.DAL;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
-using ServiceStack;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
-using System.Web.Helpers;
+
 
 namespace DMFX.Service.Accounts
 {
@@ -27,7 +21,7 @@ namespace DMFX.Service.Accounts
             _compContainer = Global.Container;
             InitDAL();
         }
-
+        
         public object Any(GetSessionInfo request)
         {
             _logger.Log(EErrorType.Info, " ****** Call start: GetSessionInfo");
@@ -547,7 +541,7 @@ namespace DMFX.Service.Accounts
             return response;
         }
 
-
+    
         #region Support methods
 
         private void InitDAL()
@@ -628,5 +622,6 @@ namespace DMFX.Service.Accounts
 
 
         #endregion
+        
     }
 }

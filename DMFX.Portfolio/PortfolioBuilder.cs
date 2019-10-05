@@ -93,7 +93,6 @@ namespace DMFX.Portfolio
                         break;
                     default:
                         throw new InvalidOperationException(string.Format("Optimization for {0} is not supported", buildParams.OptimizationTarget.ToString()));
-                        break;
                 }
 
                 alglib.minbleicresults(state, out w, out rep);

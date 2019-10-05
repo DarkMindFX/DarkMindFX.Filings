@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Threading;
+using ServiceStack.ServiceClient.Web;
 
 namespace DMFX.SEC.Api
 {
