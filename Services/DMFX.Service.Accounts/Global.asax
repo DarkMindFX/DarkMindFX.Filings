@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="WebApplication1.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="DMFX.Service.Accounts.Global" Language="C#" %>

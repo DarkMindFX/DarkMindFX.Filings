@@ -379,10 +379,10 @@ namespace DMFX.Service.Accounts
 
                     CreateUpdateUserAccountParams updateParams = new CreateUpdateUserAccountParams();
                     updateParams.AccountKey = sessionInfo.AccountKey;
-                    updateParams.Email = request.Email;
-                    updateParams.Name = request.Name;
-                    updateParams.PwdHash = EncodeUtils.GetPasswordHash(request.Pwd);
-                    updateParams.State = request.State;
+                    updateParams.Email = request.Email ?? null;
+                    updateParams.Name = request.Name ?? null;
+                    updateParams.PwdHash = !string.IsNullOrEmpty(request.Pwd) ? EncodeUtils.GetPasswordHash(request.Pwd) : null;
+                    updateParams.State = request.State ?? null;
 
                     _dal.UpdateUserAccount(updateParams);
 
@@ -515,12 +515,14 @@ namespace DMFX.Service.Accounts
                         response.Errors.AddRange(mailerResponse.Errors);
                     }
 
+                    response.Success = true;
+
 
                 }
                 else
                 {
                     response.Success = false;
-                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session" });
+                    response.Errors.Add(new Error() { Code = EErrorCodes.UserAccountNotFound, Type = EErrorType.Error, Message = "No account found for the given email" });
                 }
 
             }

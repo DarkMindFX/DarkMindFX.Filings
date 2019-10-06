@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    public abstract class RequestBase : IReturn<ResponseBase>
+    public abstract class RequestBase
     {
         public RequestBase()
         {

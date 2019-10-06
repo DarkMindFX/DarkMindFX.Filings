@@ -26,9 +26,7 @@ namespace Template.DMFX.Client.XYZ
 
         public ResponseBase PostGetSessionInfo(RequestBase request)
         {
-            ResponseBase response = _client.Post<ResponseBase>(request);
-
-            return response;
+            throw new NotImplementedException();
         }
     }
 }
