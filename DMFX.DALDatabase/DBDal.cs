@@ -299,6 +299,67 @@ namespace DMFX.DALDatabase
             return result;
         }
 
+        public GetCommonSizeIncomeStatementResult GetCommonSizeIncomeStatement(GetCommonSizeIncomeStatementParams cmpCommonSizeBSParams)
+        {
+            string spName = "[SP_Get_Company_CommonSizeStatementOfOperations]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
+
+            GetCommonSizeIncomeStatementResult result = new GetCommonSizeIncomeStatementResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            // Company code
+            SqlParameter paramCompanyCode = new SqlParameter("@CompanyCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpCommonSizeBSParams.CompanyCode);
+
+            // Regulator code
+            SqlParameter paramRegulatorCode = new SqlParameter("@RegulatorCode", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpCommonSizeBSParams.RegulatorCode);
+
+            // Filing name
+            SqlParameter paramFilingName = new SqlParameter("@FilingName", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, cmpCommonSizeBSParams.Name);
+
+            cmd.Parameters.Add(paramCompanyCode);
+            cmd.Parameters.Add(paramRegulatorCode);
+            cmd.Parameters.Add(paramFilingName);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+
+            if (ds.Tables.Count >= 1)
+            {
+                // second table - filing data
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+                    string valLabel = (string)r["Label"];
+
+                    if (cmpCommonSizeBSParams.Values == null || cmpCommonSizeBSParams.Values.Count == 0 || cmpCommonSizeBSParams.Values.Contains(valLabel))
+                    {
+                        DateTime periodStart = (DateTime)r["Start_Dttm"];
+                        DateTime periodEnd = (DateTime)r["End_Dttm"];
+
+                        FilingRecord fr = new FilingRecord();
+                        fr.Code = valLabel;
+                        fr.Instant = periodStart == periodEnd ? periodStart : DateTime.MinValue;
+                        fr.PeriodEnd = periodEnd;
+                        fr.PeriodStart = periodStart;
+                        fr.Value = (decimal)r["CommonSizeValue"];
+
+                        result.Data.Add(fr);
+                    }
+                }
+
+            }
+
+            conn.Close();
+
+            return result;
+        }
+
         public void InsertFilingDetails(InsertFilingDetailsParams filingDetails)
         {
             string spName = "[SP_Insert_Filing_Details]";

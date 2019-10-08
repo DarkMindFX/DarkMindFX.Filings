@@ -24,18 +24,7 @@ namespace DMFX.Service.DTO.TimeSeries
             get;
             set;
         }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public EUnit Unit
-        {
-            get;
-            set;
-        } 
+        
     }
 
     public class TimeSeriesInfoItem

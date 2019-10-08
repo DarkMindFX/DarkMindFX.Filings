@@ -444,6 +444,70 @@ namespace DMFX.Service.Filings
             return response;
         }
 
+        public object Any(GetCommonSizeIncomeStatement request)
+        {
+            DateTime dtStart = DateTime.UtcNow;
+            _logger.Log(EErrorType.Info, " ****** Call start: GetCommonSizeIncomeStatement");
+
+            GetCommonSizeIncomeStatementResponse response = new GetCommonSizeIncomeStatementResponse();
+
+            TransferHeader(request, response);
+
+            EErrorCodes valSession = ValidateSession(request.SessionToken);
+
+            if (valSession == EErrorCodes.Success)
+            {
+
+                try
+                {
+                    Interfaces.DAL.GetCommonSizeIncomeStatementParams filingCSBSParams = new Interfaces.DAL.GetCommonSizeIncomeStatementParams(request.Values.ToArray())
+                    {
+                        CompanyCode = request.CompanyCode,
+                        Name = request.FilingName,
+                        RegulatorCode = request.RegulatorCode,
+                    };
+
+                    Interfaces.DAL.GetCommonSizeIncomeStatementResult filingCSBSResult = _dal.GetCommonSizeIncomeStatement(filingCSBSParams);
+
+                    response.CompanyCode = request.CompanyCode;
+                    response.RegulatorCode = request.RegulatorCode;
+
+                    response.FilingName = request.FilingName;
+
+                    foreach (var fd in filingCSBSResult.Data)
+                    {
+                        response.IncomeStatementData.Add(new DTO.FilingNumRecord()
+                        {
+                            Code = fd.Code,
+                            Value = fd.Value != null ? (decimal)fd.Value : 0,
+                            PeriodEnd = fd.PeriodEnd,
+                            PeriodStart = fd.PeriodStart
+                        });
+                    }
+                    response.Success = true;
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.Log(ex);
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.GeneralError, Type = EErrorType.Error, Message = string.Format("Unpexcted error: {0}", ex.Message) });
+                }
+
+            }
+            else
+            {
+                response.Success = false;
+                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
+            }
+
+            DateTime dtEnd = DateTime.UtcNow;
+
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetCommonSizeIncomeStatement\tTime:{0}", dtEnd - dtStart));
+
+            return response;
+        }
+
 
         #region Support methods
 
