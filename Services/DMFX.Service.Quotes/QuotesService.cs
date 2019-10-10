@@ -2,7 +2,6 @@
 using DMFX.QuotesInterfaces;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
-using DMFX.Service.DTO.TimeSeries;
 using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
@@ -45,7 +44,7 @@ namespace DMFX.Service.Quotes
                         foreach (var t in getTSListResult.Tickers)
                         {
                             response.Tickers.Add(
-                                new DTO.TimeSeries.TickerListItem()
+                                new DTO.TickerListItem()
                                 {
                                      CountryCode = request.CountryCode,
                                      Ticker = t.Ticker,

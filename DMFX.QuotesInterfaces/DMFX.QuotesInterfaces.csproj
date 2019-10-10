@@ -45,6 +45,7 @@
     <Compile Include="IQuotesSource.cs" />
     <Compile Include="IQuotesStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSeriesEnums.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">

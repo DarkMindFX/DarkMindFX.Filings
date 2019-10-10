@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMFX.Service.DTO.TimeSeries
+namespace DMFX.Service.DTO
 {
     [Route("/GetTimeSeriesInfo/{CountryCode}/{Ticker}/{SessionToken}", "GET")]
     [Route("/GetTimeSeriesInfo", "POST")]
