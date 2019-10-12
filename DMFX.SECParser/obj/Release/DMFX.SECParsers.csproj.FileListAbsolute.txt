@@ -4,8 +4,9 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\bin\DMFX.Common.I
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\bin\DMFX.FilingInterfaces.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\bin\DMFX.Common.Interfaces.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\bin\DMFX.FilingInterfaces.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParsers.csprojResolveAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParser.Resources.resources
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParsers.csproj.GenerateResource.Cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParser.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParser.pdb
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParsers.csprojAssemblyReference.cache
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.SECParser\obj\Release\DMFX.SECParsers.csproj.CopyComplete

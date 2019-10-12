@@ -108,6 +108,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Common.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\CsvHelper.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesDAL.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesInterfaces.dll" />
+    <Content Include="Plugins\DMFX.QuotesDAL\System.ValueTuple.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +162,7 @@
       <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
