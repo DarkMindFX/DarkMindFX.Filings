@@ -233,7 +233,30 @@ namespace DMFX.Service.Quotes
 
         protected override bool IsValidSessionToken(RequestBase request)
         {
-            return request.SessionToken != null && request.SessionToken.Equals(ConfigurationManager.AppSettings["ServiceSessionToken"]);
+            return ValidateSession(request.SessionToken) == EErrorCodes.Success;
+        }
+
+        private EErrorCodes ValidateSession(string sessionToken)
+        {
+            EErrorCodes result = EErrorCodes.InvalidSession;
+
+            if (sessionToken == ConfigurationManager.AppSettings["ServiceSessionToken"])
+            {
+                result = EErrorCodes.Success;
+            }
+            else
+            {
+                GetSessionInfo sinfo = new GetSessionInfo();
+                sinfo.SessionToken = sessionToken;
+                sinfo.CheckActive = true;
+
+                DMFX.Client.Accounts.ServiceClient accnts = new Client.Accounts.ServiceClient();
+                GetSessionInfoResponse sInfoResp = accnts.PostGetSessionInfo(sinfo);
+
+                result = sInfoResp.Success ? EErrorCodes.Success : sInfoResp.Errors[0].Code;
+            }
+
+            return result;
         }
 
         private void InitDAL()
