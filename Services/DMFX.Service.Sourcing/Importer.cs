@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -381,8 +382,21 @@ namespace DMFX.Service.Sourcing
             }
             else
             {
+                var valDictionary = _compContainer.GetExport<IDictionary>("DB");
+                if (valDictionary != null && valDictionary.Value != null)
+                {
+                    List<Interfaces.RegulatorInfo> companies = valDictionary.Value.GetRegulators();
+                    if (companies != null)
+                    {
+                        result.AddRange(companies.Select(x => x.Code));
+                    }
+                }
+                #region deprecated
                 // TODO: need to read from dictionary
+                /*
                 result.Add("SEC");
+                 */
+                #endregion
             }
             return result;
         }
@@ -397,7 +411,19 @@ namespace DMFX.Service.Sourcing
             }
             else
             {
+                var valDictionary = _compContainer.GetExport<IDictionary>("DB");
+                if(valDictionary != null && valDictionary.Value != null)
+                {
+                    List<Interfaces.CompanyInfo> companies = valDictionary.Value.GetCompaniesByRegulator(regulatorCode);
+                    if(companies != null)
+                    {
+                        result.AddRange( companies.Select(x => x.Code) );
+                    }
+                }
+
+                #region depricated
                 // TODO: right now returning predefined set - need to add access to DB here and read from dictionary
+                /*
                 result.Add("AAPL");
                 result.Add("AMZN");
                 result.Add("MMM");
@@ -898,6 +924,8 @@ namespace DMFX.Service.Sourcing
                 result.Add("ZBH");
                 result.Add("ZION");
                 result.Add("ZTS");
+                */
+                #endregion
             }
             return result;
 

@@ -1,0 +1,7 @@
+{
+  "Name"      : "Daily Quotes Importing",
+  "Interval"  : "01:00:00:00",
+  "Hour"      : "00",
+  "JobUrl"    : "null"
+}
+

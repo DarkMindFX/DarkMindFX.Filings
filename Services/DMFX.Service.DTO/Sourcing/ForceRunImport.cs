@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DMFX.Service.DTO
 {
-    [Route("/ForceRunImport/{SessionToken}", "GET")]
-    [Route("/ForceRunImport/{DaysBack}/{SessionToken}", "GET")]
+    [Route("/ForceRunImport/{RegulatorCode}/{SessionToken}", "GET")]
+    [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
-    [Route("/ForceRunImport/{DateStart}/{DateEnd}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DateStart}/{DateEnd}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
     [Route("/ForceRunImport", "PUT")]
     public class ForceRunImport : RequestBase, IReturn<ForceRunImportResponse>
