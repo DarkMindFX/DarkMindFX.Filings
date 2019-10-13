@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.FilingInterfaces", "DMFX.Interfaces\DMFX.FilingInterfaces.csproj", "{5E07195D-5203-4468-9B6E-9385E9BAE692}"
 EndProject
@@ -170,6 +170,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Client.Filings", "Services\Clients\DMFX.Client.Filings\DMFX.Client.Filings.csproj", "{AE6EC5FC-F043-4EEC-894C-C2DDE725AED2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Client.TimeSeries", "Services\Clients\DMFX.Client.TimeSeries\DMFX.Client.TimeSeries.csproj", "{CC606D66-855E-4233-9C9D-6C8B6A0023F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.SchedulerInterfaces", "DMFX.SchedulerInterfaces\DMFX.SchedulerInterfaces.csproj", "{EEEA2AA8-D161-4ABB-96CE-FD6DC317653E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.SchedulerDAL", "DMFX.SchedulerDAL\DMFX.SchedulerDAL.csproj", "{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -385,6 +389,14 @@ Global
 		{CC606D66-855E-4233-9C9D-6C8B6A0023F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC606D66-855E-4233-9C9D-6C8B6A0023F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC606D66-855E-4233-9C9D-6C8B6A0023F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEA2AA8-D161-4ABB-96CE-FD6DC317653E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEA2AA8-D161-4ABB-96CE-FD6DC317653E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEA2AA8-D161-4ABB-96CE-FD6DC317653E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEA2AA8-D161-4ABB-96CE-FD6DC317653E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -428,5 +440,8 @@ Global
 		{9A868075-73DF-47F1-9698-338A638F53BC} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
 		{AE6EC5FC-F043-4EEC-894C-C2DDE725AED2} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
 		{CC606D66-855E-4233-9C9D-6C8B6A0023F9} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92A5911F-2B1E-4BE0-B977-3971B09D682B}
 	EndGlobalSection
 EndGlobal

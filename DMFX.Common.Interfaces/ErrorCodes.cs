@@ -36,6 +36,9 @@ namespace DMFX.Interfaces
         QuotesNotFound = 102,
         TickerNotFound = 103,
 
+        SchedulerJobsNotFound = 201,
+
+
         GeneralError = 99999
     }
 }

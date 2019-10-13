@@ -136,6 +136,10 @@
       <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
       <Name>DMFX.FilingInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DMFX.SchedulerInterfaces\DMFX.SchedulerInterfaces.csproj">
+      <Project>{eeea2aa8-d161-4abb-96ce-fd6dc317653e}</Project>
+      <Name>DMFX.SchedulerInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
       <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
       <Name>DMFX.Client.Common</Name>

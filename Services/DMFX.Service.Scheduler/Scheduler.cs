@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.SchedulerInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,46 +23,14 @@ namespace DMFX.Service.Scheduler
             get;
             set;
         }
-    }
-
-    public class SchedulerJob
-    {
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public DateTime LastRun
-        {
-            get;
-            set;
-        }
-
-        public TimeSpan Interval
-        {
-            get;
-            set;
-        }
-
-        public string JobUrl
-        {
-            get;
-            set;
-        }
-
-        public int? Hour
-        {
-            get;
-            set;
-        }
-
-        public int? Minute
+        // list of jobs to be executed
+        public IList<ISchedulerJob> Jobs
         {
             get;
             set;
         }
     }
+    
 
     public class Scheduler
     {
@@ -79,7 +48,7 @@ namespace DMFX.Service.Scheduler
         private ILogger _logger = null;
         private List<Error> _errors = new List<Error>();
 
-        private List<SchedulerJob> _jobs = new List<SchedulerJob>();
+        private List<ISchedulerJob> _jobs = new List<ISchedulerJob>();
 
         public Scheduler()
         {
@@ -162,6 +131,8 @@ namespace DMFX.Service.Scheduler
 
         private void PrepareJobsList()
         {
+            #region deprecated
+            /*
             // TODO: need to have a separate DB for the jobs and schedules
             // for now we just pushing importer every night
             SchedulerJob importerJob = new SchedulerJob();
@@ -181,6 +152,8 @@ namespace DMFX.Service.Scheduler
 
             _jobs.Add(importerJob);
             _jobs.Add(sanitizeJob);
+            */
+            #endregion
         }
 
         private void RunJobs()
