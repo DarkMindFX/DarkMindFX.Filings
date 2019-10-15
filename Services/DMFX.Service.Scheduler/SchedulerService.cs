@@ -24,11 +24,11 @@ namespace DMFX.Service.Scheduler
 
                 if (IsValidSessionToken(request))
                 {
-
                     if (Global.Scheduler.CurrentState == Scheduler.ESchedulerState.Idle)
                     {
                         SchedulerParams schdParams = new SchedulerParams();
                         schdParams.SleepDelay = Int32.Parse(ConfigurationManager.AppSettings["SchedulerInterval"]);
+                        schdParams.ServicesHost = ConfigurationManager.AppSettings["ServicesHost"];
 
                         Global.Scheduler.Start(schdParams);
 
@@ -38,6 +38,88 @@ namespace DMFX.Service.Scheduler
                     {
                         response.Success = false;
                         response.Errors.Add(new Interfaces.Error() { Code = Interfaces.EErrorCodes.SchedulerBusy, Type = Interfaces.EErrorType.Error, Message = string.Format("Scheduler is running, current state - {0}", Global.Scheduler.CurrentState) });
+                    }
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+
+            _logger.Log(EErrorType.Info, " ****** Call end: StartScheduler");
+            return response;
+
+        }
+
+        public object Any(StopScheduler request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: StopScheduler");
+
+            StopSchedulerResponse response = new StopSchedulerResponse();
+
+            try
+            {
+                TransferHeader(request, response);
+
+                if (IsValidSessionToken(request))
+                {
+                    response.Success = Global.Scheduler.Stop();
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = "Invalid session token" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                response.Success = false;
+                response.Errors.Add(new Error()
+                {
+                    Code = EErrorCodes.GeneralError,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Unpexcted error: {0}", ex.Message)
+                });
+            }
+
+
+            _logger.Log(EErrorType.Info, " ****** Call end: StopScheduler");
+            return response;
+        }
+
+        public object Any(SetJobActiveState request)
+        {
+            _logger.Log(EErrorType.Info, " ****** Call start: SetJobActiveState");
+
+            SetJobActiveStateResponse response = new SetJobActiveStateResponse();
+
+            try
+            {
+                TransferHeader(request, response);
+
+                if (IsValidSessionToken(request))
+                {
+                    Error opError = null;
+
+                    response.Success = Global.Scheduler.SetJobActiveState(request.JobCode, request.IsActive, out opError);
+                    if(!response.Success)
+                    {
+                        response.Errors.Add(opError);
                     }
                 }
                 else
@@ -60,9 +142,8 @@ namespace DMFX.Service.Scheduler
             }
 
 
-            _logger.Log(EErrorType.Info, " ****** Call end: StartScheduler");
+            _logger.Log(EErrorType.Info, " ****** Call end: SetJobActiveState");
             return response;
-
         }
 
         public object Any(GetSchedulerState request)

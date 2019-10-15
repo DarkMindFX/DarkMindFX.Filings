@@ -68,6 +68,8 @@
     <Compile Include="Portfolio\Portfolio.cs" />
     <Compile Include="Portfolio\PortfolioStructs.cs" />
     <Compile Include="Portfolio\SavePortfolio.cs" />
+    <Compile Include="Scheduler\StopScheduler.cs" />
+    <Compile Include="Scheduler\SetJobActiveState.cs" />
     <Compile Include="TimeSeriesSourcing\ForceRunImportTimeSeries.cs" />
     <Compile Include="TimeSeriesSourcing\ForceStopImportTimeSeries.cs" />
     <Compile Include="TimeSeriesSourcing\GetImportTimeSeriesCurrentState.cs" />

@@ -48,5 +48,11 @@ namespace DMFX.SchedulerInterfaces
             get;
             set;
         }
+
+        bool IsActive
+        {
+            get;
+            set;
+        }
     }
 }

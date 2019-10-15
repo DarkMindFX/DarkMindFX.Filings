@@ -53,7 +53,7 @@ namespace DMFX.SchedulerInterfaces
     {        
     }
 
-    public interface ISchedulerDAL
+    public interface ISchedulerDal
     {
         /// <summary>
         /// Use this method to initialize DAL object
@@ -75,5 +75,12 @@ namespace DMFX.SchedulerInterfaces
         /// <param name="paramLastRun"></param>
         /// <returns></returns>
         ISchedulerDalSetLastRunResult SetJobLastRun(ISchedulerDalSetLastRunParams paramLastRun);
+
+        ISchedulerDalInitParams CreateInitParams();
+
+        ISchedulerDalGetJobsParams CreateGetJobsParams();
+
+        ISchedulerDalSetLastRunParams CreateSetLastRunParams();
+
     }
 }

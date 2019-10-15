@@ -1,0 +1,7 @@
+{
+  "Code": "TestEchoImportFilingsJob",
+  "Name": "Test Echo Call to Filings Importer",
+  "Interval": "P0DT0H1M0S",
+  "JobUrl": "/srcapi/Echo/Scheduler/B7C87E3D-C102-446B-B8F8-B1F638F736CE",
+  "IsActive": "true"
+}

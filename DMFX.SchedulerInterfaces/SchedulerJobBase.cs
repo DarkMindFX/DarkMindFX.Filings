@@ -8,6 +8,11 @@ namespace DMFX.SchedulerInterfaces
 {
     public class SchedulerJobBase : ISchedulerJob
     {
+        public SchedulerJobBase()
+        {
+            IsActive = true;
+        }
+
         public string Code
         {
             get;
@@ -44,6 +49,12 @@ namespace DMFX.SchedulerInterfaces
         }
 
         public int? Minute
+        {
+            get;
+            set;
+        }
+
+        public bool IsActive
         {
             get;
             set;

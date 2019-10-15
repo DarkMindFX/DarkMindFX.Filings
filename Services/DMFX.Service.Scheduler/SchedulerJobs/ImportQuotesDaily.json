@@ -1,7 +1,9 @@
 {
-  "Name"      : "Daily Quotes Importing",
-  "Interval"  : "01:00:00:00",
-  "Hour"      : "00",
-  "JobUrl"    : "null"
+  "Code": "ImportQuotesDaily",
+  "Name": "Daily Quotes Importing",
+  "Interval": "P1DT0H0M0S",
+  "Hour": "00",
+  "JobUrl": "null",
+  "IsActive": "false"
 }
 

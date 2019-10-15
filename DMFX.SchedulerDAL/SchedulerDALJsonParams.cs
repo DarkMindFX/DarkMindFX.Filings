@@ -30,6 +30,15 @@ namespace DMFX.SchedulerDAL
     {
     }
 
+    public class SchedulerJobJson : SchedulerJobBase
+    {
+        public string FileName
+        {
+            get;
+            set;
+        }
+    }
+
     public class SchedulerDalJsonGetJobsResult : ResultBase, ISchedulerDalGetJobsResult
     {
         public SchedulerDalJsonGetJobsResult()
@@ -55,5 +64,9 @@ namespace DMFX.SchedulerDAL
             get;
             set;
         }
+    }
+
+    public class SchedulerDalJsonSetLastRunResult : ResultBase, ISchedulerDalSetLastRunResult
+    {
     }
 }

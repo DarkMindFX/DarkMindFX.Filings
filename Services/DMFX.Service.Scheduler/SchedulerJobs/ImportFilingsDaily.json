@@ -1,6 +1,0 @@
-{
-  "Name"      : "Daily Filings Importing",
-  "Interval"  : "01:00:00:00",
-  "Hour"      : "00",
-  "JobUrl"    : "/srcapi/ForceRunImport/3/B7C87E3D-C102-446B-B8F8-B1F638F736CE"
-}

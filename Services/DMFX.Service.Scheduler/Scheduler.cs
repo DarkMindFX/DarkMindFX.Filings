@@ -3,6 +3,7 @@ using DMFX.SchedulerInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -29,6 +30,12 @@ namespace DMFX.Service.Scheduler
             get;
             set;
         }
+
+        public string ServicesHost
+        {
+            get;
+            set;
+        }
     }
     
 
@@ -47,6 +54,7 @@ namespace DMFX.Service.Scheduler
         private Task _schedulerThread = null;
         private ILogger _logger = null;
         private List<Error> _errors = new List<Error>();
+        private ISchedulerDal _dal = null;
 
         private List<ISchedulerJob> _jobs = new List<ISchedulerJob>();
 
@@ -54,7 +62,7 @@ namespace DMFX.Service.Scheduler
         {
             _isRunning = false;
             _state = ESchedulerState.Idle;
-            _logger = Global.Logger;
+            _logger = Global.Logger;            
         }
 
         public bool Start(SchedulerParams schdlrParams)
@@ -62,9 +70,17 @@ namespace DMFX.Service.Scheduler
             bool result = false;
             try
             {
+
                 _logger.Log(EErrorType.Info, "Starting scheduler");
 
                 _errors.Clear();
+
+                IResult prepResult = PrepareJobsList();
+                if (prepResult != null && !prepResult.Success)
+                {
+                    _errors.AddRange(prepResult.Errors);
+                    return false;
+                }
 
                 _schedulerThread = new Task(() => ShedulerThread(schdlrParams));
                 _schedulerThread.Start();
@@ -98,6 +114,28 @@ namespace DMFX.Service.Scheduler
             }
         }
 
+        public bool SetJobActiveState(string code, bool IsActive, out Error error)
+        {
+            ISchedulerJob job = _jobs.FirstOrDefault(x => x.Code == code);
+            if(job != null)
+            {
+                job.IsActive = IsActive;
+                error = null;
+                return true;
+            }
+            else
+            {
+                error = new Error()
+                {
+                    Code = EErrorCodes.SchedulerJobsNotFound,
+                    Type = EErrorType.Error,
+                    Message = string.Format("Job {0} not found", code)
+                };
+
+                return false;
+            }
+        }
+
        
 
         private void ShedulerThread(SchedulerParams schdlrParams)
@@ -105,15 +143,13 @@ namespace DMFX.Service.Scheduler
             try
             {
                 _isRunning = true;
-                _state = ESchedulerState.Init;
-
-                PrepareJobsList();
+                _state = ESchedulerState.Init;                
 
                 while (_isRunning)
                 {
                     _state = ESchedulerState.RunningJobs;
 
-                    RunJobs();
+                    RunJobs(schdlrParams);
 
                     _state = ESchedulerState.Delay;
 
@@ -129,8 +165,53 @@ namespace DMFX.Service.Scheduler
             _state = ESchedulerState.Idle;
         }
 
-        private void PrepareJobsList()
+        private IResult PrepareJobsList()
         {
+            if (_dal == null)
+            {
+                string dalType = ConfigurationManager.AppSettings["SchedulerDal"];
+
+                var dal = Global.Container.GetExport<ISchedulerDal>(dalType);
+                ISchedulerDalInitParams initParams = dal.Value.CreateInitParams();
+
+                string dalParams = ConfigurationManager.AppSettings["SchedulerDalParams"];
+                string[] kvs = dalParams.Split(new char[] { ';' });
+                foreach (var kv in kvs)
+                {
+                    if (!string.IsNullOrEmpty(kv))
+                    {
+                        string[] param = kv.Split(new char[] { '=' });
+                        
+                        // TODO: BAD! need to fix this to compose the data automatically
+                        if (dalType == "JSON" && param[0] == "RootFolder")
+                        {
+                            param[1] = Path.Combine(Global.Container.GetExportedValue<string>("ServiceRootFolder"), param[1]);
+                        }
+
+                        initParams.Params[param[0].Trim()] = param[1].Trim();
+                    }
+                }
+
+                ISchedulerDalInitResult initResult = dal.Value.Init(initParams);
+                if (!initResult.Success)
+                {
+                    return initResult;
+                }
+
+                _dal = dal.Value;
+            }
+
+            ISchedulerDalGetJobsParams jobsParams = _dal.CreateGetJobsParams();
+            ISchedulerDalGetJobsResult jobsResult = _dal.GetJobs(jobsParams);
+            if(!jobsResult.Success)
+            {
+                return jobsResult;
+            }
+
+            _jobs.AddRange(jobsResult.Jobs);            
+
+            return null;
+
             #region deprecated
             /*
             // TODO: need to have a separate DB for the jobs and schedules
@@ -156,26 +237,29 @@ namespace DMFX.Service.Scheduler
             #endregion
         }
 
-        private void RunJobs()
+        private void RunJobs(SchedulerParams schdlrParams)
         {
             // running jobs based on EST time
             DateTime easternNow = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.UtcNow, "Eastern Standard Time");
             foreach (var job in _jobs)
             {
-                if (easternNow - job.LastRun >= job.Interval && (job.Hour == null || job.Hour == easternNow.Hour) && (job.Minute == null || job.Minute == easternNow.Minute))
+                if (_isRunning)
                 {
-                    try
+                    if (job.IsActive && easternNow - job.LastRun >= job.Interval && (job.Hour == null || job.Hour == easternNow.Hour) && (job.Minute == null || job.Minute == easternNow.Minute))
                     {
-                        job.LastRun = easternNow;
-                        _logger.Log(EErrorType.Info, string.Format("Calling job '{0}': URL - {1}", job.Name, job.JobUrl));
-                        WebRequest req = WebRequest.Create(job.JobUrl);
-                        WebResponse response = req.GetResponse();
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.Log(EErrorType.Error, string.Format("Error in job '{0}:'", job.Name));
-                        _logger.Log(ex);
+                        try
+                        {
+                            job.LastRun = easternNow;
+                            _logger.Log(EErrorType.Info, string.Format("Calling job '{0}': URL - {1}", job.Name, job.JobUrl));
+                            WebRequest req = WebRequest.Create(schdlrParams.ServicesHost + job.JobUrl);
+                            WebResponse response = req.GetResponse();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Log(EErrorType.Error, string.Format("Error in job '{0}:'", job.Name));
+                            _logger.Log(ex);
+                        }
                     }
                 }
             }

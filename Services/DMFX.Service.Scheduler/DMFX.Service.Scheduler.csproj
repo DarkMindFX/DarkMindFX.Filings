@@ -99,9 +99,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="SchedulerJobs\ImportFilingsDaily.json" />
+    <Content Include="Plugins\DMFX.SchedulerDAL\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.SchedulerDAL\DMFX.SchedulerDAL.dll" />
+    <Content Include="Plugins\DMFX.SchedulerDAL\DMFX.SchedulerInterfaces.dll" />
+    <Content Include="SchedulerJobs\ImportFilingsSECDaily.json" />
     <Content Include="SchedulerJobs\SanitizeFilingsDBDaily.json" />
     <Content Include="SchedulerJobs\ImportQuotesDaily.json" />
+    <Content Include="SchedulerJobs\TestEchoImportFilingsJob.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -187,7 +191,8 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.SchedulerDAL\*.dll" "$(ProjectDir)Plugins\DMFX.SchedulerDAL\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>

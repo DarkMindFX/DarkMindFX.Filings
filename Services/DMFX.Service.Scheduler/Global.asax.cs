@@ -21,6 +21,8 @@ namespace DMFX.Service.Scheduler
         {
             InitApp();
 
+            string rootFolder = Server.MapPath("~");
+
             _scheduler = new Scheduler();
 
             Logger.Log(EErrorType.Info, "Starting service DMFX.Service.Scheduler");
