@@ -26,7 +26,7 @@ namespace DMFX.Client.Mail
 
         public SendMailResponse PostSendMail(SendMail request)
         {
-            SendMailResponse response = _client.Post<SendMailResponse>(request);
+            SendMailResponse response = Post<SendMail, SendMailResponse>("SendMail", request);
 
             return response;
         }

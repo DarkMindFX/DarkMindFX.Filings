@@ -251,7 +251,7 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionParams = new SessionInfo();
                 sessionParams.SessionId = request.SessionToken;
 
-                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, true);
                 if (sessionInfo != null)
                 {
                     // getting account details
@@ -373,7 +373,7 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionParams = new SessionInfo();
                 sessionParams.SessionId = request.SessionToken;
 
-                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, true);
                 if (sessionInfo != null)
                 {
 
@@ -422,7 +422,7 @@ namespace DMFX.Service.Accounts
                 SessionInfo sessionParams = new SessionInfo();
                 sessionParams.SessionId = request.SessionToken;
 
-                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, false);
+                SessionInfo sessionInfo = _dal.GetSessionInfo(sessionParams, true);
                 if (sessionInfo != null)
                 {
                     // updating account details

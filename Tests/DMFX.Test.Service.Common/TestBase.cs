@@ -7,6 +7,8 @@ using ServiceStack;
 using DMFX.Service.DTO;
 using System.Collections.Generic;
 using ServiceStack.ServiceClient.Web;
+using System.Net;
+using System.Net.Security;
 
 namespace DMFX.Test.Service.Common
 {
@@ -153,7 +155,7 @@ namespace DMFX.Test.Service.Common
         // Basic methos to perform scenation testing
         public TResponse Post<TRequest, TResponse>(string method, TRequest request)
         {
-            TResponse response = Client.Post<TResponse>(method, request);
+            TResponse response = Client.Post<TResponse>("/json/reply/" + method, request);
 
             return response;
         }

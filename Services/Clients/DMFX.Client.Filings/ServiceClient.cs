@@ -26,42 +26,42 @@ namespace DMFX.Client.Filings
 
         public GetCommonSizeBalanceSheetResponse PostGetCommonSizeBalanceSheet(GetCommonSizeBalanceSheet request)
         {
-            var response = _client.Post<GetCommonSizeBalanceSheetResponse>(request);
+            var response = Post<GetCommonSizeBalanceSheet, GetCommonSizeBalanceSheetResponse>("GetCommonSizeBalanceSheet", request);
 
             return response;
         }
 
         public GetCompaniesResponse PostGetCompanies(GetCompanies request)
         {
-            var response = _client.Post<GetCompaniesResponse>(request);
+            var response = Post<GetCompanies, GetCompaniesResponse>("GetCompanies", request);
 
             return response;
         }
 
         public GetCompanyFilingsInfoResponse PostGetCompanyFilingsInfo(GetCompanyFilingsInfo request)
         {
-            var response = _client.Post<GetCompanyFilingsInfoResponse>(request);
+            var response = Post<GetCompanyFilingsInfo, GetCompanyFilingsInfoResponse>("GetCompanyFilingsInfo", request);
 
             return response;
         }
 
         public GetFilingDataResponse PostGetFilingData(GetFilingData request)
         {
-            var response = _client.Post<GetFilingDataResponse>(request);
+            var response = Post<GetFilingData, GetFilingDataResponse>("GetFilingData", request);
 
             return response;
         }
 
         public GetFilingRatiosResponse PostGetFilingRatios(GetFilingRatios request)
         {
-            var response = _client.Post<GetFilingRatiosResponse>(request);
+            var response = Post<GetFilingRatios, GetFilingRatiosResponse>("GetFilingRatios", request);
 
             return response;
         }
 
         public GetRegulatorsResponse PostGetRegulators(GetRegulators request)
         {
-            var response = _client.Post<GetRegulatorsResponse> (request);
+            var response = Post<GetRegulators, GetRegulatorsResponse> ("GetRegulators", request);
 
             return response;
         }

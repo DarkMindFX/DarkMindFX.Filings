@@ -19,21 +19,21 @@ namespace DMFX.Client.TimeSeries
 
         public GetTickerListResponse PostGetTickerList(GetTickerList request)
         {
-            var response = _client.Post<GetTickerListResponse>(request);
+            var response = Post<GetTickerList, GetTickerListResponse>("GetTickerList", request);
 
             return response;
         }
 
         public GetTimeSeriesResponse PostGetTimeSeries(GetTimeSeries request)
         {
-            var response = _client.Post<GetTimeSeriesResponse>(request);
+            var response = Post<GetTimeSeries, GetTimeSeriesResponse>("GetTimeSeries", request);
 
             return response;
         }
 
         public GetTimeSeriesInfoResponse PostGetTimeSeriesInfo(GetTimeSeriesInfo request)
         {
-            var response = _client.Post<GetTimeSeriesInfoResponse>(request);
+            var response = Post<GetTimeSeriesInfo, GetTimeSeriesInfoResponse>("GetTimeSeriesInfo", request);
 
             return response;
         }
