@@ -106,6 +106,7 @@
     <Content Include="SchedulerJobs\SanitizeFilingsDBDaily.json" />
     <Content Include="SchedulerJobs\ImportQuotesDaily.json" />
     <Content Include="SchedulerJobs\TestEchoImportFilingsJob.json" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

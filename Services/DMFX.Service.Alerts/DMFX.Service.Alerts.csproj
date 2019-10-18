@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{766A6554-B2B6-490F-8FB4-14FFECFC8CE0}</ProjectGuid>
+    <ProjectGuid>{57FB62EC-D32D-4153-9B6F-AC7D3C53DAFE}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DMFX.Service.QuotesSourcing</RootNamespace>
-    <AssemblyName>DMFX.Service.QuotesSourcing</AssemblyName>
+    <RootNamespace>DMFX.Service.Alerts</RootNamespace>
+    <AssemblyName>DMFX.Service.Alerts</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -99,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -109,25 +108,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Common.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
-    <Content Include="Plugins\DMFX.QuotesDAL\CsvHelper.dll" />
-    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesDAL.dll" />
-    <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesInterfaces.dll" />
-    <Content Include="Plugins\DMFX.QuotesDAL\System.ValueTuple.dll" />
-    <Content Include="Plugins\DMFX.Source.CFTC\DMFX.CFTC.Api.dll" />
-    <Content Include="Plugins\DMFX.Source.CFTC\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Source.CFTC\DMFX.QuotesInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Source.CFTC\DMFX.Source.CFTC.dll" />
-    <Content Include="Plugins\DMFX.Source.CFTC\Ionic.Zip.dll" />
-    <Content Include="Plugins\DMFX.Source.Stooq\DMFX.Common.Interfaces.dll" />
-    <Content Include="Plugins\DMFX.Source.Stooq\DMFX.QuotesInterfaces.dll" />
-    <Content Include="Plugins\DMFX.Source.Stooq\DMFX.Source.Stooq.dll" />
-    <Content Include="Plugins\DMFX.Source.Stooq\DMFX.Stooq.Api.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -136,8 +116,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QuotesSourcingService.cs" />
-    <Compile Include="TimeSeriesImporter.cs" />
+    <Compile Include="AlertsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
@@ -148,17 +127,13 @@
       <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
       <Name>DMFX.FilingInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\DMFX.QuotesDAL\DMFX.QuotesDAL.csproj">
-      <Project>{4e1e0290-440e-4e08-807d-8bac46b9d4fb}</Project>
-      <Name>DMFX.QuotesDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DMFX.QuotesInterfaces\DMFX.QuotesInterfaces.csproj">
-      <Project>{c69fad89-d66e-4996-876a-e346bcbd3546}</Project>
-      <Name>DMFX.QuotesInterfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
       <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
       <Name>DMFX.Client.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clients\DMFX.Client.Mail\DMFX.Client.Mail.csproj">
+      <Project>{58113942-4e89-48f6-a365-adeaf324bdb4}</Project>
+      <Name>DMFX.Client.Mail</Name>
     </ProjectReference>
     <ProjectReference Include="..\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
@@ -169,7 +144,9 @@
       <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -185,7 +162,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22784</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/srcqtsapi/</IISUrl>
+          <IISUrl>http://localhost/tempxyzapi/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -203,10 +180,7 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.QuotesDAL\*.dll" "$(ProjectDir)Plugins\DMFX.QuotesDAL\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.Stooq\*.dll" "$(ProjectDir)Plugins\DMFX.Source.Stooq\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.CFTC\*.dll" "$(ProjectDir)Plugins\DMFX.Source.CFTC\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
