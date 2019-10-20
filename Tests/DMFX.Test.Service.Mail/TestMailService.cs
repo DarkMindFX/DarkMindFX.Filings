@@ -22,16 +22,11 @@ namespace DMFX.Test.Service.Mail
             string accountKey = ConfigurationManager.AppSettings["AccountKey"];
             string serviceUrl = ConfigurationManager.AppSettings["MailServiceURL"];
 
-            // Filings DB
-            SqlConnection sqlConnFilings = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringFilings"]);
-            sqlConnFilings.Open();
-
             // Accounts DB
             SqlConnection sqlConnAccounts = new SqlConnection(ConfigurationManager.AppSettings["ConnectionStringAccounts"]);
             sqlConnAccounts.Open();
 
             Dictionary<string, SqlConnection> connections = new Dictionary<string, SqlConnection>();
-            connections.Add("ConnectionStringFilings", sqlConnFilings);
             connections.Add("ConnectionStringAccounts", sqlConnAccounts);
 
             Init(serviceUrl, connections, accountKey);

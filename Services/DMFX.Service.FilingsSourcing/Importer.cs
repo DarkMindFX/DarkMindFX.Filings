@@ -359,8 +359,7 @@ namespace DMFX.Service.Sourcing
             Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionStringFilings", ConfigurationManager.AppSettings["ConnectionStringFilings"]);
-            dalParams.Parameters.Add("ConnectionStringAccounts", ConfigurationManager.AppSettings["ConnectionStringAccounts"]);
-
+ 
             dal.Value.Init(dalParams);
 
             _dal = dal.Value;

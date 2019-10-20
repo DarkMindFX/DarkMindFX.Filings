@@ -108,6 +108,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Common.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +127,6 @@
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
       <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
       <Name>DMFX.Common.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\DMFX.Interfaces\DMFX.FilingInterfaces.csproj">
-      <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
-      <Name>DMFX.FilingInterfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
       <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
@@ -144,9 +145,7 @@
       <Name>DMFX.Service.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -162,7 +161,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22784</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/tempxyzapi/</IISUrl>
+          <IISUrl>http://localhost/api/alerts/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

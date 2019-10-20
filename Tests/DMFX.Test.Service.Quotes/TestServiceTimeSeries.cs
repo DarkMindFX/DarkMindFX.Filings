@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DMFX.Test.Service.Quotes
 {
     [TestFixture]
-    public class TestServiceQuotes : TestBase
+    public class TestServiceTimeSeries : TestBase
     {
         [SetUp]
         public void SetUp()
@@ -31,7 +31,7 @@ namespace DMFX.Test.Service.Quotes
         {
         }
 
-        [TestCase("000.GetQuotes.Success")]
+        [TestCase("000.GetTimeSeries.Success")]
         public void TestGetQuotesSuccess(string name)
         {
             GetTimeSeries request = PrepareRequest<GetTimeSeries>(name);
@@ -41,15 +41,15 @@ namespace DMFX.Test.Service.Quotes
             Assert.IsTrue(response.Success, "Failed to get quotes");
         }
 
-        [TestCase("001.GetQuotes.InvalidCountryCode")]
-        [TestCase("002.GetQuotes.InvalidTicker")]
+        //[TestCase("001.GetTimeSeries.InvalidCountryCode")] -- TODO - for now countries are not supported
+        [TestCase("002.GetTimeSeries.InvalidTicker")]
         public void TestGetQuotesFail(string name)
         {
             GetTimeSeries request = PrepareRequest<GetTimeSeries>(name);
 
             GetTimeSeriesResponse response = Post<GetTimeSeries, GetTimeSeriesResponse>("GetTimeSeries", request);
 
-            Assert.IsFalse(response.Success, "GetQuotes succeeded unexpectedly");
+            Assert.IsFalse(response.Success, "GetTimeSeries succeeded unexpectedly");
         }
     }
 }

@@ -10,6 +10,5 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Lo
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Common.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Common.xml
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\bin\ServiceStack.Text.pdb
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.csprojAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\DMFX.Logging\obj\Release\DMFX.Logging.csproj.CopyComplete

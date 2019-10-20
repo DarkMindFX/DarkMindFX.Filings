@@ -2,7 +2,7 @@
 using ServiceStack.WebHost.Endpoints;
 
 
-namespace DMFX.Service.Quotes
+namespace DMFX.Service.TimeSeries
 {
     //VS.NET Template Info: https://servicestack.net/vs-templates/EmptyAspNet
     public class AppHost : AppHostBase
@@ -11,7 +11,7 @@ namespace DMFX.Service.Quotes
         /// Base constructor requires a Name and Assembly where web service implementation is located
         /// </summary>
         public AppHost()
-            : base("DMFX.Service.Quotes", typeof(QuotesService).Assembly) { }
+            : base("DMFX.Service.Quotes", typeof(TimeSeriesService).Assembly) { }
 
         /// <summary>
         /// Application specific configuration

@@ -8,15 +8,15 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 
-namespace DMFX.Service.Quotes
+namespace DMFX.Service.TimeSeries
 {
-    public class QuotesService : ServiceBase
+    public class TimeSeriesService : ServiceBase
     {
         CompositionContainer _compContainer = null;
         IQuotesDal _dal = null;
 
 
-        public QuotesService()
+        public TimeSeriesService()
         {
             _compContainer = Global.Container;
             InitDAL();

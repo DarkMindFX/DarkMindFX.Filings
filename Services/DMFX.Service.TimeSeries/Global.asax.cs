@@ -1,7 +1,7 @@
 ﻿using DMFX.Service.Common;
 using System;
 
-namespace DMFX.Service.Quotes
+namespace DMFX.Service.TimeSeries
 {
     public class Global : GlobalBase
     {

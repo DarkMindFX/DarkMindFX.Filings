@@ -1,12 +1,6 @@
-﻿using DMFX.Interfaces;
-using DMFX.Interfaces.DAL;
-using DMFX.Service.Common;
+﻿using DMFX.Service.Common;
 using DMFX.Service.DTO;
-using System;
-using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 
 namespace DMFX.Service.Alerts
 {
