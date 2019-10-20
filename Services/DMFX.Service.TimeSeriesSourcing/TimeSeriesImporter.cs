@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace DMFX.Service.QuotesSourcing
+namespace DMFX.Service.TimeSeriesSourcing
 {
     public class TimeSeriesImporterParams
     {

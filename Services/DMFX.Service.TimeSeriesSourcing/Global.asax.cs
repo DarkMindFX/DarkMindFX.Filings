@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 
-namespace DMFX.Service.QuotesSourcing
+namespace DMFX.Service.TimeSeriesSourcing
 {
     public class Global : GlobalBase
     {

@@ -7,7 +7,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 
 
-namespace DMFX.Service.QuotesSourcing
+namespace DMFX.Service.TimeSeriesSourcing
 {
     public class QuotesSourcingService : ServiceBase
     {

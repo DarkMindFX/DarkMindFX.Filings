@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="DMFX.Service.QuotesSourcing.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="DMFX.Service.TimeSeriesSourcing.Global" Language="C#" %>

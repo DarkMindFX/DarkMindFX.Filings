@@ -2,7 +2,7 @@
 using ServiceStack.WebHost.Endpoints;
 
 
-namespace DMFX.Service.QuotesSourcing
+namespace DMFX.Service.TimeSeriesSourcing
 {
     //VS.NET Template Info: https://servicestack.net/vs-templates/EmptyAspNet
     public class AppHost : AppHostBase
