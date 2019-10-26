@@ -50,7 +50,7 @@ namespace DMFX.SECParser.SECForm4
                         ExtractCompanyData(doc, result);
                         ExtractFilingData(doc, result);
                         ExtractReportingOwnerData(doc, result);
-                        ExtractNonDerivaties(doc, result);
+                        ExtractNonDerivaties(doc, result, result.PeriodEnd);
                         ExtractDerivaties(doc, result);
                     }
                 }
@@ -178,116 +178,134 @@ namespace DMFX.SECParser.SECForm4
 
             ExtractXmlData(doc, secResult, tags, secResult.FilingData);
         }
-        void ExtractNonDerivaties(XmlDocument doc, SECParserResult secResult)
+        void ExtractNonDerivaties(XmlDocument doc, SECParserResult secResult, DateTime dtReportDate)
         {
-            string xpath = "//nonDerivativeTable//nonDerivativeTransaction";
+            string[] xpaths = { "//nonDerivativeTable//nonDerivativeTransaction", "//nonDerivativeTable//nonDerivativeHolding" };
 
-            XmlNodeList nsNonDerivs = doc.SelectNodes(xpath);
-            if (nsNonDerivs != null && nsNonDerivs.Count > 0)
+            foreach (var xpath in xpaths)
             {
-                Statement section = new Statement("NonDerivativeTransactions");
-                secResult.Statements.Add(section); 
-                foreach (XmlNode n in nsNonDerivs)
+                XmlNodeList nsNonDerivs = doc.SelectNodes(xpath);
+                if (nsNonDerivs != null && nsNonDerivs.Count > 0)
                 {
-                    string factId = GenerateMultivalueFactId();
-
-                    XmlNode nSecurityTitle = n.SelectSingleNode("securityTitle//value");
-
-                    XmlNode nTransactionDate = n.SelectSingleNode("transactionDate//value");
-
-                    XmlNode nTransactionFormType = n.SelectSingleNode("transactionCoding//transactionFormType");
-                    XmlNode nTransactionFormTransCode = n.SelectSingleNode("transactionCoding//transactionCode");
-                    XmlNode nTransactionFormEquitySwapInvolved = n.SelectSingleNode("transactionCoding//equitySwapInvolved");
-
-                    XmlNode nTransactionAmountShares = n.SelectSingleNode("transactionAmounts//transactionShares//value");
-                    XmlNode nTransactionAmountPrice = n.SelectSingleNode("transactionAmounts//transactionPricePerShare//value");
-                    XmlNode nTransactionAmountADCode = n.SelectSingleNode("transactionAmounts//transactionAcquiredDisposedCode//value");
-
-                    XmlNode nPostShares = n.SelectSingleNode("postTransactionAmounts//sharesOwnedFollowingTransaction//value");
-
-                    XmlNode nPostOwnership = n.SelectSingleNode("ownershipNature//directOrIndirectOwnership//value");
-
-                    DateTime dtDate = DateTime.Parse(nTransactionDate.InnerText);
-                    
-                    StatementRecord rIsDerivTrans = new StatementRecord(
-                                "IsDerivTrans",
-                                (decimal)0.0,
-                                null, dtDate, dtDate, dtDate, null, factId);
-                    section.Records.Add(rIsDerivTrans);
-
-                    if (nSecurityTitle != null)
+                    Statement section = new Statement("NonDerivativeTransactions");
+                    secResult.Statements.Add(section);
+                    foreach (XmlNode n in nsNonDerivs)
                     {
-                        StatementRecord rSecurityTitle = new StatementRecord(
-                                "SecurityTitle",
-                                nSecurityTitle.InnerText,
+                        string factId = GenerateMultivalueFactId();
+
+                        XmlNode nSecurityTitle = n.SelectSingleNode("securityTitle//value");
+
+                        XmlNode nTransactionDate = n.SelectSingleNode("transactionDate//value");
+
+                        XmlNode nTransactionFormType = n.SelectSingleNode("transactionCoding//transactionFormType");
+                        XmlNode nTransactionFormTransCode = n.SelectSingleNode("transactionCoding//transactionCode");
+                        XmlNode nTransactionFormEquitySwapInvolved = n.SelectSingleNode("transactionCoding//equitySwapInvolved");
+
+                        XmlNode nTransactionAmountShares = n.SelectSingleNode("transactionAmounts//transactionShares//value");
+                        XmlNode nTransactionAmountPrice = n.SelectSingleNode("transactionAmounts//transactionPricePerShare//value");
+                        XmlNode nTransactionAmountADCode = n.SelectSingleNode("transactionAmounts//transactionAcquiredDisposedCode//value");
+
+                        XmlNode nPostShares = n.SelectSingleNode("postTransactionAmounts//sharesOwnedFollowingTransaction//value");
+
+                        XmlNode nPostOwnership = n.SelectSingleNode("ownershipNature//directOrIndirectOwnership//value");
+
+                        XmlNode nOwnershipNature = n.SelectSingleNode("ownershipNature//natureOfOwnership//value");
+
+                        DateTime dtDate = dtReportDate;
+                        if (nTransactionDate != null)
+                        {
+                            dtDate = DateTime.Parse(nTransactionDate.InnerText);
+                        }
+
+                        StatementRecord rIsDerivTrans = new StatementRecord(
+                                    "IsDerivTrans",
+                                    (decimal)0.0,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                        section.Records.Add(rIsDerivTrans);
+
+                        if (nSecurityTitle != null)
+                        {
+                            StatementRecord rSecurityTitle = new StatementRecord(
+                                    "SecurityTitle",
+                                    nSecurityTitle.InnerText,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rSecurityTitle);
+                        }
+
+                        if (nTransactionFormType != null)
+                        {
+                            StatementRecord rFormType = new StatementRecord(
+                                    "FormType",
+                                    nTransactionFormType.InnerText,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rFormType);
+                        }
+
+                        if (nTransactionFormTransCode != null)
+                        {
+                            StatementRecord rFormTransCode = new StatementRecord(
+                                    "TransactionCode",
+                                    nTransactionFormTransCode.InnerText,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rFormTransCode);
+                        }
+
+                        if (nTransactionFormEquitySwapInvolved != null)
+                        {
+                            StatementRecord rFormEquitySwapInv = new StatementRecord(
+                                    "EquitySwapInvolved",
+                                    Decimal.Parse(nTransactionFormEquitySwapInvolved.InnerText),
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rFormEquitySwapInv);
+                        }
+
+                        if (nTransactionAmountShares != null)
+                        {
+                            StatementRecord rTransShares = new StatementRecord(
+                                    "TransactionShares",
+                                    (nTransactionAmountADCode != null && nTransactionAmountADCode.InnerText.ToUpper().Equals("D") ? -1 : 1) * Decimal.Parse(nTransactionAmountShares.InnerText),
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rTransShares);
+                        }
+
+                        if (nTransactionAmountPrice != null)
+                        {
+
+                            StatementRecord rTransPrice = new StatementRecord(
+                                "TransactionPrice",
+                                Decimal.Parse(nTransactionAmountPrice.InnerText),
                                 null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rSecurityTitle);
+                            section.Records.Add(rTransPrice);
+                        }
+
+                        if (nPostShares != null)
+                        {
+                            StatementRecord rPostShares = new StatementRecord(
+                                    "PostTransactionSharesOwnership",
+                                    Decimal.Parse(nPostShares.InnerText),
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rPostShares);
+                        }
+
+                        if (nPostOwnership != null)
+                        {
+                            StatementRecord rPostOwnership = new StatementRecord(
+                                    "PostTransactionDirectOrIndirectOwnership",
+                                    nPostOwnership.InnerText,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rPostOwnership);
+                        }
+
+                        if (nOwnershipNature != null)
+                        {
+                            StatementRecord rOwnershipNature = new StatementRecord(
+                                    "PostTransactionOwnershipNature",
+                                    nOwnershipNature.InnerText,
+                                    null, dtDate, dtDate, dtDate, null, factId);
+                            section.Records.Add(rOwnershipNature);
+                        }
+
                     }
-
-                    if (nTransactionFormType != null)
-                    {
-                        StatementRecord rFormType = new StatementRecord(
-                                "FormType",
-                                nTransactionFormType.InnerText,
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rFormType);
-                    }
-
-                    if (nTransactionFormTransCode != null)
-                    {
-                        StatementRecord rFormTransCode = new StatementRecord(
-                                "TransactionCode",
-                                nTransactionFormTransCode.InnerText,
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rFormTransCode);
-                    }
-
-                    if (nTransactionFormEquitySwapInvolved != null)
-                    {
-                        StatementRecord rFormEquitySwapInv = new StatementRecord(
-                                "EquitySwapInvolved",
-                                Decimal.Parse(nTransactionFormEquitySwapInvolved.InnerText),
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rFormEquitySwapInv);
-                    }
-
-                    if (nTransactionAmountShares != null)
-                    {
-                        StatementRecord rTransShares = new StatementRecord(
-                                "TransactionShares",
-                                (nTransactionAmountADCode!= null && nTransactionAmountADCode.InnerText.ToUpper().Equals("D") ? -1 : 1) * Decimal.Parse(nTransactionAmountShares.InnerText),
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rTransShares);
-                    }
-
-                    if (nTransactionAmountPrice != null)
-                    {
-
-                        StatementRecord rTransPrice = new StatementRecord(
-                            "TransactionPrice",
-                            Decimal.Parse(nTransactionAmountPrice.InnerText),
-                            null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rTransPrice);
-                    }
-
-                    if (nPostShares != null)
-                    {
-                        StatementRecord rPostShares = new StatementRecord(
-                                "PostTransactionSharesOwnership",
-                                Decimal.Parse(nPostShares.InnerText),
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rPostShares);
-                    }
-
-                    if (nPostOwnership != null)
-                    {
-                        StatementRecord rPostOwnership = new StatementRecord(
-                                "PostTransactionDirectOrIndirectOwnership",
-                                nPostOwnership.InnerText,
-                                null, dtDate, dtDate, dtDate, null, factId);
-                        section.Records.Add(rPostOwnership);
-                    }
-
                 }
             }
 
