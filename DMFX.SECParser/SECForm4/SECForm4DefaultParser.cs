@@ -125,8 +125,8 @@ namespace DMFX.SECParser.SECForm4
                 new string[] { "rptOwnerZipCode", "OwnerAddressZipCode" },
                 new string[] { "rptOwnerStateDescription", "OwnerAddressStateDesc" },
 
-                new string[] { "isDirector", "OwnerIsDirection" },
-                new string[] { "IsOfficer", "OwnerIsOfficer" },
+                new string[] { "isDirector", "OwnerIsDirector" },
+                new string[] { "isOfficer", "OwnerIsOfficer" },
                 new string[] { "isTenPercentOwner", "Owner10PercentHolder" },
                 new string[] { "isOther", "OwnerOther" },
                 new string[] { "officerTitle", "OwnerOfficerTitle" },
@@ -208,6 +208,12 @@ namespace DMFX.SECParser.SECForm4
                     XmlNode nPostOwnership = n.SelectSingleNode("ownershipNature//directOrIndirectOwnership//value");
 
                     DateTime dtDate = DateTime.Parse(nTransactionDate.InnerText);
+                    
+                    StatementRecord rIsDerivTrans = new StatementRecord(
+                                "IsDerivTrans",
+                                (decimal)0.0,
+                                null, dtDate, dtDate, dtDate, null, factId);
+                    section.Records.Add(rIsDerivTrans);
 
                     if (nSecurityTitle != null)
                     {
@@ -324,6 +330,12 @@ namespace DMFX.SECParser.SECForm4
                     XmlNode nPostOwnership = n.SelectSingleNode("ownershipNature//directOrIndirectOwnership//value");
 
                     DateTime dtDate = DateTime.Parse(nTransactionDate.InnerText);
+
+                    StatementRecord rIsDerivTrans = new StatementRecord(
+                                "IsDerivTrans",
+                                (decimal)1.0,
+                                null, dtDate, dtDate, dtDate, null, factId);
+                    section.Records.Add(rIsDerivTrans);
 
                     if (nSecurityTitle != null)
                     {

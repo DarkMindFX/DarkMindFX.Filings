@@ -50,6 +50,7 @@ namespace DMFX.Service.DTO
         {
             FilingData = new List<FilingNumRecord>();
             FilingStrData = new List<FilingStrRecord>();
+            FilingDttmData = new List<FilingDttmRecord>();
         }
 
         public string RegulatorCode
