@@ -34,6 +34,8 @@ namespace DMFX.Service.Filings
 
             TransferHeader(request, response);
 
+            _logger.Log(EErrorType.Info, string.Format("ValidateSession({0})", request.SessionToken));
+
             EErrorCodes valSession = ValidateSession(request.SessionToken);
             if (valSession == EErrorCodes.Success)
             {
@@ -65,7 +67,7 @@ namespace DMFX.Service.Filings
             else
             {
                 response.Success = false;
-                response.Errors.Add(new Error() { Code = EErrorCodes.InvalidSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
+                response.Errors.Add(new Error() { Code = valSession, Type = EErrorType.Error, Message = string.Format("Invalid session") });
             }
 
             DateTime dtEnd = DateTime.UtcNow;
@@ -321,6 +323,8 @@ namespace DMFX.Service.Filings
             GetFilingRatiosResponse response = new GetFilingRatiosResponse();
 
             TransferHeader(request, response);
+
+            _logger.Log(EErrorType.Info, string.Format("ValidateSession({0})", request.SessionToken));
 
             EErrorCodes valSession = ValidateSession(request.SessionToken);
 

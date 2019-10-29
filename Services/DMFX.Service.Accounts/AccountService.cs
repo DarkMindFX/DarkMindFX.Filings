@@ -34,6 +34,8 @@ namespace DMFX.Service.Accounts
 
                 sinfo.SessionId = !string.IsNullOrEmpty(request.SessionToken) ? request.SessionToken : string.Empty;
 
+                _logger.Log(EErrorType.Info, string.Format("_dal.GetSessionInfo({0}, {1})", sinfo.SessionId, request.CheckActive));
+
                 sinfo = _dal.GetSessionInfo(sinfo, request.CheckActive);
                 if (sinfo != null)
                 {

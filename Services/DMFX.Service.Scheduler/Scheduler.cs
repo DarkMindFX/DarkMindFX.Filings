@@ -167,6 +167,9 @@ namespace DMFX.Service.Scheduler
 
         private IResult PrepareJobsList()
         {
+#if DEBUG
+            Thread.Sleep(12000);
+#endif
             if (_dal == null)
             {
                 string dalType = ConfigurationManager.AppSettings["SchedulerDal"];
@@ -250,9 +253,11 @@ namespace DMFX.Service.Scheduler
                         try
                         {
                             job.LastRun = easternNow;
-                            _logger.Log(EErrorType.Info, string.Format("Calling job '{0}': URL - {1}", job.Name, job.JobUrl));
-                            WebRequest req = WebRequest.Create(schdlrParams.ServicesHost + job.JobUrl);
-                            WebResponse response = req.GetResponse();
+                            foreach (var url in job.JobUrls)
+                            {
+                                _logger.Log(EErrorType.Info, string.Format("Calling job '{0}': URL - {1}", job.Name, url));
+                                SendRequest(schdlrParams.ServicesHost, url, job.Method, job.RequestPayload);
+                            }
 
                         }
                         catch (Exception ex)
@@ -263,6 +268,25 @@ namespace DMFX.Service.Scheduler
                     }
                 }
             }
+        }
+
+        void SendRequest(string host, string url, string method, string payload)
+        {
+            if(string.IsNullOrEmpty(method) || method.ToUpper().Equals("GET"))
+            {
+                WebRequest req = WebRequest.Create(host + url);
+                WebResponse response = req.GetResponse();
+            }
+            else if(method.ToUpper().Equals("POST"))
+            {
+                using (WebClient wc = new WebClient())
+                {                    
+                    wc.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    string response = wc.UploadString(host + url, method, payload);
+                }
+            }
+
+
         }
     }
 }

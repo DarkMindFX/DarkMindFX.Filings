@@ -134,6 +134,8 @@ namespace DMFX.Source.CFTC
             }
         }
 
+        
+
         public ETimeSeriesType TickerType(string ticker)
         {
             IQuotesSourceCanImportParams canImportParams = CreateCanImportParams();

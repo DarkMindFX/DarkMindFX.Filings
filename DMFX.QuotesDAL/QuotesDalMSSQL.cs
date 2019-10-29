@@ -111,53 +111,55 @@ namespace DMFX.QuotesDAL
 
             foreach (var q in saveQuotesParams.Quotes)
             {
-                // getting ID of the ticker
-                int tickerId = GetTickerId(q.Ticker, conn);
-                if (tickerId == Int32.MinValue)
+                if (q.Quotes.Count > 0)
                 {
-                    tickerId = AddTicker(q.Ticker, q.Name, null, conn);
-                }
-
-                int unitId = (int)q.Unit;
-                int timeFrameId = (int)q.TimeFrame;
-                int typeId = (int)q.Type;
-
-                // getting TS info for this ticker
-                int tsId = GetTimeSeriesId(tickerId, timeFrameId, conn);
-                if (tsId == Int32.MinValue)
-                {                 
-
-                    // creating new record
-                    tsId = CreateTimeseries(tickerId, unitId, typeId, timeFrameId, q.Quotes[0].ValueNames.ToList(), conn);
-                }
-                if (tsId == Int32.MinValue)
-                {
-                    result.AddError(
-                        Interfaces.EErrorCodes.InvalidSourceParams,
-                        Interfaces.EErrorType.Warning,
-                        string.Format("Failed to insert {0} - verify input parameters", q.Ticker));
-                }
-                else
-                {
-                    // preparing staging table
-                    string stageTable = PrepareStageTable(q.Quotes[0].ValueNames.Count, conn);
-                    if (!string.IsNullOrEmpty(stageTable))
+                    // getting ID of the ticker
+                    int tickerId = GetTickerId(q.Ticker, conn);
+                    if (tickerId == Int32.MinValue)
                     {
-                        DataTable dtTimeSeriesValues = ConvertToLoadTimeSeries(q);
+                        tickerId = AddTicker(q.Ticker, q.Name, null, conn);
+                    }
 
-                        LoadToStagingTable(q.Quotes[0].ValueNames.Count, stageTable, dtTimeSeriesValues, conn);
+                    int unitId = (int)q.Unit;
+                    int timeFrameId = (int)q.TimeFrame;
+                    int typeId = (int)q.Type;
 
-                        TriggerStageToCore(stageTable, tsId, conn);
-
-                        ++result.TimeSeriesSaved;
-
+                    // getting TS info for this ticker
+                    int tsId = GetTimeSeriesId(tickerId, timeFrameId, conn);
+                    if (tsId == Int32.MinValue)
+                    {
+                        // creating new record
+                        tsId = CreateTimeseries(tickerId, unitId, typeId, timeFrameId, q.Quotes[0].ValueNames.ToList(), conn);
+                    }
+                    if (tsId == Int32.MinValue)
+                    {
+                        result.AddError(
+                            Interfaces.EErrorCodes.InvalidSourceParams,
+                            Interfaces.EErrorType.Warning,
+                            string.Format("Failed to insert {0} - verify input parameters", q.Ticker));
                     }
                     else
                     {
-                        result.AddError(
-                        Interfaces.EErrorCodes.InvalidSourceParams,
-                        Interfaces.EErrorType.Warning,
-                        string.Format("Failed to insert {0} - stage table was not created", q.Ticker));
+                        // preparing staging table
+                        string stageTable = PrepareStageTable(q.Quotes[0].ValueNames.Count, conn);
+                        if (!string.IsNullOrEmpty(stageTable))
+                        {
+                            DataTable dtTimeSeriesValues = ConvertToLoadTimeSeries(q);
+
+                            LoadToStagingTable(q.Quotes[0].ValueNames.Count, stageTable, dtTimeSeriesValues, conn);
+
+                            TriggerStageToCore(stageTable, tsId, conn);
+
+                            ++result.TimeSeriesSaved;
+
+                        }
+                        else
+                        {
+                            result.AddError(
+                            Interfaces.EErrorCodes.InvalidSourceParams,
+                            Interfaces.EErrorType.Warning,
+                            string.Format("Failed to insert {0} - stage table was not created", q.Ticker));
+                        }
                     }
                 }
             }

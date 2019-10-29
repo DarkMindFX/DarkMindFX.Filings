@@ -3,6 +3,6 @@
   "Name": "Filings DB Sanitization",
   "Interval": "P1DT0H0M0S",
   "Hour": "23",
-  "JobUrl": "/techutilapi/Sanitize/A7076271-2CC0-4CDA-9697-3EBB527BF878",
+  "JobUrls": [ "/techutilapi/Sanitize/A7076271-2CC0-4CDA-9697-3EBB527BF878" ],
   "IsActive": "false"
 }

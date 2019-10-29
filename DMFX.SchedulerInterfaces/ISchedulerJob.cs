@@ -31,10 +31,23 @@ namespace DMFX.SchedulerInterfaces
             set;
         }
 
-        string JobUrl
+        IList<string> JobUrls
         {
             get;
             set;
+        }
+
+        string Method
+        {
+            get;
+            set;
+        }
+
+        string RequestPayload
+        {
+            get;
+            set;
+
         }
 
         int? Hour

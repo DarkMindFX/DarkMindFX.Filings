@@ -4,70 +4,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMFX.SchedulerInterfaces
+namespace DMFX.YahooFinance.Api
 {
-    public class SchedulerJobBase : ISchedulerJob
+    public class CSVRecord
     {
-        public SchedulerJobBase()
-        {
-            IsActive = true;
-            JobUrls = new List<string>();
-        }
-
-        public string Code
-        {
-            get;
-            set;
-        }
-        public string Name
+        public DateTime PeriodEnd
         {
             get;
             set;
         }
 
-        public DateTime LastRun
+        public decimal Open
         {
             get;
             set;
         }
 
-        public TimeSpan Interval
+        public decimal High
         {
             get;
             set;
         }
 
-        public IList<string> JobUrls
+        public decimal Low
         {
             get;
             set;
         }
 
-        public int? Hour
+        public decimal Close
+        {
+            get;
+            set;
+        }
+        public decimal AdjClose
         {
             get;
             set;
         }
 
-        public int? Minute
+        public decimal Volume
         {
             get;
             set;
         }
 
-        public bool IsActive
+        public override string ToString()
+        {
+            return PeriodEnd.ToShortDateString() + " " + Open + " " + High + " " + Low + " " + Close;
+        }
+    }
+
+    public class CSVQuotes
+    {
+        public string Ticker
         {
             get;
             set;
         }
 
-        public string Method
-        {
-            get;
-            set;
-        }
-
-        public string RequestPayload
+        public List<CSVRecord> Quotes
         {
             get;
             set;

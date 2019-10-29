@@ -128,6 +128,7 @@ namespace DMFX.QuotesInterfaces
         /// <returns></returns>
         ETimeSeriesType TickerType(string ticker);
 
+        
         IQuotesSourceInitParams CreateInitParams();
 
         IQuotesSourceGetQuotesParams CreateGetQuotesParams();

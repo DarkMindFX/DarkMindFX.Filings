@@ -75,6 +75,7 @@ namespace DMFX.Source.Stooq
 
                         qd.Country = getQuotesParams.Country;
                         qd.Ticker = t;
+                        qd.Name = this.TickerName(t);
                         qd.TimeFrame = getQuotesParams.TimeFrame;
                         qd.Type = this.TickerType(t);
                         qd.Unit = this.TickerUnit(t);
@@ -153,12 +154,26 @@ namespace DMFX.Source.Stooq
             }
         }
 
+        
+
         public void Init(IQuotesSourceInitParams initParams)
         {
             _initParams = initParams;
         }
 
         #region Support methods
+
+        private string TickerName(string ticker)
+        {
+            if (_tickers.ContainsKey(ticker))
+            {
+                return _tickers[ticker];
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported ticker provided");
+            }
+        }
 
         private void InitCanImportList()
         {

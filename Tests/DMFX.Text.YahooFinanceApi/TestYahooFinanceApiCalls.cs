@@ -1,30 +1,30 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using NUnit.Framework;
 
-namespace DMFX.Text.StoopApi
+namespace DMFX.Text.YahooFinanceApi
 {
     [TestFixture]
-    public class TestStooqApiCalls
+    public class TestYahooFinanceApiCalls
     {
         [Test]
         public void DownloadMonthly_Success()
         {
-            DMFX.Stooq.Api.StooqApi api = new Stooq.Api.StooqApi();
+            DMFX.YahooFinance.Api.YahooFinanceApi api = new DMFX.YahooFinance.Api.YahooFinanceApi();
 
-            DMFX.Stooq.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, "US", Stooq.Api.StooqApi.ETimeFrame.Monthly);
+            DMFX.YahooFinance.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, YahooFinance.Api.YahooFinanceApi.ETimeFrame.Monthly);
 
             Assert.IsNotNull(quotes, "Result object was not created");
             Assert.IsNotEmpty(quotes.Ticker, "Ticker field is not set");
             Assert.IsNotNull(quotes.Quotes, "Quotes array is not created");
-            Assert.AreNotEqual(quotes.Quotes.Count, 0, "SPY quotes were not retrieved");           
+            Assert.AreNotEqual(quotes.Quotes.Count, 0, "SPY quotes were not retrieved");
         }
 
         [Test]
         public void DownloadWeekly_Success()
         {
-            DMFX.Stooq.Api.StooqApi api = new Stooq.Api.StooqApi();
+            DMFX.YahooFinance.Api.YahooFinanceApi api = new YahooFinance.Api.YahooFinanceApi();
 
-            DMFX.Stooq.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, "US", Stooq.Api.StooqApi.ETimeFrame.Weekly);
+            DMFX.YahooFinance.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, YahooFinance.Api.YahooFinanceApi.ETimeFrame.Weekly);
 
             Assert.IsNotNull(quotes, "Result object was not created");
             Assert.IsNotEmpty(quotes.Ticker, "Ticker field is not set");
@@ -35,9 +35,9 @@ namespace DMFX.Text.StoopApi
         [Test]
         public void DownloadDaily_Success()
         {
-            DMFX.Stooq.Api.StooqApi api = new Stooq.Api.StooqApi();
+            DMFX.YahooFinance.Api.YahooFinanceApi api = new YahooFinance.Api.YahooFinanceApi();
 
-            DMFX.Stooq.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, "US", Stooq.Api.StooqApi.ETimeFrame.Daily);
+            DMFX.YahooFinance.Api.CSVQuotes quotes = api.Download("SPY", DateTime.Parse("2005/2/25"), DateTime.Now, YahooFinance.Api.YahooFinanceApi.ETimeFrame.Daily);
 
             Assert.IsNotNull(quotes, "Result object was not created");
             Assert.IsNotEmpty(quotes.Ticker, "Ticker field is not set");
@@ -50,9 +50,9 @@ namespace DMFX.Text.StoopApi
         {
             try
             {
-                DMFX.Stooq.Api.StooqApi api = new Stooq.Api.StooqApi();
+                DMFX.YahooFinance.Api.YahooFinanceApi api = new YahooFinance.Api.YahooFinanceApi();
 
-                DMFX.Stooq.Api.CSVQuotes quotes = api.Download("#INVALID_TICKER#", DateTime.Parse("2005/2/25"), DateTime.Now, "US", Stooq.Api.StooqApi.ETimeFrame.Monthly);
+                DMFX.YahooFinance.Api.CSVQuotes quotes = api.Download("#INVALID_TICKER#", DateTime.Parse("2005/2/25"), DateTime.Now, YahooFinance.Api.YahooFinanceApi.ETimeFrame.Monthly);
 
                 Assert.Fail("Failed to handle invalid ticker");
             }
@@ -60,7 +60,7 @@ namespace DMFX.Text.StoopApi
             {
                 Assert.IsNotEmpty(ex.Message);
             }
-            
+
         }
     }
 }

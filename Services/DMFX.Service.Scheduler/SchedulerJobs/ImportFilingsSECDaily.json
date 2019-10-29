@@ -3,6 +3,8 @@
   "Name": "Daily Filings Importing",
   "Interval": "P1DT0H0M0S",
   "Hour": "00",
-  "JobUrl": "/srcapi/ForceRunImport/3/SEC/B7C87E3D-C102-446B-B8F8-B1F638F736CE",
-  "IsActive": "false"
+  "JobUrls": [
+    "/api/srcfilings/ForceRunImport/3/SEC/B7C87E3D-C102-446B-B8F8-B1F638F736CE"
+  ],
+  "IsActive" : "false"
 }
