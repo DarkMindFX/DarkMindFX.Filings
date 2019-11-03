@@ -396,7 +396,12 @@ namespace DMFX.Source.SEC
                 {
                     subInfo.Type = "10-K";
                 }
-                
+
+                else if(nodeType.InnerText.Contains("Form 424B2"))
+                {
+                    subInfo.Type = "424B2";
+                }
+
                 else if (nodeType.InnerText.Contains("Form 4"))
                 {
                     subInfo.Type = "4";
