@@ -343,16 +343,13 @@ namespace DMFX.Service.Sourcing
         {
             _logger.Log(EErrorType.Info, string.Format("InitStorage: Folder '{0}'", ConfigurationManager.AppSettings["StorageRootFolder"]));
 
-            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["StorageType"]))
-            {
-                var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
-                IStorageParams stgParams = storage.Value.CreateStorageParams();
-                stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
+            var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
+            IStorageParams stgParams = storage.Value.CreateStorageParams();
+            stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
 
-                storage.Value.Init(stgParams);
+            storage.Value.Init(stgParams);
 
-                _storage = storage.Value;
-            }            
+            _storage = storage.Value;
 
         }
         private void InitDAL()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.SECParser.SEC10K
 {
-    [Export("Default", typeof(IFilingParser))]
+    [Export("Defult", typeof(IFilingParser))]
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class SEC10KDefaultParser : SECParserBase
     {
