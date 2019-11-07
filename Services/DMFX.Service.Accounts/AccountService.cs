@@ -54,12 +54,14 @@ namespace DMFX.Service.Accounts
                     {
                         // checking for active session!
                         // if expiration date >= now - closing the session and returning error; in other case returning true
+                        _logger.Log(EErrorType.Info, string.Format("Expires: {0}, Now: {1}", sinfo.SessionExpires, DateTime.UtcNow));
                         if(sinfo.SessionExpires <= DateTime.UtcNow)
                         {
+                            _logger.Log(EErrorType.Info, string.Format("Closing session {0}", sinfo.SessionId));
                             sinfo.SessionEnd = DateTime.UtcNow;
                             _dal.CloseSession(sinfo);
 
-                            response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Error });
+                            response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token expired and was closed", Type = EErrorType.Error });
                             response.Success = false;
                         }
                         else
