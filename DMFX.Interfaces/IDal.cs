@@ -597,6 +597,12 @@ namespace DMFX.Interfaces.DAL
             get;
             set;
         }
+
+        public DateTime SessionExpires
+        {
+            get;
+            set;
+        }
     }
 
     public class RegulatorInfo

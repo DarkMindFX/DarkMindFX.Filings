@@ -532,9 +532,13 @@ namespace DMFX.DALDatabase
             // Session id
             SqlParameter paramSessionStart = new SqlParameter("@SessionStart", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionStart);
 
+            // Session id
+            SqlParameter paramSessionExpiration = new SqlParameter("@SessionExpiration", SqlDbType.DateTime, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, sessionParams.SessionExpires);
+
             cmd.Parameters.Add(paramAccountKey);
             cmd.Parameters.Add(paramSessionToken);
             cmd.Parameters.Add(paramSessionStart);
+            cmd.Parameters.Add(paramSessionExpiration);
 
             cmd.ExecuteNonQuery();
 
@@ -596,6 +600,7 @@ namespace DMFX.DALDatabase
                 result.AccountKey = (string)ds.Tables[0].Rows[0]["Account_Key_Value"];
                 result.SessionId = (string)ds.Tables[0].Rows[0]["Session_Token"];
                 result.SessionStart = (DateTime)ds.Tables[0].Rows[0]["Session_Start_Dttm"];
+                result.SessionExpires = (ds.Tables[0].Columns.Contains("Session_Expiration_Dttm") && !Convert.IsDBNull(ds.Tables[0].Rows[0]["Session_Expiration_Dttm"])) ? (DateTime)ds.Tables[0].Rows[0]["Session_Expiration_Dttm"] : DateTime.MinValue;
                 result.SessionEnd = (ds.Tables[0].Columns.Contains("Session_End_Dttm") && !Convert.IsDBNull(ds.Tables[0].Rows[0]["Session_End_Dttm"])) ? (DateTime)ds.Tables[0].Rows[0]["Session_End_Dttm"] : DateTime.MinValue;
             }
             else

@@ -41,11 +41,33 @@ namespace DMFX.Service.Accounts
                 {
                     response.SessionStart = sinfo.SessionStart;
                     response.SessionEnd = sinfo.SessionEnd;
-                    if (response.SessionEnd > DateTime.MinValue)
+                    if (!request.CheckActive)
                     {
-                        response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Warning });
+                        // checking all sessions - just returning the warning that this session was closed
+                        if (response.SessionEnd > DateTime.MinValue)
+                        {
+                            response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Warning });
+                        }
+                        response.Success = true;
                     }
-                    response.Success = true;
+                    else
+                    {
+                        // checking for active session!
+                        // if expiration date >= now - closing the session and returning error; in other case returning true
+                        if(sinfo.SessionExpires <= DateTime.UtcNow)
+                        {
+                            sinfo.SessionEnd = DateTime.UtcNow;
+                            _dal.CloseSession(sinfo);
+
+                            response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Error });
+                            response.Success = false;
+                        }
+                        else
+                        {
+                            response.Success = true;
+                        }
+
+                    }
 
                 }
                 else
@@ -180,7 +202,6 @@ namespace DMFX.Service.Accounts
 
                 response.Success = true;
 
-                response.Success = true;
             }
             catch (Exception ex)
             {
@@ -215,6 +236,8 @@ namespace DMFX.Service.Accounts
                         Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                         sinfo.AccountKey = accResult.AccountKey;
                         sinfo.SessionStart = DateTime.UtcNow;
+                        sinfo.SessionExpires = DateTime.UtcNow 
+                            + TimeSpan.FromMinutes(ConfigurationManager.AppSettings["SessionExpiresMins"] != null? Int32.Parse(ConfigurationManager.AppSettings["SessionExpiresMins"]) : 60 );
                         sinfo.SessionId = sessionId;
 
                         _dal.InitSession(sinfo);
