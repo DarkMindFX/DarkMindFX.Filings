@@ -65,15 +65,19 @@ namespace DMFX.QuotesDAL
 
                         foreach (DataRow row in ds.Tables[0].Rows)
                         {
-                            int valCount = row.ItemArray.Count(x => !DBNull.Value.Equals(x));
-                            ITimeSeriesRecord qrec = new CustomTimeseriesRecord(new List<string>( new string[valCount - 1] ), (DateTime)row[0]);
-                            
-                            for (int r = 1; r <= valCount-1; ++r)
+                            DateTime dtEvent = (DateTime)row[0];
+                            if (dtEvent >= getQuotesParams.PeriodStart && dtEvent <= getQuotesParams.PeriodEnd)
                             {
-                                qrec[r - 1] = (decimal)row[r];
-                            }
+                                int valCount = row.ItemArray.Count(x => !DBNull.Value.Equals(x));
+                                ITimeSeriesRecord qrec = new CustomTimeseriesRecord(new List<string>(new string[valCount - 1]), dtEvent);
 
-                            qdata.AddRecord(qrec);
+                                for (int r = 1; r <= valCount - 1; ++r)
+                                {
+                                    qrec[r - 1] = (decimal)row[r];
+                                }
+
+                                qdata.AddRecord(qrec);
+                            }
                         }
 
                         result.Quotes.Add(qdata);
