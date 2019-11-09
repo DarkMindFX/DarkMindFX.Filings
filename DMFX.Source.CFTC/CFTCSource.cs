@@ -68,7 +68,7 @@ namespace DMFX.Source.CFTC
                 if (getQuotesParams.Tickers.Count(x => x.Contains(pt.TickerPrefix)) > 0)
                 {
                     cotTypeParams = pt.Clone();
-                    cotTypeParams.OnlyLast = getQuotesParams.PeriodEnd.Year == DateTime.Now.Year ? true : false;
+                    cotTypeParams.OnlyLast = getQuotesParams.PeriodStart.Year == DateTime.Now.Year ? true : false;
                     parserParams.Add(cotTypeParams);
                 }
                 

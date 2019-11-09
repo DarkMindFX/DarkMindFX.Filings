@@ -192,6 +192,8 @@ namespace DMFX.CFTC.Api
                             StringBuilder sb = new StringBuilder(line);
                             sb[badComma] = ':';
                             vals = parserParams.SplitLine(sb.ToString().Trim());
+
+                            DateTime.TryParse(vals[colReportDate], out repDate);
                         }
 
                         string name = vals[colName].Trim(new char[] { '"' });
