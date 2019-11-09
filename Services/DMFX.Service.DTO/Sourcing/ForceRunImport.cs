@@ -12,7 +12,7 @@ namespace DMFX.Service.DTO
     [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DateStart}/{DateEnd}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
-    [Route("/ForceRunImport", "PUT")]
+    [Route("/ForceRunImport", "POST")]
     public class ForceRunImport : RequestBase, IReturn<ForceRunImportResponse>
     {
         public DateTime? DateStart

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/Sanitize/{SessionToken}", "GET")]
-    [Route("/Sanitize", "PUT")]
+    [Route("/Sanitize", "POST")]
     public class Sanitize : RequestBase, IReturn<SanitizeResponse>
     {
     }

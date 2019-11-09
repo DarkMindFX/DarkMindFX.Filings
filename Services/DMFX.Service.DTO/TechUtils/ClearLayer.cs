@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ClearLayer/{LayerCode}/{SessionToken}", "GET")]
-    [Route("/ClearLayer", "PUT")]
+    [Route("/ClearLayer", "POST")]
     public class ClearLayer : RequestBase, IReturn<ClearLayerResponse>
     {
         public string LayerCode

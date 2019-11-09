@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ForceStopImport/{SessionToken}", "GET")]
-    [Route("/ForceStopImport", "PUT")]
+    [Route("/ForceStopImport", "POST")]
     public class ForceStopImport : RequestBase, IReturn<ForceStopImportResponse>
     {
         public DateTime? DateStart

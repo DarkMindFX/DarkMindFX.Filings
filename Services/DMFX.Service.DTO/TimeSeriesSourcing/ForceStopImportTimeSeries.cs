@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ForceStopImportTimeSeries/{SessionToken}", "GET")]
-    [Route("/ForceStopImportTimeSeries", "PUT")]
+    [Route("/ForceStopImportTimeSeries", "POST")]
     public class ForceStopImportTimeSeries : RequestBase, IReturn<ForceStopImportTimeSeriesResponse>
     {
     }
