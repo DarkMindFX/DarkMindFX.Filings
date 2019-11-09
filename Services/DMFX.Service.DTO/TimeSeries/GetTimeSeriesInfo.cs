@@ -58,50 +58,64 @@ namespace DMFX.Service.DTO
     {
         public GetTimeSeriesInfoResponse()
         {
-            Series = new List<TimeSeriesInfoItem>();
-            Columns = new List<string>();
+            Payload = new ResponsePayload();
         }
 
-        public string CountryCode
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public string Ticker
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public ResponsePayload()
+            {
+                Series = new List<TimeSeriesInfoItem>();
+                Columns = new List<string>();
+            }
 
-        public string Name
-        {
-            get;
-            set;
-        }
+            public string CountryCode
+            {
+                get;
+                set;
+            }
 
-        public EUnit Unit
-        {
-            get;
-            set;
-        }
+            public string Ticker
+            {
+                get;
+                set;
+            }
 
-        public ETimeSeriesType Type
-        {
-            get;
-            set;
-        }
+            public string Name
+            {
+                get;
+                set;
+            }
 
-        public IList<TimeSeriesInfoItem> Series
-        {
-            get;
-            set;
-        }
+            public EUnit Unit
+            {
+                get;
+                set;
+            }
 
-        public IList<string> Columns
-        {
-            get;
-            set;
+            public ETimeSeriesType Type
+            {
+                get;
+                set;
+            }
+
+            public IList<TimeSeriesInfoItem> Series
+            {
+                get;
+                set;
+            }
+
+            public IList<string> Columns
+            {
+                get;
+                set;
+            }
         }
     }
 }

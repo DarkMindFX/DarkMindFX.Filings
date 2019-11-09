@@ -50,7 +50,7 @@ namespace DMFX.Test.Service.Accounts
             RunFinalizeSql(name, "ConnectionStringAccounts");
 
             Assert.AreEqual(response.Success, true, "CreateAccount call failed");
-            Assert.IsNotEmpty(response.AccountKey, "AccountKey is empty");
+            Assert.IsNotEmpty(response.Payload.AccountKey, "AccountKey is empty");
             
 
         }
@@ -69,7 +69,7 @@ namespace DMFX.Test.Service.Accounts
             Assert.AreEqual(response.Success, false, "User with duplicate name was successfully created");
             Assert.IsNotEmpty(response.Errors, "Error was not returned");
             Assert.AreEqual(response.Errors[0].Code, Interfaces.EErrorCodes.UserAccountExists, "Incorrect error code returned");
-            Assert.IsTrue( string.IsNullOrEmpty(response.AccountKey), "AccountKey is not empty");
+            Assert.IsTrue( string.IsNullOrEmpty(response.Payload.AccountKey), "AccountKey is not empty");
 
 
         }
@@ -199,7 +199,7 @@ namespace DMFX.Test.Service.Accounts
             RunFinalizeSql(name, "ConnectionStringAccounts");
 
             Assert.AreEqual(sessionInfo.Success, true, "Session was not found");
-            Assert.AreNotEqual(sessionInfo.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
+            Assert.AreNotEqual(sessionInfo.Payload.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
             Assert.IsEmpty(sessionInfo.Errors, "Errors are not empty");
         }
 
@@ -255,8 +255,8 @@ namespace DMFX.Test.Service.Accounts
             RunFinalizeSql(name, "ConnectionStringAccounts");
 
             Assert.AreEqual(sessionInfo.Success, true, "Session was not found");
-            Assert.AreNotEqual(sessionInfo.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
-            Assert.AreNotEqual(sessionInfo.SessionEnd, DateTime.MinValue, "SessionEnd time was not provided");
+            Assert.AreNotEqual(sessionInfo.Payload.SessionStart, DateTime.MinValue, "SessionStart time was not provided");
+            Assert.AreNotEqual(sessionInfo.Payload.SessionEnd, DateTime.MinValue, "SessionEnd time was not provided");
             Assert.IsNotEmpty(sessionInfo.Errors, "Errors are empty");
             Assert.AreEqual(sessionInfo.Errors[0].Type, EErrorType.Warning, "Warning of closed session is expected");
             Assert.AreEqual(sessionInfo.Errors[0].Code, EErrorCodes.SessionClosed, "Invalid code returned");

@@ -81,8 +81,8 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetRegulators call failed");
-            Assert.Greater(response.Regulators.Count, 0, "Empty regulator list returned");
-            Assert.AreNotEqual(response.Regulators.FirstOrDefault(i => i.Code == "SEC"), null, "SEC is not present on the list");
+            Assert.Greater(response.Payload.Regulators.Count, 0, "Empty regulator list returned");
+            Assert.AreNotEqual(response.Payload.Regulators.FirstOrDefault(i => i.Code == "SEC"), null, "SEC is not present on the list");
         }
 
         [TestCase("001.GetRegulators.InvalidSession")]
@@ -99,7 +99,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, false, "GetRegulators succeeded with invalid session");
-            Assert.AreEqual(response.Regulators.Count, 0, "Regulator list is not empty");
+            Assert.AreEqual(response.Payload.Regulators.Count, 0, "Regulator list is not empty");
             Assert.IsNotEmpty(response.Errors, "Errors are empty in the response");
             Assert.AreEqual(response.Errors[0].Code, EErrorCodes.InvalidSession, "Incorrect error code returned");
             
@@ -117,7 +117,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanies call failed");
-            Assert.Greater(response.Companies.Count, 0, "Empty companies list returned");
+            Assert.Greater(response.Payload.Companies.Count, 0, "Empty companies list returned");
         }
 
         [TestCase("011.GetCompanies.InvalidSession")]
@@ -134,7 +134,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, false, "GetCompanies succeeded with invalid session");
-            Assert.AreEqual(response.Companies.Count, 0, "Regulator list is not empty");
+            Assert.AreEqual(response.Payload.Companies.Count, 0, "Regulator list is not empty");
             Assert.IsNotEmpty(response.Errors, "Errors are empty in the response");
             Assert.AreEqual(response.Errors[0].Code, EErrorCodes.InvalidSession, "Incorrect error code returned");
 
@@ -152,7 +152,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanies call failed");
-            Assert.AreEqual(response.Companies.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+            Assert.AreEqual(response.Payload.Companies.Count, 0, "Non-empty list of companies returned for invalid regulator code");
         }
 
         [TestCase("020.GetCompanyFilingsInfo.Success")]
@@ -167,7 +167,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
+            Assert.Greater(response.Payload.Filings.Count, 0, "Empty filings list returned");
         }
 
         [TestCase("021.GetCompanyFilingsInfo.InvalidSession")]
@@ -184,7 +184,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, false, "GetCompanyFilingsInfo succeeded with invalid session");
-            Assert.AreEqual(response.Filings.Count, 0, "Filings list is not empty");
+            Assert.AreEqual(response.Payload.Filings.Count, 0, "Filings list is not empty");
             Assert.IsNotEmpty(response.Errors, "Errors are empty in the response");
             Assert.AreEqual(response.Errors[0].Code, EErrorCodes.InvalidSession, "Incorrect error code returned");
 
@@ -202,7 +202,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+            Assert.AreEqual(response.Payload.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
         }
 
         [TestCase("023.GetCompanyFilingsInfo.InvalidRegulatorCode")]
@@ -217,7 +217,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.AreEqual(response.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
+            Assert.AreEqual(response.Payload.Filings.Count, 0, "Non-empty list of companies returned for invalid regulator code");
         }
 
         [TestCase("024.GetCompanyFilingsInfo.10-Q.Success")]
@@ -232,8 +232,8 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
-            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
+            Assert.Greater(response.Payload.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Payload.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
         }
 
         [TestCase("025.GetCompanyFilingsInfo.10-K.Success")]
@@ -248,8 +248,8 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
-            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
+            Assert.Greater(response.Payload.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Payload.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
         }
 
         [TestCase("026.GetCompanyFilingsInfo.MultipleTypes.Success")]
@@ -264,9 +264,9 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetCompanyFilingsInfo call failed");
-            Assert.Greater(response.Filings.Count, 0, "Empty filings list returned");
-            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
-            Assert.IsNotEmpty(response.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
+            Assert.Greater(response.Payload.Filings.Count, 0, "Empty filings list returned");
+            Assert.IsNotEmpty(response.Payload.Filings.Where(r => r.Type == "10-K"), "Reports of type 10-K were not returned");
+            Assert.IsNotEmpty(response.Payload.Filings.Where(r => r.Type == "10-Q"), "Reports of type 10-Q were not returned");
         }
 
         [TestCase("030.GetFilingData.Success")]
@@ -281,7 +281,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetFilingData call failed");
-            Assert.AreNotEqual(response.FilingData.Count, 0, "Empty listof values returned");
+            Assert.AreNotEqual(response.Payload.FilingData.Count, 0, "Empty listof values returned");
         }
 
         [TestCase("030.GetFilingData.Values.Success")]
@@ -296,7 +296,7 @@ namespace DMFX.Test.Service.Filings
             RunFinalizeSql(name, "ConnectionStringFilings");
 
             Assert.AreEqual(response.Success, true, "GetFilingData call failed");
-            Assert.AreNotEqual(response.FilingData.Count, 0, "Empty listof values returned");
+            Assert.AreNotEqual(response.Payload.FilingData.Count, 0, "Empty listof values returned");
         }
 
 

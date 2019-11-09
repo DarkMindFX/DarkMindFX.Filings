@@ -12,6 +12,7 @@ namespace DMFX.Service.DTO
         public ResponseBase()
         {
             Errors = new List<Error>();
+            PayloadFormat = "json";
         }
 
         public string RequestID
@@ -30,6 +31,12 @@ namespace DMFX.Service.DTO
         }
 
         public string SessionToken
+        {
+            get;
+            set;
+        }
+
+        public string PayloadFormat
         {
             get;
             set;

@@ -18,36 +18,50 @@ namespace DMFX.Service.DTO.TimeSeriesSourcing
     {
         public GetImporterTimeSeriesStateResponse()
         {
-            TimeSeriesProcessed = new List<TickerInfo>();
+            Payload = new ResponsePayload();
         }
-        public string State
+
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public DateTime? LastImportRun
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public ResponsePayload()
+            {
+                TimeSeriesProcessed = new List<TickerInfo>();
+            }
+            public string State
+            {
+                get;
+                set;
+            }
 
-        public DateTime? LastImportEnd
-        {
-            get;
-            set;
-        }
+            public DateTime? LastImportRun
+            {
+                get;
+                set;
+            }
 
-        public int ProcessedCount
-        {
-            get;
-            set;
-        }
+            public DateTime? LastImportEnd
+            {
+                get;
+                set;
+            }
 
-        public List<TickerInfo> TimeSeriesProcessed
-        {
-            get;
-            set;
+            public int ProcessedCount
+            {
+                get;
+                set;
+            }
+
+            public List<TickerInfo> TimeSeriesProcessed
+            {
+                get;
+                set;
+            }
         }
     }
 }

@@ -17,43 +17,56 @@ namespace DMFX.Service.DTO
 
     public class GetAccountInfoResponse : ResponseBase
     {
-        public string Name
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public string Name
+            {
+                get;
+                set;
+            }
 
-        public string AccountKey
+            public string AccountKey
+            {
+                get;
+                set;
+            }
+
+            public string Email
+            {
+                get;
+                set;
+            }
+
+            public DateTime DateCreated
+            {
+                get;
+                set;
+            }
+
+            public string DateCreatedStr
+            {
+                get;
+                set;
+            }
+
+            public DateTime DateExpires
+            {
+                get;
+                set;
+            }
+
+            public string DateExpiresStr
+            {
+                get;
+                set;
+            }
+        }
+        public GetAccountInfoResponse()
         {
-            get;
-            set;
-        }
+            Payload = new ResponsePayload();
+        }       
 
-        public string Email
-        {
-            get;
-            set;
-        }
-
-        public DateTime DateCreated
-        {
-            get;
-            set;
-        }
-
-        public string DateCreatedStr
-        {
-            get;
-            set;
-        }
-
-        public DateTime DateExpires
-        {
-            get;
-            set;
-        }
-
-        public string DateExpiresStr
+        public ResponsePayload Payload
         {
             get;
             set;

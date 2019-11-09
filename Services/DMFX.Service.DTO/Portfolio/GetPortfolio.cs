@@ -21,10 +21,24 @@ namespace DMFX.Service.DTO
 
     public class GetPortfolioResult : ResponseBase
     {
-        public Portfolio Portfolio
+        public GetPortfolioResult()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
         {
             get;
             set;
+        }
+
+        public class ResponsePayload
+        {
+            public Portfolio Portfolio
+            {
+                get;
+                set;
+            }
         }
     }
 }

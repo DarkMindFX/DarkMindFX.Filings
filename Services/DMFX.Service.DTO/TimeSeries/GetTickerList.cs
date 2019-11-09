@@ -64,18 +64,32 @@ namespace DMFX.Service.DTO
     {
         public GetTickerListResponse()
         {
-            Tickers = new List<TickerListItem>();
+            Payload = new ResponsePayload();
         }
-        public string CountryCode
+
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public IList<TickerListItem> Tickers
+        public class ResponsePayload
         {
-            get;
-            set;
+            public ResponsePayload()
+            {
+                Tickers = new List<TickerListItem>();
+            }
+            public string CountryCode
+            {
+                get;
+                set;
+            }
+
+            public IList<TickerListItem> Tickers
+            {
+                get;
+                set;
+            }
         }
     }
 }

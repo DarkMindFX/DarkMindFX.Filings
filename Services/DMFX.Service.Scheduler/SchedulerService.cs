@@ -160,7 +160,7 @@ namespace DMFX.Service.Scheduler
                 if (IsValidSessionToken(request))
                 {
                     response.Success = true;
-                    response.State = Global.Scheduler.CurrentState.ToString();                    
+                    response.Payload.State = Global.Scheduler.CurrentState.ToString();                    
                 }
                 else
                 {

@@ -52,7 +52,7 @@ namespace DMFX.Service.Filings
                             CountryCode = reg.CountryCode
                         };
 
-                        response.Regulators.Add(regulatorInfo);
+                        response.Payload.Regulators.Add(regulatorInfo);
                     }
 
                     response.Success = true;
@@ -95,7 +95,7 @@ namespace DMFX.Service.Filings
                     {
                         foreach (var c in companies)
                         {
-                            response.Companies.Add(new DTO.CompanyInfo()
+                            response.Payload.Companies.Add(new DTO.CompanyInfo()
                             {
                                 Name = c.Name,
                                 Code = c.Code,
@@ -113,7 +113,7 @@ namespace DMFX.Service.Filings
                         });
                     }
 
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
                     response.Success = true;
                 }
                 catch (Exception ex)
@@ -169,10 +169,10 @@ namespace DMFX.Service.Filings
                         cfi.Submitted = f.Submitted;
                         cfi.Type = f.Type;
 
-                        response.Filings.Add(cfi);
+                        response.Payload.Filings.Add(cfi);
                     }
-                    response.CompanyCode = request.CompanyCode;
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.CompanyCode = request.CompanyCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
                     response.Success = true;
                 }
                 catch (Exception ex)
@@ -220,22 +220,22 @@ namespace DMFX.Service.Filings
 
                     Interfaces.DAL.GetCompanyFilingResult filingDataResult = _dal.GetCompanyFilingData(filingDataParams);
 
-                    response.CompanyCode = request.CompanyCode;
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.CompanyCode = request.CompanyCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
                     if (filingDataResult.FilingInfo != null)
                     {
 
-                        response.FilingName = filingDataResult.FilingInfo.Name;
-                        response.PeriodStart = filingDataResult.FilingInfo.PeriodStart;
-                        response.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd;
-                        response.Submitted = filingDataResult.FilingInfo.Submitted;
-                        response.Type = filingDataResult.FilingInfo.Type;
+                        response.Payload.FilingName = filingDataResult.FilingInfo.Name;
+                        response.Payload.PeriodStart = filingDataResult.FilingInfo.PeriodStart;
+                        response.Payload.PeriodEnd = filingDataResult.FilingInfo.PeriodEnd;
+                        response.Payload.Submitted = filingDataResult.FilingInfo.Submitted;
+                        response.Payload.Type = filingDataResult.FilingInfo.Type;
 
                         foreach (var fd in filingDataResult.Data)
                         {
                             if (fd.Value != null)
                             {
-                                response.FilingData.Add(new DTO.FilingNumRecord()
+                                response.Payload.FilingData.Add(new DTO.FilingNumRecord()
                                 {
                                     Code = fd.Code,
                                     Value = (decimal)fd.Value,
@@ -248,7 +248,7 @@ namespace DMFX.Service.Filings
                             }
                             else if (fd.Value_Str != null)
                             {
-                                response.FilingStrData.Add(new DTO.FilingStrRecord()
+                                response.Payload.FilingStrData.Add(new DTO.FilingStrRecord()
                                 {
                                     Code = fd.Code,
                                     Value = fd.Value_Str,
@@ -259,7 +259,7 @@ namespace DMFX.Service.Filings
                             }
                             else if (fd.Value_Dttm != null)
                             {
-                                response.FilingDttmData.Add(new DTO.FilingDttmRecord()
+                                response.Payload.FilingDttmData.Add(new DTO.FilingDttmRecord()
                                 {
                                     Code = fd.Code,
                                     Value = (DateTime)fd.Value_Dttm,
@@ -271,13 +271,13 @@ namespace DMFX.Service.Filings
 
                         }
 
-                        if (response.FilingData.Count == 0)
+                        if (response.Payload.FilingData.Count == 0)
                         {
-                            response.FilingData = null;
+                            response.Payload.FilingData = null;
                         }
-                        if (response.FilingStrData.Count == 0)
+                        if (response.Payload.FilingStrData.Count == 0)
                         {
-                            response.FilingStrData = null;
+                            response.Payload.FilingStrData = null;
                         }
 
 
@@ -342,14 +342,14 @@ namespace DMFX.Service.Filings
 
                     Interfaces.DAL.GetCompanyFilingRatiosResult filingRatiosResult = _dal.GetCompanyFilingRatios(filingRatiosParams);
 
-                    response.CompanyCode = request.CompanyCode;
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.CompanyCode = request.CompanyCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
 
-                    response.FilingName = request.FilingName;
+                    response.Payload.FilingName = request.FilingName;
 
                     foreach (var fd in filingRatiosResult.Data)
                     {
-                        response.Ratios.Add(new DTO.RatioRecord()
+                        response.Payload.Ratios.Add(new DTO.RatioRecord()
                         {
                             Code = fd.Code,
                             Value = fd.Value != null ? (decimal)fd.Value : 0,
@@ -409,14 +409,14 @@ namespace DMFX.Service.Filings
 
                     Interfaces.DAL.GetCommonSizeBalanceSheetResult filingCSBSResult = _dal.GetCommonSizeBalanceSheet(filingCSBSParams);
 
-                    response.CompanyCode = request.CompanyCode;
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.CompanyCode = request.CompanyCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
 
-                    response.FilingName = request.FilingName;
+                    response.Payload.FilingName = request.FilingName;
 
                     foreach (var fd in filingCSBSResult.Data)
                     {
-                        response.BalanceSheetData.Add(new DTO.FilingNumRecord()
+                        response.Payload.BalanceSheetData.Add(new DTO.FilingNumRecord()
                         {
                             Code = fd.Code,
                             Value = fd.Value != null ? (decimal)fd.Value : 0,
@@ -473,14 +473,14 @@ namespace DMFX.Service.Filings
 
                     Interfaces.DAL.GetCommonSizeIncomeStatementResult filingCSBSResult = _dal.GetCommonSizeIncomeStatement(filingCSBSParams);
 
-                    response.CompanyCode = request.CompanyCode;
-                    response.RegulatorCode = request.RegulatorCode;
+                    response.Payload.CompanyCode = request.CompanyCode;
+                    response.Payload.RegulatorCode = request.RegulatorCode;
 
-                    response.FilingName = request.FilingName;
+                    response.Payload.FilingName = request.FilingName;
 
                     foreach (var fd in filingCSBSResult.Data)
                     {
-                        response.IncomeStatementData.Add(new DTO.FilingNumRecord()
+                        response.Payload.IncomeStatementData.Add(new DTO.FilingNumRecord()
                         {
                             Code = fd.Code,
                             Value = fd.Value != null ? (decimal)fd.Value : 0,

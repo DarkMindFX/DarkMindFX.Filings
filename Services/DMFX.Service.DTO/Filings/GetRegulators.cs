@@ -40,13 +40,27 @@ namespace DMFX.Service.DTO
     {
         public GetRegulatorsResponse()
         {
-            Regulators = new List<RegulatorInfo>();
+            Payload = new ResponsePayload();
         }
 
-        public List<RegulatorInfo> Regulators
+        public ResponsePayload Payload
         {
             get;
             set;
+        }
+
+        public class ResponsePayload
+        {
+            public ResponsePayload()
+            {
+                Regulators = new List<RegulatorInfo>();
+            }
+
+            public List<RegulatorInfo> Regulators
+            {
+                get;
+                set;
+            }
         }
     }
 }

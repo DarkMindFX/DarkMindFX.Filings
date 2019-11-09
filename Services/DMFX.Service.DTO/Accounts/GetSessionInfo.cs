@@ -26,13 +26,27 @@ namespace DMFX.Service.DTO
 
     public class GetSessionInfoResponse : ResponseBase
     {
-        public DateTime SessionStart
+        public class ResponsePayload
         {
-            get;
-            set;
+            public DateTime SessionStart
+            {
+                get;
+                set;
+            }
+
+            public DateTime SessionEnd
+            {
+                get;
+                set;
+            }
         }
 
-        public DateTime SessionEnd
+        public GetSessionInfoResponse()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
         {
             get;
             set;

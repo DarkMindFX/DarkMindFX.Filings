@@ -43,7 +43,7 @@ namespace DMFX.Service.TimeSeries
                     {
                         foreach (var t in getTSListResult.Tickers)
                         {
-                            response.Tickers.Add(
+                            response.Payload.Tickers.Add(
                                 new DTO.TickerListItem()
                                 {
                                      CountryCode = request.CountryCode,
@@ -106,15 +106,15 @@ namespace DMFX.Service.TimeSeries
 
                     if (getTInfoResult.Success)
                     {
-                        response.Ticker = request.Ticker;
-                        response.Type = getTInfoResult.Type;
-                        response.Unit = getTInfoResult.Unit;
-                        response.Name = getTInfoResult.Name;
-                        response.CountryCode = request.CountryCode;
+                        response.Payload.Ticker = request.Ticker;
+                        response.Payload.Type = getTInfoResult.Type;
+                        response.Payload.Unit = getTInfoResult.Unit;
+                        response.Payload.Name = getTInfoResult.Name;
+                        response.Payload.CountryCode = request.CountryCode;
                         
                         foreach (var t in getTInfoResult.Series)
                         {
-                            response.Series.Add(
+                            response.Payload.Series.Add(
                                 new TimeSeriesInfoItem()
                                 {
                                     TimeFrame = (DTO.ETimeFrame)t.Timeframe,
@@ -126,7 +126,7 @@ namespace DMFX.Service.TimeSeries
 
                         foreach (var c in getTInfoResult.Columns)
                         {
-                            response.Columns.Add(c);
+                            response.Payload.Columns.Add(c);
                         }
 
                         response.Success = true;
@@ -227,7 +227,7 @@ namespace DMFX.Service.TimeSeries
             tickerQuotes.PeriodEnd = quotesData.Quotes.LastOrDefault().Time;
             tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord( x.Time, x.Values )).ToList());
 
-            response.Values = tickerQuotes;
+            response.Payload.Values = tickerQuotes;
 
         }
 

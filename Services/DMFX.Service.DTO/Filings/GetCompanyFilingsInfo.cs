@@ -89,25 +89,39 @@ namespace DMFX.Service.DTO
     {
         public GetCompanyFilingsInfoResponse()
         {
-            Filings = new List<CompanyFilingInfo>();
+            Payload = new ResponsePayload();
         }
 
-        public string RegulatorCode
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public string CompanyCode
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public ResponsePayload()
+            {
+                Filings = new List<CompanyFilingInfo>();
+            }
 
-        public List<CompanyFilingInfo> Filings
-        {
-            get;
-            set;
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
+
+            public string CompanyCode
+            {
+                get;
+                set;
+            }
+
+            public List<CompanyFilingInfo> Filings
+            {
+                get;
+                set;
+            }
         }
     }
 }

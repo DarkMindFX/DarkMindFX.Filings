@@ -49,14 +49,14 @@ namespace SECFilingsImporter
                     {
                         Thread.Sleep(statePollPeriodSeconds * 1000);
                         var resGetImpState = fsClinet.PostGetImporterState(reqGetImpState);
-                        if(resGetImpState.Success && resGetImpState.State == "Idle" )
+                        if(resGetImpState.Success && resGetImpState.Payload.State == "Idle" )
                         {
                             isRunning = false;
-                            Console.WriteLine(string.Format("[{1}] Import Completed, State = {0}", resGetImpState.State, DateTime.Now));
+                            Console.WriteLine(string.Format("[{1}] Import Completed, State = {0}", resGetImpState.Payload.State, DateTime.Now));
                         }
                         else
                         {
-                            Console.WriteLine(string.Format("[{1}] Importing, State = {0}", resGetImpState.State, DateTime.Now));
+                            Console.WriteLine(string.Format("[{1}] Importing, State = {0}", resGetImpState.Payload.State, DateTime.Now));
                         }
                     }
 

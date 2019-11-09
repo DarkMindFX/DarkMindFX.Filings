@@ -32,7 +32,7 @@ namespace DMFX.Service.Common
                 if (IsValidSessionToken(request))
                 {
                     _logger.Log(EErrorType.Info, string.Format("Echo message recieved/sent: {0}\t Session: {1}", request.Message, request.SessionToken));
-                    response.Message = request.Message;
+                    response.Payload.Message = request.Message;
                     response.Success = true;
                 }
                 else

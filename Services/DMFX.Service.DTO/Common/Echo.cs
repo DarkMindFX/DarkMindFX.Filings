@@ -20,9 +20,23 @@ namespace DMFX.Service.DTO
 
     public class EchoResponse : ResponseBase
     {
-        public string Message
+        public class ResponsePayload
         {
-            get; set;
+            public string Message
+            {
+                get; set;
+            }
+        }
+
+        public EchoResponse()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
+        {
+            get;
+            set;
         }
     }
 }

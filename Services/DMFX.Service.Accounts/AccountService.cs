@@ -39,12 +39,12 @@ namespace DMFX.Service.Accounts
                 sinfo = _dal.GetSessionInfo(sinfo, request.CheckActive);
                 if (sinfo != null)
                 {
-                    response.SessionStart = sinfo.SessionStart;
-                    response.SessionEnd = sinfo.SessionEnd;
+                    response.Payload.SessionStart = sinfo.SessionStart;
+                    response.Payload.SessionEnd = sinfo.SessionEnd;
                     if (!request.CheckActive)
                     {
                         // checking all sessions - just returning the warning that this session was closed
-                        if (response.SessionEnd > DateTime.MinValue)
+                        if (response.Payload.SessionEnd > DateTime.MinValue)
                         {
                             response.Errors.Add(new Error() { Code = EErrorCodes.SessionClosed, Message = "Session with given token was closed", Type = EErrorType.Warning });
                         }
@@ -116,7 +116,7 @@ namespace DMFX.Service.Accounts
 
                     SendMailResponse mailerResponse = SendAccountConfirmEmail(createParams.Email, createParams.AccountKey, createParams.Name);
 
-                    response.AccountKey = createParams.AccountKey;
+                    response.Payload.AccountKey = createParams.AccountKey;
                     response.Success = true;
 
                 }
@@ -290,13 +290,13 @@ namespace DMFX.Service.Accounts
                     GetUserAccountInfoResult accResult = _dal.GetUserAccountInfo(accInfoParams);
                     if (accResult != null)
                     {
-                        response.AccountKey = accInfoParams.AccountKey;
-                        response.Email = accResult.Email;
-                        response.Name = accResult.Name;
-                        response.DateExpires = accResult.DateExpires;
-                        response.DateCreated = accResult.DateCreated;
-                        response.DateExpiresStr = accResult.DateExpires.ToString();
-                        response.DateCreatedStr = accResult.DateCreated.ToString();
+                        response.Payload.AccountKey = accInfoParams.AccountKey;
+                        response.Payload.Email = accResult.Email;
+                        response.Payload.Name = accResult.Name;
+                        response.Payload.DateExpires = accResult.DateExpires;
+                        response.Payload.DateCreated = accResult.DateCreated;
+                        response.Payload.DateExpiresStr = accResult.DateExpires.ToString();
+                        response.Payload.DateCreatedStr = accResult.DateCreated.ToString();
 
                         response.Success = true;
                     }

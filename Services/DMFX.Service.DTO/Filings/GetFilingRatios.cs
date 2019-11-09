@@ -80,31 +80,45 @@ namespace DMFX.Service.DTO
     {
         public GetFilingRatiosResponse()
         {
-            Ratios = new List<RatioRecord>();
+            Payload = new ResponsePayload();
         }
 
-        public string RegulatorCode
-        {
-            get;
-            set;
-        }
-
-        public string CompanyCode
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public string FilingName
+        public class ResponsePayload
         {
-            get;
-            set;
-        }       
+            public ResponsePayload()
+            {
+                Ratios = new List<RatioRecord>();
+            }
 
-        public List<RatioRecord> Ratios
-        {
-            get;
-            set;
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
+
+            public string CompanyCode
+            {
+                get;
+                set;
+            }
+
+            public string FilingName
+            {
+                get;
+                set;
+            }
+
+            public List<RatioRecord> Ratios
+            {
+                get;
+                set;
+            }
         }
     }
 }

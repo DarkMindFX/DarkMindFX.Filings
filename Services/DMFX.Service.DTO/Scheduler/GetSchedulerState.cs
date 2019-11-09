@@ -16,10 +16,24 @@ namespace DMFX.Service.DTO
 
     public class GetSchedulerStateResponse : ResponseBase
     {
-        public string State
+        public GetSchedulerStateResponse()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
         {
             get;
             set;
+        }
+
+        public class ResponsePayload
+        {
+            public string State
+            {
+                get;
+                set;
+            }
         }
     }
 }

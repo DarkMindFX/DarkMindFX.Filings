@@ -11,30 +11,7 @@ namespace DMFX.Service.DTO
     [Route("/ForceStopImport/{SessionToken}", "GET")]
     [Route("/ForceStopImport", "POST")]
     public class ForceStopImport : RequestBase, IReturn<ForceStopImportResponse>
-    {
-        public DateTime? DateStart
-        {
-            get;
-            set;
-        }
-
-        public DateTime? DateEnd
-        {
-            get;
-            set;
-        }
-
-        public string RegulatorCode
-        {
-            get;
-            set;
-        }
-
-        public string CompanyCode
-        {
-            get;
-            set;
-        }
+    {     
     }
 
     public class ForceStopImportResponse : ResponseBase

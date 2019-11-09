@@ -62,22 +62,36 @@ namespace DMFX.Service.DTO
 
     public class BuildPortfolioResult : ResponseBase
     {
-        public decimal Return
+        public BuildPortfolioResult()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public decimal StDev
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public decimal Return
+            {
+                get;
+                set;
+            }
 
-        public Portfolio Portfolio
-        {
-            get;
-            set;
+            public decimal StDev
+            {
+                get;
+                set;
+            }
+
+            public Portfolio Portfolio
+            {
+                get;
+                set;
+            }
         }
     }
 }

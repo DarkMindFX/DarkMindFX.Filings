@@ -19,36 +19,50 @@ namespace DMFX.Service.DTO
     {
         public GetImporterStateResponse()
         {
-            CompaniesProcessed = new List<CompanyInfo>();
-        }
-        public string State
-        {
-            get;
-            set;
+            Payload = new ResponsePayload();
         }
 
-        public DateTime? LastImportRun
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public DateTime? LastImportEnd
+        public class ResponsePayload
         {
-            get;
-            set;
-        }        
+            public ResponsePayload()
+            {
+                CompaniesProcessed = new List<CompanyInfo>();
+            }
+            public string State
+            {
+                get;
+                set;
+            }
 
-        public int ProcessedCount
-        {
-            get;
-            set;
-        }
+            public DateTime? LastImportRun
+            {
+                get;
+                set;
+            }
 
-        public List<CompanyInfo> CompaniesProcessed
-        {
-            get;
-            set;
+            public DateTime? LastImportEnd
+            {
+                get;
+                set;
+            }
+
+            public int ProcessedCount
+            {
+                get;
+                set;
+            }
+
+            public List<CompanyInfo> CompaniesProcessed
+            {
+                get;
+                set;
+            }
         }
     }
 

@@ -42,75 +42,87 @@ namespace DMFX.Service.DTO
         }
     }
 
-    
-
     public class GetFilingDataResponse : ResponseBase
     {
         public GetFilingDataResponse()
         {
-            FilingData = new List<FilingNumRecord>();
-            FilingStrData = new List<FilingStrRecord>();
-            FilingDttmData = new List<FilingDttmRecord>();
+            Payload = new ResponsePayload();
         }
 
-        public string RegulatorCode
+        public ResponsePayload Payload
         {
             get;
             set;
         }
 
-        public string CompanyCode
+        public class ResponsePayload
         {
-            get;
-            set;
-        }
+            public ResponsePayload()
+            {
+                FilingData = new List<FilingNumRecord>();
+                FilingStrData = new List<FilingStrRecord>();
+                FilingDttmData = new List<FilingDttmRecord>();
+            }
 
-        public string FilingName
-        {
-            get;
-            set;
-        }
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
 
-        public string Type
-        {
-            get;
-            set;
-        }
+            public string CompanyCode
+            {
+                get;
+                set;
+            }
 
-        public DateTime PeriodStart
-        {
-            get;
-            set;
-        }
+            public string FilingName
+            {
+                get;
+                set;
+            }
 
-        public DateTime PeriodEnd
-        {
-            get;
-            set;
-        }
+            public string Type
+            {
+                get;
+                set;
+            }
 
-        public DateTime Submitted
-        {
-            get;
-            set;
-        }
+            public DateTime PeriodStart
+            {
+                get;
+                set;
+            }
 
-        public List<FilingNumRecord> FilingData
-        {
-            get;
-            set;
-        }
+            public DateTime PeriodEnd
+            {
+                get;
+                set;
+            }
 
-        public List<FilingStrRecord> FilingStrData
-        {
-            get;
-            set;
-        }
+            public DateTime Submitted
+            {
+                get;
+                set;
+            }
 
-        public List<FilingDttmRecord> FilingDttmData
-        {
-            get;
-            set;
+            public List<FilingNumRecord> FilingData
+            {
+                get;
+                set;
+            }
+
+            public List<FilingStrRecord> FilingStrData
+            {
+                get;
+                set;
+            }
+
+            public List<FilingDttmRecord> FilingDttmData
+            {
+                get;
+                set;
+            }
         }
     }
 }

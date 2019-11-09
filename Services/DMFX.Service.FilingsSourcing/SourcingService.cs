@@ -25,15 +25,15 @@ namespace DMFX.Service.Sourcing
                 if (IsValidSessionToken(request))
                 {
                     _logger.Log(EErrorType.Info, string.Format("Current Importer state: {0}", Global.Importer.CurrentState.ToString()));
-                    response.State = Global.Importer.CurrentState.ToString();
-                    response.LastImportRun = Global.Importer.ImportStart;
-                    response.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
+                    response.Payload.State = Global.Importer.CurrentState.ToString();
+                    response.Payload.LastImportRun = Global.Importer.ImportStart;
+                    response.Payload.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
                     foreach (var cmp in Global.Importer.CompaniesProcessed)
                     {
                         DTO.CompanyInfo cmpInfo = new DTO.CompanyInfo() { Code = cmp };
-                        response.CompaniesProcessed.Add(cmpInfo);
+                        response.Payload.CompaniesProcessed.Add(cmpInfo);
                     }
-                    response.ProcessedCount = response.CompaniesProcessed.Count;
+                    response.Payload.ProcessedCount = response.Payload.CompaniesProcessed.Count;
                     response.Success = true;
                 }
                 else

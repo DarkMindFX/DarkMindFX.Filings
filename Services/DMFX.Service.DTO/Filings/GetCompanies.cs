@@ -45,17 +45,31 @@ namespace DMFX.Service.DTO
     {
         public GetCompaniesResponse()
         {
-            Companies = new List<CompanyInfo>();
+            Payload = new ResponsePayload();
         }
-        public string RegulatorCode
+
+        public ResponsePayload Payload
         {
             get;
             set;
         }
-        public List<CompanyInfo> Companies
+
+        public class ResponsePayload
         {
-            get;
-            set;
+            public ResponsePayload()
+            {
+                Companies = new List<CompanyInfo>();
+            }
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
+            public List<CompanyInfo> Companies
+            {
+                get;
+                set;
+            }
         }
     }
 }

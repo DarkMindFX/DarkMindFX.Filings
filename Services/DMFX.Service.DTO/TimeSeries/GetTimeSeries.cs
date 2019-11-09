@@ -46,10 +46,24 @@ namespace DMFX.Service.DTO
 
     public class GetTimeSeriesResponse : ResponseBase
     {
-        public TickerQuotes Values
+        public GetTimeSeriesResponse()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
         {
             get;
             set;
+        }
+
+        public class ResponsePayload
+        {
+            public TickerQuotes Values
+            {
+                get;
+                set;
+            }
         }
     }
 }

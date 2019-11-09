@@ -145,15 +145,15 @@ namespace DMFX.Service.TimeSeriesSourcing
                 if (IsValidSessionToken(request))
                 {
                     _logger.Log(EErrorType.Info, string.Format("Current Importer state: {0}", Global.Importer.CurrentState.ToString()));
-                    response.State = Global.Importer.CurrentState.ToString();
-                    response.LastImportRun = Global.Importer.ImportStart;
-                    response.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
+                    response.Payload.State = Global.Importer.CurrentState.ToString();
+                    response.Payload.LastImportRun = Global.Importer.ImportStart;
+                    response.Payload.LastImportEnd = Global.Importer.ImportEnd != DateTime.MinValue ? (DateTime?)Global.Importer.ImportEnd : null;
                     foreach (var cmp in Global.Importer.TickersProcessed)
                     {
                         DTO.TickerInfo info = new DTO.TickerInfo() { Code = cmp };
-                        response.TimeSeriesProcessed.Add(info);
+                        response.Payload.TimeSeriesProcessed.Add(info);
                     }
-                    response.ProcessedCount = response.TimeSeriesProcessed.Count;
+                    response.Payload.ProcessedCount = response.Payload.TimeSeriesProcessed.Count;
                     response.Success = true;
                 }
                 else

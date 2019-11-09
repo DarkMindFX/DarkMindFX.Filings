@@ -22,9 +22,23 @@ namespace DMFX.Service.DTO
 
     public class ResetPasswordResponse : ResponseBase
     {
-        public string AccountKey
+        public class ResponsePayload
         {
-            get; set;
+            public string AccountKey
+            {
+                get; set;
+            }
+        }
+
+        public ResetPasswordResponse()
+        {
+            Payload = new ResponsePayload();
+        }
+
+        public ResponsePayload Payload
+        {
+            get;
+            set;
         }
     }
 

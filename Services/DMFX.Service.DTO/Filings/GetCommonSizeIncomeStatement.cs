@@ -44,54 +44,68 @@ namespace DMFX.Service.DTO
 
     public class GetCommonSizeIncomeStatementResponse : ResponseBase
     {
+        public class ResponsePayload
+        {
+            public ResponsePayload()
+            {
+                IncomeStatementData = new List<FilingRecordBase>();
+            }
+
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
+
+            public string CompanyCode
+            {
+                get;
+                set;
+            }
+
+            public string FilingName
+            {
+                get;
+                set;
+            }
+
+            public string Type
+            {
+                get;
+                set;
+            }
+
+            public DateTime PeriodStart
+            {
+                get;
+                set;
+            }
+
+            public DateTime PeriodEnd
+            {
+                get;
+                set;
+            }
+
+            public DateTime Submitted
+            {
+                get;
+                set;
+            }
+
+            public List<FilingRecordBase> IncomeStatementData
+            {
+                get;
+                set;
+            }
+        }
+
         public GetCommonSizeIncomeStatementResponse()
         {
-            IncomeStatementData = new List<FilingRecordBase>();
+            Payload = new ResponsePayload();
         }
 
-        public string RegulatorCode
-        {
-            get;
-            set;
-        }
-
-        public string CompanyCode
-        {
-            get;
-            set;
-        }
-
-        public string FilingName
-        {
-            get;
-            set;
-        }
-
-        public string Type
-        {
-            get;
-            set;
-        }
-
-        public DateTime PeriodStart
-        {
-            get;
-            set;
-        }
-
-        public DateTime PeriodEnd
-        {
-            get;
-            set;
-        }
-
-        public DateTime Submitted
-        {
-            get;
-            set;
-        }
-
-        public List<FilingRecordBase> IncomeStatementData
+        public ResponsePayload Payload
         {
             get;
             set;
