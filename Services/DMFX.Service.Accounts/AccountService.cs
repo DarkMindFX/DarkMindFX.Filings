@@ -158,6 +158,8 @@ namespace DMFX.Service.Accounts
                     Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                     sinfo.AccountKey = request.AccountKey;
                     sinfo.SessionStart = DateTime.UtcNow;
+                    sinfo.SessionExpires = DateTime.UtcNow
+                            + TimeSpan.FromMinutes(ConfigurationManager.AppSettings["SessionExpiresMins"] != null ? Int32.Parse(ConfigurationManager.AppSettings["SessionExpiresMins"]) : 60);
                     sinfo.SessionId = sessionId;
 
                     // if current session exists - we are just using current session token
