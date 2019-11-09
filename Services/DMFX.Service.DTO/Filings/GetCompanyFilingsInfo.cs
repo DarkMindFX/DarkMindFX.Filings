@@ -11,6 +11,7 @@ namespace DMFX.Service.DTO
     [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}/{SessionToken}", "GET")]
     [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}/{Types}/{SessionToken}", "GET")]
     [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
+    [Route("/GetCompanyFilingsInfo/{RegulatorCode}/{CompanyCode}/{Types}/{PeriodStart}/{PeriodEnd}/{SessionToken}", "GET")]
     [Route("/GetCompanyFilingsInfo", "POST")]
     public class GetCompanyFilingsInfo : RequestBase, IReturn<GetCompanyFilingsInfoResponse>
     {
