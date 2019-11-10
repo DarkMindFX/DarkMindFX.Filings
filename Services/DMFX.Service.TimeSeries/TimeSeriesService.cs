@@ -220,11 +220,15 @@ namespace DMFX.Service.TimeSeries
         private void TranslateToTickerQuotes(GetTimeSeriesResponse response, IQuotesDalGetTimeseriesValuesResult getResult)
         {
             IQuotesData quotesData = getResult.Quotes[0];
+
+            ITimeSeriesRecord rcFirst = quotesData.Quotes.FirstOrDefault();
+            ITimeSeriesRecord rcLast = quotesData.Quotes.LastOrDefault();
+            
             TickerQuotes tickerQuotes = new TickerQuotes();
             tickerQuotes.Code = quotesData.Ticker;
             tickerQuotes.TimePeriod = quotesData.TimeFrame;
-            tickerQuotes.PeriodStart = quotesData.Quotes.FirstOrDefault().Time;
-            tickerQuotes.PeriodEnd = quotesData.Quotes.LastOrDefault().Time;
+            tickerQuotes.PeriodStart = rcFirst != null ? rcFirst.Time : DateTime.MinValue;
+            tickerQuotes.PeriodEnd = rcLast != null ? rcLast.Time : DateTime.MinValue;
             tickerQuotes.Quotes.AddRange(quotesData.Quotes.Select(x => new QuoteRecord( x.Time, x.Values )).ToList());
 
             response.Payload.Values = tickerQuotes;

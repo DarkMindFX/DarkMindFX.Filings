@@ -198,6 +198,7 @@ namespace DMFX.Service.Accounts
             TransferHeader(request, response);
             try
             {
+                _logger.Log(EErrorType.Info, string.Format("Closing Session: {0}", request.SessionToken));
                 Interfaces.DAL.SessionInfo sinfo = new Interfaces.DAL.SessionInfo();
                 sinfo.SessionEnd = DateTime.UtcNow;
                 sinfo.SessionId = request.SessionToken;

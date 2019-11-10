@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/GetFilingData/{RegulatorCode}/{CompanyCode}/{FilingName}/{SessionToken}", "GET")]
+    [Route("/GetFilingData/{RegulatorCode}/{CompanyCode}/{FilingName}/{Values}/{SessionToken}", "GET")]
     [Route("/GetFilingData", "POST")]
     public class GetFilingData : RequestBase, IReturn<GetFilingDataResponse>
     {
