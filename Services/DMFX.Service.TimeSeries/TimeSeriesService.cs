@@ -184,6 +184,13 @@ namespace DMFX.Service.TimeSeries
                     if (getResult.Success)
                     {
                         TranslateToTickerQuotes(response, getResult);
+                        if(response.Payload.Values.Quotes.Count == 0)
+                        {
+                            response.Errors.Add(
+                                new Error() {   Code = EErrorCodes.EmptyCollection, 
+                                                Type = EErrorType.Warning, 
+                                                Message = string.Format("Data not present for {0}, Timeframe - {1}, Dates: {2} - {3}", request.Ticker, request.TimeFrame, getParams.PeriodStart, getParams.PeriodEnd)  });
+                        }
                         response.Success = true;
                     }
                     else
