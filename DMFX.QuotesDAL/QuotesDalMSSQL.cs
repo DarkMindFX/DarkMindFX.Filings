@@ -249,9 +249,9 @@ namespace DMFX.QuotesDAL
 
             da.Fill(ds);
 
-            const int cColumnCount = 10; //
+            const int cColumnCount = 10; // TODO: currenty data columns fixed to 10 - need to made it flexible and extandeble
 
-            if (ds.Tables.Count >= 1)
+            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows != null && ds.Tables[0].Rows.Count > 0)
             {
                 // getting data from the first record
                 result.CountryCode = getTsInfoParams.CountryCode;
