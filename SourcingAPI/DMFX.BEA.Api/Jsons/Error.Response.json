@@ -1,0 +1,22 @@
+{
+  "BEAAPI": {
+    "Request": {
+      "RequestParam": [
+        {
+          "ParameterName": "USERID",
+          "ParameterValue": "0AE4-4DB2-8386-CC2C169CECB2"
+        },
+        {
+          "ParameterName": "METHOD",
+          "ParameterValue": "GETDATASETLIST"
+        }
+      ]
+    },
+    "Results": {
+      "Error": {
+        "APIErrorCode": "4",
+        "APIErrorDescription": "A BEA API UserID was provided in the request, but it is not currently authorized for retrieval."
+      }
+    }
+  }
+}

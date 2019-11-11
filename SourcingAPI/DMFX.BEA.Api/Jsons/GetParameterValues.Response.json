@@ -1,0 +1,420 @@
+{
+  "BEAAPI": {
+    "Request": {
+      "RequestParam": [
+        {
+          "ParameterName": "PARAMETERNAME",
+          "ParameterValue": "TABLENAME"
+        },
+        {
+          "ParameterName": "DATASETNAME",
+          "ParameterValue": "REGIONAL"
+        },
+        {
+          "ParameterName": "USERID",
+          "ParameterValue": "CBABC862-0AE4-4DB2-8386-CC2C169CECB2"
+        },
+        {
+          "ParameterName": "RESULTFORMAT",
+          "ParameterValue": "JSON"
+        },
+        {
+          "ParameterName": "METHOD",
+          "ParameterValue": "GETPARAMETERVALUES"
+        }
+      ]
+    },
+    "Results": {
+      "ParamValue": [
+        {
+          "Key": "CAEMP25N",
+          "Desc": "Total Full-Time and Part-Time Employment by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "CAEMP25S",
+          "Desc": "Total Full-Time and Part-Time Employment by SIC Industry (SIC)"
+        },
+        {
+          "Key": "CAINC1",
+          "Desc": "Personal Income Summary: Personal Income, Population, Per Capita Personal Income (Non-Industry)"
+        },
+        {
+          "Key": "CAINC30",
+          "Desc": "Economic Profile (Non-Industry)"
+        },
+        {
+          "Key": "CAINC35",
+          "Desc": "Personal Current Transfer Receipts (Non-Industry)"
+        },
+        {
+          "Key": "CAINC4",
+          "Desc": "Personal Income and Employment by Major Component (Non-Industry)"
+        },
+        {
+          "Key": "CAINC45",
+          "Desc": "Farm Income and Expenses (Non-Industry)"
+        },
+        {
+          "Key": "CAINC5N",
+          "Desc": "Personal Income by Major Component and Earnings by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "CAINC5S",
+          "Desc": "Personal Income by Major Component and Earnings by SIC Industry (SIC)"
+        },
+        {
+          "Key": "CAINC6N",
+          "Desc": "Compensation of Employees by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "CAINC6S",
+          "Desc": "Compensation of Employees by SIC Industry (SIC)"
+        },
+        {
+          "Key": "CAINC91",
+          "Desc": "Gross Flow of Earnings (Non-Industry)"
+        },
+        {
+          "Key": "MAGDP10",
+          "Desc": "Per capita real GDP by metropolitan area (NAICS)"
+        },
+        {
+          "Key": "MAGDP2",
+          "Desc": "Gross domestic product (GDP) by metropolitan area (NAICS)"
+        },
+        {
+          "Key": "MAGDP8",
+          "Desc": "Quantity indexes for real GDP by metropolitan area (2009=100.0) (NAICS)"
+        },
+        {
+          "Key": "MAGDP9",
+          "Desc": "Real GDP by metropolitan area (NAICS)"
+        },
+        {
+          "Key": "MAINC1",
+          "Desc": "Personal Income Summary: Personal Income, Population, Per Capita Personal Income (Non-Industry)"
+        },
+        {
+          "Key": "MAINC30",
+          "Desc": "Economic Profile (Non-Industry)"
+        },
+        {
+          "Key": "MAINC4",
+          "Desc": "Personal Income and Employment by Major Component (Non-Industry)"
+        },
+        {
+          "Key": "MAIRPD",
+          "Desc": "Implicit Price Deflators by MSA (Non-Industry)"
+        },
+        {
+          "Key": "MARPI",
+          "Desc": "Real Personal Income by MSA (Non-Industry)"
+        },
+        {
+          "Key": "MARPP",
+          "Desc": "Regional Price Parities by MSA (Non-Industry)"
+        },
+        {
+          "Key": "PAIRPD",
+          "Desc": "Implicit Price Deflators by Portion (Non-Industry)"
+        },
+        {
+          "Key": "PARPI",
+          "Desc": "Real Personal Income by Portion (Non-Industry)"
+        },
+        {
+          "Key": "PARPP",
+          "Desc": "Regional Price Parities by Portion (Non-Industry)"
+        },
+        {
+          "Key": "SAACArtsComp",
+          "Desc": "ACPSA compensation by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACArtsEmp",
+          "Desc": "ACPSA full-time and part-time employment by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACArtsVA",
+          "Desc": "ACPSA value added by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACComp",
+          "Desc": "Total compensation by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACCompLQ",
+          "Desc": "Arts Compensation Location Quotient (NAICS)"
+        },
+        {
+          "Key": "SAACCompRatio",
+          "Desc": "Arts Compensation Ratio (NAICS)"
+        },
+        {
+          "Key": "SAACEmp",
+          "Desc": "Total full-time and part-time employment by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACEmpLQ",
+          "Desc": "Arts Employment Location Quotient (NAICS)"
+        },
+        {
+          "Key": "SAACEmpRatio",
+          "Desc": "Arts Employment Ratio (NAICS)"
+        },
+        {
+          "Key": "SAACVA",
+          "Desc": "Total value added by ACPSA industry (NAICS)"
+        },
+        {
+          "Key": "SAACVALQ",
+          "Desc": "Arts Value Added Location Quotient (NAICS)"
+        },
+        {
+          "Key": "SAACVARatio",
+          "Desc": "Arts Value Added Ratio (NAICS)"
+        },
+        {
+          "Key": "SAEMP25N",
+          "Desc": "Total Full-Time and Part-Time Employment by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SAEMP25S",
+          "Desc": "Total Full-Time and Part-Time Employment by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SAEMP27N",
+          "Desc": "Full-Time and Part-Time Wage and Salary Employment by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SAEMP27S",
+          "Desc": "Full-Time and Part-Time Wage and Salary Employment by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SAEXP1",
+          "Desc": "Total personal consumption expenditures (PCE) by state (NAICS)"
+        },
+        {
+          "Key": "SAEXP2",
+          "Desc": "Per capita personal consumption expenditures (PCE) by state (NAICS)"
+        },
+        {
+          "Key": "SAGDP10N",
+          "Desc": "Per capita real GDP by state (NAICS)"
+        },
+        {
+          "Key": "SAGDP10S",
+          "Desc": "Per capita real GDP by state (SIC)"
+        },
+        {
+          "Key": "SAGDP11N",
+          "Desc": "Contributions to percent change in real GDP (NAICS)"
+        },
+        {
+          "Key": "SAGDP2N",
+          "Desc": "Gross domestic product (GDP) by state (NAICS)"
+        },
+        {
+          "Key": "SAGDP2S",
+          "Desc": "Gross domestic product (GDP) by state (SIC)"
+        },
+        {
+          "Key": "SAGDP3N",
+          "Desc": "Taxes on production and imports less subsidies (NAICS)"
+        },
+        {
+          "Key": "SAGDP3S",
+          "Desc": "Taxes on production and imports less subsidies (SIC)"
+        },
+        {
+          "Key": "SAGDP4N",
+          "Desc": "Compensation of employees (NAICS)"
+        },
+        {
+          "Key": "SAGDP4S",
+          "Desc": "Compensation of employees (SIC)"
+        },
+        {
+          "Key": "SAGDP5N",
+          "Desc": "Subsidies (NAICS)"
+        },
+        {
+          "Key": "SAGDP5S",
+          "Desc": "Subsidies (SIC)"
+        },
+        {
+          "Key": "SAGDP6N",
+          "Desc": "Taxes on production and imports (NAICS)"
+        },
+        {
+          "Key": "SAGDP6S",
+          "Desc": "Taxes on production and imports (SIC)"
+        },
+        {
+          "Key": "SAGDP7N",
+          "Desc": "Gross operating surplus (NAICS)"
+        },
+        {
+          "Key": "SAGDP7S",
+          "Desc": "Gross operating surplus (SIC)"
+        },
+        {
+          "Key": "SAGDP8N",
+          "Desc": "Quantity indexes for real GDP by state (2012=100.0) (NAICS)"
+        },
+        {
+          "Key": "SAGDP8S",
+          "Desc": "Quantity indexes for real GDP by state (1997=100.0) (SIC)"
+        },
+        {
+          "Key": "SAGDP9N",
+          "Desc": "Real GDP by state (NAICS)"
+        },
+        {
+          "Key": "SAGDP9S",
+          "Desc": "Real GDP by state (SIC)"
+        },
+        {
+          "Key": "SAINC1",
+          "Desc": "Personal Income Summary: Personal Income, Population, Per Capita Personal Income (Non-Industry)"
+        },
+        {
+          "Key": "SAINC30",
+          "Desc": "Economic Profile (Non-Industry)"
+        },
+        {
+          "Key": "SAINC35",
+          "Desc": "Personal Current Transfer Receipts (Non-Industry)"
+        },
+        {
+          "Key": "SAINC4",
+          "Desc": "Personal Income and Employment by Major Component (Non-Industry)"
+        },
+        {
+          "Key": "SAINC40",
+          "Desc": "Property Income (Non-Industry)"
+        },
+        {
+          "Key": "SAINC45",
+          "Desc": "Farm Income and Expenses (Non-Industry)"
+        },
+        {
+          "Key": "SAINC50",
+          "Desc": "Personal Current Taxes (Non-Industry)"
+        },
+        {
+          "Key": "SAINC51",
+          "Desc": "Disposable Personal Income Summary: Disposable Personal Income, Population, and Per Capita Disposable Personal Income (Non-Industry)"
+        },
+        {
+          "Key": "SAINC5H",
+          "Desc": "Personal Income by Major Component and Earnings by Industry (Historical) (SIC)"
+        },
+        {
+          "Key": "SAINC5N",
+          "Desc": "Personal Income by Major Component and Earnings by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SAINC5S",
+          "Desc": "Personal Income by Major Component and Earnings by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SAINC6N",
+          "Desc": "Compensation of Employees by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SAINC6S",
+          "Desc": "Compensation of Employees by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SAINC7H",
+          "Desc": "Wages and Salaries by Industry (Historical) (SIC)"
+        },
+        {
+          "Key": "SAINC7N",
+          "Desc": "Wages and Salaries by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SAINC7S",
+          "Desc": "Wages and Salaries by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SAINC91",
+          "Desc": "Gross Flow of Earnings (Non-Industry)"
+        },
+        {
+          "Key": "SAIRPD",
+          "Desc": "Implicit Price Deflators by state (Non-Industry)"
+        },
+        {
+          "Key": "SARPI",
+          "Desc": "Real Personal Income by state (Non-Industry)"
+        },
+        {
+          "Key": "SARPP",
+          "Desc": "Regional Price Parities by state (Non-Industry)"
+        },
+        {
+          "Key": "SQGDP11",
+          "Desc": "Contributions to percent change in real GDP (NAICS)"
+        },
+        {
+          "Key": "SQGDP2",
+          "Desc": "Gross domestic product (GDP) by state (NAICS)"
+        },
+        {
+          "Key": "SQGDP8",
+          "Desc": "Quantity indexes for real GDP by state (2012=100.0) (NAICS)"
+        },
+        {
+          "Key": "SQGDP9",
+          "Desc": "Real GDP by state (NAICS)"
+        },
+        {
+          "Key": "SQINC1",
+          "Desc": "Personal Income Summary: Personal Income, Population, Per Capita Personal Income (Non-Industry)"
+        },
+        {
+          "Key": "SQINC35",
+          "Desc": "Personal Current Transfer Receipts (Non-Industry)"
+        },
+        {
+          "Key": "SQINC4",
+          "Desc": "Personal Income by Major Component (Non-Industry)"
+        },
+        {
+          "Key": "SQINC5H",
+          "Desc": "Personal Income by Major Component and Earnings by Industry (Historical) (SIC)"
+        },
+        {
+          "Key": "SQINC5N",
+          "Desc": "Personal Income by Major Component and Earnings by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SQINC5S",
+          "Desc": "Personal Income by Major Component and Earnings by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SQINC6N",
+          "Desc": "Compensation of Employees by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SQINC6S",
+          "Desc": "Compensation of Employees by SIC Industry (SIC)"
+        },
+        {
+          "Key": "SQINC7H",
+          "Desc": "Wages and Salaries by Industry (Historical) (SIC)"
+        },
+        {
+          "Key": "SQINC7N",
+          "Desc": "Wages and Salaries by NAICS Industry (NAICS)"
+        },
+        {
+          "Key": "SQINC7S",
+          "Desc": "Wages and Salaries by SIC Industry (SIC)"
+        }
+      ]
+    }
+  }
+} 

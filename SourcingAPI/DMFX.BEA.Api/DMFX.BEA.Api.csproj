@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F6F962A9-ECDF-456F-A89B-A7F0817F4BE4}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>SECFilingsImporter</RootNamespace>
-    <AssemblyName>SECFilingsImporter</AssemblyName>
+    <ProjectGuid>{1D32D212-D0BE-45CA-90CD-6ECA72DFB39F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DMFX.BEA.Api</RootNamespace>
+    <AssemblyName>DMFX.BEA.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,6 +34,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,33 +44,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="BEAApi.cs" />
+    <Compile Include="BEAWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataContracts.cs" />
+    <Compile Include="GetDataSetList.cs" />
+    <Compile Include="GetParameterList.cs" />
+    <Compile Include="GetParameterValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Jsons\Error.Response.json" />
+    <None Include="Jsons\GETDATASETLIST.Response.json" />
+    <None Include="Jsons\GetParameterList.Response.json" />
+    <None Include="Jsons\GetParameterValues.NIPA.Response.json" />
+    <None Include="Jsons\GetParameterValues.Response.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
-      <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
-      <Name>DMFX.Common.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
-      <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
-      <Name>DMFX.Client.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.FilingsSourcing\DMFX.Client.FilingsSourcing.csproj">
-      <Project>{6f40138c-5531-403d-bd95-9f21fbbe9c82}</Project>
-      <Name>DMFX.Client.FilingsSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.TechUtils\DMFX.Client.TechUtils.csproj">
-      <Project>{afb0a6d0-5402-4d4d-af2f-7411ef9c506a}</Project>
-      <Name>DMFX.Client.TechUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
-      <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
-      <Name>DMFX.Service.DTO</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F6F962A9-ECDF-456F-A89B-A7F0817F4BE4}</ProjectGuid>
+    <ProjectGuid>{6F9893E0-399F-4D75-8F25-E1D9BCD4CCB7}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SECFilingsImporter</RootNamespace>
-    <AssemblyName>SECFilingsImporter</AssemblyName>
+    <RootNamespace>BAEDump</RootNamespace>
+    <AssemblyName>BAEDump</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -55,21 +55,13 @@
       <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
       <Name>DMFX.Common.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
-      <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
-      <Name>DMFX.Client.Common</Name>
+    <ProjectReference Include="..\..\DMFX.Logging\DMFX.Logging.csproj">
+      <Project>{4d9aaf14-0ffb-49df-b931-ecc8dce51ade}</Project>
+      <Name>DMFX.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.FilingsSourcing\DMFX.Client.FilingsSourcing.csproj">
-      <Project>{6f40138c-5531-403d-bd95-9f21fbbe9c82}</Project>
-      <Name>DMFX.Client.FilingsSourcing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.TechUtils\DMFX.Client.TechUtils.csproj">
-      <Project>{afb0a6d0-5402-4d4d-af2f-7411ef9c506a}</Project>
-      <Name>DMFX.Client.TechUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Services\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
-      <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
-      <Name>DMFX.Service.DTO</Name>
+    <ProjectReference Include="..\..\SourcingAPI\DMFX.BEA.Api\DMFX.BEA.Api.csproj">
+      <Project>{1d32d212-d0be-45ca-90cd-6eca72dfb39f}</Project>
+      <Name>DMFX.BEA.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

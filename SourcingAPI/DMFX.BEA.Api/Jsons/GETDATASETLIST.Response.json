@@ -1,0 +1,80 @@
+{
+  "BEAAPI": {
+    "Request": {
+      "RequestParam": [
+        {
+          "ParameterName": "USERID",
+          "ParameterValue": "CBABC862-0AE4-4DB2-8386-CC2C169CECB2"
+        },
+        {
+          "ParameterName": "METHOD",
+          "ParameterValue": "GETDATASETLIST"
+        }
+      ]
+    },
+    "Results": {
+      "Dataset": [
+        {
+          "DatasetName": "RegionalData",
+          "DatasetDescription": "The RegionalData dataset is obsolete. Please use the Regional dataset. See API documentation at apps.bea.gov/developers"
+        },
+        {
+          "DatasetName": "NIPA",
+          "DatasetDescription": "Standard NIPA tables"
+        },
+        {
+          "DatasetName": "NIUnderlyingDetail",
+          "DatasetDescription": "Standard NI underlying detail tables"
+        },
+        {
+          "DatasetName": "MNE",
+          "DatasetDescription": "Multinational Enterprises"
+        },
+        {
+          "DatasetName": "FixedAssets",
+          "DatasetDescription": "Standard Fixed Assets tables"
+        },
+        {
+          "DatasetName": "ITA",
+          "DatasetDescription": "International Transactions Accounts"
+        },
+        {
+          "DatasetName": "IIP",
+          "DatasetDescription": "International Investment Position"
+        },
+        {
+          "DatasetName": "GDPbyIndustry",
+          "DatasetDescription": "GDP by Industry"
+        },
+        {
+          "DatasetName": "RegionalIncome",
+          "DatasetDescription": "Regional Income data sets"
+        },
+        {
+          "DatasetName": "RegionalProduct",
+          "DatasetDescription": "Regional Product data sets"
+        },
+        {
+          "DatasetName": "InputOutput",
+          "DatasetDescription": "Input-Output Data"
+        },
+        {
+          "DatasetName": "UnderlyingGDPbyIndustry",
+          "DatasetDescription": "Underlying GDP by Industry"
+        },
+        {
+          "DatasetName": "IntlServTrade",
+          "DatasetDescription": "International Services Trade"
+        },
+        {
+          "DatasetName": "Regional",
+          "DatasetDescription": "Regional data sets"
+        },
+        {
+          "DatasetName": "APIDatasetMetaData",
+          "DatasetDescription": "Metadata about other API datasets"
+        }
+      ]
+    }
+  }
+} 
