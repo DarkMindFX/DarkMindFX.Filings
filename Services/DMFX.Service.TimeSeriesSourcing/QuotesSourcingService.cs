@@ -45,8 +45,9 @@ namespace DMFX.Service.TimeSeriesSourcing
                             impParams.DateStart = request.DateStart != null ? (DateTime)request.DateStart : DateTime.Parse(ConfigurationManager.AppSettings["UpdateFromDate"]);
                             impParams.DateEnd = request.DateEnd != null ? (DateTime)request.DateEnd : DateTime.UtcNow;
                         }
-                        impParams.Tickers = new System.Collections.Generic.HashSet<string>(request.SymbolCodes);
+                        impParams.Tickers = request.SymbolCodes != null ? new System.Collections.Generic.HashSet<string>(request.SymbolCodes) : null;
                         impParams.TimeFrame = request.Timeframe ?? ETimeFrame.Daily;
+                        impParams.AgencyCode = request.AgencyCode;
 
 
                         // starting import process

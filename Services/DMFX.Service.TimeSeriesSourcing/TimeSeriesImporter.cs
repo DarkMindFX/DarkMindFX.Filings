@@ -35,6 +35,12 @@ namespace DMFX.Service.TimeSeriesSourcing
             get;
             set;
         }
+
+        public string AgencyCode
+        {
+            get;
+            set;
+        }
     }
     public class TimeSeriesImporter
     {
@@ -203,13 +209,11 @@ namespace DMFX.Service.TimeSeriesSourcing
                 // validating if there are anything need to be imported
                 CurrentState = EImportState.Init;
 
-                string[] sourceNames = new string[] { "Stooq", "CFTC" };
-
-                var sources = _compContainer.GetExports<IQuotesSource>();
+                var sources = string.IsNullOrEmpty(_impParams.AgencyCode) ? _compContainer.GetExports<IQuotesSource>() : _compContainer.GetExports<IQuotesSource>(_impParams.AgencyCode);
 
                 IQuotesSourceCanImportParams canImportParams = null;
 
-                foreach (var n in sourceNames)
+                foreach (var s in sources)
                 {
                     // break if stopped
                     if (!_isRunning)
@@ -217,23 +221,28 @@ namespace DMFX.Service.TimeSeriesSourcing
                         break;
                     }
 
-                    var source = _compContainer.GetExport<IQuotesSource>(n);
+                    var source = s;
 
                     if (source != null)
                     {
                         List<string> tickersToImport = new List<string>();
 
-                        // checking which of the given tickers can be imported
-                        canImportParams = source.Value.CreateCanImportParams();
-                        _impParams.Tickers.ToList().ForEach(x => canImportParams.Tickers.Add(x));
-
-                        IQuotesSourceCanImportResult canImportResult = source.Value.CanImport(canImportParams);
-                        if (canImportResult.Success)
+                        //if list of tickers is provided - checking which of them can be imported by the current source
+                        if (_impParams.Tickers != null)
                         {
-                            tickersToImport.AddRange(canImportResult.Tickers);
+                            // checking which of the given tickers can be imported
+                            canImportParams = source.Value.CreateCanImportParams();
+                            _impParams.Tickers.ToList().ForEach(x => canImportParams.Tickers.Add(x));
+
+                            IQuotesSourceCanImportResult canImportResult = source.Value.CanImport(canImportParams);
+                            if (canImportResult.Success)
+                            {
+                                tickersToImport.AddRange(canImportResult.Tickers);
+                            }
                         }
 
-                        if (tickersToImport.Count > 0)
+                        // starting import in two cases: 1) some tickers can be imported by this source OR 2) requested to import all possible tickers by given agency
+                        if (tickersToImport.Count > 0 || (_impParams.Tickers == null && !string.IsNullOrEmpty(_impParams.AgencyCode) ))
                         {
                             CurrentState = EImportState.ImportSources;
 

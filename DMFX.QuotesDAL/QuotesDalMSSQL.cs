@@ -121,7 +121,7 @@ namespace DMFX.QuotesDAL
                     int tickerId = GetTickerId(q.Ticker, conn);
                     if (tickerId == Int32.MinValue)
                     {
-                        tickerId = AddTicker(q.Ticker, q.Name, null, conn);
+                        tickerId = AddTicker(q.Ticker, q.Name, q.AgencyCode, q.Notes, conn);
                     }
 
                     int unitId = (int)q.Unit;
@@ -180,6 +180,7 @@ namespace DMFX.QuotesDAL
             string spName = "[SP_Get_Tickers_List]";
             SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
 
+            long agencyId = !string.IsNullOrEmpty(getTsList.Agency) ? GetAgencyId(getTsList.Agency, conn) : Int32.MinValue;
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
@@ -187,8 +188,13 @@ namespace DMFX.QuotesDAL
             cmd.Connection = conn;
 
             SqlParameter paramTypeId = new SqlParameter("@IN_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, (int)getTsList.Type);
-
             cmd.Parameters.Add(paramTypeId);
+
+            if(agencyId > Int32.MinValue)
+            {
+                SqlParameter paramAgencyId = new SqlParameter("@IN_Agency_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, agencyId);
+                cmd.Parameters.Add(paramAgencyId);
+            }
   
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
@@ -420,7 +426,7 @@ namespace DMFX.QuotesDAL
             }
         }
 
-        private int AddTicker(string ticker, string name, string notes, SqlConnection conn)
+        private int AddTicker(string ticker, string name, string agency, string notes, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -436,8 +442,17 @@ namespace DMFX.QuotesDAL
             var paramTickerName = new SqlParameter("@IN_Ticker_Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(name) ? name : string.Empty);
             cmd.Parameters.Add(paramTickerName);
 
-            var paramTickerNotes = new SqlParameter("@IN_Ticker_Notes", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(notes) ? notes : string.Empty);
-            cmd.Parameters.Add(paramTickerNotes);
+            if (!string.IsNullOrEmpty(notes))
+            {
+                var paramTickerNotes = new SqlParameter("@IN_Ticker_Notes", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(notes) ? notes : string.Empty);
+                cmd.Parameters.Add(paramTickerNotes);
+            }
+
+            if (!string.IsNullOrEmpty(agency))
+            {
+                var paramAgencyCode = new SqlParameter("@IN_Agency_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, !string.IsNullOrEmpty(agency) ? agency : string.Empty);
+                cmd.Parameters.Add(paramAgencyCode);
+            }
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
@@ -447,7 +462,37 @@ namespace DMFX.QuotesDAL
 
             if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
             {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)ds.Tables[0].Rows[0][0] : Int32.MinValue;
+                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)(long)ds.Tables[0].Rows[0][0] : Int32.MinValue;
+            }
+            else
+            {
+                return Int32.MinValue;
+            }
+        }
+
+        private long GetAgencyId(string agencyCode, SqlConnection conn)
+        {
+            SqlCommand cmd = new SqlCommand();
+
+            //first checking if TS exists
+            string spName = "[SP_Get_Agency_Id]";
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            var paramAgencyCode = new SqlParameter("@IN_Agency_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, agencyCode);
+
+            cmd.Parameters.Add(paramAgencyCode);
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+
+            da.Fill(ds);
+
+            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
+            {
+                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (long)ds.Tables[0].Rows[0][0] : Int32.MinValue;
             }
             else
             {

@@ -40,6 +40,7 @@
     <Reference Include="System.configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestBLS.cs" />
     <Compile Include="TestCFTCSource.cs" />
     <Compile Include="TestSECSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\..\DMFX.QuotesInterfaces\DMFX.QuotesInterfaces.csproj">
       <Project>{c69fad89-d66e-4996-876a-e346bcbd3546}</Project>
       <Name>DMFX.QuotesInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DMFX.Source.BLS\DMFX.Source.BLS.csproj">
+      <Project>{54e06d58-8fda-4a12-b4eb-55db0f1b0d80}</Project>
+      <Name>DMFX.Source.BLS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\DMFX.Source.CFTC\DMFX.Source.CFTC.csproj">
       <Project>{78194d02-7e3b-4890-8c1c-a6ea106567db}</Project>

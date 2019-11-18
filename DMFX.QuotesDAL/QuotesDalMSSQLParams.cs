@@ -188,6 +188,12 @@ namespace DMFX.QuotesDAL
             get;
             set;
         }
+
+        public string Agency
+        {
+            get;
+            set;
+        }
     }
 
     class QuotesDalMSSQLGetTickersListResult : ResultBase, IQuotesDalGetTickersListResult

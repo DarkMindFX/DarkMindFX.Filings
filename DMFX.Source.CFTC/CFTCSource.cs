@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 namespace DMFX.Source.CFTC
 {
     [Export("CFTC", typeof(IQuotesSource))]
+    [Export(typeof(IQuotesSource))]
     public class CFTCSource : IQuotesSource
     {
+        private static string s_agencyCode = "CFTC";
+
         IQuotesSourceInitParams _initParams = null;
 
         static ICFTCParserParams[] s_paramTypes = new ICFTCParserParams[]
@@ -65,7 +68,8 @@ namespace DMFX.Source.CFTC
                 ICFTCParserParams cotTypeParams = null;
 
                 // at least one ticker has a prefix of given type - adding corresponding params object to parse proper report
-                if (getQuotesParams.Tickers.Count(x => x.Contains(pt.TickerPrefix)) > 0)
+                // if no tickers are specified - importing all
+                if ((getQuotesParams.Tickers == null || getQuotesParams.Tickers.Count() == 0) || getQuotesParams.Tickers.Count(x => x.Contains(pt.TickerPrefix)) > 0)
                 {
                     cotTypeParams = pt.Clone();
                     cotTypeParams.OnlyLast = getQuotesParams.PeriodStart.Year == DateTime.Now.Year ? true : false;
@@ -94,6 +98,8 @@ namespace DMFX.Source.CFTC
                         ITimeSeriesRecord tsr = new CustomTimeseriesRecord(i.Timeseries, q.ReportDate, q.Values);
                         qd.AddRecord(tsr);
                     }
+
+                    qd.AgencyCode = s_agencyCode;
 
                     result.QuotesData.Add(qd);
                 }

@@ -206,7 +206,8 @@
     <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.QuotesDAL\*.dll" "$(ProjectDir)Plugins\DMFX.QuotesDAL\"
 xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
 xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.Stooq\*.dll" "$(ProjectDir)Plugins\DMFX.Source.Stooq\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.CFTC\*.dll" "$(ProjectDir)Plugins\DMFX.Source.CFTC\"</PreBuildEvent>
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.CFTC\*.dll" "$(ProjectDir)Plugins\DMFX.Source.CFTC\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Source.BLS\*.dll" "$(ProjectDir)Plugins\DMFX.Source.BLS\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>

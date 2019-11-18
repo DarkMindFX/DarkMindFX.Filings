@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/ForceRunImportTimeSeries/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DaysBack}/{Timeframe}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DaysBack}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{Timeframe}/{SessionToken}", "GET")]
-    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DaysBack}/{AgencyCode}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DaysBack}/{AgencyCode}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
+    [Route("/ForceRunImportTimeSeries/{DateStart}/{DateEnd}/{AgencyCode}/{SymbolCodes}/{Timeframe}/{SessionToken}", "GET")]
     [Route("/ForceRunImportTimeSeries", "POST")]
     public class ForceRunImportTimeSeries : RequestBase, IReturn<ForceRunImportTimeSeriesResponse>
     {
@@ -41,6 +40,12 @@ namespace DMFX.Service.DTO
         }
 
         public ETimeFrame? Timeframe
+        {
+            get;
+            set;
+        }
+
+        public string AgencyCode
         {
             get;
             set;

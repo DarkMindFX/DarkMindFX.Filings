@@ -40,6 +40,47 @@ namespace DMFX.QuotesInterfaces
 
     }
 
+    public interface ITimeSeriesMetadata
+    {
+        IDictionary<string, string> Values
+        {
+            get;
+            set;
+        }
+    }
+
+    public class BaseTimeSeriesMetadata : ITimeSeriesMetadata
+    {
+        Dictionary<string, string> _metadata;
+
+        public BaseTimeSeriesMetadata()
+        {
+            _metadata = new Dictionary<string, string>();
+        }
+
+        public BaseTimeSeriesMetadata(IDictionary<string, string> values)
+        {
+            _metadata = new Dictionary<string, string>();
+            Values = values;
+        }
+
+        public IDictionary<string, string> Values
+        {
+            get
+            {
+                return _metadata;
+            }
+            set
+            {
+                _metadata.Clear();
+                foreach (var k in value.Keys)
+                {
+                    _metadata.Add(k, value[k]);
+                }
+            }
+        }
+    }
+
     public class BaseQuotesRecord : ITimeSeriesRecord
     {
         public BaseQuotesRecord()
@@ -162,6 +203,18 @@ namespace DMFX.QuotesInterfaces
             Values = new List<decimal>(values != null ? values : new decimal[ValueNames.Count]);            
         }
 
+        public CustomTimeseriesRecord(string columnName, DateTime time, decimal? value = null)
+        {
+            
+            Time = time;
+            var valNames = new List<string>();
+            valNames.Add(columnName);
+            ValueNames = valNames;
+
+            Values = new List<decimal>();
+            Values.Add(value != null ? (decimal)value : 0);
+        }
+
 
         public DateTime Time
         {
@@ -247,6 +300,18 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        string AgencyCode
+        {
+            get;
+            set;
+        }
+
+        string Notes
+        {
+            get;
+            set;
+        }
+
         EUnit Unit
         {
             get;
@@ -265,9 +330,17 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        ITimeSeriesMetadata Metadata
+        {
+            get;
+            set;
+        }
+
         void AddRecord(ITimeSeriesRecord newRecord);
 
         ITimeSeriesRecord CreateQuotesRecord();
+
+        ITimeSeriesMetadata CreateQuotesMetadata();
 
     }
 
@@ -280,6 +353,18 @@ namespace DMFX.QuotesInterfaces
         }
 
         public string Country
+        {
+            get;
+            set;
+        }
+
+        public string AgencyCode
+        {
+            get;
+            set;
+        }
+
+        public string Notes
         {
             get;
             set;
@@ -320,10 +405,20 @@ namespace DMFX.QuotesInterfaces
             get;
             set;
         }
+        public ITimeSeriesMetadata Metadata 
+        {
+            get;
+            set;
+        }
 
         public void AddRecord(ITimeSeriesRecord newRecord)
         {
             (Quotes as List<ITimeSeriesRecord>).Add(newRecord);
+        }
+
+        public ITimeSeriesMetadata CreateQuotesMetadata()
+        {
+            return new BaseTimeSeriesMetadata();
         }
 
         public ITimeSeriesRecord CreateQuotesRecord()

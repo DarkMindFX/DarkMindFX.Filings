@@ -89,6 +89,12 @@ namespace DMFX.QuotesInterfaces
             get;
             set;
         }
+
+        string Agency
+        {
+            get;
+            set;
+        }
     }
 
     public class TickersListItem

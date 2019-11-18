@@ -36,6 +36,7 @@ namespace DMFX.Service.TimeSeries
                     IQuotesDalGetTickersListParams getTSListParams = _dal.CreateGetTickersListParams();
                     getTSListParams.CountryCode = request.CountryCode;
                     getTSListParams.Type = request.Type;
+                    getTSListParams.Agency = request.Agency;
 
                     IQuotesDalGetTickersListResult getTSListResult = _dal.GetTickersList(getTSListParams);
 

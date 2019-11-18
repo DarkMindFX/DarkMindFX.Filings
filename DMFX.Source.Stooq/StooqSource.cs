@@ -11,6 +11,7 @@ using System.Xml;
 namespace DMFX.Source.Stooq
 {
     [Export("Stooq", typeof(IQuotesSource))]
+    [Export(typeof(IQuotesSource))]
     public class StooqSource : IQuotesSource
     {
         IQuotesSourceInitParams _initParams = null;

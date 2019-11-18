@@ -18,6 +18,7 @@ namespace DMFX.BLS.Api
             Weekly,
             Monthly,
             Quarterly,
+            SemiAnnual,
             Annual
         }
 
@@ -115,6 +116,11 @@ namespace DMFX.BLS.Api
                     timeframe = ETimeFrame.Quarterly;
                     periodStart = new DateTime(nYear, (nPeriod - 1) * 3 + 1, 1);
                     periodEnd = nPeriod < 4 ? new DateTime(nYear, nPeriod * 3 + 1, 1) - TimeSpan.FromDays(1) : new DateTime(nYear, 12, 31);
+                    break;
+                case "S":
+                    timeframe = ETimeFrame.SemiAnnual;
+                    periodStart = new DateTime(nYear, (nPeriod - 1) * 6 + 1, 1);
+                    periodEnd = nPeriod < 2 ? new DateTime(nYear, nPeriod * 6 + 1, 1) - TimeSpan.FromDays(1) : new DateTime(nYear, 12, 31);
                     break;
                 case "A":
                 default:

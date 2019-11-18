@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace DMFX.Service.DTO
 {
     [Route("/GetTickerList/{CountryCode}/{Type}/{SessionToken}", "GET")]
+    [Route("/GetTickerList/{CountryCode}/{Type}/{Agency}/{SessionToken}", "GET")]
     [Route("/GetTickerList", "POST")]
     public class GetTickerList : RequestBase , IReturn<GetTickerListResponse>
     {
@@ -20,6 +21,12 @@ namespace DMFX.Service.DTO
         }
 
         public ETimeSeriesType Type
+        {
+            get;
+            set;
+        }
+
+        public string Agency
         {
             get;
             set;
@@ -80,6 +87,12 @@ namespace DMFX.Service.DTO
                 Tickers = new List<TickerListItem>();
             }
             public string CountryCode
+            {
+                get;
+                set;
+            }
+
+            public string Agency
             {
                 get;
                 set;

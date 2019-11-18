@@ -13,7 +13,8 @@ namespace DMFX.QuotesInterfaces
         Weekly,
         Monthly,
         Quarterly,
-        Annually
+        Annually,
+        SemiAnnual
     }
 
     public enum EUnit

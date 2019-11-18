@@ -11,6 +11,7 @@ using System.Xml;
 namespace Template.DMFX.Source.XYZ
 {
     [Export("XYZ", typeof(IQuotesSource))]
+    [Export(typeof(IQuotesSource))]
     public class XYZSource : IQuotesSource
     {
         IQuotesSourceInitParams _initParams = null;

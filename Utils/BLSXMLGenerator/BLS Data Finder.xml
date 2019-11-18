@@ -1,0 +1,1624 @@
+
+
+
+
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<title>BLS Data Finder</title>
+
+	<!-- START include/global/head.stm -->
+	<script language="javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOL&subagency=BLS&yt=true"></script>
+	<script src="/javascripts/jquery-latest.js"></script>
+	<script src="/javascripts/bls-latest.js"></script>
+	<script src="/javascripts/jquery-tools.js"></script>
+	<script src="/javascripts/jquery-migrate-1.2.1.min.js"></script>
+	<!--#include virtual="/include/global/foresee.stm"-->
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_combined.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_content.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_tables.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/jquery-tools.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_nr.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_beta.css">
+    <!--[if lt IE 9]>
+		<link href="/stylesheets/ie8-styles.css" media="all" rel="Stylesheet" type="text/css"> 
+	<![endif]-->
+	<!--[if lt IE 8]>
+		<link href="/stylesheets/ie7-styles.css" media="all" rel="Stylesheet" type="text/css"> 
+	<![endif]-->
+	<!--[if lt IE 7]>
+		<link href="/stylesheets/ie6-styles.css" media="all" rel="Stylesheet" type="text/css"> 
+		<style type="text/css">
+		body {
+			behavior:url(/stylesheets/csshover2.htc);
+		}
+		</style>			
+	<![endif]-->
+	<!--[if IE]>
+		<style type="text/css">
+		body {
+			font-size: expression(1 / (screen.deviceXDPI / 96) * 84 + '%');
+		}
+		</style>	
+	<![endif]-->
+	<noscript>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_noscript.css">
+	</noscript>
+	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta property="og:image" content="https://www.bls.gov/images/bls_emblem.png" />
+		<style type="text/css">
+			td.gsc-table-cell-thumbnail{
+			display:none !important;
+			}
+		</style>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+	<link rel="manifest" href="/manifest.json" />
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+	<meta name="theme-color" content="#ffffff" />
+
+
+<script>
+
+function tls_version() {
+  var tls = headerObj["x-ssl-protocol"];
+  
+ if (tls === "tlsv1.0" || tls ==="tlsv1"){
+	var tlsValue = bls_getCookie("TLS_Version");	
+	if (tlsValue === null || tlsValue === undefined || tlsValue === "") {   // Check if cookie exists 
+		bls_setCookie("TLS_Version",tls,365);
+		$("body").prepend('<a id="tlsMessageTrigger" rel="#tlsMessage" style="display:none;"></a>');
+		$("body").prepend('<div class="bls-chartdata-overlay" id="tlsMessage" style="max-width: 562px;"><div class="bls-overlay-heading"><a href="javascript:void(0);">close</a> or Esc Key</div><a class="close"></a><p style="padding: 15px; font-size:19px;"><img src="/images/icons/icon_lrg_special_notice.gif" style="vertical-align:top; display:inline-block; width:9%; left: -4px; position:relative;" /><strong style="display:inline-block; width:89%">Security Updates: New requirements to access BLS websites starting October 1, 2018</strong></p><p style="padding:0 15px 15px 15px; font-size: 14px; line-height: 1.6em;">Starting October 1st, you will no longer be able to access BLS websites using your current browser. BLS is updating its website security. To access our websites, you will need to have a browser with compatible security features. For more information, see: <a href="/bls/disable-transport-layer-security-1-0.htm">https://www.bls.gov/bls/disable-transport-layer-security-1-0.htm</a>.</p></div>');
+		$("#tlsMessageTrigger[rel]").overlay({
+			top:200,
+			left:"center",
+			onLoad:function(e){
+				$("#tlsMessage .bls-overlay-heading a").click(function(){
+					$("#tlsMessageTrigger[rel]").overlay().close()
+				});
+			},
+			closeOnClick:false,
+			mask: {
+			color: '#000',
+			loadSpeed: 200,
+			opacity: 0.5,
+			zIndex: 10000
+			}
+		});
+		  $("#tlsMessageTrigger").click();
+
+		}
+	}  // End of tls === 1.0 check 
+}    // End of tls_version()
+
+
+  var headerObj = {};
+  (function getHeader(){
+	var req = new XMLHttpRequest();
+	if(window.XDomainRequest){
+		req.open('GET', document.location);
+		req.onreadystatechange = function(){
+			if(req.readyState != 4){return false;}
+			if(req.status != 200){return false;}
+			headersToObj(req.getAllResponseHeaders());
+			return true;
+		}
+	  }else{
+		req.open('HEAD', document.location, true);
+		req.onload = function(e){
+			if(req.readyState === 4)  {
+			  if(req.status === 200) {
+				  headersToObj(req.getAllResponseHeaders());
+				}
+			  }
+		};  
+	}
+	req.send(null);
+  })();
+
+  function headersToObj(headerStr){
+	var headerStr = String(headerStr).toLowerCase().split("\r\n");
+	for(index in headerStr){
+		headerArr = headerStr[index].split(": ");
+		if(headerArr[1]){headerObj[headerArr[0]] = headerArr[1];}
+	}
+  }
+
+  Object.size = function(obj) {
+	var size = 0, key;
+	for (key in obj) {
+		if (obj.hasOwnProperty(key)) size++;
+	}
+	return size;  
+  };
+
+  var headerInterval = setInterval(function(){
+	if(Object.size(headerObj)){
+		clearInterval(headerInterval);
+		tls_version();
+	}
+  },500);
+
+
+</script>
+		
+	
+    <!-- END include/global/head.stm -->
+	
+		<!-- START DATAQUERY_HEAD.STM -->
+		<meta name="description" content="The BLS Data Finder allows for search across all BLS time series databases." />
+		<meta name="keywords" content="search,series,time series,data,database" />
+		<script type="text/javascript" src="/javascripts/dataquery.js"></script>
+		<link href="/stylesheets/bls_dataquery.css" rel="stylesheet" type="text/css">		
+		<link href="/stylesheets/jquery-ui.css" rel="stylesheet" type="text/css">		
+		<!-- Autocomplete scripts Start -->
+		<script type="text/javascript" src="/javascripts/jquery-1.11.0.min.js"></script>
+		<script>
+			var jq110 = jQuery.noConflict();
+		</script>		
+		<script type="text/javascript" src="/javascripts/jquery-ui.js"></script>
+		<script type="text/javascript" src="/javascripts/dataquery_autocomplete.js"></script>
+		<!-- Autocomplete scripts End -->
+		<!-- END DATAQUERY_HEAD.STM -->
+
+
+<script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={licenseKey:"e28325a005",applicationID:"1175214"};window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script></head>
+<body>
+    
+    <!--no_index_start-->
+<!-- DOL BANNER BEGIN -->
+<!-- DOL BANNER START -->
+		<a class="skiplink" href="#startcontent">Skip to Content</a>
+		<div id="dol-bar">
+			<div id="dol-bar-content">
+				<div id="dol-bar-emblem">
+					<h3><a href="http://www.dol.gov/">US Department of Labor</a></h3>
+				</div>
+				<form id="dol-bar-form" name="subsform" action="https://subscriptions.bls.gov/accounts/USDOLBLS/subscriber/qualify" method="get">
+				<div id="dol-bar-right">
+					<a href="/bls/topicsaz.htm">A to Z Index</a> &nbsp;|&nbsp;
+					<a href="/bls/faqs.htm">FAQs</a> &nbsp;|&nbsp;
+					<a href="/bls/infohome.htm">About BLS</a> &nbsp;|&nbsp;
+					<a href="/bls/contact.htm">Contact Us</a> &nbsp; &nbsp;
+					<label for="dol-bar-email" style="display: none;">E-mail:</label>
+					<input id="dol-bar-email" name="email" type="text" onclick="this.value=''; this.onclick = null;" value="Subscribe to E-mail Updates" title="Enter your email address to subscribe to updates" size="32">
+					<label for="dol-bar-subscribe" style="display: none;">Subscribe Submit</label>
+					<input id="dol-bar-subscribe" type="image" src="/images/buttons/subscribe_button_red_on_red.png"  alt="Submit">
+				</div>
+				</form>
+				<div class="clearfloat"></div>
+			</div>
+		</div>
+<!-- DOL BANNER END -->
+
+<!-- DOL BANNER END -->
+
+<!-- BLS BANNER BEGIN -->
+<!-- BLS BANNER START -->
+<div id="top"></div>
+<div id="bls-banner-wrapper">
+  <div id="bls-banner">
+    <div id="bls-banner-emblem">
+      <a href="/home.htm">U.S. Bureau of Labor Statistics</a>
+    </div>
+    <div id="bls-banner-right">
+      <div id="bls-banner-links"><span class="social-follow"><a title="Follow BLS on Twitter" target="_blank" href="http://twitter.com/BLS_gov" aria-label="Bureau of Labor Statistics Twitter">Follow Us</a> </span><span class="social-follow-links"> 
+        <!-- <img src="/images/icons/facebook.png"/>--> 
+        <a target="_blank" href="http://twitter.com/BLS_gov" aria-label="Bureau of Labor Statistics Twitter"><img alt="Follow BLS on Twitter" src="/images/icons/twitter_bird_icon_white.png"/></a> 
+        <!--<img src="/images/icons/linkedin.png"/>--> 
+        </span> | <a href="/newsroom/" class="first" aria-label="Newsroom">What's New</a> | <a href="/schedule/news_release/">Release Calendar</a> | <a href="https://blogs.bls.gov/blog/" aria-label="Blog page">Blog</a></div>
+      <div id="bls-banner-search">
+        <form method="get" action="/search/query">
+		  <label for="bls-banner-search-input" class="invisible">Search:</label>
+          <input name="query" type="text" id="bls-banner-search-input" value="Search BLS.gov" title="Search Input" onclick="this.value=''; this.onclick = null;">
+		  <label for="bls-banner-search-submit" class="invisible">Search button</label>
+          <input type="image" src="/images/buttons/search_button_red_on_red.png" name="term" id="bls-banner-search-submit" alt="BLS Search Submit" title="Submit">
+        </form>
+      </div>
+    </div>
+    <div class="clearfloat"></div>
+  </div>
+</div>
+<!-- BLS BANNER END --> 
+
+
+<!-- BLS BANNER END -->
+
+<!-- MAIN NAV BEGIN -->
+<div id="main-nav-wrapper">
+  <div id="main-nav-container">
+    <div>
+      <ul id="main-nav">
+        <li class="submenu-home"><a href="/home.htm" style="padding-left: 1em;">Home</a> 
+          
+          <!-- ********************************************** Begin Home Tab LIST ****************************************** --> 
+          <!-- 1st column -->
+          
+          <div class="sub" id="submenu-home">
+            <ul>
+              <li>
+                <h5><a href="#">Subject Areas&#187;</a></h5>
+              </li>
+              <li><a href="/bls/inflation.htm">Inflation &amp; Prices</a></li>
+              <li><a href="/bls/spending.htm">Spending &amp; Time Use</a></li>
+              <li><a href="/bls/unemployment.htm">Unemployment</a></li>
+              <li><a href="/bls/employment.htm">Employment</a></li>
+              <li><a href="/bls/wages.htm">Pay &amp; Benefits</a></li>
+              <li><a href="/bls/productivity.htm">Productivity</a></li>
+              <li><a href="/iif/">Workplace Injuries</a></li>
+              <li><a href="/bls/international.htm">International</a></li>
+              <li><a href="/bls/demographics.htm">Demographics</a></li>
+              <li><a href="/bls/industry.htm">Industries</a></li>
+              <li><a href="/bls/business.htm">Business Costs</a></li>
+              <li><a href="/bls/occupation.htm">Occupations</a></li>
+              <li><a href="/bls/geography.htm">Geography</a></li>
+            </ul>
+            
+            <!-- 2nd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="#">Resources For &#187;</a></h5>
+              </li>
+              <li><a href="/audience/business.htm">Business Leaders</a></li>
+              <li><a href="/audience/consumers.htm">Consumers</a></li>
+              <li><a href="/developers/home.htm">Developers</a></li>
+              <li><a href="/audience/economists.htm">Economists</a></li>
+              <li><a href="/audience/investors.htm">Investors</a></li>
+              <li><a href="/audience/jobseekers.htm">Jobseekers</a></li>
+              <li><a href="/newsroom/home.htm">Media</a></li>
+              <li><a href="/audience/policy.htm">Public Policymakers</a></li>
+              <li><a href="/audience/students.htm">Students &amp; Teachers</a></li>
+              <li><a href="/respondents/home.htm">Survey Respondents</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="#">At a Glance Tables &#187;</a></h5>
+              </li>
+              <li><a href="/eag/eag.us.htm">U.S. Economy</a></li>
+              <li><a href="/eag/">Regions, States, &amp; Areas</a></li>
+              <li><a href="/iag/home.htm">Industries</a></li>
+            </ul>
+            
+            <!-- 3rd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="#" aria-label="More">MORE &#187;</a></h5>
+              </li>
+                <li><a href="/bls/announcement.htm" aria-label="Annoucements">Announcements</a></li>
+                <li><a href="/bls/bls-speakers/bls-speakers.htm" aria-label="BLS Speakers Available">BLS Speakers Available</a></li>
+                <li><a href="/bls/erratabydate.htm" aria-label="More, Errata">Errata</a></li>              
+                <li><a href="/bls/research.htm" aria-label="Research Programs">Research</a></li>
+                <li><a href="/osmr/response-rates/home.htm" aria-label="Response Rates">Response Rates</a></li>
+                <li><a href="/bls/other.htm" aria-label="More, Statistical Sites">Statistical Sites</a></li>
+            </ul>
+          </div>
+          <!-- ***********************************************End Home Tab LIST ******************************************** --> 
+          
+        </li>
+        <li class="submenu"><a href="/bls/proghome.htm">Subjects</a> 
+          <!-- ************************************* Begin SUBJECT AREAS list ****************************************** --> 
+          <!-- 1st column -->
+          <div class="sub" id="submenu-programs">
+            <ul>
+              <li>
+                <h5><a href="/bls/inflation.htm">Inflation &amp; Prices &#187;</a></h5>
+              </li>
+              <li><a href="/cpi/">Consumer Price Index</a></li>
+              <li><a href="/ppi/">Producer Price Indexes</a></li>
+              <li><a href="/mxp/">Import/Export Price Indexes</a></li>
+              <li><a href="/ncs/ect/">Employment Cost Index</a></li>
+              <li><a href="/bls/escalation.htm">Contract Escalation</a></li>
+              <li><a href="/pir/">Price Index Research</a></li>
+              <li><a href="/bls/inflation.htm">Inflation &amp; Prices Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/wages.htm">Pay &amp; Benefits &#187;</a></h5>
+              </li>
+              <li><a href="/ncs/ect/">Employment Costs</a></li>
+              <li><a href="/ncs/">National Compensation Data</a></li>
+              <li><a href="/bls/blswage.htm">Wages by Area &amp; Occupation</a></li>
+              <li><a href="/cps/earnings.htm#demographics">Earnings by Demographics</a></li>
+              <li><a href="/ces/">Earnings by Industry</a></li>
+              <li><a href="https://www.bls.gov/cew/">County Wages</a></li>
+              <li><a href="/ncs/ebs/">Benefits</a></li>
+              <li><a href="/crp/">Compensation Research</a></li>
+              <li><a href="/wsp/">Strikes &amp; Lockouts </a></li>
+              <li><a href="/bls/wages.htm">Pay &amp; Benefits Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/spending.htm">Spending &amp; Time Use &#187;</a></h5>
+              </li>
+              <li><a href="/cex/">Consumer Expenditures </a></li>
+              <li><a href="/tus/">How Americans Spend Time</a></li>
+            </ul>
+            
+            <!-- 2nd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="/bls/unemployment.htm">Unemployment &#187;</a></h5>
+              </li>
+              <li><a href="/cps/">National Unemployment Rate </a> </li>
+              <li><a href="/lau/">State &amp; Local Unemployment Rates </a> </li>
+              <li><a href="/ers/">Unemployment Research</a></li>
+              <li><a href="/bls/unemployment.htm">Unemployment Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/employment.htm">Employment &#187;</a></h5>
+              </li>
+              <li><a href="/ces/">National Employment </a></li>
+              <li><a href="/sae/">State &amp; Local Employment </a></li>
+              <li><a href="https://www.bls.gov/cew/">State &amp; County Employment </a></li>
+              <li><a href="/cps/">Worker Characteristics </a></li>
+              <li><a href="/emp/">Employment Projections </a></li>
+              <li><a href="/jlt/">Job Openings &amp; Labor Turnover </a></li>
+              <li><a href="/oes/">Employment by Occupation </a></li>
+              <li><a href="/nls/">Work Experience Over Time </a></li>
+              <li><a href="/bdm/">Business Employment Dynamics </a></li>
+              <li><a href="/fdi/">Foreign Direct Investment </a></li>
+              <li><a href="/ers/">Employment Research</a></li>
+              <li><a href="/bls/employment.htm">Employment Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/iif/">Workplace Injuries &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/ors/">Occupational Requirements &#187;</a></h5>
+              </li>
+            </ul>
+            
+            <!-- 3rd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="/bls/productivity.htm">Productivity &#187;</a></h5>
+              </li>
+              <li><a href="/lpc/"> Labor Productivity &amp; Costs</a></li>
+              <li><a href="/mfp/">Multifactor Productivity</a></li>
+              <li><a href="/dpr/">Productivity Research</a></li>
+              <li><a href="/bls/productivity.htm">Productivity Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/international.htm">International &#187;</a></h5>
+              </li>
+              <li><a href="/itc/">International Technical Cooperation</a></li>
+              <li><a href="/mxp/">Import/Export Price Indexes</a></li>
+              <li><a href="/bls/international.htm">International Overview</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/regions/home.htm">REGIONAL OFFICES &#187;</a></h5>
+              </li>
+              <li><a href="/regions/new-england/">New England (Boston)</a></li>
+              <li><a href="/regions/new-york-new-jersey/">New York-New Jersey (NY City)</a></li>
+              <li><a href="/regions/mid-atlantic/">Mid-Atlantic (Philadelphia)</a></li>
+              <li><a href="/regions/southeast/">Southeast (Atlanta)</a></li>
+              <li><a href="/regions/midwest/">Midwest (Chicago)</a></li>
+              <li><a href="/regions/southwest/">Southwest (Dallas)</a></li>
+              <li><a href="/regions/mountain-plains/">Mountain-Plains (Kansas City)</a></li>
+              <li><a href="/regions/west/">West (San Francisco)</a></li>
+              <li><a href="/regions/home.htm">REGIONAl Overview</a></li>
+            </ul>
+          </div>
+          <!-- **************************************End SUBJECTS ******************************************** --> 
+          
+        </li>
+        <li class="submenu selected"><a href="/data/">Data Tools</a> 
+          
+          <!-- ******************************************** Begin DATA TOOLS LIST ****************************************** -->
+          <div class="sub" id="submenu-data">
+            <ul>
+              <li>
+                <h5><a href="/data/">Data Retrieval Tools &#187;</a></h5>
+              </li>
+              <li><a href="/cgi-bin/surveymost?bls">Top Picks</a></li>
+              <li><a href="/cgi-bin/srgate">Series Report</a></li>
+              <li><a href="/data/">One Screen</a></li>
+              <li><a href="/data/">Multi-Screen</a></li>
+              <li><a href="/data/#maps">Maps </a></li>
+              <li><a href="/data/#calculators">Calculators </a></li>
+              <li><a href="/data/#api">Public Data API</a></li>
+            </ul>
+            
+            <!-- 2nd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="#">CUSTOMIZED TABLES &#187;</a></h5>
+              </li>
+              <li><a href="https://download.bls.gov/pub/time.series/">Text Files</a></li>
+              <li><a href="/data/#historical-tables">News Release Tables</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/moredata.htm">More Sources of Data &#187;</a></h5>
+              </li>
+              <li><a href="/rda/home.htm">Restricted Data Access</a></li>
+              <li><a href="/data/archived.htm">Discontinued Databases </a></li>
+              <li><a href="/help/hlpform1.htm">FAQs</a></li>
+              <li><a href="/help/notice.htm">Special Notices </a></li>
+              <li><a href="/bls/moredata.htm">More Sources of Data</a></li>
+            </ul>
+          </div>
+          <!-- *********************************************End DATA TOOLS LIST ******************************************** --> 
+          
+        </li>
+        <li class="submenu"><a href="/opub/">Publications</a> 
+          
+          <!-- ********************************************** Begin PUBLICATIONS LIST ****************************************** -->
+          <div class="sub" id="submenu-pubs">
+            <ul>
+              <li>
+                <h5><a href="/opub/#latest">Latest Publications &#187;</a></h5>
+              </li>
+              <li><a href="/opub/ted/">The Economics Daily</a></li>
+              <li><a href="/opub/mlr/">Monthly Labor Review</a></li>
+              <li><a href="/opub/btn/">Beyond the Numbers</a></li>
+              <li><a href="/spotlight/">Spotlight on Statistics</a></li>
+              <li><a href="/opub/reports/">Reports</a></li>
+              <li><a href="https://blogs.bls.gov/blog/">Commissioner's Corner</a></li>
+               <li><a href="/video/">Videos</a></li>
+            </ul>
+            
+            <!-- 2nd column -->
+            
+            <ul>
+              <li>&nbsp;</li>
+              <li><a href="/careeroutlook/">Career Outlook</a></li>
+              <!--    <li><a href="/nls/nlsnews.htm">National Longitudinal Surveys News</a></li>
+                <li><a href="/opub/#magazines">Magazines &amp; Journals</a></li>
+                <li><a href="/opub/#chartbooks">Chartbooks</a></li> -->
+              <li><a href="/ooh/">Occupational Outlook Handbook</a></li>
+              <li><a href="/opub/geographic-profile/home.htm">Geographic Profile</a></li>              <li><a href="/opub/hom/">Handbook of Methods</a></li>
+              <!-- <li><a href="/opub/#catalog">Catalog of Publications</a></li> -->
+              <li><a href="/osmr/">Research Papers</a></li>
+              <li><a href="/opub/#copyright">Copyright Information</a></li>
+              <li><a href="/opub/#contact">Contact &amp; Help</a></li>
+            </ul>
+          </div>
+          <!-- ***********************************************End PUBLICATIONS LIST ******************************************** --> 
+          
+        </li>
+        <li class="submenu"><a href="/bls/newsrels.htm">Economic Releases</a> 
+          
+          <!-- ********************************************** Begin ECONOMIC RELEASES LIST ****************************************** --> 
+          <!-- 1st column -->
+          <div class="sub" id="submenu-news">
+            <ul>
+              <li>
+                <h5><a href="/bls/newsrels.htm#latest-releases">Latest Releases &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#major">Major Economic Indicators &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/schedule/news_release/">Schedules for news Releases &#187;</a></h5>
+              </li>
+              <li><a href="/schedule/">By Month</a></li>
+              <li><a href="/schedule/schedule/by_prog/all_sched.htm">By News Release</a></li>
+              <li><a href="/schedule/news_release/current_year.asp">Current Year</a></li>
+              <li><a href="/bls/archived_sched.htm">Prior Years</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/news-release/home.htm">Archived News Releases &#187;</a></h5>
+              </li>
+            </ul>
+            
+            <!-- 2nd column -->
+            
+            <ul>
+              <li>
+                <h5><a href="/bls/newsrels.htm#OEUS">Employment &amp; Unemployment &#187;</a></h5>
+              </li>
+              <li><a href="/bls/newsrels.htm#OEUS">Monthly</a></li>
+              <li><a href="/bls/newsrels.htm#OEUS">Quarterly, annual, and other</a></li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#OPLC">Inflation &amp; Prices &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#OCWC">Pay &amp; Benefits &amp; Workplace Injuries &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#OPT">Productivity &amp; Technology &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#OEP">Employment Projections &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#INT">International Programs &#187;</a></h5>
+              </li>
+              <li>&nbsp;</li>
+              <li>
+                <h5><a href="/bls/newsrels.htm#NEWS">Regional News Releases &#187;</a></h5>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="submenu"><a href="/k12/">Students</a> 
+          
+          <!-- ***********************************************Start Student LIST ******************************************** -->
+          <div class="sub" id="submenu-students">
+            <ul>
+              <li><a href="/k12/games.htm">Games &amp; Quizzes</a></li>
+              <li><a href="/k12/students.htm">Student Resources</a></li>
+              <li><a href="/k12/teachers.htm">Teacher&acute;s Desk</a></li>
+              <li><a href="/k12/history.htm">History of BLS</a></li>
+              <li><a href="/k12/faq.htm">FAQs</a></li>
+            </ul>
+          </div>
+          <!-- ***********************************************End  Student LIST ******************************************** --> 
+        </li>
+        <li class="submenu"><a href="https://beta.bls.gov">Beta</a> 
+          <!-- ***********************************************Start BETA LIST ******************************************** -->
+          <div class="sub" id="submenu-beta">
+            <ul>
+				<li>
+               <h5><a href="https://beta.bls.gov/labs/?p=600" aria-label="Redesigned News Releases">Redesigned News Releases &#187;</a></h5>
+					 </li>
+               <li>
+                <h5><a href="https://beta.bls.gov/api-charts/home.htm" aria-label="Industry Productivity Viewer">Industry Productivity Viewer &#187;</a></h5>
+              </li>
+             <li>
+                <h5><a href="https://beta.bls.gov/dataQuery/" aria-label="Data Finder 1.0">Data Finder &#187;</a></h5>
+              </li>
+              <li>
+                <h5><a href="https://beta.bls.gov/maps/cew/us" aria-label="Quarterly Census of Employment and Wages State and Country Map">State and County Map &#187;</a></h5>
+              </li>
+			  <li>
+                <h5><a href="https://beta.bls.gov/comparison-matrix/home.htm" aria-label="Comparison Matrix of BLS compensation data sources">Comparing Pay Measures &#187;</a></h5>
+              </li>
+            </ul>
+          </div>
+          <!-- ***********************************************End BETA LIST ******************************************** --> 
+          
+        </li>
+      </ul>
+    </div>
+    <div class="clearfloat"></div>
+  </div>
+</div>
+
+<!-- MAIN NAV END -->
+
+<!-- WRAPPER TOP BEGIN -->
+	<div id="wrapper-outer">
+		<div id="wrapper">
+			<div id="container">
+<!-- WRAPPER TOP END -->
+
+    
+    
+
+
+
+<script type="text/javascript" src="/javascripts/json2.js"></script>
+<script type="text/javascript" src="/javascripts/amplify.store.js"></script>
+
+<script type="text/javascript">
+    
+    var SESSION_ID='86D4310A054B0EE38B59A88DCA195832';
+    $(document).ready(function(){
+        stored_session = amplify.store.sessionStorage("SESSION_ID");
+        //alert(SESSION_ID + "\n" + stored_session);
+        if(stored_session == null || stored_session != SESSION_ID){
+        amplify.store("selectedSeriesId",null);
+        amplify.store.sessionStorage("SESSION_ID", SESSION_ID);
+        }
+    });
+</script>
+<!-- _header.jsp START -->
+<div id="subdomain-title">
+    <h1>BLS Data Finder 1.1</h1>
+    
+    <div style="float: right; margin-left: 4px;">
+
+        <!-- Start Over -->
+        <a href="find?removeAll=1" id="startover">Start over</a>
+        <a style="margin: 0 0 0 10px;" href="https://beta.bls.gov/labs/?p=328" id="comment-link">Comment</a>
+        <img src="/images/icons/comment_icon_small.png" alt="Comment"/>
+    </div>
+</div>
+
+    
+     
+
+<div id="subdomain-title-border"></div>
+<!-- _header.jsp STOP -->
+
+    
+    	<div class="clearfloat" id="startcontent"></div>
+	<div id="main-content-full-width" class="main-content" role="main">
+		<div id="bodytext" class="verdana md">
+		
+
+    
+    <div id="dq">        
+        <!-- solr/_searchDataEntry.jsp START  -->
+
+
+
+
+
+
+
+
+
+
+<form id="dq-form" action="/dataQuery/find?st=0&amp;r=20&amp;s=popularity%3AD&amp;q=ISU00000000031100&amp;more=0" method="get">
+<div id="dq-search-main">
+    
+        
+        <input name="formSubmit" id="formSubmit" value="Go" type="hidden"/>
+        <div id="dq-search-line1">
+            <span id="dq-search-label-wrapper">
+                <label for="dq-query" id="dq-query-label">Search:</label>
+            </span>
+            
+            <span id="dq-search-text-wrapper">
+                <input id="dq-query" name="q" type="text" value=""/> 
+            </span>
+    
+            <span id="dq-search-submit-wrapper">
+                <!-- NOTE: if the sumbit button is named "submit" the jquery .submit method won't work -->
+                <input name="dq-submit" type="submit" id="dq-submit" value="Go" class="dq-button">
+                
+            </span>
+        </div>
+</div>    
+<!-- solr/_emptyNatigation.jsp START -->
+<p>Data Finder&#39;s Search uses "<b>and</b>" as the default search operator,
+which will display results containing all search terms.
+To search for data that contains any combination of search terms, include an "<b>or</b>" between the terms.
+
+</p>
+<!-- solr/_emptyNatigation.jsp STOP -->
+
+
+		
+	<div id="dq-search-line2">
+         <div id="dq-sort-wrapper">
+                <label for="dq-sort" class="dq-sort-label">Sort the results</label>
+                <select id="dq-sort" name="s"><option value="score:D">Sort By:  Relevance</option><option value="popularity:D" selected="selected">Sort By:  Popularity</option><option value="title:A">Sort By:  Series Title</option><option value="id:A">Sort By:  Series ID</option></select>
+          </div>
+            
+          <div id="dq-rows-wrapper">
+                <label for="dq-rows" class="dq-rows-label">Display number of results per page</label>
+                <select id="dq-rows" name="r"><option value="20" selected="selected">Show:  20 per page</option><option value="50">Show:  50 per page</option><option value="100">Show:  100 per page</option></select>
+          </div>
+            
+                
+                    <div id="dq-num-results-wrapper">
+                        
+                            Showing Results 
+                            <strong>1
+                            -
+                            1
+                            </strong> of <strong>1</strong>
+                        
+                    </div>
+                
+            
+    </div>
+
+
+    </form>
+
+<!-- solr/_searchDataEntry.jsp STOP -->
+
+        <div id="dq-aside">
+            <!-- solr/_showFacets.jsp START -->
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="dq-facets">
+    
+    
+       
+       
+       <h2>Measures</h2>
+        
+        
+                    
+                        
+
+
+<!-- solr/_showMainGroupFacet.jsp START -->
+
+    
+    
+    
+    
+	<div class="dq-facets-container">                    
+    
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=mg:[Measure+Category]">                                           
+	 
+		       	Measure Category		
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+     
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=mg:[Measure+Published+By]">                                           
+	 
+		       	Measure Published By		
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+                         
+    </div>
+    
+    
+<!-- solr/_showMainGroupFacet.jsp STOP -->
+
+
+        
+
+        
+        
+
+    
+    
+       
+       
+       <h2>Characteristics</h2>
+        
+        
+                    
+                        
+
+
+<!-- solr/_showMainGroupFacet.jsp START -->
+
+    
+    
+    
+    
+	<div class="dq-facets-container">                    
+    
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=cg:[Establishments%2FBusinesses%2FFirms]">                                           
+	 
+		       	Establishments/Businesses/Firms		
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+     
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=cg:[Geography]">                                           
+	 
+		       	Geography		
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+     
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=cg:[Industry]">                                           
+	 
+		       	Industry		
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+                         
+    </div>
+    
+    
+<!-- solr/_showMainGroupFacet.jsp STOP -->
+
+
+        
+
+        
+        
+
+    
+    
+       
+       
+       <h2>Survey</h2>
+        
+        
+                    
+                        
+
+
+<!-- solr/_showMainGroupFacet.jsp START -->
+
+    
+    
+    
+    
+	<div class="dq-facets-container">                    
+    
+			
+  
+
+		<ul> 
+			<li>		     
+				
+
+  
+ 
+	  	<a href="find?st=0&r=20&s=popularity%3AD&q=ISU00000000031100&more=0&fq=survey:[is]">                                           
+	
+				Occupational injuries and illnesses industry data 		  
+		
+		</a> 
+
+	<span class="_count">
+	   	(1)
+	</span>
+
+
+
+
+						
+	   		</li>
+      	</ul> 
+                                          
+                         
+    </div>
+    
+    
+<!-- solr/_showMainGroupFacet.jsp STOP -->
+
+
+        
+
+        
+        
+
+    
+         
+</div>
+
+
+
+<!-- solr/_showFacets.jsp STOP -->
+
+        </div>
+		<div id="dq-body">            
+            
+
+
+
+
+
+
+
+
+<!-- solr/_showSelectedQueryParameters.jsp START -->
+
+    <div id="dq-selections" class="dq-controls-box">
+        
+        
+        
+                         <span class="dq-selection">
+                                <span class="dq-selection-name">Search:</span>
+                                <span class="dq-selection-value" style="word-wrap:break-word;">ISU00000000031100</span>
+                                <span class="dq-selection-remove"><a href="find?st=0&r=20&s=popularity%3AD&more=0" title="Remove constraint: Search: ISU00000000031100">X</a></span>
+                         </span>
+        
+        
+        
+    </div>
+
+
+<!-- solr/_showSelectedQueryParameters.jsp STOP-->
+
+            
+            	
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- solr|_browseDocuments.jsp START -->
+
+<script type="text/javascript">
+function toggleCatalogData(series_id) {
+    var label = $("#s_" + series_id).text();
+    if (label == "+") {
+        $("#s_" + series_id).text("–");
+        $("#s_" + series_id).attr('title', 'Hide catalog data');
+    } else {
+        $("#s_" + series_id).text("+");
+        $("#s_" + series_id).attr('title', 'View catalog data');
+    }
+    $("#catalog_" + series_id).slideToggle("fast"); 
+}
+</script>
+<div id="dq-result">
+
+
+        <!-- Document 0 --> 
+        
+        <div class="dq-result-item" style="position:relative;">
+                <button id="s_ISU00000000031100" title="View catalog data" class="dq-button-catalog">+</button>
+                <script type="text/javascript">
+                $("#s_ISU00000000031100").click(function () { 
+                    toggleCatalogData("ISU00000000031100");
+                  });
+                </script>
+                    
+                   <label for="seriesCheckBox_ISU00000000031100" style="display:none;"> Industry-level data from the Survey of Occupational Injuries and Illnesses (SOII)</label>
+					<input type="checkbox" id="seriesCheckBox_ISU00000000031100" value="ISU00000000031100" 
+                        data-title="Industry-level data from the Survey of Occupational Injuries and Illnesses (SOII)"  onClick='check(this)'/>			 
+					<p>
+                    <a href="https://beta.bls.gov/dataViewer/view/timeseries/ISU00000000031100" target="_blank">
+                         Industry-level data from the Survey of Occupational Injuries and Illnesses (SOII)
+                    </a>
+					</p>
+               <div id="catalog_ISU00000000031100" style="display:none;">
+                  <table>
+                    <tbody>
+                              
+                              
+                                                <tr>
+                                                    <th>Series Title</th>
+                                                    <td>Industry-level data from the Survey of Occupational Injuries and Illnesses (SOII)</td>                                
+                                                </tr>
+                                        
+                              
+                                                <tr>
+                                                    <th>Series ID</th>
+                                                    <td>ISU00000000031100</td>                                
+                                                </tr>
+                                        
+                              
+                                                <tr>
+                                                    <th>Seasonality</th>
+                                                    <td>Not Seasonally Adjusted</td>                                
+                                                </tr>
+                                        
+                              
+                                                <tr>
+                                                    <th>Survey Name</th>
+                                                    <td>Occupational injuries and illnesses industry data (2014 forward)</td>                                
+                                                </tr>
+                                        
+                              
+                              
+                              
+                                                <tr>
+                                                    <th>Measure Data Type</th>
+                                                    <td>Rate of injury and illness cases per 100 full-time workers (Size class 0)</td>                                
+                                                </tr>
+                                        
+                              
+                              
+                              
+                              
+                                                <tr>
+                                                    <th>Industry</th>
+                                                    <td>All workers</td>                                
+                                                </tr>
+                                        
+                              
+                                                <tr>
+                                                    <th>Sector</th>
+                                                    <td>All</td>                                
+                                                </tr>
+                                        
+                              
+                              
+                              
+                              
+                                                <tr>
+                                                    <th>Area</th>
+                                                    <td>Private industry, All U.S.</td>                                
+                                                </tr>
+                                        
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                                                <tr>
+                                                    <th>Type of cases</th>
+                                                    <td>Total recordable cases</td>                                
+                                                </tr>
+                                        
+                              
+                                
+
+                     </tbody>
+                  </table>
+               </div>
+               
+        </div>
+
+</div>
+
+
+    <br/>
+    <form action ="https://beta.bls.gov/dataViewer/view"  id="viewselected" method="post" target="_blank" onsubmit="return appendSelection()" >
+    <input type="hidden" id="selectedSeriesIds" name="selectedSeriesIds" value=""/>
+    <center><input type = "submit" value = "View Data" class="dq-button"/></center>
+    </form>
+
+<!-- solr|_browseDocuments.jsp STOP -->
+            	<!-- solr/_pageNatigation.jsp START -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+<div class="dq-pagination dq-controls-box">
+    <div class="dq-pagination-wrapper">
+  
+    <input type="hidden" id="cartUrl" name="cartUrl" value="https://beta.bls.gov/dataQuery"/>   
+    
+        <div class="dq-prev-page">
+
+        
+            
+                    <span class="dq-page dq-disabled">&laquo;&laquo; First</span> 
+            
+    
+        
+            
+                    <span class="dq-page dq-disabled">&laquo; Previous</span> 
+            
+        </div >
+    
+
+        <div class="dq-next-page">
+        
+            
+                    <span class="dq-page dq-disabled">Next &raquo;</span> 
+            
+    
+        
+             
+                    <span class="dq-page dq-disabled">Last &raquo;&raquo;</span> 
+                   
+        </div>
+
+        <div class="dq-page-links">
+            
+                <span class="dq-page dq-disabled">Displaying page 1 of 1 </span> 
+            
+        </div>
+        
+    </div>
+    <div class="clearfloat"></div>
+</div>
+<!-- solr/_pageNatigation.jsp STOP -->
+
+<script type="text/javascript" src="/javascripts/json2.js"></script>
+<script type="text/javascript" src="/javascripts/amplify.store.js"></script>
+
+<script type="text/javascript">
+
+    var selectedSeriesId = [];
+
+    var storedselectedseriesid = "";
+    var storedselectedseriesidarray;
+    
+    if( amplify.store("selectedSeriesId") == null)
+    {
+        //alert("no series in the session");
+    }else
+    {
+        storedselectedseriesid = amplify.store("selectedSeriesId");
+    }
+    storedselectedseriesidarray =  storedselectedseriesid.split("||");
+    selectedSeriesId = selectedSeriesId.concat(storedselectedseriesidarray);
+     $('#startover').click(function(){     
+         amplify.store("selectedSeriesId",null); 
+    });
+
+function removeByValue(arr, val) {     
+    for(var i=0; i<arr.length; i++) {   
+        if(arr[i] == val) {   
+            arr.splice(i, 1);
+            break;   
+       }
+    }
+      amplify.store(val, null);
+} 
+
+
+// Function invoked on check\uncheck of check box
+function check(checkbox)
+{
+    var checkboxValue = checkbox.value;
+   
+    if(checkbox.checked == true)
+    {
+        // check if series already present in list
+        if($.inArray(checkboxValue, selectedSeriesId) == -1)
+        {
+            // append selected series id to list
+           
+            selectedSeriesId.push(checkboxValue); 
+            var seriesTitle = $(checkbox).data('title');            
+            amplify.store(checkboxValue, unescape(seriesTitle));
+            amplify.store(checkboxValue, seriesTitle);
+        }
+
+    }
+    else
+    {       
+        // check if series already present in list
+        if($.inArray(checkboxValue, selectedSeriesId) != -1)
+        {
+            removeByValue(selectedSeriesId,checkboxValue);      
+        }
+    }
+    amplify.store('selectedSeriesId' , selectedSeriesId.join("||"));
+}
+
+$('#firstlink').click(function() 
+{       
+    convertGetToPost($(this));
+    return false;
+});
+
+
+$('#prevlink').click(function() 
+{
+    convertGetToPost($(this));
+    return false;
+});
+
+$('#nextlink').click(function() 
+{
+    convertGetToPost($(this));
+    return false;
+});
+
+$('#lastlink').click(function() 
+{
+    convertGetToPost($(this));
+    return false;
+});
+
+
+// Function that dynamically creates form from URL and submits form
+function convertGetToPost(link)
+{
+    var originalURL = link.attr('href');
+    // Extra amp; is being used in pagination links thts causing problem
+    // Need to identify source.
+    originalURL = originalURL.replace(/amp%3B/g,"");
+    // Set original URL as action so it can be book marked
+    var form = $(document.createElement('form')).attr('action', originalURL).attr('method','post');
+    
+    // store the seriesids in jquery session
+    amplify.store('selectedSeriesId' , selectedSeriesId.join("||"));
+    
+    //Append Selected and Deselected Series Id to link    
+    var modLink = link.attr('href') + "&selectedseriesid=" + selectedSeriesId.join("||");
+    link.attr('href', modLink);
+    
+    // decode the link URL    
+    var decodedURL = decodeURIComponent(link.attr('href'));
+    decodedURL = decodedURL.replace(/&amp;/g,"&");    
+        
+    var p = decodedURL.split('?');
+    var action = p[0];
+    var params = p[1].split('&');    
+    
+    // Appen Form to Html Body
+    $('body').append(form);
+    
+    for (var i in params) 
+    {
+        var tmp= params[i].split('=');
+        var key = tmp[0], value = tmp[1];            
+        // Create form hidden fields from url parameters
+        $(document.createElement('input')).attr('type', 'hidden').attr('name', key).attr('value', value).appendTo(form);
+    }       
+    
+    $(form).submit();
+}
+
+function removespaces(selectedSeriesId){
+
+  for(var i=0; i<selectedSeriesId.length; i++) {   
+      if(String($.trim(selectedSeriesId[i])).length == 0) {   
+           selectedSeriesId.splice(i, 1);
+       }
+   }
+   
+   return selectedSeriesId;
+}
+
+//Function that syncs the input hidden field with selected and deselected
+//series ids
+function appendSelection()
+{
+
+    // Update the hidden field
+
+    document.getElementById('selectedSeriesIds').value = selectedSeriesId.join("||");
+   
+    selectedSeriesId = removespaces(selectedSeriesId);
+   
+    //If hidden field (selected series) is empty  or contains only '-' display 
+    // alert box with message
+    if($('#selectedSeriesIds').val().match(/^[-\s]*$/))
+    {
+        alert("Please make a selection.");
+        return false;
+    }
+    
+    // if(selectedSeriesId.length >100){
+       // alert("You can only select up to 100 series IDs" );
+       // return false;
+   // }
+
+}
+
+$(document).ready(function() {
+   if(amplify.store("selectedSeriesId") != null)
+   {
+                var storseriesids = amplify.store("selectedSeriesId");
+                var storseriesidlist = storseriesids.split("||");
+                $('input[type=checkbox]').each(function(){     
+                    var seriesid = $(this).val();
+                    
+                    //if($.inArray(seriesid, storseriesids) != -1)
+                    if($.inArray(seriesid, storseriesidlist) != -1)
+                    {
+                       $(this).attr('checked', true); 
+                    }
+                });
+        }
+
+ }); 
+ 
+
+</script>
+
+                        
+        </div>        
+        <div class="clearfloat"></div>
+    </div>
+    <!-- Overlay used to display the JSON facet browse result -->
+<div class="dq-overlay" id="dq-facet-overlay">
+    <div class="dq-controls-box">
+        <div class="dq-overlay-heading">Browse Facets</div>
+        <div class="dq-overlay-num-results">Showing facets <strong><span id="dq-facet-overlay-start"></span>-<span id="dq-facet-overlay-end"></span></strong> of <strong><span id="dq-facet-overlay-num-facets"></span></strong></div>
+        <div class="clearfloat"></div>
+    </div>
+    <div id="dq-facet-overlay-facets-box">
+        <ul id="dq-facet-overlay-facets"></ul>
+    </div>
+    <div class="dq-facet-pagination dq-controls-box">
+        <div class="dq-pagination-wrapper">
+            <div class="dq-prev-page"> <span class="dq-page" id="dq-facet-overlay-previous"> </span> </div>
+            <div class="dq-next-page"> <span class="dq-page" id="dq-facet-overlay-next"> </span> </div>
+            <div class="clearfloat"></div>
+        </div>
+    </div>
+</div>
+<!-- END JSON Overlay -->
+
+    
+    <!-- MAIN CONTENT END -->
+
+
+
+<!--no_index_start-->
+
+<!-- 2COL LAYOUT COL2 BEGIN -->
+
+		<!--#include virtual="/include/global/social_media.stm"-->
+		</div>
+	</div>
+	<div class="clearfloat"></div>
+
+
+<!-- 2COL LAYOUT COL2 END -->
+
+
+
+<!-- QUICK LINKS BEGIN -->
+
+<!-- -->
+
+
+<!-- QUICK LINKS END -->
+
+
+
+<!-- WRAPPER BOTTOM BEGIN -->
+
+	
+		</div><!-- close id="wrapper-outer" -->
+	</div><!-- close id="wrapper" -->
+</div><!-- close id="container" -->
+
+<!-- WRAPPER BOTTOM END -->
+
+
+
+<!-- FOOTER LEFT BEGIN -->
+
+<script type="text/javascript">/*<![CDATA[*/(function(){var sz = document.createElement('script'); sz.type = 'text/javascript'; sz.async = true;sz.src = '//siteimproveanalytics.com/js/siteanalyze_6032860.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sz, s);})();/*]]>*/</script> 
+<div id="footer-wrapper">
+	<div id="footer-links-wrapper">
+		<div id="quicklinks-wrapper">
+			<div id="quicklinks">
+				<h3 class="invisible">Quicklinks Footer</h3>
+				<ul><li class="header">tools</li>
+					<li><a href="/eag/" aria-label="Economy at a Glance">Areas at a Glance </a></li>
+					<li><a href="/iag/" aria-label="Industries at a Glance">Industries at a Glance </a></li>
+					<li><a href="/bls/newsrels.htm" aria-label="Economic News Releases">Economic Releases</a></li>
+					<li><a href="/data/" aria-label="Databases, Tables and Calculators by Subject">Databases &amp; Tables</a></li>
+					<li><a href="/map/MapToolServlet?survey=la" aria-label="Local Area Unemployment Statistics Map">Maps</a></li>
+				</ul>
+				<ul><li class="header">calculators</li>
+					<li><a href="/data/inflation_calculator.htm" aria-label="Consumer Price Index Inflation Calculator">Inflation</a></li>
+					<!--<li><a href="/location_quotient/" aria-label="">Location Quotient</a> </li> -->
+					<li><a href="/iirc/" aria-label="Incidence Rate Calculator and Comparison Tool
+">Injury And Illness</a></li>
+				</ul>
+				<ul><li class="header">help</li>
+					<li><a href="/help/" aria-label="Help and Tutorials">Help &amp; Tutorials</a></li>
+					<li><a href="/bls/faqs.htm" aria-label="Frequently Asked Questions">FAQs</a></li>
+					<li><a href="/bls/glossary.htm" aria-label="Glossary">Glossary</a></li>
+					<li><a href="/bls/infohome.htm" aria-label="About Bureau of Labor Statistics">About BLS</a></li>
+					<li><a href="/bls/contact.htm" aria-label="Contact Bureau of Labor Statistics">Contact Us</a></li>
+				</ul>
+				<ul><li class="header">info</li>
+					<li><a href="/newsroom/" aria-label="Newsroom">What's New</a></li>
+					<li><a href="/jobs/" aria-label="Careers at Bureau of Labor Statistics">Careers at BLS</a></li>
+					<li><a href="https://www.dol.gov/general/findit" aria-label="Department of Labor Find It! webpage">Find It! DOL</a></li>
+					<li><a href="https://subscriptions.bls.gov/accounts/USDOLBLS/subscriber/new" aria-label="Join our Mailing Lists">Join our Mailing Lists</a></li>
+					<li><a href="/bls/linksite.htm" aria-label="Linking and Copyright Information">Linking &amp; Copyright Info</a></li>
+				</ul>
+				<ul><li class="header">resources</li>
+							<li><a href="https://www.oig.dol.gov/" aria-label="Office of Inspector General website">Inspector General (OIG)</a></li>
+					<li><a href="/bls/bls_budget_and_performance.htm" aria-label="Budget and Performance">Budget and Performance</a></li>
+								<li><a href="/bls/no_fear_act.htm" aria-label="No Fear Act Data">No Fear Act Data</a></li>
+								<li><a href="https://www.usa.gov/" aria-label="USA.gov website">USA.gov</a></li>
+									
+
+				</ul>
+				<ul style="border-right: none;"><li class="header">about this site</li>									
+					<li><a href="/bls/blsfoia.htm">Freedom of Information Act</a></li>
+					<li><a href="/bls/pss.htm">Privacy &amp; Security Statement</a></li>
+					<li><a href="/bls/disclaimer.htm">Disclaimers</a></li>
+					<li><a href="/bls/customer_survey.htm">Customer Survey</a></li>
+					<li><a href="/bls/website-policies.htm">Important Website Notices</a></li>
+				</ul>
+				<div class="clearfloat"></div>
+<!-- Start VETS HIRE -->                        
+				<div style="text-align:center; position:relative; top:20px;">
+					<a href="https://www.hirevets.gov/" aria-label="HIRE Vets Medallion Program">
+						<img alt="HIREVets.gov HIRE Vets Medallion Program - Recognizing employers who HIRE veterans" style="height: 60px; width: auto;" src="/images/dol/HireVETS-Recognizing-employers-v1.png">
+					</a>
+				</div>
+<!-- End VETS HIRE -->   				
+			</div>
+		</div>
+		<div id="footer-links">
+			<p><a href="/bls/blsfoia.htm">Freedom of Information Act</a> &nbsp;|&nbsp; <a href="/bls/pss.htm">Privacy &amp; Security Statement</a> &nbsp;|&nbsp; <a href="/bls/disclaimer.htm">Disclaimers</a> &nbsp;|&nbsp; 
+			<a href="/bls/customer_survey.htm">Customer Survey</a> &nbsp;|&nbsp; <a href="/bls/website-policies.htm">Important Website Notices</a></p>
+		</div>
+	</div>
+	<div id="footer-info-wrapper">
+		<div id="footer-info"><p>
+
+
+<!-- FOOTER LEFT END -->
+
+
+
+<span id="footer-address">U.S. Bureau of Labor Statistics | Postal Square Building, 2 Massachusetts Avenue, NE Washington, DC 20212-0001</span> 	
+
+
+
+<!-- FOOTER CENTER BEGIN -->
+
+		</p><p>
+
+
+
+<!-- FOOTER CENTER END -->
+
+
+
+<span id="footer-contact"><a href="/home.htm" aria-label="Bureau of Labor Statistics homepage">www.bls.gov</a> | Telephone: 1-202-691-5200 | Federal Relay Service: 1-800-877-8339 | <a href="/cgi-bin/forms/opb" aria-label="Request for Information">Contact Us</a></span>
+
+
+
+
+<!-- FOOTER RIGHT BEGIN -->
+
+			</p>
+		</div>
+	</div>
+</div>
+
+
+<!-- FOOTER RIGHT END -->
+
+<!--no_index_end-->
+
+
+    
+
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"errorBeacon":"bam.nr-data.net","licenseKey":"e28325a005","agent":"","beacon":"bam.nr-data.net","applicationTime":93,"applicationID":"1175214","transactionName":"NlZQYBFZWhUAU0NfDQ8cYUQRUVoBIl9ZQhAOX15RERdSDw9UFx4lJGcb","queueTime":0}</script></body>
+</html>
