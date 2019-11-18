@@ -173,6 +173,12 @@ namespace DMFX.QuotesDAL
             get;
             set;
         }
+
+        public IDictionary<string, string> Metadata
+        {
+            get;
+            set;
+        }
     }
 
     class QuotesDalMSSQLGetTickersListParams : IQuotesDalGetTickersListParams

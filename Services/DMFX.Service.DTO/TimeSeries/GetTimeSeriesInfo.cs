@@ -54,6 +54,21 @@ namespace DMFX.Service.DTO
         }
     }
 
+    public class TimeseriesMetadataRecord
+    {
+        public string Key
+        {
+            get;
+            set;
+        }
+
+        public string Value
+        {
+            get;
+            set;
+        }
+    }
+
     public class GetTimeSeriesInfoResponse : ResponseBase
     {
         public GetTimeSeriesInfoResponse()
@@ -112,6 +127,12 @@ namespace DMFX.Service.DTO
             }
 
             public IList<string> Columns
+            {
+                get;
+                set;
+            }
+
+            public IList<TimeseriesMetadataRecord> Metadata
             {
                 get;
                 set;

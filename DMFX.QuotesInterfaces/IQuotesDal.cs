@@ -221,6 +221,12 @@ namespace DMFX.QuotesInterfaces
             set;
         }
 
+        IDictionary<string, string> Metadata
+        {
+            get;
+            set;
+        }
+
         
     }
 

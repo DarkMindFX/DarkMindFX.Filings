@@ -3,6 +3,7 @@ using DMFX.QuotesInterfaces;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.IO;
@@ -128,6 +129,19 @@ namespace DMFX.Service.TimeSeries
                         foreach (var c in getTInfoResult.Columns)
                         {
                             response.Payload.Columns.Add(c);
+                        }
+
+                        if(getTInfoResult.Metadata != null && getTInfoResult.Metadata.Count > 0)
+                        {
+                            response.Payload.Metadata = new List<TimeseriesMetadataRecord>();
+                            foreach(var k in getTInfoResult.Metadata.Keys)
+                            {
+                                TimeseriesMetadataRecord metaRec = new TimeseriesMetadataRecord();
+                                metaRec.Key = k;
+                                metaRec.Value = getTInfoResult.Metadata[k];
+
+                                response.Payload.Metadata.Add(metaRec);
+                            }
                         }
 
                         response.Success = true;

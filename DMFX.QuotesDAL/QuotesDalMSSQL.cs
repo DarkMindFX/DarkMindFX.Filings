@@ -272,7 +272,7 @@ namespace DMFX.QuotesDAL
                 for (int i = 1; i <= cColumnCount && !DBNull.Value.Equals(ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]); ++i)
                 {
                     result.Columns.Add((string)ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]);
-                }
+                }                
 
                 // creating list of available timeframes
                 foreach (DataRow r in ds.Tables[0].Rows)
@@ -285,7 +285,17 @@ namespace DMFX.QuotesDAL
 
                     });
                 }
-                
+
+                // getting metadata - if exists
+                if (ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0)
+                {
+                    result.Metadata = new Dictionary<string, string>();
+                    for (int r = 0; r < ds.Tables[1].Rows.Count; ++r)
+                    {
+                        result.Metadata.Add((string)ds.Tables[1].Rows[r]["Ticker_Meta_Key"], (string)ds.Tables[1].Rows[r]["Ticker_Meta_Value"]);
+                    }
+                }
+
             }
             else
             {
