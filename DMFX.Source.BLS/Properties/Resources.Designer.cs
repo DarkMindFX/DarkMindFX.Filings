@@ -61,10 +61,9 @@ namespace DMFX.Source.BLS.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;indicators&gt;
-        ///  &lt;indicator ticker_symbol=&quot;BLS.CPI.CUUR0000SA0&quot; name=&quot;All items in U.S. city average, all urban consumers, not seasonally adjusted&quot; metadata=&quot;Symbol=CUUR0000SA0;Type=CPI;Survey=CPI for All Urban Consumers (CPI-U);Measure Data=All items;Industry=;Seasonaly Adj=FALSE;Title=All items in U.S. city average, all urban consumers, not seasonally adjusted;&quot; /&gt;
-        ///  &lt;indicator ticker_symbol=&quot;BLS.CPI.CUSR0000SA0&quot; name=&quot;All items in U.S. city average, all urban consu [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;indicators&gt;
+        ///  &lt;indicator ticker_symbol=&quot;BLS.CUUR0000SA0&quot; bls_code=&quot;CUUR0000SA0&quot; name=&quot;All items in U.S. city average, all urban consumers, not seasonally adjusted&quot; metadata=&quot;Series Title=All items in U.S. city average, all urban consumers, not seasonally adjusted;Series ID=CUUR0000SA0;Seasonality=Not Seasonally Adjusted;Survey Name=CPI for All Urban Consumers (CPI-U);Measure Data Type=All items;Area=U.S. city average;Item=All items;&quot; /&gt;
+        ///  &lt;indicator ticker_symbol=&quot;BLS.CUSR0000SA0&quot; bls_code=&quot;CUSR0000SA0&quot;  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BLSIndicatorsList {
             get {

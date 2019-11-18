@@ -122,6 +122,10 @@ namespace DMFX.QuotesDAL
                     if (tickerId == Int32.MinValue)
                     {
                         tickerId = AddTicker(q.Ticker, q.Name, q.AgencyCode, q.Notes, conn);
+                        if(tickerId != Int32.MinValue && q.Metadata != null && q.Metadata.Values.Count > 0)
+                        {
+                            SetTickerMetadata(tickerId, q.Metadata, conn);
+                        }
                     }
 
                     int unitId = (int)q.Unit;
@@ -397,6 +401,23 @@ namespace DMFX.QuotesDAL
             return dtFilingData;
         }
 
+        private DataTable ConvertToTickerMetadata(ITimeSeriesMetadata data)
+        {
+            DataTable dtFilingData = DataAccessTypes.CreateTickerMetadataTable();
+
+            foreach (var k in data.Values.Keys)
+            {
+                DataRow rowFilingData = dtFilingData.NewRow();
+
+                rowFilingData["Key"] = k;
+                rowFilingData["Value"] = data.Values[k];
+
+                dtFilingData.Rows.Add(rowFilingData);
+            }
+
+            return dtFilingData;
+        }
+
         private int GetTickerId(string ticker, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
@@ -424,6 +445,35 @@ namespace DMFX.QuotesDAL
             {
                 return Int32.MinValue;
             }
+        }
+        
+        private bool SetTickerMetadata(int tickerId, ITimeSeriesMetadata metadata, SqlConnection conn)
+        {
+            bool result = false;
+
+            SqlCommand cmd = new SqlCommand();
+
+            //first checking if TS exists
+            string spName = "[SP_Set_Ticker_Metadata]";
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            var paramTickerSymbol = new SqlParameter("@IN_Ticker_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, tickerId);
+            cmd.Parameters.Add(paramTickerSymbol);
+
+            var paramTickerMeta = new SqlParameter("@IN_Ticker_Metadata", SqlDbType.Structured);
+            paramTickerMeta.Value = ConvertToTickerMetadata(metadata);
+            paramTickerMeta.TypeName = "TYPE_Ticker_Metadata";
+            paramTickerMeta.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(paramTickerMeta);
+
+            cmd.ExecuteNonQuery();
+
+            result = true;
+
+            return result;
+
         }
 
         private int AddTicker(string ticker, string name, string agency, string notes, SqlConnection conn)

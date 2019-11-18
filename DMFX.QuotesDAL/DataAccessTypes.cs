@@ -27,6 +27,16 @@ namespace DMFX.QuotesDAL
             return dtMetadata;
         }
 
-        
+        static public DataTable CreateTickerMetadataTable()
+        {
+            DataTable dtMetadata = new DataTable();
+
+            dtMetadata.Columns.Add(new DataColumn("Key", typeof(string)));
+            dtMetadata.Columns.Add(new DataColumn("Value", typeof(string)));
+
+            return dtMetadata;
+        }
+
+
     }
 }
