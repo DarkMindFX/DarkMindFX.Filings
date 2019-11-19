@@ -119,6 +119,10 @@
     <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesDAL.dll" />
     <Content Include="Plugins\DMFX.QuotesDAL\DMFX.QuotesInterfaces.dll" />
     <Content Include="Plugins\DMFX.QuotesDAL\System.ValueTuple.dll" />
+    <Content Include="Plugins\DMFX.Source.BLS\DMFX.BLS.Api.dll" />
+    <Content Include="Plugins\DMFX.Source.BLS\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.Source.BLS\DMFX.QuotesInterfaces.dll" />
+    <Content Include="Plugins\DMFX.Source.BLS\DMFX.Source.BLS.dll" />
     <Content Include="Plugins\DMFX.Source.CFTC\DMFX.CFTC.Api.dll" />
     <Content Include="Plugins\DMFX.Source.CFTC\DMFX.Common.Interfaces.dll" />
     <Content Include="Plugins\DMFX.Source.CFTC\DMFX.QuotesInterfaces.dll" />
