@@ -293,13 +293,16 @@ namespace DMFX.Source.SEC
         {
             Submission result = null;
 
-            List<string> items = new List<string>();
-            if (_storage.ListItems(regualtorCode, companyCode, name, items) == EErrorCodes.Success)
+            if (_storage != null)
             {
-                result = new Submission(name, DateTime.UtcNow);
-                foreach (var item in items)
+                List<string> items = new List<string>();
+                if (_storage.ListItems(regualtorCode, companyCode, name, items) == EErrorCodes.Success)
                 {
-                    result.Files.Add(new SubmissionFileInfo(Path.GetFileName(item), DateTime.UtcNow));
+                    result = new Submission(name, DateTime.UtcNow);
+                    foreach (var item in items)
+                    {
+                        result.Files.Add(new SubmissionFileInfo(Path.GetFileName(item), DateTime.UtcNow));
+                    }
                 }
             }
 
@@ -316,12 +319,15 @@ namespace DMFX.Source.SEC
         private SubmissionFile LoadFromStorage(string regulatorCode, string companyCode, string filingName, string name)
         {
             SubmissionFile file = null;
-            List<byte> content = new List<byte>();
-            EErrorCodes loadRes = _storage.Load(regulatorCode, companyCode, filingName, name, content);
-            if (loadRes == EErrorCodes.Success)
+            if (_storage != null)
             {
-                file = new SubmissionFile(name);
-                file.Content = content;
+                List<byte> content = new List<byte>();
+                EErrorCodes loadRes = _storage.Load(regulatorCode, companyCode, filingName, name, content);
+                if (loadRes == EErrorCodes.Success)
+                {
+                    file = new SubmissionFile(name);
+                    file.Content = content;
+                }
             }
 
             return file;

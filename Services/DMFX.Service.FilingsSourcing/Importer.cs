@@ -18,6 +18,7 @@ namespace DMFX.Service.Sourcing
             DateEnd = DateTime.UtcNow;
             DateStart = DateTime.MinValue;
             CompanyCodes = new HashSet<string>();
+            Types = new HashSet<string>();
         }
         public DateTime DateStart
         {
@@ -42,7 +43,14 @@ namespace DMFX.Service.Sourcing
             get;
             set;
         }
+
+        public HashSet<string> Types
+        {
+            get;
+            set;
+        }
     }
+
     public class Importer
     {
         public enum EImportState
@@ -341,15 +349,20 @@ namespace DMFX.Service.Sourcing
         #region Support method
         private void InitStorage()
         {
-            _logger.Log(EErrorType.Info, string.Format("InitStorage: Folder '{0}'", ConfigurationManager.AppSettings["StorageRootFolder"]));
+            bool useStorage = ConfigurationManager.AppSettings["UseStorage"] != null ? Boolean.Parse(ConfigurationManager.AppSettings["UseStorage"]) : false;
+            if (useStorage)
+            {
+                _logger.Log(EErrorType.Info, string.Format("InitStorage: Folder '{0}'", ConfigurationManager.AppSettings["StorageRootFolder"]));
 
-            var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
-            IStorageParams stgParams = storage.Value.CreateStorageParams();
-            stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
+                var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
+                IStorageParams stgParams = storage.Value.CreateStorageParams();
+                stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
 
-            storage.Value.Init(stgParams);
+                storage.Value.Init(stgParams);
 
-            _storage = storage.Value;
+                _storage = storage.Value;
+            }
+
 
         }
         private void InitDAL()
@@ -1098,7 +1111,11 @@ namespace DMFX.Service.Sourcing
 
                         if (!string.IsNullOrEmpty(submissionInfo.Report))
                         {
-                            ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
+                            // checking which types of reports to import - if no types are specified just importing everything
+                            if (_impParams.Types.Count == 0 || _impParams.Types.Contains(submissionInfo.Type))
+                            {
+                                ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
+                            }
                         }
                         else
                         {

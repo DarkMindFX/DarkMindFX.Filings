@@ -75,7 +75,8 @@ namespace DMFX.Service.Sourcing
 
                     if (Global.Importer.CurrentState == Importer.EImportState.Idle)
                     {
-                        string sCompanies = string.Empty;                        
+                        string sCompanies = string.Empty;
+                        string sTypes = string.Empty;
                         
                         // preparing parameters for import
                         ImporterParams impParams = new ImporterParams();
@@ -101,9 +102,24 @@ namespace DMFX.Service.Sourcing
                                 }
                             }
                         }
+                        if (request.Types != null)
+                        {
+                            foreach (var t in request.Types)
+                            {
+                                if (!impParams.Types.Contains(t))
+                                {
+                                    sTypes += " " + t;
+                                    impParams.Types.Add(t);
+                                }
+                            }
+                        }
 
                         _logger.Log(EErrorType.Info, 
-                            string.Format(" ****** Starting import: From {0} to {1}, Regulator: {2}, Companies: {3}", impParams.DateStart, impParams.DateEnd, !string.IsNullOrEmpty(impParams.RegulatorCode) ? impParams.RegulatorCode : "All" , !string.IsNullOrEmpty(sCompanies) ? sCompanies : "All"));
+                            string.Format(" ****** Starting import: \r\n\tFrom {0} to {1},\r\n\tRegulator: {2},\r\n\tCompanies: {3}\r\n\tTypes: {4}", 
+                                impParams.DateStart, impParams.DateEnd, 
+                                !string.IsNullOrEmpty(impParams.RegulatorCode) ? impParams.RegulatorCode : "All" , 
+                                !string.IsNullOrEmpty(sCompanies) ? sCompanies : "All",
+                                !string.IsNullOrEmpty(sTypes) ? sTypes : "All"));
 
                         // starting import process
                         response.Success = Global.Importer.StartImport(impParams);

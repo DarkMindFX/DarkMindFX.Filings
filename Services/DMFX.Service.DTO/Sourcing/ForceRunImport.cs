@@ -12,6 +12,7 @@ namespace DMFX.Service.DTO
     [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DaysBack}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
     [Route("/ForceRunImport/{DateStart}/{DateEnd}/{RegulatorCode}/{CompanyCodes}/{SessionToken}", "GET")]
+    [Route("/ForceRunImport/{DateStart}/{DateEnd}/{RegulatorCode}/{CompanyCodes}/{Types}/{SessionToken}", "GET")]
     [Route("/ForceRunImport", "POST")]
     public class ForceRunImport : RequestBase, IReturn<ForceRunImportResponse>
     {
@@ -34,6 +35,12 @@ namespace DMFX.Service.DTO
         }
 
         public string[] CompanyCodes
+        {
+            get;
+            set;
+        }
+
+        public string[] Types
         {
             get;
             set;

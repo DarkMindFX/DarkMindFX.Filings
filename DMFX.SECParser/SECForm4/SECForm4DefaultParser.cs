@@ -252,9 +252,18 @@ namespace DMFX.SECParser.SECForm4
 
                         if (nTransactionFormEquitySwapInvolved != null)
                         {
+                            decimal dEquitySwapInvolved = 0;
+                            if(!Decimal.TryParse(nTransactionFormEquitySwapInvolved.InnerText, out dEquitySwapInvolved))
+                            {
+                                bool bEquitySwapInvolved = false;
+                                bool.TryParse(nTransactionFormEquitySwapInvolved.InnerText, out bEquitySwapInvolved);
+
+                                dEquitySwapInvolved = bEquitySwapInvolved ? 1 : 0;
+
+                            }
                             StatementRecord rFormEquitySwapInv = new StatementRecord(
                                     "EquitySwapInvolved",
-                                    Decimal.Parse(nTransactionFormEquitySwapInvolved.InnerText),
+                                    dEquitySwapInvolved,
                                     null, dtDate, dtDate, dtDate, null, factId);
                             section.Records.Add(rFormEquitySwapInv);
                         }
