@@ -1,4 +1,5 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -912,7 +913,7 @@ namespace DMFX.Service.Sourcing
 
         }
 
-        private ISourceFilingsListResult ValidateNewReports(string regulatorCode, string companyCode, ISource source)
+        private ISourceFilingsListResult GetFilingsList(string regulatorCode, string companyCode, ISource source)
         {
             _logger.Log(EErrorType.Info, string.Format("ValidateNewReports - {0} / {1}", regulatorCode, companyCode));
 
@@ -929,7 +930,42 @@ namespace DMFX.Service.Sourcing
             return vldResult;
         }
 
-        private ISourceSubmissionsInfoResult GetListOfSubmissions(string regulatorCode, string companyCode, ISource source, ISourceFilingsListResult vldResult)
+        private IList<ISourceItemInfo> IdentifyNewFilings(string regulatorCode, string companyCode, List<ISourceItemInfo> itemsAtRegulator)
+        {
+            var result = new List<ISourceItemInfo>();
+
+            // getting list of exisiting reports
+            GetCompanyFilingsInfoParams paramsGetFilingsInfo = new GetCompanyFilingsInfoParams()
+            {
+                CompanyCode = companyCode,
+                RegulatorCode = regulatorCode,
+                PeriodStart = _impParams.DateStart,
+                PeriodEnd = _impParams.DateEnd
+            };
+
+            if(_impParams.Types != null && _impParams.Types.Count > 0)
+            {
+                paramsGetFilingsInfo.Types = new HashSet<string>(_impParams.Types);
+            }
+            var resGetCompanyFilingsInfo = _dal.GetCompanyFilingsInfo(paramsGetFilingsInfo);
+
+            if(resGetCompanyFilingsInfo != null && resGetCompanyFilingsInfo.Filings != null)
+            {
+                // some filings exist for the given set of conditions - finding which reports are new
+                HashSet<string> existingReports = new HashSet<string>(resGetCompanyFilingsInfo.Filings.Select( x => x.Name ));
+                result.AddRange(
+                    itemsAtRegulator.Where(x => !existingReports.Contains(x.Name))
+                    );
+            }
+            else
+            {
+                result.AddRange(itemsAtRegulator);
+            }
+
+            return result;
+        }
+
+        private ISourceSubmissionsInfoResult GetListOfSubmissions(string regulatorCode, string companyCode, ISource source, IList<ISourceItemInfo> submissions)
         {
             _logger.Log(EErrorType.Info, string.Format("GetListOfSubmissions - {0} / {1}", regulatorCode, companyCode));
 
@@ -938,7 +974,7 @@ namespace DMFX.Service.Sourcing
             subInfoParams.CompanyCode = companyCode;
             subInfoParams.RegulatorCode = regulatorCode;
 
-            subInfoParams.Items.AddRange(vldResult.Filings);
+            subInfoParams.Items.AddRange(submissions);
 
             ISourceSubmissionsInfoResult subInfoResult = source.GetSubmissionsInfo(subInfoParams);
 
@@ -1085,14 +1121,16 @@ namespace DMFX.Service.Sourcing
 
             var parsersRepository = CompositionContainer.GetExport<IParsersRepository>(regulatorCode);
 
-            ISourceFilingsListResult vldResult = ValidateNewReports(regulatorCode, companyCode, source);
+            ISourceFilingsListResult vldResult = GetFilingsList(regulatorCode, companyCode, source);
+
+            IList<ISourceItemInfo> newFilings = IdentifyNewFilings(regulatorCode, companyCode, vldResult.Filings);
 
             // 2. if any - importing from source
-            if (vldResult.Success && vldResult.Filings != null && vldResult.Filings.Count > 0)
+            if (vldResult.Success && newFilings != null && newFilings.Count > 0)
             {
                 _logger.Log(EErrorType.Info, string.Format("Delta {0} / {1}: {2}", regulatorCode, companyCode, vldResult.Filings.Count));
 
-                ISourceSubmissionsInfoResult subInfoResult = GetListOfSubmissions(regulatorCode, companyCode, source, vldResult);
+                ISourceSubmissionsInfoResult subInfoResult = GetListOfSubmissions(regulatorCode, companyCode, source, newFilings);
 
                 if (subInfoResult != null && subInfoResult.Submissions != null && subInfoResult.Submissions.Count > 0)
                 {
