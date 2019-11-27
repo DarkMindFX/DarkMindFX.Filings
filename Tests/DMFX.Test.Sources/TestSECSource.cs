@@ -31,10 +31,10 @@ namespace DMFX.Test.Sources
             vldParams.UpdateFromDate = DateTime.Now - TimeSpan.FromDays(90);
             vldParams.UpdateToDate = DateTime.Now;
 
-            ISourceValidateResult result = secSource.ValidateSourceDelta(vldParams);
+            ISourceFilingsListResult result = secSource.GetFilingsList(vldParams);
 
-            Assert.AreNotEqual(result.Delta, null, "List of delta items is NULL");
-            Assert.AreNotEqual(result.Delta.Count, 0, "List of delta items is empty");
+            Assert.AreNotEqual(result.Filings, null, "List of delta items is NULL");
+            Assert.AreNotEqual(result.Filings.Count, 0, "List of delta items is empty");
         }
 
         [Test]

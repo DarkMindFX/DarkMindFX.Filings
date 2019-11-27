@@ -100,9 +100,9 @@ namespace DMFX.Source.SEC
             return result;
         }
 
-        public ISourceValidateResult ValidateSourceDelta(ISourceValidateParams vldParams)
+        public ISourceFilingsListResult GetFilingsList(ISourceValidateParams vldParams)
         {
-            SECSourceValidateResult result = new SECSourceValidateResult();
+            SECSourceFilingsListResult result = new SECSourceFilingsListResult();
 
             SECSourceValidateParams vldSECParams = vldParams as SECSourceValidateParams;
             if (vldSECParams != null)
@@ -112,13 +112,12 @@ namespace DMFX.Source.SEC
                 {
 
                     Submissions submissions = _secApi.ArchivesEdgarDataCIK(cik);
-
-                    result.NeedUpdate = true; // TODO: this value depends on whether there are any new filings for the company - for now always true
+                    
                     foreach (var filing in submissions.Folders.OrderBy( x => x.LastModified ).Where(x => x.LastModified >= vldSECParams.UpdateFromDate && x.LastModified <= vldSECParams.UpdateToDate))
                     {
                         SECSourceItemInfo secSourceItemInfo = new SECSourceItemInfo();
                         secSourceItemInfo.Name = filing.Name;
-                        result.Delta.Add(secSourceItemInfo);
+                        result.Filings.Add(secSourceItemInfo);
                     }
 
                     result.Success = true;

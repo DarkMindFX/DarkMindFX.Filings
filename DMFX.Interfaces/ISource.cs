@@ -108,15 +108,10 @@ namespace DMFX.Interfaces
 
     }
 
-    public interface ISourceValidateResult : IResult
-    {
-        bool NeedUpdate
-        {
-            get;
-            set;
-        }
+    public interface ISourceFilingsListResult : IResult
+    { 
 
-        List<ISourceItemInfo> Delta
+        List<ISourceItemInfo> Filings
         {
             get;
             set;
@@ -250,11 +245,11 @@ namespace DMFX.Interfaces
         void Init(ISourceInitParams initParams);
 
         /// <summary>
-        /// Method to validate whether there are any new filings exist for given regulator/company
+        /// Method to get the list of all filings for given regulator/company for given date range
         /// </summary>
         /// <param name="vldParams"></param>
         /// <returns></returns>
-        ISourceValidateResult ValidateSourceDelta(ISourceValidateParams vldParams);
+        ISourceFilingsListResult GetFilingsList(ISourceValidateParams vldParangsms);
        
         /// <summary>
         /// Extracts content of the given filings for given regulator/company

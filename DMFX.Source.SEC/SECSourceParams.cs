@@ -147,24 +147,18 @@ namespace DMFX.Source.SEC
         }
     }
 
-    public class SECSourceValidateResult : ResultBase, ISourceValidateResult
+    public class SECSourceFilingsListResult : ResultBase, ISourceFilingsListResult
     {
-        public SECSourceValidateResult()
+        public SECSourceFilingsListResult()
         {
-            Delta = new List<ISourceItemInfo>();
+            Filings = new List<ISourceItemInfo>();
         }
 
-        public List<ISourceItemInfo> Delta
+        public List<ISourceItemInfo> Filings
         {
             get;
             set;
-        }
-
-        public bool NeedUpdate
-        {
-            get;
-            set;
-        }
+        } 
     }
 
     public class SECSourceExtractParams : ISourceExtractParams

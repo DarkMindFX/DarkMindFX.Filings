@@ -1,5 +1,4 @@
 ﻿using DMFX.Interfaces;
-using DMFX.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -7,7 +6,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace DMFX.Service.Sourcing
 {
@@ -65,12 +63,7 @@ namespace DMFX.Service.Sourcing
         }
 
         private Task _importTask = null;
-        private DateTime _importStart = DateTime.MinValue;
-        private DateTime _importEnd = DateTime.MinValue;
-        private EImportState _currentState = EImportState.Idle;
-        private CompositionContainer _compContainer = null;
-        private List<Error> _errorsLog = new List<Error>();
-        private HashSet<string> _companiesProcessed = new HashSet<string>();
+        private ImportResults _currImport = null;
         private Interfaces.DAL.IDal _dal = null;
         private ILogger _logger = null;
         private IStorage _storage = null;
@@ -83,8 +76,7 @@ namespace DMFX.Service.Sourcing
 
             try
             {
-                _compContainer = compContainer;
-                Errors = new List<Error>();
+                CompositionContainer = compContainer;
 
                 _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
 
@@ -104,65 +96,43 @@ namespace DMFX.Service.Sourcing
 
         #region Properties
 
-        public EImportState CurrentState
-        {
-            get
-            {
-                return _currentState;
-            }
-            private set
-            {
-                _currentState = value;
-            }
-        }
+        public EImportState CurrentState { get; private set; } = EImportState.Idle;
 
-        public DateTime ImportStart
-        {
-            get
-            {
-                return _importStart;
-            }
-        }
+        public DateTime ImportStart { get; private set; } = DateTime.MinValue;
 
-        public DateTime ImportEnd
-        {
-            get
-            {
-                return _importEnd;
-            }
-        }
+        public DateTime ImportEnd { get; private set; } = DateTime.MinValue;
 
         public HashSet<string> CompaniesProcessed
         {
             get
             {
-                return _companiesProcessed;
+                HashSet<string> result = null;
+                if(LastImportResults != null)
+                {
+                    result = new HashSet<string>( LastImportResults.Companies.Select(c => c.CompanyCode) );
+                }
+                else
+                {
+                    result = new HashSet<string>();
+                }
+
+                return result;
             }
         }
 
-        public List<Error> Errors
+        public ImportResults LastImportResults
         {
             get
             {
-                return _errorsLog;
+                return _currImport;
             }
             private set
             {
-                _errorsLog = value;
+                _currImport = value;
             }
         }
 
-        public CompositionContainer CompositionContainer
-        {
-            get
-            {
-                return _compContainer;
-            }
-            set
-            {
-                _compContainer = value;
-            }
-        }
+        public CompositionContainer CompositionContainer { get; set; } = null;
 
         #endregion
 
@@ -172,9 +142,10 @@ namespace DMFX.Service.Sourcing
             {
                 _isRunning = true;
                 _impParams = impParams;
-                _companiesProcessed.Clear();
-                _importStart = DateTime.UtcNow;
-                _errorsLog.Clear();
+                CompaniesProcessed.Clear();
+                ImportStart = DateTime.UtcNow;
+
+                LastImportResults = new ImportResults();
 
                 _importTask = new Task(ImportThread);
                 _importTask.Start();
@@ -196,10 +167,8 @@ namespace DMFX.Service.Sourcing
         protected void ImportThread()
         {
             _logger.Log(EErrorType.Info, "ImportThread started");
-            if (_compContainer != null)
+            if (CompositionContainer != null)
             {
-                // Clearing all errors
-                Errors.Clear();
 
                 // validating if there are anything need to be imported
                 CurrentState = EImportState.Init;
@@ -218,12 +187,12 @@ namespace DMFX.Service.Sourcing
                     Lazy<ISource> source = null;
                     try
                     {
-                        source = _compContainer.GetExport<ISource>(regulator);
+                        source = CompositionContainer.GetExport<ISource>(regulator);
                     }
                     catch (Exception ex)
                     {
                         _logger.Log(ex);
-                        Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", regulator) });
+                        LastImportResults.AddError(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", regulator) });
                     }
                     if (source != null && source.Value != null)
                     {
@@ -269,20 +238,20 @@ namespace DMFX.Service.Sourcing
                     }
                     else
                     {
-                        Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", regulator) });
+                        LastImportResults.AddError(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Warning, Message = string.Format("ISource importer not registered for '{0}' - skipped", regulator) });
                     }
                 }
             }
             else
             {
-                Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = "Import failed. Composition comtainer is NULL" });
+                LastImportResults.AddError(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = "Import failed. Composition comtainer is NULL" });
             }
 
             CurrentState = EImportState.Idle;
             _isRunning = false;
-            _importEnd = DateTime.UtcNow;
+            ImportEnd = DateTime.UtcNow;
 
-            _logger.Log(EErrorType.Info, string.Format("ImportThread finished. Total errors: {0}, Time: {1}", Errors.Count, _importEnd - _importStart));
+            _logger.Log(EErrorType.Info, string.Format("ImportThread finished. Total errors: {0}, Time: {1}", LastImportResults.ErrorsLog.Count, ImportEnd - ImportStart));
 
         }
 
@@ -337,7 +306,7 @@ namespace DMFX.Service.Sourcing
                     }
                     _logger.Log(EErrorType.Error, string.Format("Error on import - {0}", companyCode));
                     _logger.Log(ex);
-                    Errors.Add(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed: Regulator '{0}', Company '{1}', Error '{2}'", importParams.RegulatorCode, companyCode, ex.Message) });
+                    LastImportResults.AddError(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed: Regulator '{0}', Company '{1}', Error '{2}'", importParams.RegulatorCode, companyCode, ex.Message) });
 
                     
                 }
@@ -354,9 +323,9 @@ namespace DMFX.Service.Sourcing
             {
                 _logger.Log(EErrorType.Info, string.Format("InitStorage: Folder '{0}'", ConfigurationManager.AppSettings["StorageRootFolder"]));
 
-                var storage = _compContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
+                var storage = CompositionContainer.GetExport<IStorage>(ConfigurationManager.AppSettings["StorageType"]);
                 IStorageParams stgParams = storage.Value.CreateStorageParams();
-                stgParams.Parameters["RootFolder"] = Path.Combine(_compContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
+                stgParams.Parameters["RootFolder"] = Path.Combine(CompositionContainer.GetExportedValue<string>("ServiceRootFolder"), ConfigurationManager.AppSettings["StorageRootFolder"]);
 
                 storage.Value.Init(stgParams);
 
@@ -369,7 +338,7 @@ namespace DMFX.Service.Sourcing
         {
             _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
 
-            Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
+            Lazy<Interfaces.DAL.IDal> dal = CompositionContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionStringFilings", ConfigurationManager.AppSettings["ConnectionStringFilings"]);
  
@@ -394,7 +363,7 @@ namespace DMFX.Service.Sourcing
             }
             else
             {
-                var valDictionary = _compContainer.GetExport<IDictionary>("DB");
+                var valDictionary = CompositionContainer.GetExport<IDictionary>("DB");
                 if (valDictionary != null && valDictionary.Value != null)
                 {
                     List<Interfaces.RegulatorInfo> companies = valDictionary.Value.GetRegulators();
@@ -423,7 +392,7 @@ namespace DMFX.Service.Sourcing
             }
             else
             {
-                var valDictionary = _compContainer.GetExport<IDictionary>("DB");
+                var valDictionary = CompositionContainer.GetExport<IDictionary>("DB");
                 if(valDictionary != null && valDictionary.Value != null)
                 {
                     List<Interfaces.CompanyInfo> companies = valDictionary.Value.GetCompaniesByRegulator(regulatorCode);
@@ -943,7 +912,7 @@ namespace DMFX.Service.Sourcing
 
         }
 
-        private ISourceValidateResult ValidateNewReports(string regulatorCode, string companyCode, ISource source)
+        private ISourceFilingsListResult ValidateNewReports(string regulatorCode, string companyCode, ISource source)
         {
             _logger.Log(EErrorType.Info, string.Format("ValidateNewReports - {0} / {1}", regulatorCode, companyCode));
 
@@ -955,12 +924,12 @@ namespace DMFX.Service.Sourcing
             vldParams.UpdateFromDate = _impParams.DateStart;
             vldParams.UpdateToDate = _impParams.DateEnd;
 
-            ISourceValidateResult vldResult = source.ValidateSourceDelta(vldParams);
+            ISourceFilingsListResult vldResult = source.GetFilingsList(vldParams);
 
             return vldResult;
         }
 
-        private ISourceSubmissionsInfoResult GetListOfSubmissions(string regulatorCode, string companyCode, ISource source, ISourceValidateResult vldResult)
+        private ISourceSubmissionsInfoResult GetListOfSubmissions(string regulatorCode, string companyCode, ISource source, ISourceFilingsListResult vldResult)
         {
             _logger.Log(EErrorType.Info, string.Format("GetListOfSubmissions - {0} / {1}", regulatorCode, companyCode));
 
@@ -969,14 +938,19 @@ namespace DMFX.Service.Sourcing
             subInfoParams.CompanyCode = companyCode;
             subInfoParams.RegulatorCode = regulatorCode;
 
-            subInfoParams.Items.AddRange(vldResult.Delta);
+            subInfoParams.Items.AddRange(vldResult.Filings);
 
             ISourceSubmissionsInfoResult subInfoResult = source.GetSubmissionsInfo(subInfoParams);
 
             return subInfoResult;
         }
 
-        private void ProcessSubmission(string regulatorCode, string companyCode, ISource source, ISourceSubmissionInfo submissionInfo, IParsersRepository parsersRepository)
+        private void ProcessSubmission(string regulatorCode, 
+                                        string companyCode, 
+                                        ISource source, 
+                                        ISourceSubmissionInfo submissionInfo, 
+                                        IParsersRepository parsersRepository, 
+                                        CompanyImportResult companyImpResult)
         {
             DateTime dtSrart = DateTime.UtcNow;
 
@@ -1030,15 +1004,32 @@ namespace DMFX.Service.Sourcing
 
                                 if (parserResults != null && parserResults.Success)
                                 {
+                                    // Adding to DB and storage
                                     StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+
+                                    // adding record that submission was processed
+                                    FilingImportInfo fii = new FilingImportInfo();
+                                    fii.Name = submissionInfo.Name;
+                                    fii.Submitted = submissionInfo.Submitted;
+                                    fii.Type = submissionInfo.Type;
+
+                                    companyImpResult.Filings.Add(fii);
                                 }
                                 else
                                 {
-                                    _logger.Log(EErrorType.Warning, string.Format("Parser failed for {0} / {1} / {2}, Type {3}",
+                                    var parserFailError = new Error()
+                                    {
+                                        Code = EErrorCodes.ParserError,
+                                        Type = EErrorType.Warning,
+                                        Message = string.Format("Parser failed for {0} / {1} / {2}, Type {3}",
                                         regulatorCode,
                                         companyCode,
                                         submissionInfo.Name,
-                                        submissionInfo.Type));
+                                        submissionInfo.Type)
+                                    };
+
+                                    _logger.Log(parserFailError.Type, parserFailError.Message);
+                                    LastImportResults.AddError(parserFailError);
                                     if (parserResults != null)
                                     {
                                         foreach (var e in parserResults.Errors)
@@ -1080,20 +1071,26 @@ namespace DMFX.Service.Sourcing
 
         }
 
-        
-
         private void ImportPipeline(string regulatorCode, string companyCode, ISource source)
         {
+            // Preparing object to store import info
+            CompanyImportResult companyImpResult = new CompanyImportResult()
+            {
+                CompanyCode = companyCode,
+                RegulatorCode = regulatorCode,
+                ImportStartTime = DateTime.UtcNow
+            };
+
             // 1. validating if new reports are available
 
-            var parsersRepository = _compContainer.GetExport<IParsersRepository>(regulatorCode);
+            var parsersRepository = CompositionContainer.GetExport<IParsersRepository>(regulatorCode);
 
-            ISourceValidateResult vldResult = ValidateNewReports(regulatorCode, companyCode, source);
+            ISourceFilingsListResult vldResult = ValidateNewReports(regulatorCode, companyCode, source);
 
             // 2. if any - importing from source
-            if (vldResult.Success && vldResult.Delta != null && vldResult.Delta.Count > 0)
+            if (vldResult.Success && vldResult.Filings != null && vldResult.Filings.Count > 0)
             {
-                _logger.Log(EErrorType.Info, string.Format("Delta {0} / {1}: {2}", regulatorCode, companyCode, vldResult.Delta.Count));
+                _logger.Log(EErrorType.Info, string.Format("Delta {0} / {1}: {2}", regulatorCode, companyCode, vldResult.Filings.Count));
 
                 ISourceSubmissionsInfoResult subInfoResult = GetListOfSubmissions(regulatorCode, companyCode, source, vldResult);
 
@@ -1114,7 +1111,12 @@ namespace DMFX.Service.Sourcing
                             // checking which types of reports to import - if no types are specified just importing everything
                             if (_impParams.Types.Count == 0 || _impParams.Types.Contains(submissionInfo.Type))
                             {
-                                ProcessSubmission(regulatorCode, companyCode, source, submissionInfo, parsersRepository.Value);
+                                ProcessSubmission(regulatorCode, 
+                                                  companyCode, 
+                                                  source, 
+                                                  submissionInfo, 
+                                                  parsersRepository.Value, 
+                                                  companyImpResult);
                             }
                         }
                         else
@@ -1130,10 +1132,9 @@ namespace DMFX.Service.Sourcing
                 _logger.Log(EErrorType.Info, string.Format("No Delta - skipping {0}", companyCode));
             }
 
-            if (!_companiesProcessed.Contains(companyCode))
-            {
-                _companiesProcessed.Add(companyCode);
-            }
+            companyImpResult.ImportEndTime = DateTime.UtcNow;
+            // adding to import results
+            LastImportResults.AddCompanyImportResult(companyImpResult);
 
         }
 
