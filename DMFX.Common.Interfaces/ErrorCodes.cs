@@ -38,6 +38,8 @@ namespace DMFX.Interfaces
 
         SchedulerJobsNotFound = 201,
 
+        AlertsSourceFail = 301,
+
 
         GeneralError = 99999
     }

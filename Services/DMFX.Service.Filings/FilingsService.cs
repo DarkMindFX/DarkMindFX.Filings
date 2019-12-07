@@ -24,8 +24,6 @@ namespace DMFX.Service.Filings
             InitDAL();
         }
 
-
-
         public object Any(GetRegulators request)
         {
             DateTime dtStart = DateTime.UtcNow;
