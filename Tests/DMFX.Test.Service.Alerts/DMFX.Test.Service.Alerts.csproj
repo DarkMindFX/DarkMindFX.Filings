@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69915A50-C69D-4261-9AE5-5D1C0D760B4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DMFX.Test.Service.Alerts</RootNamespace>
+    <AssemblyName>DMFX.Test.Service.Alerts</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestAlertsService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="000.GetAlertsTypes.Success\Request.json" />
+    <None Include="010.GetNotificationsTypes.Success\Request.json" />
+    <None Include="020.GetAccountAlerts.Success\Request.json" />
+    <None Include="021.GetAccountAlerts.InvalidKey\Request.json" />
+    <None Include="022.GetAccountAlerts.InvalidSessionToken\Request.json" />
+    <None Include="030.AddAccountAlerts.Success\Request.json" />
+    <None Include="031.AddAccountAlerts.InvalidKey\Request.json" />
+    <None Include="032.AddAccountAlerts.InvalidSessionToken\Request.json" />
+    <None Include="040.UpdateAccountAlerts.Success\Request.json" />
+    <None Include="041.UpdateAccountAlerts.InvalidKey\Request.json" />
+    <None Include="042.UpdateAccountAlerts.InvalidSessionToken\Request.json" />
+    <None Include="050.RemoveAccountAlerts.Success\Request.json" />
+    <None Include="051.RemoveAccountAlerts.InvalidKey\Request.json" />
+    <None Include="052.RemoveAccountAlerts.InvalidSessionToken\Request.json" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
+      <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
+      <Name>DMFX.Service.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DMFX.Test.Service.Common\DMFX.Test.Service.Common.csproj">
+      <Project>{abac6196-f657-4873-bc09-31abac2c1373}</Project>
+      <Name>DMFX.Test.Service.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="000.GetAlertsTypes.Success\Finalize.sql" />
+    <Content Include="000.GetAlertsTypes.Success\Init.sql" />
+    <Content Include="010.GetNotificationsTypes.Success\Finalize.sql" />
+    <Content Include="010.GetNotificationsTypes.Success\Init.sql" />
+    <Content Include="020.GetAccountAlerts.Success\Finalize.sql" />
+    <Content Include="020.GetAccountAlerts.Success\Init.sql" />
+    <Content Include="021.GetAccountAlerts.InvalidKey\Finalize.sql" />
+    <Content Include="021.GetAccountAlerts.InvalidKey\Init.sql" />
+    <Content Include="022.GetAccountAlerts.InvalidSessionToken\Finalize.sql" />
+    <Content Include="022.GetAccountAlerts.InvalidSessionToken\Init.sql" />
+    <Content Include="030.AddAccountAlerts.Success\Finalize.sql" />
+    <Content Include="030.AddAccountAlerts.Success\Init.sql" />
+    <Content Include="031.AddAccountAlerts.InvalidKey\Finalize.sql" />
+    <Content Include="031.AddAccountAlerts.InvalidKey\Init.sql" />
+    <Content Include="032.AddAccountAlerts.InvalidSessionToken\Finalize.sql" />
+    <Content Include="032.AddAccountAlerts.InvalidSessionToken\Init.sql" />
+    <Content Include="040.UpdateAccountAlerts.Success\Finalize.sql" />
+    <Content Include="040.UpdateAccountAlerts.Success\Init.sql" />
+    <Content Include="041.UpdateAccountAlerts.InvalidKey\Finalize.sql" />
+    <Content Include="041.UpdateAccountAlerts.InvalidKey\Init.sql" />
+    <Content Include="042.UpdateAccountAlerts.InvalidSessionToken\Finalize.sql" />
+    <Content Include="042.UpdateAccountAlerts.InvalidSessionToken\Init.sql" />
+    <Content Include="050.RemoveAccountAlerts.Success\Finalize.sql" />
+    <Content Include="050.RemoveAccountAlerts.Success\Init.sql" />
+    <Content Include="051.RemoveAccountAlerts.InvalidKey\Finalize.sql" />
+    <Content Include="051.RemoveAccountAlerts.InvalidKey\Init.sql" />
+    <Content Include="052.RemoveAccountAlerts.InvalidSessionToken\Finalize.sql" />
+    <Content Include="052.RemoveAccountAlerts.InvalidSessionToken\Init.sql" />
+    <Content Include="TestInit.sql" />
+    <Content Include="TestTeardown.sql" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.12.0\build\NUnit.props'))" />
+  </Target>
+</Project>

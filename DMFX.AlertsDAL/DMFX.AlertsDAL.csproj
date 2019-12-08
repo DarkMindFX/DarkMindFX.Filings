@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AlertsDALMSSQL.cs" />
     <Compile Include="AlertsDALMSSQLParams.cs" />
+    <Compile Include="DataAccessTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

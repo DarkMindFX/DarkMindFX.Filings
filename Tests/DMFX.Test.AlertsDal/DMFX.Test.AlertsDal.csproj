@@ -74,6 +74,14 @@
   <ItemGroup>
     <Content Include="000.GetAccountSubscriptions_Success\Finalize.sql" />
     <Content Include="000.GetAccountSubscriptions_Success\Init.sql" />
+    <Content Include="010.AddAccountSubscriptions_Success\Finalize.sql" />
+    <Content Include="010.AddAccountSubscriptions_Success\Init.sql" />
+    <Content Include="020.UpdateAccountSubscriptions_Success\Finalize.sql" />
+    <Content Include="020.UpdateAccountSubscriptions_Success\Init.sql" />
+    <Content Include="030.RemoveAccountSubscription_Success\Finalize.sql" />
+    <Content Include="030.RemoveAccountSubscription_Success\Init.sql" />
+    <Content Include="040.SetAccountSubscriptionStatus_Success\Finalize.sql" />
+    <Content Include="040.SetAccountSubscriptionStatus_Success\Init.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

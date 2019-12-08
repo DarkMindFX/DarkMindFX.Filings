@@ -31,13 +31,40 @@ namespace DMFX.AlertsDAL
 
             SqlConnection conn = OpenConnection(connName);
 
+            SqlParameter paramSubsName = new SqlParameter("@Alert_Subscription_Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, addSubscrParams.SubscriptonDetails.Name);
+
+            SqlParameter paramAccountKey = new SqlParameter("@Subscriber_Account_Key", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, addSubscrParams.SubscriptonDetails.AccountKey);
+
+            SqlParameter paramAlertTypeId = new SqlParameter("@Alert_Type_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, addSubscrParams.SubscriptonDetails.TypeId);
+
+            SqlParameter paramNotificationTypeId = new SqlParameter("@Notification_Type_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, addSubscrParams.SubscriptonDetails.NotificationTypeId);
+
+            SqlParameter paramSubscribedDttm = new SqlParameter("@Subscribed_Dttm", SqlDbType.DateTime, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, addSubscrParams.SubscriptonDetails.SubscribedDttm);
+
+            DataTable dtAlertData = ConverToAlertDataTable(addSubscrParams.SubscriptonDetails);
+
+            SqlParameter paramAlertData = new SqlParameter("@Subscription_Data", SqlDbType.Structured);
+            paramAlertData.Value = dtAlertData;
+            paramAlertData.TypeName = "TYPE_Alert_Subscription_Data";
+            paramAlertData.Direction = ParameterDirection.Input;                       
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Connection = conn;
 
+            cmd.Parameters.Add(paramSubsName);
+            cmd.Parameters.Add(paramAccountKey);
+            cmd.Parameters.Add(paramAlertTypeId);
+            cmd.Parameters.Add(paramNotificationTypeId);
+            cmd.Parameters.Add(paramSubscribedDttm);
+            cmd.Parameters.Add(paramAlertData);
+
             try
             {
+                cmd.ExecuteNonQuery();
+
+                result.Success = true;
 
             }
             catch (Exception ex)
@@ -229,6 +256,25 @@ namespace DMFX.AlertsDAL
 
             SqlConnection conn = OpenConnection(connName);
 
+            SqlParameter paramId = new SqlParameter("@Alert_Subscription_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, updSubscrParams.SubscriptonDetails.Id);
+
+            SqlParameter paramSubsName = new SqlParameter("@Alert_Subscription_Name", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, ValueOrDBNull(updSubscrParams.SubscriptonDetails.Name));
+
+            SqlParameter paramAccountKey = new SqlParameter("@Subscriber_Account_Key", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, ValueOrDBNull(updSubscrParams.SubscriptonDetails.AccountKey));
+
+            SqlParameter paramNotificationTypeId = new SqlParameter("@Notification_Type_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, ValueOrDBNull(updSubscrParams.SubscriptonDetails.NotificationTypeId));
+
+            SqlParameter paramSubscribedDttm = new SqlParameter("@Subscribed_Dttm", SqlDbType.DateTime, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, ValueOrDBNull(updSubscrParams.SubscriptonDetails.SubscribedDttm));            
+
+            DataTable dtAlertData = updSubscrParams.SubscriptonDetails.SubscriptionData != null && updSubscrParams.SubscriptonDetails.SubscriptionData.Count > 0 ? ConverToAlertDataTable(updSubscrParams.SubscriptonDetails) : null;
+
+            SqlParameter paramAlertData = new SqlParameter("@Subscription_Data", SqlDbType.Structured);
+            paramAlertData.Value = ValueOrDBNull(dtAlertData);
+            paramAlertData.TypeName = "TYPE_Alert_Subscription_Data";
+            paramAlertData.Direction = ParameterDirection.Input;
+
+            SqlParameter paramSubsDataUpdate = new SqlParameter("@Subscription_Data_Update", SqlDbType.Bit, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, dtAlertData != null ? 1 : 0);
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = CommandType.StoredProcedure;
@@ -236,6 +282,149 @@ namespace DMFX.AlertsDAL
 
             try
             {
+                cmd.Parameters.Add(paramId);
+                cmd.Parameters.Add(paramSubsName);
+                cmd.Parameters.Add(paramAccountKey);
+                cmd.Parameters.Add(paramNotificationTypeId);
+                cmd.Parameters.Add(paramSubscribedDttm);
+                cmd.Parameters.Add(paramSubsDataUpdate);
+                cmd.Parameters.Add(paramAlertData);
+
+                cmd.ExecuteNonQuery();
+
+                result.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.AlertsSourceFail,
+                    Type = Interfaces.EErrorType.Error,
+                    Message = ex.Message
+                });
+            }
+
+            return result;
+        }
+
+        public IAlertsDalRemoveAccountSubscrResult RemoveAlertSubscription(IAlertsDalRemoveAccountSubscrParams remSubscrParams)
+        {
+            IAlertsDalRemoveAccountSubscrResult result = new MSSQL.AlertsDalRemoveAccountSubscrResult();
+
+            string spName = "[SP_Remove_Account_Subscription]";
+
+            SqlConnection conn = OpenConnection(connName);            
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            try
+            {
+                if (remSubscrParams.SubscriptionIds != null)
+                {
+                    foreach (var id in remSubscrParams.SubscriptionIds)
+                    {
+                        cmd.Parameters.Clear();
+
+                        SqlParameter paramId = new SqlParameter("@Alert_Subscription_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, id);
+                        cmd.Parameters.Add(paramId);
+                        cmd.ExecuteNonQuery();
+                    }                    
+                }
+
+                result.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.AlertsSourceFail,
+                    Type = Interfaces.EErrorType.Error,
+                    Message = ex.Message
+                });
+            }
+
+            return result;
+        }
+
+        public IAlertsDalRemoveAccountSubscrAllResult RemoveAlertSubscriptions(IAlertsDalRemoveAccountSubscrAllParams remSubscrParams)
+        {
+            IAlertsDalRemoveAccountSubscrAllResult result = new MSSQL.AlertsDalRemoveAccountSubscrAllResult();
+
+            string spName = "[SP_Remove_Account_Subscriptions]";
+
+            SqlConnection conn = OpenConnection(connName);
+
+            SqlParameter paramAccountKey = new SqlParameter("@SubscriberAccountKey", SqlDbType.NVarChar, 255, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, ValueOrDBNull(remSubscrParams.AccountKey));
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            cmd.Parameters.Add(paramAccountKey);
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+
+                result.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.AlertsSourceFail,
+                    Type = Interfaces.EErrorType.Error,
+                    Message = ex.Message
+                });
+            }
+
+            return result;
+        }
+
+        public IAlertsDalSetAlertStatusResult SetAlertSubscriptionStatus(IAlertsDalSetAlertStatusParams setSubsStatusParams)
+        {
+            IAlertsDalSetAlertStatusResult result = new MSSQL.AlertsDalSetAlertStatusResult();
+
+            string spName = "[SP_Set_Alert_Subscription_Status]";
+
+            SqlConnection conn = OpenConnection(connName);
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            try
+            {
+                if (setSubsStatusParams.Subscriptions != null)
+                {
+
+                    foreach (var s in setSubsStatusParams.Subscriptions)
+                    {
+                        cmd.Parameters.Clear();
+
+                        SqlParameter paramAlertId = new SqlParameter("@Alert_Subscription_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, s.Id);
+
+                        SqlParameter paramStatusId = new SqlParameter("@Status_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current, s.StatusId);
+
+                        cmd.Parameters.Add(paramAlertId);
+                        cmd.Parameters.Add(paramStatusId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                result.Success = true;
 
             }
             catch (Exception ex)
@@ -283,13 +472,29 @@ namespace DMFX.AlertsDAL
             return new MSSQL.AlertsDalRemoveAccountSubscrParams();
         }
 
-        public IAlertsDalUpdateAccountSubscrParams CreatUpdateAccountSubscrParams()
+        public IAlertsDalRemoveAccountSubscrAllParams CreateRemoveAccountSubscrAllParams()
+        {
+            return new MSSQL.AlertsDalRemoveAccountSubscrAllParams();
+        }
+
+        public IAlertsDalUpdateAccountSubscrParams CreateUpdateAccountSubscrParams()
         {
             return new MSSQL.AlertsDalUpdateAccountSubscrParams();
+        }
+
+        public IAlertsDalSetAlertStatusParams CreateSetAlertStatusParams()
+        {
+            return new MSSQL.AlertsDalSetAlertStatusParams();
         }
         #endregion
 
         #region Support methods
+
+        object ValueOrDBNull(object value)
+        {
+            return value != null ? value : DBNull.Value;
+        }
+
         private SqlConnection OpenConnection(string name)
         {
             SqlConnection conn = new SqlConnection(_dalParams.Parameters[name]);
@@ -297,6 +502,25 @@ namespace DMFX.AlertsDAL
 
             return conn;
         }
+
+        private DataTable ConverToAlertDataTable(Subscription records)
+        {
+            DataTable dtTable = DataAccessTypes.CreateAlertsDataTable();
+
+            foreach (var r in records.SubscriptionData)
+            {
+                DataRow rowMetadata = dtTable.NewRow();
+
+                rowMetadata["Subscription_Property_Name"] = r.Key;
+                rowMetadata["Subscription_Property_Value"] = r.Value;
+
+                dtTable.Rows.Add(rowMetadata);
+            }
+
+            return dtTable;
+        }
+
+        
         #endregion
     }
 }

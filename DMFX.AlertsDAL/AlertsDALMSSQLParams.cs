@@ -120,4 +120,35 @@ namespace DMFX.AlertsDAL.MSSQL
             set;
         }
     }
+
+    public class AlertsDalRemoveAccountSubscrAllParams : IAlertsDalRemoveAccountSubscrAllParams
+    {
+        public string AccountKey
+        {
+            get;
+            set;
+        }
+    }
+
+    public class AlertsDalRemoveAccountSubscrAllResult : ResultBase, IAlertsDalRemoveAccountSubscrAllResult
+    {
+    }
+
+    public class AlertsDalSetAlertStatusParams : IAlertsDalSetAlertStatusParams
+    {
+        public AlertsDalSetAlertStatusParams()
+        {
+            Subscriptions = new List<Subscription>();
+        }
+        public IList<Subscription> Subscriptions
+        {
+            get;
+            set;
+        }
+        
+    }
+
+    public class AlertsDalSetAlertStatusResult : ResultBase, IAlertsDalSetAlertStatusResult
+    {
+    }
 }

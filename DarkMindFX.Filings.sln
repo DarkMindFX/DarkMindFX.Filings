@@ -205,6 +205,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.AlertsDAL", "DMFX.Aler
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.AlertsDal", "Tests\DMFX.Test.AlertsDal\DMFX.Test.AlertsDal.csproj", "{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Alerts", "Tests\DMFX.Test.Service.Alerts\DMFX.Test.Service.Alerts.csproj", "{69915A50-C69D-4261-9AE5-5D1C0D760B4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -503,6 +505,10 @@ Global
 		{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69915A50-C69D-4261-9AE5-5D1C0D760B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69915A50-C69D-4261-9AE5-5D1C0D760B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69915A50-C69D-4261-9AE5-5D1C0D760B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69915A50-C69D-4261-9AE5-5D1C0D760B4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -560,6 +566,7 @@ Global
 		{0B1B94B0-7388-41DE-8AC3-5B8CAFF245FE} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 		{40949A28-A9BE-41E1-87DC-520DF119BF46} = {347396DF-0E08-4235-A020-1884CFB00C0B}
 		{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
+		{69915A50-C69D-4261-9AE5-5D1C0D760B4A} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92A5911F-2B1E-4BE0-B977-3971B09D682B}

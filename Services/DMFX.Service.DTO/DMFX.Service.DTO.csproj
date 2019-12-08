@@ -58,6 +58,15 @@
     <Compile Include="Accounts\CreateAccount.cs" />
     <Compile Include="Accounts\GetSessionInfo.cs" />
     <Compile Include="Accounts\ResetPassword.cs" />
+    <Compile Include="Alerts\AddAccountAlerts.cs" />
+    <Compile Include="Alerts\AlertSubscription.cs" />
+    <Compile Include="Alerts\AlertType.cs" />
+    <Compile Include="Alerts\GetAccountAlerts.cs" />
+    <Compile Include="Alerts\GetAlertTypes.cs" />
+    <Compile Include="Alerts\GetNotificationTypes.cs" />
+    <Compile Include="Alerts\NotificationType.cs" />
+    <Compile Include="Alerts\RemoveAccountAlerts.cs" />
+    <Compile Include="Alerts\UpdateAccountAlerts.cs" />
     <Compile Include="Common\Echo.cs" />
     <Compile Include="Filings\FilingRecord.cs" />
     <Compile Include="Filings\GetCommonSizeBalanceSheet.cs" />
@@ -116,7 +125,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Alerts\" />
     <Folder Include="MsgBus\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

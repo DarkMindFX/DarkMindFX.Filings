@@ -108,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Plugins\DMFX.AlertsDAL\DMFX.AlertsDAL.dll" />
+    <Content Include="Plugins\DMFX.AlertsDAL\DMFX.AlertsInterfaces.dll" />
+    <Content Include="Plugins\DMFX.AlertsDAL\DMFX.Common.Interfaces.dll" />
     <Content Include="Plugins\DMFX.Logging\DMFX.Common.Interfaces.dll" />
     <Content Include="Plugins\DMFX.Logging\DMFX.Logging.dll" />
     <Content Include="Plugins\DMFX.Logging\ServiceStack.Common.dll" />
@@ -124,9 +127,17 @@
     <Compile Include="AlertsService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DMFX.AlertsInterfaces\DMFX.AlertsInterfaces.csproj">
+      <Project>{8ef15251-fe86-41d1-b928-c8cf71203c97}</Project>
+      <Name>DMFX.AlertsInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
       <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
       <Name>DMFX.Common.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clients\DMFX.Client.Accounts\DMFX.Client.Accounts.csproj">
+      <Project>{7f456ea1-67d8-4a99-b24c-760671dda847}</Project>
+      <Name>DMFX.Client.Accounts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Clients\DMFX.Client.Common\DMFX.Client.Common.csproj">
       <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
@@ -179,7 +190,8 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"</PreBuildEvent>
+    <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.AlertsDAL\*.dll" "$(ProjectDir)Plugins\DMFX.AlertsDAL\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>

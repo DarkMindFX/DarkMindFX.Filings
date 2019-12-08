@@ -40,7 +40,7 @@ namespace DMFX.AlertsInterfaces
         {
             get;
             set;
-        }        
+        }
     }
 
     public class Subscription
@@ -80,7 +80,7 @@ namespace DMFX.AlertsInterfaces
             set;
         }
 
-        public long NotificationTypeId
+        public long? NotificationTypeId
         {
             get;
             set;
@@ -92,7 +92,7 @@ namespace DMFX.AlertsInterfaces
             set;
         }
 
-        public DateTime SubscribedDttm
+        public DateTime? SubscribedDttm
         {
             get;
             set;
@@ -190,6 +190,19 @@ namespace DMFX.AlertsInterfaces
     {
     }
 
+    public interface IAlertsDalRemoveAccountSubscrAllParams
+    {
+        string AccountKey
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IAlertsDalRemoveAccountSubscrAllResult : IResult
+    {
+    }
+
     public interface IAlertsDalGetAccountSubscriptionsParams
     {
         string AccountKey
@@ -206,6 +219,21 @@ namespace DMFX.AlertsInterfaces
         {
             get;
         }
+    }
+
+    public interface IAlertsDalSetAlertStatusParams
+    {
+        IList<Subscription> Subscriptions
+        {
+            get;
+            set;
+        }
+
+        
+    }
+
+    public interface IAlertsDalSetAlertStatusResult : IResult
+    {
     }
 
 
@@ -239,19 +267,44 @@ namespace DMFX.AlertsInterfaces
         /// <returns></returns>
         IAlertsDalAddAccountSubscrResult AddAlertSubscription(IAlertsDalAddAccountSubscrParams addSubscrParams);
 
+
         /// <summary>
         /// Updates subscription for given account for given alert
         /// </summary>
-        /// <param name="addSubscrParams"></param>
+        /// <param name="updSubscrParams"></param>
         /// <returns></returns>
         IAlertsDalUpdateAccountSubscrResult UpdateAlertSubscription(IAlertsDalUpdateAccountSubscrParams updSubscrParams);
-        
+
+
+        /// <summary>
+        /// Updates subscription for given account for given set of alerts
+        /// </summary>
+        /// <param name="remSubscrParams"></param>
+        /// <returns></returns>
+        IAlertsDalRemoveAccountSubscrResult RemoveAlertSubscription(IAlertsDalRemoveAccountSubscrParams remSubscrParams);
+
+        /// <summary>
+        /// Removes all subscriptions for the given accounts
+        /// </summary>
+        /// <param name="remSubscrParams"></param>
+        /// <returns></returns>
+        IAlertsDalRemoveAccountSubscrAllResult RemoveAlertSubscriptions(IAlertsDalRemoveAccountSubscrAllParams remSubscrParams);
+
         /// <summary>
         /// Returns list of all subscriptions for the given account
         /// </summary>
         /// <param name="getSubsParams"></param>
         /// <returns></returns>
         IAlertsDalGetAccountSubscriptionsResult GetAccountSubscriptions(IAlertsDalGetAccountSubscriptionsParams getSubsParams);
+
+        /// <summary>
+        /// Method to change alert subscription status
+        /// </summary>
+        /// <param name="setSubsStatusParams"></param>
+        /// <returns></returns>
+        IAlertsDalSetAlertStatusResult SetAlertSubscriptionStatus(IAlertsDalSetAlertStatusParams setSubsStatusParams);
+
+
 
 
         IAlertsDalInitParams CreateInitParams();
@@ -264,9 +317,13 @@ namespace DMFX.AlertsInterfaces
 
         IAlertsDalRemoveAccountSubscrParams CreateRemoveAccountSubscrParams();
 
-        IAlertsDalUpdateAccountSubscrParams CreatUpdateAccountSubscrParams();
+        IAlertsDalUpdateAccountSubscrParams CreateUpdateAccountSubscrParams();
 
         IAlertsDalGetAccountSubscriptionsParams CreateGetAccountSubscrParams();
+
+        IAlertsDalRemoveAccountSubscrAllParams CreateRemoveAccountSubscrAllParams();
+
+        IAlertsDalSetAlertStatusParams CreateSetAlertStatusParams();
 
     }
 }
