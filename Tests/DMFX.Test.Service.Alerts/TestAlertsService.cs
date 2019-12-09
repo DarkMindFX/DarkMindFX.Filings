@@ -169,9 +169,75 @@ namespace DMFX.Test.Service.Alerts
             UpdateAccountAlertsResponse response = Post<UpdateAccountAlerts, UpdateAccountAlertsResponse>("UpdateAccountAlerts", request);
             RunFinalizeSql(name, "ConnectionStringAlerts");
 
-            Assert.AreEqual(response.Success, true, "UpdateAccountAlerts failed succeeded unexpectedly");
+            Assert.AreEqual(response.Success, true, "UpdateAccountAlerts failed unexpectedly");
             Assert.IsNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are not empty");
  
+        }
+
+        [TestCase("041.UpdateAccountAlerts.NewAccountKey")]
+        public void UpdateAccountAlerts_NewAccountKey(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            // getting alerts to obtain IDs
+            GetAccountAlerts getAlertsReq = new GetAccountAlerts()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                SessionToken = ConfigurationManager.AppSettings["SessionToken"],
+                RequestID = Guid.NewGuid().ToString()
+            };
+
+            GetAccountAlertsResponse getAlertsResp = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", getAlertsReq);
+
+            // setting proper IDs
+            UpdateAccountAlerts request = PrepareRequest<UpdateAccountAlerts>(name);
+
+            foreach (var a in request.Alerts)
+            {
+                var alert = getAlertsResp.Payload.Alerts.FirstOrDefault(x => a.Name.Contains(x.Name));
+                if (alert != null)
+                {
+                    a.ID = alert.ID;
+                }
+            }
+
+            UpdateAccountAlertsResponse response = Post<UpdateAccountAlerts, UpdateAccountAlertsResponse>("UpdateAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "UpdateAccountAlerts failed unexpectedly");            
+        }
+
+        [TestCase("042.UpdateAccountAlerts.InvalidSessionToken")]
+        public void UpdateAccountAlerts_InvalidSessionToken(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            // getting alerts to obtain IDs
+            GetAccountAlerts getAlertsReq = new GetAccountAlerts()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                SessionToken = ConfigurationManager.AppSettings["SessionToken"],
+                RequestID = Guid.NewGuid().ToString()
+            };
+
+            GetAccountAlertsResponse getAlertsResp = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", getAlertsReq);
+
+            // setting proper IDs
+            UpdateAccountAlerts request = PrepareRequest<UpdateAccountAlerts>(name);
+
+            foreach (var a in request.Alerts)
+            {
+                var alert = getAlertsResp.Payload.Alerts.FirstOrDefault(x => a.Name.Contains(x.Name));
+                if (alert != null)
+                {
+                    a.ID = alert.ID;
+                }
+            }
+
+            UpdateAccountAlertsResponse response = Post<UpdateAccountAlerts, UpdateAccountAlertsResponse>("UpdateAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, false, "UpdateAccountAlerts succeeded unexpectedly");
         }
     }
 }

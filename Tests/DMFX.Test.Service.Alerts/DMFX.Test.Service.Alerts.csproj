@@ -78,7 +78,7 @@
     <None Include="030.AddAccountAlerts.Success\Request.json" />
     <None Include="031.AddAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="040.UpdateAccountAlerts.Success\Request.json" />
-    <None Include="041.UpdateAccountAlerts.InvalidKey\Request.json" />
+    <None Include="041.UpdateAccountAlerts.NewAccountKey\Request.json" />
     <None Include="042.UpdateAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="050.RemoveAccountAlerts.Success\Request.json" />
     <None Include="051.RemoveAccountAlerts.InvalidKey\Request.json" />
@@ -117,8 +117,8 @@
     <Content Include="031.AddAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="040.UpdateAccountAlerts.Success\Finalize.sql" />
     <Content Include="040.UpdateAccountAlerts.Success\Init.sql" />
-    <Content Include="041.UpdateAccountAlerts.InvalidKey\Finalize.sql" />
-    <Content Include="041.UpdateAccountAlerts.InvalidKey\Init.sql" />
+    <Content Include="041.UpdateAccountAlerts.NewAccountKey\Finalize.sql" />
+    <Content Include="041.UpdateAccountAlerts.NewAccountKey\Init.sql" />
     <Content Include="042.UpdateAccountAlerts.InvalidSessionToken\Finalize.sql" />
     <Content Include="042.UpdateAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="050.RemoveAccountAlerts.Success\Finalize.sql" />
