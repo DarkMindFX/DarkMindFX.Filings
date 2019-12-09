@@ -49,7 +49,20 @@ namespace DMFX.Test.Service.Alerts
 
             Assert.AreEqual(response.Success, true, "GetAlertsTypes call failed");
             Assert.IsNotEmpty(response.Payload.Types, "Types is empty");
+        }
 
+        [TestCase("010.GetNotificationTypes.Success")]
+        public void GetNotificationTypes_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            GetNotificationTypes request = PrepareRequest<GetNotificationTypes>(name);
+
+            GetNotificationTypesResponse response = Post<GetNotificationTypes, GetNotificationTypesResponse>("GetNotificationTypes", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "GetNotificationTypes call failed");
+            Assert.IsNotEmpty(response.Payload.Types, "Types is empty");
         }
     }
 }

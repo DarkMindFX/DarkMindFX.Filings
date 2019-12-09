@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="000.GetAlertsTypes.Success\Request.json" />
-    <None Include="010.GetNotificationsTypes.Success\Request.json" />
+    <None Include="010.GetNotificationTypes.Success\Request.json" />
     <None Include="020.GetAccountAlerts.Success\Request.json" />
     <None Include="021.GetAccountAlerts.InvalidKey\Request.json" />
     <None Include="022.GetAccountAlerts.InvalidSessionToken\Request.json" />
@@ -82,8 +82,8 @@
   <ItemGroup>
     <Content Include="000.GetAlertsTypes.Success\Finalize.sql" />
     <Content Include="000.GetAlertsTypes.Success\Init.sql" />
-    <Content Include="010.GetNotificationsTypes.Success\Finalize.sql" />
-    <Content Include="010.GetNotificationsTypes.Success\Init.sql" />
+    <Content Include="010.GetNotificationTypes.Success\Finalize.sql" />
+    <Content Include="010.GetNotificationTypes.Success\Init.sql" />
     <Content Include="020.GetAccountAlerts.Success\Finalize.sql" />
     <Content Include="020.GetAccountAlerts.Success\Init.sql" />
     <Content Include="021.GetAccountAlerts.InvalidKey\Finalize.sql" />
