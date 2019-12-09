@@ -1,18 +1,18 @@
 ﻿{
   "RequestID": "60288681-4595-411F-8AC5-85E80328758B",
-  "SessionToken": "451A193D-0B75-4269-BCFA-DFA74B2ACB0E",
+  "SessionToken": "#INVALID_TOKEN#",
   "AccountKey": "5109BF8F9B094CBA99A06A415BCFBEA2",
   "Alerts": [
     {
-      "Name": "Test Add Sub 01",
+      "Name": "Test Add Sub 01 InvalidToken",
       "AlertTypeId": 1,
       "NotificationTypeId": 1,
       "Properties": [
         {
           "Name": "Url",
-          "Value":  "https://customurl.com/call"
+          "Value": "https://customurl.com/call"
         }
-        
+
       ]
     }
   ]  

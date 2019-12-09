@@ -159,6 +159,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.SchedulerDAL", "DMFX.SchedulerDAL\DMFX.SchedulerDAL.csproj", "{DCD35430-69B8-4EAE-9DA1-ABA2B0DA4E77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Alerts", "Services\DMFX.Service.Alerts\DMFX.Service.Alerts.csproj", "{57FB62EC-D32D-4153-9B6F-AC7D3C53DAFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBD366B-5DBC-43CA-98B0-EEA639F16D6A} = {1CBD366B-5DBC-43CA-98B0-EEA639F16D6A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.FilingsSourcing", "Services\DMFX.Service.FilingsSourcing\DMFX.Service.FilingsSourcing.csproj", "{3957D08C-69EA-4FD3-927A-97E57688F515}"
 EndProject

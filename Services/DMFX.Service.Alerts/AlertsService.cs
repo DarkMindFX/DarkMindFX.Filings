@@ -143,6 +143,8 @@ namespace DMFX.Service.Alerts
                                     Value = p.Value
                                 });
                             }
+
+                            response.Payload.Alerts.Add(alertSub);
                         }
 
                         response.Success = true;
@@ -221,6 +223,8 @@ namespace DMFX.Service.Alerts
                             });
                         }
                     }
+
+                    response.Success = response.Errors.Find(e => e.Type == EErrorType.Error) == null;
                 }
                 else
                 {
@@ -259,6 +263,7 @@ namespace DMFX.Service.Alerts
                     {
                         updSubParams.SubscriptonDetails = new Subscription()
                         {
+                            Id = a.ID,
                             AccountKey = request.AccountKey,
                             Name = a.Name,
                             NotificationTypeId = a.NotificationTypeId,
@@ -290,6 +295,8 @@ namespace DMFX.Service.Alerts
                             });
                         }
                     }
+
+                    response.Success = response.Errors.Find(e => e.Type == EErrorType.Error) == null;
                 }
                 else
                 {

@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,9 +37,27 @@
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Common, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.3.9.71\lib\net35\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Common.3.9.71\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ServiceStack.Text.3.9.71\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.3\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,8 +76,7 @@
     <None Include="021.GetAccountAlerts.InvalidKey\Request.json" />
     <None Include="022.GetAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="030.AddAccountAlerts.Success\Request.json" />
-    <None Include="031.AddAccountAlerts.InvalidKey\Request.json" />
-    <None Include="032.AddAccountAlerts.InvalidSessionToken\Request.json" />
+    <None Include="031.AddAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="040.UpdateAccountAlerts.Success\Request.json" />
     <None Include="041.UpdateAccountAlerts.InvalidKey\Request.json" />
     <None Include="042.UpdateAccountAlerts.InvalidSessionToken\Request.json" />
@@ -70,6 +87,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DMFX.Common.Interfaces\DMFX.Common.Interfaces.csproj">
+      <Project>{c2c63729-b7c1-4a48-ba51-8c0b77786753}</Project>
+      <Name>DMFX.Common.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
@@ -92,10 +113,8 @@
     <Content Include="022.GetAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="030.AddAccountAlerts.Success\Finalize.sql" />
     <Content Include="030.AddAccountAlerts.Success\Init.sql" />
-    <Content Include="031.AddAccountAlerts.InvalidKey\Finalize.sql" />
-    <Content Include="031.AddAccountAlerts.InvalidKey\Init.sql" />
-    <Content Include="032.AddAccountAlerts.InvalidSessionToken\Finalize.sql" />
-    <Content Include="032.AddAccountAlerts.InvalidSessionToken\Init.sql" />
+    <Content Include="031.AddAccountAlerts.InvalidSessionToken\Finalize.sql" />
+    <Content Include="031.AddAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="040.UpdateAccountAlerts.Success\Finalize.sql" />
     <Content Include="040.UpdateAccountAlerts.Success\Init.sql" />
     <Content Include="041.UpdateAccountAlerts.InvalidKey\Finalize.sql" />

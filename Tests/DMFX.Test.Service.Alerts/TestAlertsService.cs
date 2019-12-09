@@ -64,5 +64,114 @@ namespace DMFX.Test.Service.Alerts
             Assert.AreEqual(response.Success, true, "GetNotificationTypes call failed");
             Assert.IsNotEmpty(response.Payload.Types, "Types is empty");
         }
+
+        [TestCase("020.GetAccountAlerts.Success")]
+        public void GetAccountAlerts_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            GetAccountAlerts request = PrepareRequest<GetAccountAlerts>(name);
+
+            GetAccountAlertsResponse response = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "GetAccountAlerts call failed");
+            Assert.IsNotEmpty(response.Payload.Alerts, "Alerts is empty");
+            Assert.AreEqual(response.Payload.Alerts.Count, 2, "Invalid alerts count");
+        }
+
+        [TestCase("021.GetAccountAlerts.InvalidKey")]
+        public void GetAccountAlerts_InvalidKey(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            GetAccountAlerts request = PrepareRequest<GetAccountAlerts>(name);
+
+            GetAccountAlertsResponse response = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "GetAccountAlerts call failed unexpectedly");
+            Assert.IsEmpty(response.Payload.Alerts, "Alerts are not empty");
+        }
+
+        [TestCase("022.GetAccountAlerts.InvalidSessionToken")]
+        public void GetAccountAlerts_Fail(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            GetAccountAlerts request = PrepareRequest<GetAccountAlerts>(name);
+
+            GetAccountAlertsResponse response = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, false, "GetAccountAlerts call succeeded unexpectedly");
+            Assert.IsEmpty(response.Payload.Alerts, "Alerts are not empty");
+        }
+
+        [TestCase("030.AddAccountAlerts.Success")]
+        public void AddAccountAlerts_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            AddAccountAlerts request = PrepareRequest<AddAccountAlerts>(name);
+
+            AddAccountAlertsResponse response = Post<AddAccountAlerts, AddAccountAlertsResponse>("AddAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "AddAccountAlerts call failed");
+            Assert.IsNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are not empty");
+ 
+        }
+
+        [TestCase("031.AddAccountAlerts.InvalidSessionToken")]
+        public void AddAccountAlerts_InvalidSessionToken(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            AddAccountAlerts request = PrepareRequest<AddAccountAlerts>(name);
+
+            AddAccountAlertsResponse response = Post<AddAccountAlerts, AddAccountAlertsResponse>("AddAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, false, "AddAccountAlerts call succeeded unexpectedly");
+            Assert.IsNotNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are empty");
+            Assert.AreEqual(response.Errors[0].Code, Interfaces.EErrorCodes.InvalidSession, "Wrong error code returned");
+
+        }
+
+        [TestCase("040.UpdateAccountAlerts.Success")]
+        public void UpdateAccountAlerts_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            // getting alerts to obtain IDs
+            GetAccountAlerts getAlertsReq = new GetAccountAlerts()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                SessionToken = ConfigurationManager.AppSettings["SessionToken"],
+                RequestID = Guid.NewGuid().ToString()
+            };
+
+            GetAccountAlertsResponse getAlertsResp = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", getAlertsReq);
+
+            // setting proper IDs
+            UpdateAccountAlerts request = PrepareRequest<UpdateAccountAlerts>(name);
+
+            foreach(var a in request.Alerts)
+            {
+                var alert = getAlertsResp.Payload.Alerts.FirstOrDefault(x => a.Name.Contains(x.Name));
+                if(alert != null)
+                {
+                    a.ID = alert.ID;
+                }
+            }
+
+            UpdateAccountAlertsResponse response = Post<UpdateAccountAlerts, UpdateAccountAlertsResponse>("UpdateAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "UpdateAccountAlerts failed succeeded unexpectedly");
+            Assert.IsNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are not empty");
+ 
+        }
     }
 }
