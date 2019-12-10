@@ -238,6 +238,64 @@ namespace DMFX.Test.Service.Alerts
             RunFinalizeSql(name, "ConnectionStringAlerts");
 
             Assert.AreEqual(response.Success, false, "UpdateAccountAlerts succeeded unexpectedly");
+            Assert.IsNotNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are empty");
+            Assert.AreEqual(response.Errors[0].Code, Interfaces.EErrorCodes.InvalidSession, "Wrong error code returned");
+        }
+
+        [TestCase("050.RemoveAccountAlerts.Success")]
+        public void RemoveAccountAlerts_Success(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            // getting alerts to obtain IDs
+            GetAccountAlerts getAlertsReq = new GetAccountAlerts()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                SessionToken = ConfigurationManager.AppSettings["SessionToken"],
+                RequestID = Guid.NewGuid().ToString()
+            };
+
+            GetAccountAlertsResponse getAlertsResp = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", getAlertsReq);
+
+            // setting proper IDs
+            RemoveAccountAlerts request = PrepareRequest<RemoveAccountAlerts>(name);
+
+            request.SubscriptionIds.AddRange(getAlertsResp.Payload.Alerts.Select(x => x.ID));
+
+            RemoveAccountAlertsResponse response = Post<RemoveAccountAlerts, RemoveAccountAlertsResponse>("RemoveAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, true, "RemoveAccountAlerts failed unexpectedly");
+            
+
+        }
+
+        [TestCase("052.RemoveAccountAlerts.InvalidSessionToken")]
+        public void RemoveAccountAlerts_InvalidSessionToken(string name)
+        {
+            RunInitSql(name, "ConnectionStringAlerts");
+
+            // getting alerts to obtain IDs
+            GetAccountAlerts getAlertsReq = new GetAccountAlerts()
+            {
+                AccountKey = ConfigurationManager.AppSettings["AccountKey"],
+                SessionToken = ConfigurationManager.AppSettings["SessionToken"],
+                RequestID = Guid.NewGuid().ToString()
+            };
+
+            GetAccountAlertsResponse getAlertsResp = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", getAlertsReq);
+
+            // setting proper IDs
+            RemoveAccountAlerts request = PrepareRequest<RemoveAccountAlerts>(name);
+
+            request.SubscriptionIds.AddRange(getAlertsResp.Payload.Alerts.Select(x => x.ID));
+
+            RemoveAccountAlertsResponse response = Post<RemoveAccountAlerts, RemoveAccountAlertsResponse>("RemoveAccountAlerts", request);
+            RunFinalizeSql(name, "ConnectionStringAlerts");
+
+            Assert.AreEqual(response.Success, false, "RemoveAccountAlerts succeeded unexpectedly");
+            Assert.IsNotNull(response.Errors.FirstOrDefault(e => e.Type == Interfaces.EErrorType.Error), "Errors are empty");
+            Assert.AreEqual(response.Errors[0].Code, Interfaces.EErrorCodes.InvalidSession, "Wrong error code returned");
         }
     }
 }

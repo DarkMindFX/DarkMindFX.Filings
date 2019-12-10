@@ -81,7 +81,6 @@
     <None Include="041.UpdateAccountAlerts.NewAccountKey\Request.json" />
     <None Include="042.UpdateAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="050.RemoveAccountAlerts.Success\Request.json" />
-    <None Include="051.RemoveAccountAlerts.InvalidKey\Request.json" />
     <None Include="052.RemoveAccountAlerts.InvalidSessionToken\Request.json" />
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -123,8 +122,6 @@
     <Content Include="042.UpdateAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="050.RemoveAccountAlerts.Success\Finalize.sql" />
     <Content Include="050.RemoveAccountAlerts.Success\Init.sql" />
-    <Content Include="051.RemoveAccountAlerts.InvalidKey\Finalize.sql" />
-    <Content Include="051.RemoveAccountAlerts.InvalidKey\Init.sql" />
     <Content Include="052.RemoveAccountAlerts.InvalidSessionToken\Finalize.sql" />
     <Content Include="052.RemoveAccountAlerts.InvalidSessionToken\Init.sql" />
     <Content Include="TestInit.sql" />
