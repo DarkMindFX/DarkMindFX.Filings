@@ -32,6 +32,12 @@ namespace DMFX.SECParser
                 get;
                 set;
             }
+
+            public string Type
+            {
+                get;
+                set;
+            }
         }
         public class Section
         {
@@ -65,6 +71,7 @@ namespace DMFX.SECParser
 
         public SECParserBase(string reportType, string companyXml = null)
         {
+
             _reportType = reportType;
             _companyXml = companyXml;
 
@@ -92,7 +99,7 @@ namespace DMFX.SECParser
                         ExtractContexts(doc, result);
                         ExtractCompanyData(doc, result);
                         ExtractFilingData(doc, result);
-                        ExtractValues(doc, result);
+                        ExtractValues(doc, secParams, result);
                     }
                 }
 
@@ -163,33 +170,44 @@ namespace DMFX.SECParser
 
         private void InitSectionsList(XmlDocument doc)
         {
-            var nodes = doc.SelectNodes("/parser/sections/section");
-            if (nodes != null)
-            {
-                foreach (XmlNode sNode in nodes)
-                {
-                    // getting / creating section
-                    Section section = null;
-                    if (_sections.ContainsKey(sNode.Attributes["name"].Value))
-                    {
-                        section = _sections[sNode.Attributes["name"].Value];
-                    }
-                    else
-                    {
-                        section = new Section() { Name = sNode.Attributes["name"].Value };
-                        _sections.Add(section.Name, section);
-                    }
+            var sections = doc.SelectNodes("/parser/sections/section");
 
-                    // filling value tags info records
-                    foreach (XmlNode vtNode in sNode.ChildNodes)
+            var nsmgr = new XmlNamespaceManager(doc.NameTable);
+            foreach (var ns in _namespaces.Keys)
+            {
+                nsmgr.AddNamespace(ns, _namespaces[ns]);
+            }
+
+            foreach (XmlNode sNode in sections)
+            {
+                Section section = null;
+                if (!_sections.ContainsKey(sNode.Attributes["name"].Value))
+                {
+                    section = new Section() { Name = sNode.Attributes["name"].Value };
+                    _sections.Add(section.Name, section);
+                }
+                else
+                {
+                    section = _sections[sNode.Attributes["name"].Value];
+                }
+
+                var nodes = doc.SelectNodes("//xs:element[not(@abstract='true')]", nsmgr);
+                if (nodes != null)
+                {                    
+
+                    foreach (XmlNode vtNode in nodes)
                     {
-                        if (vtNode.Name == "value" && !string.IsNullOrEmpty(vtNode.Attributes["tag"].Value) && !string.IsNullOrEmpty(vtNode.Attributes["code"].Value))
+
+                        if (!string.IsNullOrEmpty(vtNode.Attributes["name"].Value) && !string.IsNullOrEmpty(vtNode.Attributes["id"].Value))
                         {
+                            string tag = vtNode.Attributes["id"].Value.Replace("us-gaap_", "us-gaap:");
                             ValueTag vt = new ValueTag()
                             {
-                                Tag = vtNode.Attributes["tag"].Value,
-                                Code = vtNode.Attributes["code"].Value,
-                                Suffix = vtNode.Attributes["suffix"] != null ? vtNode.Attributes["suffix"].Value : string.Empty
+
+                                Tag = tag,
+                                Code = vtNode.Attributes["name"].Value,
+                                Suffix = vtNode.Attributes["suffix"] != null ? vtNode.Attributes["suffix"].Value : string.Empty, // TODO: To remove
+                                Type = vtNode.Attributes["type"] != null ? vtNode.Attributes["type"].Value : string.Empty
 
                             };
                             if (!section.ValueTags.ContainsKey(vt.Code))
@@ -197,6 +215,7 @@ namespace DMFX.SECParser
                                 section.ValueTags.Add(vt.Code, vt);
                             }
                         }
+
 
                     }
                 }
@@ -361,11 +380,11 @@ namespace DMFX.SECParser
             }
         }
 
-        protected void ExtractValues(XmlDocument doc, SECParserResult secResult)
+        protected void ExtractValues(XmlDocument doc, SECParserParams secParams, SECParserResult secResult)
         {
             foreach (var s in _sections.Values)
             {
-                ParseStatementSection(doc, secResult, s);
+                ParseStatementSection(doc, secParams, secResult, s);
             }
         }
 
@@ -383,13 +402,13 @@ namespace DMFX.SECParser
             }
         }
 
-        protected void ParseStatementSection(XmlDocument doc, SECParserResult result, Section section)
+        protected void ParseStatementSection(XmlDocument doc, SECParserParams secParams, SECParserResult result, Section section)
         {
             // preparing statements
             Statement statementSection = new Statement(section.Name);
             foreach (var value in section.ValueTags.Values)
             {
-                
+
                 foreach (var context in result.Contexts)
                 {
                     string xpath = "//" + value.Tag + "[@contextRef='" + (context.ID + (!string.IsNullOrEmpty(value.Suffix) ? value.Suffix : string.Empty)) + "']";
@@ -397,20 +416,46 @@ namespace DMFX.SECParser
 
                     if (valueTag != null)
                     {
-                        StatementRecord record = new StatementRecord(
-                            value.Code,
-                            Decimal.Parse(valueTag.InnerText),
-                            valueTag.Attributes["unitRef"].Value,
-                            context.StartDate,
-                            context.EndDate,
-                            context.Instant,
-                            valueTag.Attributes["id"] != null ? valueTag.Attributes["id"].Value : null
-                        );
-
-                        if (!statementSection.Records.Contains(record))
+                        object valObject = null;
+                        string innerText = valueTag.InnerText.Trim();
+                        Decimal valDecimal;
+                        DateTime valDateTime;
+                        if (Decimal.TryParse(innerText, out valDecimal) && secParams.ExtractDates)
                         {
-                            statementSection.Records.Add(record);
-                        }                        
+                            valObject = valDecimal;
+                        }
+                        else
+                        {
+                            if (DateTime.TryParse(innerText, out valDateTime) && secParams.ExtractDates)
+                            {
+                                valObject = valDateTime;
+                            }
+                            else
+                            {
+                                if (secParams.ExtractStrings)
+                                {
+                                    valObject = innerText;
+                                }
+                            }
+                        }
+
+                        if (valObject != null)
+                        {
+                            StatementRecord record = new StatementRecord(
+                                value.Code,
+                                valObject,
+                                valueTag.Attributes["unitRef"].Value,
+                                context.StartDate,
+                                context.EndDate,
+                                context.Instant,
+                                valueTag.Attributes["id"] != null ? valueTag.Attributes["id"].Value : null
+                            );
+
+                            if (!statementSection.Records.Contains(record))
+                            {
+                                statementSection.Records.Add(record);
+                            }
+                        }
                     }
                 }
             }

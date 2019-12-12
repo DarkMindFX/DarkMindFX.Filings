@@ -14,6 +14,21 @@ namespace DMFX.Interfaces
             get;
             set;
         }
+
+        bool ExtractNumbers
+        {
+            get;set;
+        }
+
+        bool ExtractDates
+        {
+            get; set;
+        }
+
+        bool ExtractStrings
+        {
+            get; set;
+        }
     }
 
     public class StatementRecord

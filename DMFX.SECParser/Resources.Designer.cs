@@ -19,7 +19,7 @@ namespace DMFX.SECParser {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -91,13 +91,13 @@ namespace DMFX.SECParser {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;parser&gt;
         ///  &lt;namespaces&gt;
-        ///    &lt;namespace ns=&quot;xbrli&quot; uri=&quot;http://www.xbrl.org/2003/instance&quot; /&gt;
-        ///  &lt;/namespaces&gt;
-        ///  &lt;sections&gt;
-        ///    &lt;section name=&quot;StatementOfOperations&quot;&gt;
-        ///      &lt;value tag=&quot;us-gaap:Revenues&quot; code=&quot;Revenues&quot; suffix=&quot;&quot; /&gt;
-        ///      &lt;value tag=&quot;us-gaap:SalesRevenueNet&quot; code=&quot;SalesRevenueNet&quot; suffix=&quot;&quot; /&gt;
-        ///      &lt;value tag=&quot;us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax&quot; code=&quot;RevenueFromContractWithCustomerExcludingAssessedTax&quot; suffix=&quot;&quot; /&gt;     [rest of string was truncated]&quot;;.
+        ///    &lt;namespace ns=&quot;link&quot; uri=&quot;http://www.xbrl.org/2003/linkbase&quot; /&gt;
+        ///    &lt;namespace ns=&quot;nonnum&quot; uri=&quot;http://www.xbrl.org/dtr/type/non-numeric&quot; /&gt;
+        ///    &lt;namespace ns=&quot;num&quot; uri=&quot;http://www.xbrl.org/dtr/type/numeric&quot; /&gt;
+        ///    &lt;namespace ns=&quot;srt-types&quot; uri=&quot;http://fasb.org/srt-types/2019-01-31&quot; /&gt;
+        ///    &lt;namespace ns=&quot;us-gaap&quot; uri=&quot;http://fasb.org/us-gaap/2019-01-31&quot; /&gt;
+        ///    &lt;namespace ns=&quot;us-types&quot; uri=&quot;http://fasb.org/us-types/2019-01-31&quot; /&gt;
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SECCommonTags {
             get {

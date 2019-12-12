@@ -3,15 +3,7 @@
   <namespaces>
   </namespaces>
   <sections>
-    <section name="StatementOfOperations">
-    </section>
-    <section name="ComprehensiveIncome">
-    </section>
-    <section name="BalanceSheet">
-    </section>
-    <section name="CashFlowStatement">
-    </section>
-    <section name="EarningsPerShare">
+    <section name="USGAAP">
     </section>    
   </sections>
 </parser>

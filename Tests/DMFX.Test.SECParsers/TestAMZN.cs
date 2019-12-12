@@ -31,14 +31,11 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Success, true, "AMZN 10-Q: Parse failed with {0} errors", result.Errors.Count.ToString());
 
             // checking number of segments
-            Assert.AreEqual(result.Statements.Count, 5, string.Format("AMZN 10-Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
+            Assert.AreEqual(result.Statements.Count, 1, string.Format("AMZN 10-Q: Invalid number of segments returned, Expected - 5, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
             Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title, result.Statements[0].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title, result.Statements[1].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title, result.Statements[2].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title, result.Statements[3].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title, result.Statements[4].Records.Count));
+        
 
         }
 
@@ -61,14 +58,10 @@ namespace DMFX.Test.SECParsers
             Assert.AreEqual(result.Success, true, "AMZN 10-Q: Parse failed with {0} errors", result.Errors.Count.ToString());
 
             // checking number of segments
-            Assert.AreEqual(result.Statements.Count, 5, string.Format("AMZN 10-Q: Invalid number of segments returned, Expected - 10, Actual - {0}", result.Statements.Count));
+            Assert.AreEqual(result.Statements.Count, 1, string.Format("AMZN 10-Q: Invalid number of segments returned, Expected - 10, Actual - {0}", result.Statements.Count));
 
             // checking records count per segment
             Assert.GreaterOrEqual(result.Statements[0].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[0].Title, result.Statements[0].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[1].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[1].Title, result.Statements[1].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[2].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[2].Title, result.Statements[2].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[3].Records.Count, 10, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[3].Title, result.Statements[3].Records.Count));
-            Assert.GreaterOrEqual(result.Statements[4].Records.Count, 8, string.Format("AMZN 10Q: Invalid number of records in statement '{0}' returned", result.Statements[4].Title, result.Statements[4].Records.Count));
 
         }
     }

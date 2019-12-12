@@ -81,6 +81,11 @@
   <ItemGroup>
     <Folder Include="SECForm13F\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\us-gaap-2019-01-31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(TargetDir)*.dll" "..\..\Plugins-Out\DMFX.SECParsers\"</PostBuildEvent>

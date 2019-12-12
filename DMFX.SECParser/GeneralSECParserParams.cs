@@ -10,7 +10,29 @@ namespace DMFX.SECParser
 {
     public class SECParserParams : IFilingParserParams
     {
+        public SECParserParams()
+        {
+            ExtractNumbers = true;
+            ExtractDates = true;
+            ExtractStrings = false;
+        }
+
         public Stream FileContent
+        {
+            get;
+            set;
+        }
+        public bool ExtractNumbers
+        {
+            get;
+            set;
+        }
+        public bool ExtractDates
+        {
+            get;
+            set;
+        }
+        public bool ExtractStrings
         {
             get;
             set;
