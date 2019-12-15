@@ -212,6 +212,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Test.Service.Alerts", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Client.Alerts", "Services\Clients\DMFX.Client.Alerts\DMFX.Client.Alerts.csproj", "{6A91E822-5AAA-44EB-B3A3-6141BD85FF23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMFX.Service.Echo", "Services\DMFX.Service.Echo\DMFX.Service.Echo.csproj", "{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -518,6 +520,10 @@ Global
 		{6A91E822-5AAA-44EB-B3A3-6141BD85FF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A91E822-5AAA-44EB-B3A3-6141BD85FF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A91E822-5AAA-44EB-B3A3-6141BD85FF23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -577,6 +583,7 @@ Global
 		{C32A3A5C-FB74-4D62-8010-4A7CD7ADF04D} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 		{69915A50-C69D-4261-9AE5-5D1C0D760B4A} = {C9258F12-9DC9-471E-BD9E-36A4D093720B}
 		{6A91E822-5AAA-44EB-B3A3-6141BD85FF23} = {C3F94555-B12C-4F3F-A6AC-A9685253E273}
+		{D4D030F7-FF08-4E4E-B7D5-6BDC462E2D7A} = {C41EB4FF-B636-47A4-82D2-2A4E4CF56CDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {92A5911F-2B1E-4BE0-B977-3971B09D682B}

@@ -1,4 +1,5 @@
 ﻿using DMFX.Service.DTO;
+using Newtonsoft.Json;
 using ServiceStack;
 using ServiceStack.ServiceClient.Web;
 using System;
@@ -23,7 +24,8 @@ namespace DMFX.Client.Common
     public abstract class ServiceClientBase : IDisposable
     {
 
-        protected JsonServiceClient _client = null;
+        protected WebClient _client = null;
+        protected string _serviceUrl = null;
 
         public ServiceClientBase()
         {
@@ -37,7 +39,9 @@ namespace DMFX.Client.Common
 
         public void Init(ServiceClientBaseInitParams initParams)
         {
-            _client = new JsonServiceClient(initParams.ServiceUrl);
+            _serviceUrl = initParams.ServiceUrl;
+            _client = new WebClient();
+            _client.Headers["content-type"] = "application/json";
         }
 
         public EchoResponse PostEcho(Echo request)
@@ -48,7 +52,13 @@ namespace DMFX.Client.Common
 
         protected TResponse Post<TRequest,TResponse>(string method, TRequest request)
         {
-            TResponse response = _client.Post<TResponse>("/json/reply/" + method, request);
+            byte[] reqString = Encoding.Default.GetBytes(JsonConvert.SerializeObject(request, Formatting.Indented));
+            byte[] resByte = _client.UploadData(_serviceUrl + "json/reply/" + method, "post", reqString);
+            string resString = Encoding.Default.GetString(resByte);
+
+            TResponse response = JsonConvert.DeserializeObject<TResponse>(resString);
+
+            //TResponse response = _client.Post<TResponse>("/json/reply/" + method, request);
 
             return response;
         }

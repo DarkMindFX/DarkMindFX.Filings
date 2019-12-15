@@ -60,48 +60,66 @@ namespace SECFilingsImporter
 
                     Console.WriteLine(string.Format("[{0}] Importing for {1} - {2}", DateTime.Now, impPeriodStart.ToShortDateString(), impPeriodEnd.ToShortDateString()));
 
-                    var resRunImport = fsClinet.PostForceRunImport(reqRunImport);
-                    if (resRunImport.Success)
+                    try
                     {
-                        bool isRunning = true;
-                        while (isRunning)
+                        var resRunImport = fsClinet.PostForceRunImport(reqRunImport);
+                        if (resRunImport.Success)
                         {
-                            // checking if sanitization is needed
-                            if(DateTime.Now - dtLastSanitize >= TimeSpan.FromMinutes(sanitizePeriodMins))
+                            bool isRunning = true;
+                            while (isRunning)
                             {
-                                Sanitize();
-                                dtLastSanitize = DateTime.Now;
+                                // checking if sanitization is needed
+                                if (DateTime.Now - dtLastSanitize >= TimeSpan.FromMinutes(sanitizePeriodMins))
+                                {
+                                    Sanitize();
+                                    dtLastSanitize = DateTime.Now;
 
+                                }
+
+                                // waiting
+                                Thread.Sleep(statePollPeriodSeconds * 1000);
+
+                                try
+                                {
+                                    // checking state
+                                    var resGetImpState = fsClinet.PostGetImporterState(reqGetImpState);
+                                    if (resGetImpState.Success && resGetImpState.Payload.State == "Idle")
+                                    {
+                                        isRunning = false;
+                                        Console.WriteLine(string.Format("[{0}] Import Completed, State = {1}, Imported = {2}", DateTime.Now, resGetImpState.Payload.State, resGetImpState.Payload.ProcessedCount));
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine(string.Format("[{0}] Importing, State = {1}, Imported = {2}", DateTime.Now, resGetImpState.Payload.State, resGetImpState.Payload.ProcessedCount));
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(string.Format("[{0}] Exception: {1} PostGetImporterState failed", DateTime.Now, ex.Message));
+                                    // waiting
+                                    Thread.Sleep(statePollPeriodSeconds * 1000);
+                                }
                             }
 
-                            // waiting
-                            Thread.Sleep(statePollPeriodSeconds * 1000);
+                            impPeriodEnd = impPeriodStart;
+                            impPeriodStart = impPeriodEnd - TimeSpan.FromDays(importPeriodDays);
 
-                            // checking state
-                            var resGetImpState = fsClinet.PostGetImporterState(reqGetImpState);
-                            if (resGetImpState.Success && resGetImpState.Payload.State == "Idle")
-                            {
-                                isRunning = false;
-                                Console.WriteLine(string.Format("[{0}] Import Completed, State = {1}, Imported = {2}", DateTime.Now, resGetImpState.Payload.State, resGetImpState.Payload.ProcessedCount));
-                            }
-                            else
-                            {
-                                Console.WriteLine(string.Format("[{0}] Importing, State = {1}, Imported = {2}", DateTime.Now, resGetImpState.Payload.State, resGetImpState.Payload.ProcessedCount));
-                            }
                         }
-
-                        impPeriodEnd = impPeriodStart;
-                        impPeriodStart = impPeriodEnd - TimeSpan.FromDays(importPeriodDays);
-
+                        else
+                        {
+                            Console.WriteLine(string.Format("Failed to impoty for {0} - {1}, Reason: {2}, {3}", impPeriodStart, impPeriodEnd, resRunImport.Errors[0].Code, resRunImport.Errors[0].Message));
+                            break;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Console.WriteLine(string.Format("Failed to impoty for {0} - {1}, Reason: {2}, {3}", impPeriodStart, impPeriodEnd, resRunImport.Errors[0].Code, resRunImport.Errors[0].Message));
-                        break;
+                        Console.WriteLine(string.Format("[{0}] Exception: {1} PostForceRunImport failed", DateTime.Now, ex.Message));
+                        // waiting
+                        Thread.Sleep(statePollPeriodSeconds * 1000);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(string.Format("[{0}] Exception: {1}\r\n\tStack: {2}", DateTime.Now, ex.Message, ex.StackTrace));
             }
@@ -120,13 +138,13 @@ namespace SECFilingsImporter
             reqSanitize.SessionToken = techUtilsToken;
 
             SanitizeResponse respSanitize = tuClient.PostSanitize(reqSanitize);
-            if(respSanitize.Success)
+            if (respSanitize.Success)
             {
                 Console.WriteLine(string.Format("[{0}] Sanitization - Success", DateTime.Now));
             }
             else
             {
-                Console.WriteLine(string.Format("[{0}] Sanitization - Failed: Error Code - {1}, Message: {2}", 
+                Console.WriteLine(string.Format("[{0}] Sanitization - Failed: Error Code - {1}, Message: {2}",
                     DateTime.Now, respSanitize.Errors[0].Code, respSanitize.Errors[0].Message));
             }
         }

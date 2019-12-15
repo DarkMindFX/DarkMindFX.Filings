@@ -20,21 +20,21 @@ namespace DMFX.Client.FilingsSourcing
 
         public ForceRunImportResponse PostForceRunImport(ForceRunImport request)
         {
-            ForceRunImportResponse response = _client.Post<ForceRunImportResponse>(request);
+            ForceRunImportResponse response = Post<ForceRunImport, ForceRunImportResponse>("ForceRunImport", request);
 
             return response;
         }
 
         public ForceStopImportResponse PostForceStopImport(ForceStopImport request)
         {
-            ForceStopImportResponse response = _client.Post<ForceStopImportResponse>(request);
+            ForceStopImportResponse response = Post<ForceStopImport, ForceStopImportResponse>("ForceStopImport", request);
 
             return response;
         }
 
         public GetImporterStateResponse PostGetImporterState(GetImporterState request)
         {
-            GetImporterStateResponse response = _client.Post<GetImporterStateResponse>(request);
+            GetImporterStateResponse response = Post<GetImporterState, GetImporterStateResponse>("GetImporterState", request);
 
             return response;
         }

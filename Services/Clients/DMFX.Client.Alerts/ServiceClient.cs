@@ -26,42 +26,42 @@ namespace DMFX.Client.Alerts
 
         public GetAccountAlertsResponse PostGetAccountAlerts(GetAccountAlerts request)
         {
-            GetAccountAlertsResponse response = _client.Post<GetAccountAlertsResponse>(request);
+            GetAccountAlertsResponse response = Post<GetAccountAlerts, GetAccountAlertsResponse>("GetAccountAlerts", request);
 
             return response;
         }
 
         public GetAlertsTypesResponse PostGetAlertsTypes(GetAlertsTypes request)
         {
-            GetAlertsTypesResponse response = _client.Post<GetAlertsTypesResponse>(request);
+            GetAlertsTypesResponse response = Post<GetAlertsTypes, GetAlertsTypesResponse>("GetAccountAlerts", request);
 
             return response;
         }
 
         public GetNotificationTypesResponse PostGetNotificationTypes(GetNotificationTypes request)
         {
-            GetNotificationTypesResponse response = _client.Post<GetNotificationTypesResponse>(request);
+            GetNotificationTypesResponse response = Post<GetNotificationTypes, GetNotificationTypesResponse>("GetNotificationTypes", request);
 
             return response;
         }
 
         public AddAccountAlertsResponse PostAddAccountAlerts(AddAccountAlerts request)
         {
-            AddAccountAlertsResponse response = _client.Post<AddAccountAlertsResponse>(request);
+            AddAccountAlertsResponse response = Post<AddAccountAlerts, AddAccountAlertsResponse>("AddAccountAlerts", request);
 
             return response;
         }
 
         public UpdateAccountAlertsResponse PostUpdateAccountAlerts(UpdateAccountAlerts request)
         {
-            UpdateAccountAlertsResponse response = _client.Post<UpdateAccountAlertsResponse>(request);
+            UpdateAccountAlertsResponse response = Post<UpdateAccountAlerts, UpdateAccountAlertsResponse>("UpdateAccountAlerts", request);
 
             return response;
         }
 
         public RemoveAccountAlertsResponse PostRemoveAccountAlerts(RemoveAccountAlerts request)
         {
-            RemoveAccountAlertsResponse response = _client.Post<RemoveAccountAlertsResponse>(request);
+            RemoveAccountAlertsResponse response = Post<RemoveAccountAlerts, RemoveAccountAlertsResponse>("RemoveAccountAlerts", request);
 
             return response;
         }

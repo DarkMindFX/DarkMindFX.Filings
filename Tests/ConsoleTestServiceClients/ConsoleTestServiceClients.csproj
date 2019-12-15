@@ -72,6 +72,10 @@
       <Project>{70f85e1f-cde2-49ae-b162-e338197931f9}</Project>
       <Name>DMFX.Client.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Services\Clients\DMFX.Client.Filings\DMFX.Client.Filings.csproj">
+      <Project>{ae6ec5fc-f043-4eec-894c-c2dde725aed2}</Project>
+      <Name>DMFX.Client.Filings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Services\DMFX.Service.DTO\DMFX.Service.DTO.csproj">
       <Project>{944b12e2-8a35-4470-9219-54cce3278e3a}</Project>
       <Name>DMFX.Service.DTO</Name>
