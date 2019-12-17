@@ -1,25 +1,26 @@
 ﻿using DMFX.Interfaces;
+using DMFX.Interfaces.DAL;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
+using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace DMFX.Service.Filings
 {
     public class FilingsService : ServiceBase
     {
-        private IDictionary _dictionary = null;
         private Interfaces.DAL.IDal _dal = null;
         CompositionContainer _compContainer = null;
 
 
         public FilingsService()
         {
-            _dictionary = Global.Container.GetExport<IDictionary>("DB").Value;
             _compContainer = Global.Container;
             InitDAL();
         }
@@ -39,9 +40,10 @@ namespace DMFX.Service.Filings
             {
                 try
                 {
-                    List<Interfaces.RegulatorInfo> regulators = _dictionary.GetRegulators();
 
-                    foreach (var reg in regulators)
+                    var regulators = _dal.GetRegulators();;
+
+                    foreach (var reg in regulators.Regulators)
                     {
                         DTO.RegulatorInfo regulatorInfo = new DTO.RegulatorInfo()
                         {
@@ -88,10 +90,12 @@ namespace DMFX.Service.Filings
 
                 try
                 {
-                    List<Interfaces.CompanyInfo> companies = _dictionary.GetCompaniesByRegulator(request.RegulatorCode);
-                    if (companies.Count > 0)
+                    GetRegulatorCompaniesParams getCmpParams = new GetRegulatorCompaniesParams();
+                    getCmpParams.RegulatorCode = request.RegulatorCode;
+                    var companies = _dal.GetCompaniesByRegulator(getCmpParams);
+                    if (companies != null && companies.Companies != null)
                     {
-                        foreach (var c in companies)
+                        foreach (var c in companies.Companies)
                         {
                             response.Payload.Companies.Add(new DTO.CompanyInfo()
                             {
@@ -542,14 +546,31 @@ namespace DMFX.Service.Filings
             }
             else
             {
+
                 GetSessionInfo sinfo = new GetSessionInfo();
                 sinfo.SessionToken = sessionToken;
                 sinfo.CheckActive = true;
-
+                
                 DMFX.Client.Accounts.ServiceClient accnts = new Client.Accounts.ServiceClient();
+
+                //Global.SimAccounts.WaitOne();
+
                 GetSessionInfoResponse sInfoResp = accnts.PostGetSessionInfo(sinfo);
 
+                //Global.SimAccounts.Release();
+
                 result = sInfoResp.Success ? EErrorCodes.Success : sInfoResp.Errors[0].Code;
+                /*
+
+                using (var client = new WebClient())
+                {
+                    string sResp = client.DownloadString("http://localhost/api/echoservice/Echo/FilingService/2/3");
+                    EchoResponse echoResponse = JsonSerializer.DeserializeFromString<EchoResponse>(sResp);
+
+                    result = echoResponse.Success ? EErrorCodes.Success : echoResponse.Errors[0].Code;
+                }
+                */
+
             }
 
             return result;
