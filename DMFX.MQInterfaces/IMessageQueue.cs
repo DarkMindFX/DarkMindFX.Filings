@@ -18,7 +18,7 @@ namespace DMFX.MQInterfaces
 
     public interface IMQPushMessageParams
     {
-        string ChannelName
+        long ChannelId
         {
             get;
             set;
@@ -98,7 +98,7 @@ namespace DMFX.MQInterfaces
     }
 
     public interface IMQSubscribeResult : IResult
-    { 
+    {
     }
 
     public interface IMQUnsubscribeParams
@@ -153,7 +153,7 @@ namespace DMFX.MQInterfaces
             set;
         }
 
-        string ChannelName
+        long ChannelId
         {
             get;
             set;
@@ -226,7 +226,7 @@ namespace DMFX.MQInterfaces
     {
     }
 
-    public interface IMQGetChannelIdParams 
+    public interface IMQGetChannelIdParams
     {
         string ChannelName
         {
@@ -244,6 +244,31 @@ namespace DMFX.MQInterfaces
         }
     }
 
+    public interface IMQDeleteChannelParams
+    {
+        long ChannelId
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IMQDeleteChannelResult : IResult
+    {
+    }
+
+    public interface IMQRemoveSubscriberParams
+    {
+        long SubscriberId
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IMQRemoveSubscriberResult : IResult
+    {
+    }
 
     public interface IMessageQueue
     {
@@ -255,7 +280,7 @@ namespace DMFX.MQInterfaces
 
         IMQCreateChannelResult CreateChannel(IMQCreateChannelParams paramsCreateChannel);
 
-        IMQGetChannelMessagesParams GetChannelMessages(IMQGetChannelMessagesParams paramsGetMsgs);
+        IMQGetChannelMessagesResult GetChannelMessages(IMQGetChannelMessagesParams paramsGetMsgs);
 
         IMQSetMessageStateResult SetMessageState(IMQSetMessageStateParams paramsSetMSgState);
 
@@ -266,6 +291,10 @@ namespace DMFX.MQInterfaces
         IMQSubscribeResult Subscribe(IMQSubscribeParams paramsSubscribe);
 
         IMQUnsubscribeResult Unsubscribe(IMQUnsubscribeParams paramsUnsubscribe);
+
+        IMQRemoveSubscriberResult RemoveSubscriber(IMQRemoveSubscriberParams paramRemSubscr);
+
+        IMQDeleteChannelResult DeleteChannel(IMQDeleteChannelParams paramsDelChannel);
 
         // Create*Params methods
         IMQInitParams CreateInitParams();
@@ -287,6 +316,10 @@ namespace DMFX.MQInterfaces
         IMQSubscribeParams CreateSubscribeParams();
 
         IMQUnsubscribeParams CreateUnsubscribeParams();
+
+        IMQDeleteChannelParams CreateDeleteChannelParams();
+
+        IMQRemoveSubscriberParams CreateRemoveSubscriberParams();
 
 
     }

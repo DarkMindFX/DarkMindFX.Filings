@@ -10,6 +10,12 @@ namespace DMFX.MQDAL
 {
     public class DbMQInitParams : IMQInitParams
     {
+        public DbMQInitParams()
+        {
+            Params = new Dictionary<string, string>();
+            Params["ConnectionString"] = null;
+        }
+
         public IDictionary<string, string> Params
         {
             get;
@@ -19,7 +25,7 @@ namespace DMFX.MQDAL
 
     public class DbMQPushMessageParams : IMQPushMessageParams
     {
-        public string ChannelName
+        public long ChannelId
         {
             get;
             set;
@@ -98,7 +104,7 @@ namespace DMFX.MQDAL
         }
     }
 
-    public class DbMQSubscribeResult : ResultBase, IMQSubscribeResult 
+    public class DbMQSubscribeResult : ResultBase, IMQSubscribeResult
     {
     }
 
@@ -154,7 +160,7 @@ namespace DMFX.MQDAL
             set;
         }
 
-        public string ChannelName
+        public long ChannelId
         {
             get;
             set;
@@ -167,8 +173,13 @@ namespace DMFX.MQDAL
         }
     }
 
-    public class DbMQGetChannelMessagesResult : ResultBase, IMQGetChannelMessagesResult 
+    public class DbMQGetChannelMessagesResult : ResultBase, IMQGetChannelMessagesResult
     {
+        public DbMQGetChannelMessagesResult()
+        {
+            Messages = new List<MessageDetails>();
+        }
+
         public IList<MessageDetails> Messages
         {
             get;
@@ -244,4 +255,32 @@ namespace DMFX.MQDAL
             set;
         }
     }
+
+    public class DbMQDeleteChannelParams : IMQDeleteChannelParams
+    {
+        public long ChannelId
+        {
+            get;
+            set;
+        }
+    }
+
+    public class DbMQDeleteChannelResult : ResultBase, IMQDeleteChannelResult
+    {
+    }
+
+    public class DbMQRemoveSubscriberParams : IMQRemoveSubscriberParams
+    {
+        public long SubscriberId
+        {
+            get;
+            set;
+        }
+    }
+
+    public class DbMQRemoveSubscriberResult : ResultBase, IMQRemoveSubscriberResult
+    {
+    }
+
 }
+

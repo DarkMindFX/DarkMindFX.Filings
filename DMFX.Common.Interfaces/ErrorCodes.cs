@@ -40,6 +40,8 @@ namespace DMFX.Interfaces
 
         AlertsSourceFail = 301,
 
+        MQDbError = 401,
+
 
         GeneralError = 99999
     }
