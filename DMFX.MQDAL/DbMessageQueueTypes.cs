@@ -282,5 +282,22 @@ namespace DMFX.MQDAL
     {
     }
 
+    public class DbMQGetSubscriberIdParams : IMQGetSubscriberIdParams
+    {
+        public string SubscriberName
+        {
+            get;
+            set;
+        }
+    }
+
+    public class DbMQGetSubscriberIdResult : ResultBase, IMQGetSubscriberIdResult
+    {
+        public long? SubscriberId
+        {
+            get;
+            set;
+        }
+    }
 }
 

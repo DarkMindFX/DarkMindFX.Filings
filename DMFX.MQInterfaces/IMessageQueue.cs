@@ -270,6 +270,24 @@ namespace DMFX.MQInterfaces
     {
     }
 
+    public interface IMQGetSubscriberIdParams
+    {
+        string SubscriberName
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IMQGetSubscriberIdResult : IResult
+    {
+        long? SubscriberId
+        {
+            get;
+            set;
+        }
+    }
+
     public interface IMessageQueue
     {
         void Init(IMQInitParams paramsInit);
@@ -296,6 +314,8 @@ namespace DMFX.MQInterfaces
 
         IMQDeleteChannelResult DeleteChannel(IMQDeleteChannelParams paramsDelChannel);
 
+        IMQGetSubscriberIdResult GetSubscriberId(IMQGetSubscriberIdParams paramsGetSubsId);
+
         // Create*Params methods
         IMQInitParams CreateInitParams();
 
@@ -320,6 +340,8 @@ namespace DMFX.MQInterfaces
         IMQDeleteChannelParams CreateDeleteChannelParams();
 
         IMQRemoveSubscriberParams CreateRemoveSubscriberParams();
+
+        IMQGetSubscriberIdParams CreateGetSubscriberIdParams();
 
 
     }

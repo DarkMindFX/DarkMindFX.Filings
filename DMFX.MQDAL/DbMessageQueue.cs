@@ -578,6 +578,53 @@ namespace DMFX.MQDAL
             return result;
         }
 
+        public IMQGetSubscriberIdResult GetSubscriberId(IMQGetSubscriberIdParams paramsGetChnlId)
+        {
+            var result = new DbMQGetSubscriberIdResult();
+
+            string spName = "[SP_Get_Subscriber_Id]";
+            SqlConnection conn = OpenConnection("ConnectionString");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            try
+            {
+                SqlParameter paramSubscriberName = new SqlParameter("@Subscriber_Name",
+                                                            SqlDbType.NVarChar, 255,
+                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
+                                                            paramsGetChnlId.SubscriberName);
+
+                SqlParameter paramOutSubscriberId = new SqlParameter("@Subscriber_Id",
+                                                            SqlDbType.BigInt, 0,
+                                                            ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current,
+                                                            result.SubscriberId);
+
+                cmd.Parameters.Add(paramSubscriberName);
+                cmd.Parameters.Add(paramOutSubscriberId);
+
+                cmd.ExecuteNonQuery();
+
+                result.SubscriberId = (long)paramOutSubscriberId.Value;
+                result.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Message = ex.Message,
+                    Code = Interfaces.EErrorCodes.MQDbError,
+                    Type = Interfaces.EErrorType.Error
+                });
+            }
+
+            return result;
+        }
+
         #region Create* methods
 
 
@@ -589,6 +636,11 @@ namespace DMFX.MQDAL
         public IMQGetChannelIdParams CreateGetChannelIdParams()
         {
             return new DbMQGetChannelIdParams();
+        }
+
+        public IMQGetSubscriberIdParams CreateGetSubscriberIdParams()
+        {
+            return new DbMQGetSubscriberIdParams();
         }
 
         public IMQGetChannelMessagesParams CreateIGetChannelMessagesParams()

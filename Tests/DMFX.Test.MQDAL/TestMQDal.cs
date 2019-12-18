@@ -110,6 +110,39 @@ namespace DMFX.Test.MQDAL
             Assert.Greater(result.ChannelId, 0);
         }
 
+        [Test]
+        public void SubscribeToChannel_Success()
+        {
+            RunInitSql("020.SubscribeToChannel_Success", _conn);
+
+            IMessageQueue mq = CreateMQ();
+
+            // getting channel ID
+            IMQGetChannelIdParams paramsGetChannelId = mq.CreateGetChannelIdParams();
+            paramsGetChannelId.ChannelName = ConfigurationManager.AppSettings["ChannelName"];
+
+            IMQGetChannelIdResult channelId = mq.GetChannelId(paramsGetChannelId);
+
+            // getting subscriber ID
+            IMQGetSubscriberIdParams paramsGetSubscriberId = mq.CreateGetSubscriberIdParams();
+            paramsGetSubscriberId.SubscriberName = ConfigurationManager.AppSettings["SenderName"];
+
+            IMQGetSubscriberIdResult subscriberId = mq.GetSubscriberId(paramsGetSubscriberId);
+
+            // subscribing
+            IMQSubscribeParams paramSubscribe = mq.CreateSubscribeParams();
+            paramSubscribe.ChannelId = (long)channelId.ChannelId;
+            paramSubscribe.SubscriberId = (long)subscriberId.SubscriberId;
+
+            var result = mq.Subscribe(paramSubscribe);
+
+            RunFinalizeSql("020.SubscribeToChannel_Success", _conn);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Success);
+       
+        }
+
         #region Support methods
         private IMessageQueue CreateMQ()
         {
