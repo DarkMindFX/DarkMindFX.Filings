@@ -78,6 +78,8 @@ namespace DMFX.AlertsDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -147,6 +149,8 @@ namespace DMFX.AlertsDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -194,6 +198,8 @@ namespace DMFX.AlertsDAL
                     Message = ex.Message
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -244,6 +250,8 @@ namespace DMFX.AlertsDAL
                     Message = ex.Message
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -306,6 +314,8 @@ namespace DMFX.AlertsDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -350,6 +360,8 @@ namespace DMFX.AlertsDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -387,6 +399,8 @@ namespace DMFX.AlertsDAL
                     Message = ex.Message
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -437,6 +451,8 @@ namespace DMFX.AlertsDAL
                     Message = ex.Message
                 });
             }
+
+            conn.Close();
 
             return result;
         }

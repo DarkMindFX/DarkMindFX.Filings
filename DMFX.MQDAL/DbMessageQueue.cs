@@ -71,6 +71,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -117,6 +119,8 @@ namespace DMFX.MQDAL
                     Type = Interfaces.EErrorType.Error
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -194,6 +198,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -268,6 +274,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -321,6 +329,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -373,6 +383,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -390,17 +402,17 @@ namespace DMFX.MQDAL
 
             try
             {
-                SqlParameter paramMessageId = new SqlParameter("@Message_Id",
+                SqlParameter paramMessageId = new SqlParameter("@IN_Message_Id",
                                                             SqlDbType.BigInt, 0,
                                                             ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
                                                             paramsSetMSgState.MessageId);
 
-                SqlParameter paramSubscriberId = new SqlParameter("@Subscriber_Id",
+                SqlParameter paramSubscriberId = new SqlParameter("@IN_Subscriber_Id",
                                                             SqlDbType.BigInt, 0,
                                                             ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
                                                             paramsSetMSgState.SubscriberId);
 
-                SqlParameter paramStatusId = new SqlParameter("@Status_Id",
+                SqlParameter paramStatusId = new SqlParameter("@IN_Status_Id",
                                                             SqlDbType.BigInt, 0,
                                                             ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
                                                             (long)paramsSetMSgState.Status);
@@ -424,6 +436,8 @@ namespace DMFX.MQDAL
                     Type = Interfaces.EErrorType.Error
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -471,6 +485,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -517,6 +533,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -557,6 +575,8 @@ namespace DMFX.MQDAL
                 });
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -596,6 +616,8 @@ namespace DMFX.MQDAL
                     Type = Interfaces.EErrorType.Error
                 });
             }
+
+            conn.Close();
 
             return result;
         }
@@ -643,6 +665,8 @@ namespace DMFX.MQDAL
                     Type = Interfaces.EErrorType.Error
                 });
             }
+
+            conn.Close();
 
             return result;
         }

@@ -104,6 +104,8 @@ namespace DMFX.QuotesDAL
                 result.Success = true;
             }
 
+            conn.Close();
+
             return result;
         }
 
@@ -171,6 +173,8 @@ namespace DMFX.QuotesDAL
                     }
                 }
             }
+
+            conn.Close();
 
             result.Success = result.TimeSeriesSaved > 0;
 
@@ -307,6 +311,8 @@ namespace DMFX.QuotesDAL
                     Message = string.Format("Failed to find info for ticker {0}, countrty {1}", getTsInfoParams.Ticker, getTsInfoParams.CountryCode)
                 });
             }
+
+            conn.Close();
 
             return result;
         }
