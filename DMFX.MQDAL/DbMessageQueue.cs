@@ -148,7 +148,7 @@ namespace DMFX.MQDAL
                 SqlParameter paramMessageStatusId = new SqlParameter("@IN_Message_Status_Id",
                                                             SqlDbType.BigInt, 0,
                                                             ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            (long)paramsGetMsgs.MessageStatus);
+                                                            paramsGetMsgs.MessageStatus != null ? (object)paramsGetMsgs.MessageStatus : DBNull.Value);
 
                 cmd.Parameters.Add(paramChannelId);
                 cmd.Parameters.Add(paramReceiverId);
@@ -162,6 +162,22 @@ namespace DMFX.MQDAL
 
                 if (ds.Tables.Count >= 1)
                 {
+                    for(int i = 0; i < ds.Tables[0].Rows.Count; ++i)
+                    {
+                        DataRow r = ds.Tables[0].Rows[i];
+                        MessageDetails md = new MessageDetails();
+                        md.Id = (long)r["Message_Id"];
+                        md.ChannelName = (string)r["Channel_Name"];
+                        md.ChannelId = (long)r["Channel_Id"];
+                        md.MessageStatus = (EMessageStatus)(long)r["Message_Routing_Status_Id"];
+                        md.Payload = (string)r["Message_Payload"];
+                        md.SenderId = !DBNull.Value.Equals(r["Sender_Id"]) ? (long?)r["Sender_Id"] : null;
+                        md.SubscriberId = !DBNull.Value.Equals(r["Subscriber_Id"]) ? (long?)r["Subscriber_Id"] : null;
+                        md.Type = (string)r["Message_Type"];
+                        
+
+                        result.Messages.Add(md);
+                    }
                 }
 
                 result.Success = true;
@@ -211,6 +227,11 @@ namespace DMFX.MQDAL
                                                             ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current,
                                                             paramsPushMsg.RecipientId != null ? (object)paramsPushMsg.RecipientId : DBNull.Value);
 
+                SqlParameter paramMsgType = new SqlParameter("@IN_Message_Type",
+                                                            SqlDbType.NVarChar, 255,
+                                                            ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current,
+                                                            paramsPushMsg.MessageType);
+
                 SqlParameter paramPayload = new SqlParameter("@IN_Payload",
                                                             SqlDbType.NVarChar, -1,
                                                             ParameterDirection.Input, true, 0, 0, "", DataRowVersion.Current,
@@ -225,6 +246,7 @@ namespace DMFX.MQDAL
                 cmd.Parameters.Add(paramChannelId);
                 cmd.Parameters.Add(paramSenderId);
                 cmd.Parameters.Add(paramRecipientId);
+                cmd.Parameters.Add(paramMsgType);
                 cmd.Parameters.Add(paramPayload);
                 cmd.Parameters.Add(paramOutMsgId);
 
@@ -643,7 +665,7 @@ namespace DMFX.MQDAL
             return new DbMQGetSubscriberIdParams();
         }
 
-        public IMQGetChannelMessagesParams CreateIGetChannelMessagesParams()
+        public IMQGetChannelMessagesParams CreateGetChannelMessagesParams()
         {
             return new DbMQGetChannelMessagesParams();
         }

@@ -51,13 +51,13 @@ namespace DMFX.MQInterfaces
             set;
         }
 
-        public long SenderId
+        public long? SenderId
         {
             get;
             set;
         }
 
-        public long SubscriberId
+        public long? SubscriberId
         {
             get;
             set;

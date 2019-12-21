@@ -325,7 +325,7 @@ namespace DMFX.MQInterfaces
 
         IMQCreateChannelParams CreateCreateChannelParams();
 
-        IMQGetChannelMessagesParams CreateIGetChannelMessagesParams();
+        IMQGetChannelMessagesParams CreateGetChannelMessagesParams();
 
         IMQSetMessageStateParams CreateSetMessageStateParams();
 
