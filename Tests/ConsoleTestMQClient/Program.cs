@@ -29,22 +29,30 @@ namespace ConsoleTestMQClient
         {
             IMessageQueue mq = CreateMQ();
 
-            
+            /*
             _clientProcessor = new Client(mq);
             _clientProcessor.Init(ConfigurationManager.AppSettings["ProcessorName"]);
             _clientProcessor.Subscribe(ConfigurationManager.AppSettings["ChannelName"]);
             _clientProcessor.NewChannelMessages += NewMessagesHandlerProcessor;
-
+            */
             _clientSender = new Client(mq);
             _clientSender.Init(ConfigurationManager.AppSettings["SenderName"]);
-            _clientSender.Subscribe(ConfigurationManager.AppSettings["ChannelName"]);
+            _clientSender.Subscribe("AccountRequestsChannel-DEV");
             _clientSender.NewChannelMessages += NewMessagesHandlerSender;
-            
+
+            // getting session info
+            string payload = "{ \"SessionToken\":\"123e5e2685f-bce5-47ca-b4d7-85a0a940a7d7\", " +
+                "               \"RequestID\":\"TestRequest\"," +
+                "               \"CheckActive\": true }";
+
+            _clientSender.Push("AccountRequestsChannel-DEV", "GetSessionInfo", payload);
+
+            /*
             Task sender = new Task(ThreadSender);
             sender.Start();
             
             sender.Wait();
-            
+            */
 
             Thread.Sleep(100000);
 
@@ -99,14 +107,12 @@ namespace ConsoleTestMQClient
         {
             foreach (var m in args.Messages)
             {
-                _clientProcessor.SetMessageStatus(m.Id, EMessageStatus.Processing);
-
                 Console.WriteLine(string.Format("[{0}] {1}: Sender got message: {2}", 
                                     DateTime.Now, 
                                     Thread.CurrentThread.ManagedThreadId, 
                                     m.Payload));
 
-                _clientProcessor.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                _clientSender.SetMessageStatus(m.Id, EMessageStatus.Completed);
             }
         }
 

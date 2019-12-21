@@ -129,6 +129,11 @@ namespace DMFX.MQDAL
 
     public class DbMQCreateChannelParams : IMQCreateChannelParams
     {
+        public DbMQCreateChannelParams()
+        {
+            MessageTimeout = TimeSpan.FromMinutes(10);
+        }
+
         public string ChannelName
         {
             get;

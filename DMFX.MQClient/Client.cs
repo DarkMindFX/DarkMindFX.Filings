@@ -56,12 +56,13 @@ namespace DMFX.MQClient
                 paramsRegSubs.SubscriberName = name;
 
                 var result = _mq.RegisterSubscriber(paramsRegSubs);
+                IMQGetSubscriberIdResult resGetId = null;
                 if (!result.Success)
                 {
                     IMQGetSubscriberIdParams paramGetId = _mq.CreateGetSubscriberIdParams();
                     paramGetId.SubscriberName = name;
 
-                    IMQGetSubscriberIdResult resGetId = _mq.GetSubscriberId(paramGetId);
+                    resGetId = _mq.GetSubscriberId(paramGetId);
                     if (resGetId.Success)
                     {
                         _subscriberId = (long)resGetId.SubscriberId;
@@ -80,7 +81,7 @@ namespace DMFX.MQClient
                 _listener.Start();
 
 
-                return result.Success;
+                return result.Success || (resGetId != null && resGetId.Success);
             }
             else
             {

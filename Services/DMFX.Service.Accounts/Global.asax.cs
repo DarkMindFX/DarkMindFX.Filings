@@ -12,10 +12,17 @@ namespace DMFX.Service.Accounts
 {
     public class Global : GlobalBase
     {
+        public static AccountRequestsProcessor RequestsProcessor
+        {
+            get;
+            set;
+        }
 
         protected void Application_Start(object sender, EventArgs e)
         {
             InitApp();
+
+            RequestsProcessor = new AccountRequestsProcessor();
 
             new AppHost().Init();
 
@@ -24,6 +31,11 @@ namespace DMFX.Service.Accounts
 
         protected void Application_Stop(object sender, EventArgs e)
         {
+            if(RequestsProcessor != null)
+            {
+                RequestsProcessor.Dispose();
+                RequestsProcessor = null;
+            }
             StopKeepAlive();
         }
     }
