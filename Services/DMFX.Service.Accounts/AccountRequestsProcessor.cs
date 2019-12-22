@@ -625,31 +625,35 @@ namespace DMFX.Service.Accounts
             }
         }
 
+
         private void NewMessagesEventHandler(object sender, MQClient.NewChannelMessagesDelegateEventArgs args)
         {
             if (args != null && args.Messages != null)
             {
                 foreach (var m in args.Messages)
                 {
-                    ResponseBase response = null; ;
+                    ResponseBase response = null; 
                     string responseType = null;
                     switch(m.Type)
                     {
                         case "GetSessionInfo":
-                            var request = JsonConvert.DeserializeObject<GetSessionInfo>(m.Payload);
-                            response = Any(request);
-                            response.RequestID = request.RequestID;
-                            response.SessionToken = request.SessionToken;
-                            responseType = "GetSessionInfoResponse";
+                            {
+                                var request = JsonConvert.DeserializeObject<GetSessionInfo>(m.Payload);
+                                _logger.Log(EErrorType.Info, string.Format("Processing GetSessionInfo: {0}", request.RequestID));
+                                response = Any(request);
+                                response.RequestID = request.RequestID;
+                                response.SessionToken = request.SessionToken;
+                                responseType = "GetSessionInfoResponse";
+                            }
                             break;                     
 
                     }
 
                     if(response != null && responseType != null)
                     {
+                        _mqClient.DeleteMessage(m.Id);
                         string respPayload = JsonConvert.SerializeObject(response, Formatting.Indented);
                         _mqClient.Push(_accountsChannel, responseType, respPayload);
-                        _mqClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
                     }
                 }
             }

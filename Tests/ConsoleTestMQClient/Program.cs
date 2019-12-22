@@ -23,10 +23,19 @@ namespace ConsoleTestMQClient
         }
 
         Client _clientSender = null;
-        Client _clientProcessor = null;
-        
-
+        List<Task> _tasks = new List<Task>();
+       
         public void Start()
+        {
+
+            for(int i = 0; i < 2; ++i)
+            {
+
+            }
+
+        }
+
+        public void SenderThread()
         {
             IMessageQueue mq = CreateMQ();
 
@@ -38,21 +47,15 @@ namespace ConsoleTestMQClient
             void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
             {
                 foreach (var m in args.Messages)
-                {                  
-
+                {                 
                     response = m.Payload;
-                    _clientSender.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                    _clientSender.DeleteMessage(m.Id);
 
                     _eventHasMessages.Set();
                 }
             }
 
-            /*
-            _clientProcessor = new Client(mq);
-            _clientProcessor.Init(ConfigurationManager.AppSettings["ProcessorName"]);
-            _clientProcessor.Subscribe(ConfigurationManager.AppSettings["ChannelName"]);
-            _clientProcessor.NewChannelMessages += NewMessagesHandlerProcessor;
-            */
+            
             _eventHasMessages = new AutoResetEvent(false);
             _clientSender = new Client(mq);
             _clientSender.Init(ConfigurationManager.AppSettings["SenderName"]);
@@ -68,12 +71,7 @@ namespace ConsoleTestMQClient
             _clientSender.Push("AccountRequestsChannel-DEV", "GetSessionInfo", payload);
             _eventHasMessages.WaitOne();
             _clientSender.NewChannelMessages -= NewMessagesHandlerSender;
-            /*
-            Task sender = new Task(ThreadSender);
-            sender.Start();
             
-            sender.Wait();
-            */
 
             Console.WriteLine(string.Format("[{0}] {1}: Sender got message:\r\n{2}",
                                         DateTime.Now,
@@ -109,40 +107,7 @@ namespace ConsoleTestMQClient
             Console.WriteLine("Sender thread complete");
         }
 
-        private void NewMessagesHandlerProcessor(object sender, NewChannelMessagesDelegateEventArgs args)
-        {
-            foreach(var m in args.Messages)
-            {
-                _clientProcessor.SetMessageStatus(m.Id, EMessageStatus.Processing);
-
-                string respMsg = m.Payload + " -> Processed";
-
-                Console.WriteLine(string.Format("[{0}] {1}: Processor got message: {2}, Responding: {3}",
-                                    DateTime.Now,
-                                    Thread.CurrentThread.ManagedThreadId,
-                                    m.Payload,
-                                    respMsg));
-
-                _clientProcessor.SetMessageStatus(m.Id, EMessageStatus.Completed);
-
-                _clientProcessor.Push(ConfigurationManager.AppSettings["ChannelName"], "TestType", respMsg, null);
-            }
-        } 
-
-        /*
-        private void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
-        {
-            foreach (var m in args.Messages)
-            {
-                Console.WriteLine(string.Format("[{0}] {1}: Sender got message: {2}", 
-                                    DateTime.Now, 
-                                    Thread.CurrentThread.ManagedThreadId, 
-                                    m.Payload));
-
-                _clientSender.SetMessageStatus(m.Id, EMessageStatus.Completed);
-            }
-        }
-        */
+        
 
 
     }

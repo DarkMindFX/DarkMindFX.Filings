@@ -272,23 +272,29 @@ namespace DMFX.Service.TimeSeries
 
         private void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
         {
-            foreach (var m in args.Messages)
+            int i = 0;
+            while (i < args.Messages.Count && sinfoResponse == null)
             {
+                var m = args.Messages[i];
+                GetSessionInfoResponse resp = null;
                 if (m.ChannelName == Global.AccountsChannel)
                 {
                     switch (m.Type)
                     {
                         case "GetSessionInfoResponse":
-                            sinfoResponse = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
-                            if (sinfoResponse != null && sinfoResponse.RequestID == sinfo.RequestID)
+                            resp = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
+                            if (resp != null && resp.RequestID == sinfo.RequestID)
                             {
-                                // this is our message - marking it as completed and raising event to unblock the thread
-                                Global.MQClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                                
+                                Global.MQClient.DeleteMessage(m.Id);
+                                sinfoResponse = resp;
+                                // this is our message - removing it from queue and raising event to unblock the thread                                
                                 eventRespReceived.Set();
                             }
                             break;
                     }
                 }
+                ++i;
             }
         }
 

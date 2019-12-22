@@ -147,17 +147,11 @@ namespace DMFX.MQDAL
                 SqlParameter paramReceiverId = new SqlParameter("@IN_Receiver_Id",
                                                             SqlDbType.BigInt, 0,
                                                             ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            paramsGetMsgs.ReceiverId);
-
-                SqlParameter paramMessageStatusId = new SqlParameter("@IN_Message_Status_Id",
-                                                            SqlDbType.BigInt, 0,
-                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            paramsGetMsgs.MessageStatus != null ? (object)paramsGetMsgs.MessageStatus : DBNull.Value);
+                                                            paramsGetMsgs.ReceiverId); 
 
                 cmd.Parameters.Add(paramChannelId);
                 cmd.Parameters.Add(paramReceiverId);
-                cmd.Parameters.Add(paramMessageStatusId);
-
+  
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -173,7 +167,6 @@ namespace DMFX.MQDAL
                         md.Id = (long)r["Message_Id"];
                         md.ChannelName = (string)r["Channel_Name"];
                         md.ChannelId = (long)r["Channel_Id"];
-                        md.MessageStatus = (EMessageStatus)(long)r["Message_Routing_Status_Id"];
                         md.Payload = (string)r["Message_Payload"];
                         md.SenderId = !DBNull.Value.Equals(r["Sender_Id"]) ? (long?)r["Sender_Id"] : null;
                         md.SubscriberId = !DBNull.Value.Equals(r["Subscriber_Id"]) ? (long?)r["Subscriber_Id"] : null;
@@ -388,60 +381,7 @@ namespace DMFX.MQDAL
             return result;
         }
 
-        public IMQSetMessageStateResult SetMessageState(IMQSetMessageStateParams paramsSetMSgState)
-        {
-            var result = new DbMQSetMessageStateResult();
-
-            string spName = "[SP_Set_Message_Routing_Status]";
-            SqlConnection conn = OpenConnection("ConnectionString");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = schema + "." + spName;
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Connection = conn;
-
-            try
-            {
-                SqlParameter paramMessageId = new SqlParameter("@IN_Message_Id",
-                                                            SqlDbType.BigInt, 0,
-                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            paramsSetMSgState.MessageId);
-
-                SqlParameter paramSubscriberId = new SqlParameter("@IN_Subscriber_Id",
-                                                            SqlDbType.BigInt, 0,
-                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            paramsSetMSgState.SubscriberId);
-
-                SqlParameter paramStatusId = new SqlParameter("@IN_Status_Id",
-                                                            SqlDbType.BigInt, 0,
-                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
-                                                            (long)paramsSetMSgState.Status);
-
-                cmd.Parameters.Add(paramMessageId);
-                cmd.Parameters.Add(paramSubscriberId);
-                cmd.Parameters.Add(paramStatusId);
-                cmd.ExecuteNonQuery();
-
-
-                result.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.Errors.Add(new Interfaces.Error()
-                {
-                    Message = ex.Message,
-                    Code = Interfaces.EErrorCodes.MQDbError,
-                    Type = Interfaces.EErrorType.Error
-                });
-            }
-
-            conn.Close();
-
-            return result;
-        }
-
+        
         public IMQSubscribeResult Subscribe(IMQSubscribeParams paramsSubscribe)
         {
             var result = new DbMQSubscribeResult();
@@ -671,6 +611,48 @@ namespace DMFX.MQDAL
             return result;
         }
 
+        public IMQDeleteMessageResult DeleteMessage(IMQDeleteMessageParams paramsDelMessage)
+        {
+            var result = new DbMQDeleteMessageResult();
+
+            string spName = "[SP_Delete_Message]";
+            SqlConnection conn = OpenConnection("ConnectionString");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            try
+            {
+                SqlParameter paramMessageId = new SqlParameter("@IN_Message_Id",
+                                                            SqlDbType.BigInt, 0,
+                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
+                                                            paramsDelMessage.MessageId);
+
+
+                cmd.Parameters.Add(paramMessageId);
+                cmd.ExecuteNonQuery();
+
+                result.Success = true;
+
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Message = ex.Message,
+                    Code = Interfaces.EErrorCodes.MQDbError,
+                    Type = Interfaces.EErrorType.Error
+                });
+            }
+
+            conn.Close();
+
+            return result;
+        }
+
         #region Create* methods
 
 
@@ -714,11 +696,6 @@ namespace DMFX.MQDAL
             return new DbMQSetChannelSubscriptionStatusParams();
         }
 
-        public IMQSetMessageStateParams CreateSetMessageStateParams()
-        {
-            return new DbMQSetMessageStateParams();
-        }
-
         public IMQSubscribeParams CreateSubscribeParams()
         {
             return new DbMQSubscribeParams();
@@ -737,6 +714,11 @@ namespace DMFX.MQDAL
         public IMQRemoveSubscriberParams CreateRemoveSubscriberParams()
         {
             return new DbMQRemoveSubscriberParams();
+        }
+
+        public IMQDeleteMessageParams CreateDeleteMessageParams()
+        {
+            return new DbMQDeleteMessageParams();
         }
         #endregion
 

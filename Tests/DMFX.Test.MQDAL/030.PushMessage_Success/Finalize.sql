@@ -25,18 +25,6 @@ WHERE
 	m.Message_Type = @msgType AND
 	m.Message_Payload = @msgBody
 
-IF(NOT EXISTS(
-	SELECT 1 FROM dbo.CORE_Message_Routing_T mr 
-	INNER JOIN dbo.CORE_Message_T m ON mr.Message_Id = mr.Message_Id
-	INNER JOIN dbo.CORE_Channel_Subscription_T cs ON cs.Channel_Id = m.Channel_Id and cs.Subscriber_Id = @RecId
-	
-	WHERE 
-		mr.Message_Id = @msgId AND
-		mr.Channel_Subscription_Id = cs.Channel_Subscription_Id
-))
-BEGIN
-	THROW 50001, 'Message was not routed to receiver', 1
-END
 
 DELETE m FROM dbo.CORE_Message_T m WHERE m.Message_Id = @msgId
 

@@ -225,20 +225,17 @@ namespace DMFX.MQClient
 
         }
 
-        public bool SetMessageStatus(long msgId, EMessageStatus status)
+        public bool DeleteMessage(long msgId)
         {
             ValidateInitialized();
 
-            IMQSetMessageStateParams paramsSetMsgState = _mq.CreateSetMessageStateParams();
-            paramsSetMsgState.SubscriberId = _subscriberId;
-            paramsSetMsgState.MessageId = msgId;
-            paramsSetMsgState.Status = status;
+            IMQDeleteMessageParams paramsDelMsg = _mq.CreateDeleteMessageParams();
+            paramsDelMsg.MessageId = msgId;
 
-            var resSetMsgState = _mq.SetMessageState(paramsSetMsgState);
+            var resDelMsg = _mq.DeleteMessage(paramsDelMsg);
 
-            return resSetMsgState.Success;
+            return resDelMsg.Success;
         }
-
         public void Dispose()
         {
             if (_listener != null)
@@ -271,11 +268,18 @@ namespace DMFX.MQClient
                 // getting messages for each channel
                 foreach (var c in channels)
                 {
-                    paramsGetMsg.ChannelId = c;
-                    var resGetMsg = _mq.GetChannelMessages(paramsGetMsg);
-                    if (resGetMsg.Success && resGetMsg.Messages.Count > 0)
+                    try
                     {
-                        OnNewChannelMessages(resGetMsg.Messages);
+                        paramsGetMsg.ChannelId = c;
+                        var resGetMsg = _mq.GetChannelMessages(paramsGetMsg);
+                        if (resGetMsg.Success && resGetMsg.Messages.Count > 0)
+                        {
+                            OnNewChannelMessages(resGetMsg.Messages);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        // Ignoring any errors here - just moving to next channel
                     }
                 }
             }

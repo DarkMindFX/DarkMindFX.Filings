@@ -448,7 +448,7 @@ namespace DMFX.Service.Filings
 
             DateTime dtEnd = DateTime.UtcNow;
 
-            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetFilingRatios\tTime:{0}", dtEnd - dtStart));
+            _logger.Log(EErrorType.Info, string.Format(" ****** Call end: GetCommonSizeBalanceSheet\tTime:{0}", dtEnd - dtStart));
 
             return response;
         }
@@ -522,7 +522,7 @@ namespace DMFX.Service.Filings
 
         private void InitDAL()
         {
-            _logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
+            //_logger.Log(EErrorType.Info, string.Format("InitDAL: Connecting to '{0}'", ConfigurationManager.AppSettings["ConnectionStringFilings"]));
 
             Lazy<Interfaces.DAL.IDal> dal = _compContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
@@ -545,23 +545,28 @@ namespace DMFX.Service.Filings
 
         private void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
         {
-            foreach (var m in args.Messages)
+            int i = 0;
+            while (i < args.Messages.Count && sinfoResponse == null)
             {
+                var m = args.Messages[i];
+                GetSessionInfoResponse resp = null;
                 if (m.ChannelName == Global.AccountsChannel)
                 {
                     switch (m.Type)
                     {
                         case "GetSessionInfoResponse":
-                            sinfoResponse = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
-                            if (sinfoResponse != null && sinfoResponse.RequestID == sinfo.RequestID)
+                            resp = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
+                            if (resp != null && resp.RequestID == sinfo.RequestID)
                             {
-                                // this is our message - marking it as completed and raising event to unblock the thread
-                                Global.MQClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                                Global.MQClient.DeleteMessage(m.Id);
+                                sinfoResponse = resp;
+                                // this is our message - removing it from queue and raising event to unblock the thread                                
                                 eventRespReceived.Set();
                             }
                             break;
                     }
                 }
+                ++i;
             }
         }
 
@@ -580,7 +585,8 @@ namespace DMFX.Service.Filings
 
                 sinfo = new GetSessionInfo();
                 sinfo.SessionToken = sessionToken;
-                sinfo.CheckActive = true;  
+                sinfo.CheckActive = true;
+                
 
                 int waitTimeout = Int32.Parse(ConfigurationManager.AppSettings["MQWaitTimeout"]);
                 // sending message to queue
@@ -590,16 +596,23 @@ namespace DMFX.Service.Filings
                 Global.MQClient.NewChannelMessages += NewMessagesHandlerSender;
                 Global.MQClient.Push(Global.AccountsChannel, type, payload);
 
+                _logger.Log(EErrorType.Info, string.Format("GetSessionInfo: {0}", sinfo.RequestID));
+
                 // receiving message
                 eventRespReceived.WaitOne(waitTimeout);
                 Global.MQClient.NewChannelMessages -= NewMessagesHandlerSender;
 
                 if (sinfoResponse != null)
                 {
+                    if (!sinfoResponse.Success)
+                    {
+                        _logger.Log(EErrorType.Warning, string.Format("sinfoResponse error: {0}, {1}", sinfo.RequestID, sinfoResponse.Errors[0].Code));
+                    }
                     result = sinfoResponse.Success ? EErrorCodes.Success : sinfoResponse.Errors[0].Code;
                 }
                 else
                 {
+                    _logger.Log(EErrorType.Warning, string.Format("MQCommunicationError: {0}", sinfo.RequestID));
                     result = EErrorCodes.MQCommunicationError;
                 }
 

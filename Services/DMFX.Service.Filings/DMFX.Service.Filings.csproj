@@ -120,6 +120,9 @@
     <Content Include="Plugins\DMFX.Logging\ServiceStack.Common.dll" />
     <Content Include="Plugins\DMFX.Logging\ServiceStack.Interfaces.dll" />
     <Content Include="Plugins\DMFX.Logging\ServiceStack.Text.dll" />
+    <Content Include="Plugins\DMFX.MQDAL\DMFX.Common.Interfaces.dll" />
+    <Content Include="Plugins\DMFX.MQDAL\DMFX.MQDAL.dll" />
+    <Content Include="Plugins\DMFX.MQDAL\DMFX.MQInterfaces.dll" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

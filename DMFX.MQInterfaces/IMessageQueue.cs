@@ -157,13 +157,7 @@ namespace DMFX.MQInterfaces
         {
             get;
             set;
-        }
-
-        EMessageStatus? MessageStatus
-        {
-            get;
-            set;
-        }
+        }        
     }
 
     public interface IMQGetChannelMessagesResult : IResult
@@ -175,32 +169,7 @@ namespace DMFX.MQInterfaces
         }
 
     }
-
-    public interface IMQSetMessageStateParams
-    {
-        long MessageId
-        {
-            get;
-            set;
-        }
-
-        long SubscriberId
-        {
-            get;
-            set;
-        }
-
-        EMessageStatus Status
-        {
-            get;
-            set;
-        }
-    }
-
-    public interface IMQSetMessageStateResult : IResult
-    {
-    }
-
+    
     public interface IMQSetChannelSubscriptionStatusParams
     {
         long SubscriberId
@@ -288,6 +257,19 @@ namespace DMFX.MQInterfaces
         }
     }
 
+    public interface IMQDeleteMessageParams
+    {
+        long MessageId
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IMQDeleteMessageResult : IResult
+    {
+    }
+
     public interface IMessageQueue
     {
         void Init(IMQInitParams paramsInit);
@@ -299,8 +281,6 @@ namespace DMFX.MQInterfaces
         IMQCreateChannelResult CreateChannel(IMQCreateChannelParams paramsCreateChannel);
 
         IMQGetChannelMessagesResult GetChannelMessages(IMQGetChannelMessagesParams paramsGetMsgs);
-
-        IMQSetMessageStateResult SetMessageState(IMQSetMessageStateParams paramsSetMSgState);
 
         IMQSetChannelSubscriptionStatusResult SetChannelSubscriptionStatus(IMQSetChannelSubscriptionStatusParams paramsSetSubscrStatus);
 
@@ -316,6 +296,8 @@ namespace DMFX.MQInterfaces
 
         IMQGetSubscriberIdResult GetSubscriberId(IMQGetSubscriberIdParams paramsGetSubsId);
 
+        IMQDeleteMessageResult DeleteMessage(IMQDeleteMessageParams paramsDelMsg);
+
         // Create*Params methods
         IMQInitParams CreateInitParams();
 
@@ -326,8 +308,6 @@ namespace DMFX.MQInterfaces
         IMQCreateChannelParams CreateCreateChannelParams();
 
         IMQGetChannelMessagesParams CreateGetChannelMessagesParams();
-
-        IMQSetMessageStateParams CreateSetMessageStateParams();
 
         IMQSetChannelSubscriptionStatusParams CreateSetChannelSubscriptionStatusParams();
 
@@ -342,6 +322,8 @@ namespace DMFX.MQInterfaces
         IMQRemoveSubscriberParams CreateRemoveSubscriberParams();
 
         IMQGetSubscriberIdParams CreateGetSubscriberIdParams();
+
+        IMQDeleteMessageParams CreateDeleteMessageParams();
 
 
     }

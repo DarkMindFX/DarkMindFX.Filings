@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace DMFX.MQInterfaces
 {
-    public enum EMessageStatus
-    {
-        Completed = 1,
-        Processing = 2,
-        Waiting = 3
-    }
+    
 
     public enum EChannelSubscriptionStatus
     {
@@ -61,12 +56,6 @@ namespace DMFX.MQInterfaces
         {
             get;
             set;
-        }
-
-        public EMessageStatus MessageStatus
-        {
-            get;
-            set;
-        }
+        }        
     }
 }

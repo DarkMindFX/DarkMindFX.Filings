@@ -171,11 +171,6 @@ namespace DMFX.MQDAL
             set;
         }
 
-        public EMessageStatus? MessageStatus
-        {
-            get;
-            set;
-        }
     }
 
     public class DbMQGetChannelMessagesResult : ResultBase, IMQGetChannelMessagesResult
@@ -191,31 +186,6 @@ namespace DMFX.MQDAL
             set;
         }
 
-    }
-
-    public class DbMQSetMessageStateParams : IMQSetMessageStateParams
-    {
-        public long MessageId
-        {
-            get;
-            set;
-        }
-
-        public long SubscriberId
-        {
-            get;
-            set;
-        }
-
-        public EMessageStatus Status
-        {
-            get;
-            set;
-        }
-    }
-
-    public class DbMQSetMessageStateResult : ResultBase, IMQSetMessageStateResult
-    {
     }
 
     public class DbMQSetChannelSubscriptionStatusParams : IMQSetChannelSubscriptionStatusParams
@@ -303,6 +273,19 @@ namespace DMFX.MQDAL
             get;
             set;
         }
+    }
+
+    public class DbMQDeleteMessageParams : IMQDeleteMessageParams
+    {
+        public long MessageId
+        {
+            get;
+            set;
+        }
+    }
+
+    public class DbMQDeleteMessageResult : ResultBase, IMQDeleteMessageResult
+    {
     }
 }
 
