@@ -13,7 +13,7 @@ D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\Servi
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Interfaces.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Text.xml
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\bin\ServiceStack.Common.xml
+D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csprojAssemblyReference.cache
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csproj.CopyComplete
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.dll
 D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.pdb
-D:\Projects\RoiFX\DarkMindFX\DarkMindFX.Filings\Tests\MDFX.Test.SECApi\obj\Debug\DMFX.Test.SECApi.csprojAssemblyReference.cache

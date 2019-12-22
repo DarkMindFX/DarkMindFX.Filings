@@ -539,9 +539,36 @@ namespace DMFX.Service.Filings
             return ValidateSession(request.SessionToken) == EErrorCodes.Success;
         }
 
+        AutoResetEvent eventRespReceived = null;
+        GetSessionInfoResponse sinfoResponse = null;
+        GetSessionInfo sinfo = null;
+
+        private void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
+        {
+            foreach (var m in args.Messages)
+            {
+                if (m.ChannelName == Global.AccountsChannel)
+                {
+                    switch (m.Type)
+                    {
+                        case "GetSessionInfoResponse":
+                            sinfoResponse = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
+                            if (sinfoResponse != null && sinfoResponse.RequestID == sinfo.RequestID)
+                            {
+                                // this is our message - marking it as completed and raising event to unblock the thread
+                                Global.MQClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                                eventRespReceived.Set();
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
         private EErrorCodes ValidateSession(string sessionToken)
         {
             EErrorCodes result = EErrorCodes.InvalidSession;
+            
 
             if (sessionToken == ConfigurationManager.AppSettings["ServiceSessionToken"])
             {
@@ -549,35 +576,11 @@ namespace DMFX.Service.Filings
             }
             else
             {
-                AutoResetEvent eventRespReceived = new AutoResetEvent(false); // this event will be raised when response received
+                eventRespReceived = new AutoResetEvent(false); // this event will be raised when response received
 
-                GetSessionInfo sinfo = new GetSessionInfo();
+                sinfo = new GetSessionInfo();
                 sinfo.SessionToken = sessionToken;
-                sinfo.CheckActive = true;
-
-                GetSessionInfoResponse sinfoResponse = null;
-
-                void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
-                {
-                    foreach (var m in args.Messages)
-                    {
-                        if ( == "" && m.ChannelName == Global.AccountsChannel)
-                        {
-                            switch (m.Type)
-                            {
-                                case "GetSessionInfoResponse":
-                                    sinfoResponse = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
-                                    if (sinfoResponse != null && sinfoResponse.RequestID == sinfo.RequestID)
-                                    {
-                                        // this is our message - marking it as completed and raising event to unblock the thread
-                                        Global.MQClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
-                                        eventRespReceived.Set();
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                }
+                sinfo.CheckActive = true;  
 
                 int waitTimeout = Int32.Parse(ConfigurationManager.AppSettings["MQWaitTimeout"]);
                 // sending message to queue
