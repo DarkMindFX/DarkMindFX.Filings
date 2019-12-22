@@ -43,7 +43,7 @@ namespace DMFX.Service.Accounts
         public object Any(Login request)
         {
             var response = Global.RequestsProcessor.Any(request);
-            TransferHeader(request, response);
+            response.RequestID = request.RequestID;
             return response;
         }
 

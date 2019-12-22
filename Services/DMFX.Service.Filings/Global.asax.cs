@@ -40,6 +40,8 @@ namespace DMFX.Service.Filings
 
         protected void Application_Stop(object sender, EventArgs e)
         {
+            DeinitMQClient();
+
             StopKeepAlive();
         }
 
