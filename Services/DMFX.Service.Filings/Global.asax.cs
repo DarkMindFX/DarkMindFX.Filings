@@ -8,12 +8,20 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Threading;
+using System.Configuration;
+using DMFX.MQInterfaces;
 
 namespace DMFX.Service.Filings
 {
     public class Global : GlobalBase
     {
-        public static Semaphore SimAccounts
+        public static MQClient.Client MQClient
+        {
+            get;
+            set;
+        }
+
+        public static string AccountsChannel
         {
             get;
             set;
@@ -23,7 +31,7 @@ namespace DMFX.Service.Filings
         {
             InitApp();
 
-            SimAccounts = new Semaphore(0, 2);
+            InitMQClient();
 
             new AppHost().Init();
 
@@ -33,6 +41,35 @@ namespace DMFX.Service.Filings
         protected void Application_Stop(object sender, EventArgs e)
         {
             StopKeepAlive();
+        }
+
+        private void InitMQClient()
+        {
+            AccountsChannel = ConfigurationManager.AppSettings["MQAccountsChannelName"];
+            IMessageQueue mq = Global.Container.GetExport<IMessageQueue>(ConfigurationManager.AppSettings["MessageQueueType"]).Value;
+            if (mq != null)
+            {
+                IMQInitParams initParams = mq.CreateInitParams();
+                initParams.Params["ConnectionString"] = ConfigurationManager.AppSettings["ConnectionStringMsgBus"];
+
+                mq.Init(initParams);
+
+                MQClient = new MQClient.Client(mq);
+                if (MQClient.Init(ConfigurationManager.AppSettings["MQSubscriberName"]))
+                {
+                    MQClient.Subscribe(AccountsChannel);
+                }
+            }
+        }
+
+        private void DeinitMQClient()
+        {
+            if (MQClient != null)
+            {
+                MQClient.Unsubscribe(AccountsChannel);
+                MQClient.Dispose();
+                MQClient = null;
+            }
         }
     }
 }

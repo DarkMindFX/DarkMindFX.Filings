@@ -1,5 +1,7 @@
 ﻿using DMFX.Interfaces;
 using DMFX.Interfaces.DAL;
+using DMFX.MQClient;
+using DMFX.MQInterfaces;
 using DMFX.Service.Common;
 using DMFX.Service.DTO;
 using ServiceStack.Text;
@@ -9,6 +11,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 
 namespace DMFX.Service.Filings
@@ -546,30 +549,56 @@ namespace DMFX.Service.Filings
             }
             else
             {
+                AutoResetEvent eventRespReceived = new AutoResetEvent(false); // this event will be raised when response received
 
                 GetSessionInfo sinfo = new GetSessionInfo();
                 sinfo.SessionToken = sessionToken;
                 sinfo.CheckActive = true;
-                
-                DMFX.Client.Accounts.ServiceClient accnts = new Client.Accounts.ServiceClient();
 
-                //Global.SimAccounts.WaitOne();
+                GetSessionInfoResponse sinfoResponse = null;
 
-                GetSessionInfoResponse sInfoResp = accnts.PostGetSessionInfo(sinfo);
-
-                //Global.SimAccounts.Release();
-
-                result = sInfoResp.Success ? EErrorCodes.Success : sInfoResp.Errors[0].Code;
-                /*
-
-                using (var client = new WebClient())
+                void NewMessagesHandlerSender(object sender, NewChannelMessagesDelegateEventArgs args)
                 {
-                    string sResp = client.DownloadString("http://localhost/api/echoservice/Echo/FilingService/2/3");
-                    EchoResponse echoResponse = JsonSerializer.DeserializeFromString<EchoResponse>(sResp);
-
-                    result = echoResponse.Success ? EErrorCodes.Success : echoResponse.Errors[0].Code;
+                    foreach (var m in args.Messages)
+                    {
+                        if ( == "" && m.ChannelName == Global.AccountsChannel)
+                        {
+                            switch (m.Type)
+                            {
+                                case "GetSessionInfoResponse":
+                                    sinfoResponse = JsonSerializer.DeserializeFromString(m.Payload, typeof(GetSessionInfoResponse)) as GetSessionInfoResponse;
+                                    if (sinfoResponse != null && sinfoResponse.RequestID == sinfo.RequestID)
+                                    {
+                                        // this is our message - marking it as completed and raising event to unblock the thread
+                                        Global.MQClient.SetMessageStatus(m.Id, EMessageStatus.Completed);
+                                        eventRespReceived.Set();
+                                    }
+                                    break;
+                            }
+                        }
+                    }
                 }
-                */
+
+                int waitTimeout = Int32.Parse(ConfigurationManager.AppSettings["MQWaitTimeout"]);
+                // sending message to queue
+                string payload = JsonSerializer.SerializeToString(sinfo);
+                string type = "GetSessionInfo";
+
+                Global.MQClient.NewChannelMessages += NewMessagesHandlerSender;
+                Global.MQClient.Push(Global.AccountsChannel, type, payload);
+
+                // receiving message
+                eventRespReceived.WaitOne(waitTimeout);
+                Global.MQClient.NewChannelMessages -= NewMessagesHandlerSender;
+
+                if (sinfoResponse != null)
+                {
+                    result = sinfoResponse.Success ? EErrorCodes.Success : sinfoResponse.Errors[0].Code;
+                }
+                else
+                {
+                    result = EErrorCodes.MQCommunicationError;
+                }
 
             }
 

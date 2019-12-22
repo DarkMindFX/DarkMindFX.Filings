@@ -139,6 +139,14 @@
       <Project>{5e07195d-5203-4468-9b6e-9385e9bae692}</Project>
       <Name>DMFX.FilingInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\DMFX.MQClient\DMFX.MQClient.csproj">
+      <Project>{7c52ea72-7dbf-46aa-b9b8-a00d30446123}</Project>
+      <Name>DMFX.MQClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DMFX.MQInterfaces\DMFX.MQInterfaces.csproj">
+      <Project>{d69abea7-cc35-46bf-9a5d-e22bbc9d08c2}</Project>
+      <Name>DMFX.MQInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Clients\DMFX.Client.Accounts\DMFX.Client.Accounts.csproj">
       <Project>{7f456ea1-67d8-4a99-b24c-760671dda847}</Project>
       <Name>DMFX.Client.Accounts</Name>
@@ -192,7 +200,8 @@
   <PropertyGroup>
     <PreBuildEvent>xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Logging\*.dll" "$(ProjectDir)Plugins\DMFX.Logging\"
 xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.DALDatabase\*.dll" "$(ProjectDir)Plugins\DMFX.DALDatabase\"
-xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\DMFX.Dictionaries\"</PreBuildEvent>
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.Dictionaries\*.dll" "$(ProjectDir)Plugins\DMFX.Dictionaries\"
+xcopy /s /y "$(SolutionDir)Plugins-Out\DMFX.MQDAL\*.dll" "$(ProjectDir)Plugins\DMFX.MQDAL\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(ProjectDir)Web.$(ConfigurationName).config" "$(ProjectDir)Web.config"</PostBuildEvent>
