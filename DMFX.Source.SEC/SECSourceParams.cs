@@ -43,6 +43,11 @@ namespace DMFX.Source.SEC
 
     public class SECSourceSubmissionInfo : ISourceSubmissionInfo
     {
+        public SECSourceSubmissionInfo()
+        {
+            Report = new List<string>();
+        }
+
         public string Name
         {
             get;
@@ -55,7 +60,7 @@ namespace DMFX.Source.SEC
             set;
         }
 
-        public string Report
+        public IList<string> Report
         {
             get;
             set;

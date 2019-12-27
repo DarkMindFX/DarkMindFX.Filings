@@ -29,7 +29,7 @@ namespace DMFX.Interfaces
             set;
         }
 
-        string Report
+        IList<string> Report
         {
             get;
             set;

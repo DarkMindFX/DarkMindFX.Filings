@@ -412,6 +412,11 @@ namespace DMFX.Source.SEC
                     subInfo.Type = "4";
                 }
 
+                else if(nodeType.InnerText.Contains("13F-HR"))
+                {
+                    subInfo.Type = "13F-HR";
+                }
+
                 if (!string.IsNullOrEmpty(subInfo.Type))
                 {
                     // extracting dates
@@ -450,12 +455,17 @@ namespace DMFX.Source.SEC
                                     nodeFilingData = fileNodes.FirstOrDefault(x => x.SelectSingleNode("td/a") != null && x.SelectSingleNode("td/a").InnerText.IndexOf(".xml") >= 0);
                                 }
                                 break;
+                            case "13F-HR":
+                                subInfo.Report.Add("primary_doc.xml");
+                                subInfo.Report.Add("form13fInfoTable.xml");
+                                break;
+
                         }
                     }
                     if (nodeFilingData != null)
                     {
                         HtmlNode nodeFileName = nodeFilingData.SelectSingleNode("td/a");
-                        subInfo.Report = nodeFileName.InnerText.Trim();
+                        subInfo.Report.Add(nodeFileName.InnerText.Trim());
                     }
                 }
             }

@@ -23,7 +23,8 @@ namespace DMFX.Test.SECParsers
             SECParser.SECParserParams secParams = new SECParser.SECParserParams();
 
             // parameters
-            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2017Q2"]), FileMode.Open);
+            Stream s = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2017Q2"]), FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2017Q2"], s);
 
             // running parser
             var result = parser.Parse(secParams);
@@ -50,7 +51,8 @@ namespace DMFX.Test.SECParsers
 
             // parameters
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2017Q1"]);
-            secParams.FileContent = new FileStream(path, FileMode.Open);
+            Stream s = new FileStream(path, FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2017Q1"], s);
 
             // running parser
             var result = parser.Parse(secParams);
@@ -76,7 +78,8 @@ namespace DMFX.Test.SECParsers
 
             // parameters
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q4"]);
-            secParams.FileContent = new FileStream(path, FileMode.Open);
+            Stream s = new FileStream(path, FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q4"], s);
 
             // running parser
             var result = parser.Parse(secParams);
@@ -102,7 +105,8 @@ namespace DMFX.Test.SECParsers
 
             // parameters
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q2"]);
-            secParams.FileContent = new FileStream(path, FileMode.Open);
+            var s = new FileStream(path, FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q2"], s);
 
             // running parser
             var result = parser.Parse(secParams);
@@ -128,7 +132,8 @@ namespace DMFX.Test.SECParsers
 
             // parameters
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q1"]);
-            secParams.FileContent = new FileStream(path, FileMode.Open);
+            var s = new FileStream(path, FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2016Q1"], s) ;
 
             // running parser
             var result = parser.Parse(secParams);
@@ -154,7 +159,8 @@ namespace DMFX.Test.SECParsers
 
             // parameters
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2011Q3"]);
-            secParams.FileContent = new FileStream(path, FileMode.Open);
+            var s = new FileStream(path, FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_10-Q_2011Q3"], s);
 
             // running parser
             var result = parser.Parse(secParams);
@@ -192,7 +198,8 @@ namespace DMFX.Test.SECParsers
 
                 // parameters
                 string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", reports[i]);
-                secParams.FileContent = new FileStream(path, FileMode.Open);
+                var s = new FileStream(path, FileMode.Open);
+                secParams.FileContent.Add(reports[i], s);
 
                 // running parser
                 var result = parser.Parse(secParams);
@@ -213,7 +220,8 @@ namespace DMFX.Test.SECParsers
             SECParser.SECParserParams secParams = new SECParser.SECParserParams();
 
             // parameters
-            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190502"]), FileMode.Open);
+            var s = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190502"]), FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190502"], s); 
 
             // running parser
             var result = parser.Parse(secParams);
@@ -233,7 +241,8 @@ namespace DMFX.Test.SECParsers
             SECParser.SECParserParams secParams = new SECParser.SECParserParams();
 
             // parameters
-            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190812"]), FileMode.Open);
+            var s = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190812"]), FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190812"], s) ;
 
             // running parser
             var result = parser.Parse(secParams);
@@ -251,7 +260,8 @@ namespace DMFX.Test.SECParsers
             SECParser.SECParserParams secParams = new SECParser.SECParserParams();
 
             // parameters
-            secParams.FileContent = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190824"]), FileMode.Open);
+            var s = new FileStream(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "..", "Sample Reportings", ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190824"]), FileMode.Open);
+            secParams.FileContent.Add(ConfigurationManager.AppSettings["File_SEC_AAPL_FORM4_20190824"], s);
 
             // running parser
             var result = parser.Parse(secParams);

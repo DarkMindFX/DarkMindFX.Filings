@@ -72,7 +72,7 @@ namespace DMFX.SECParser.SECForm4
 
         protected void ValidateFile(SECParserParams secParams, SECParserResult secResult)
         {
-            if (secParams.FileContent == null || !secParams.FileContent.CanRead)
+            if (secParams.FileContent == null || !secParams.FileContent.Values.ElementAt(0).CanRead)
             {
                 secResult.Success = false;
                 secResult.AddError(EErrorCodes.FileNotFound, EErrorType.Error, "Stream is unaccessable");
@@ -82,7 +82,7 @@ namespace DMFX.SECParser.SECForm4
         protected XmlDocument OpenDocument(SECParserParams secParams)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(secParams.FileContent);
+            doc.Load(secParams.FileContent.Values.ElementAt(0));
 
             return doc;
         }

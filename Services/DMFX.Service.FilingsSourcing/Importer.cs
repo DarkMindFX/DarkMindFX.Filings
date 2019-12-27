@@ -108,9 +108,9 @@ namespace DMFX.Service.Sourcing
             get
             {
                 HashSet<string> result = null;
-                if(LastImportResults != null)
+                if (LastImportResults != null)
                 {
-                    result = new HashSet<string>( LastImportResults.Companies.Select(c => c.CompanyCode) );
+                    result = new HashSet<string>(LastImportResults.Companies.Select(c => c.CompanyCode));
                 }
                 else
                 {
@@ -309,7 +309,7 @@ namespace DMFX.Service.Sourcing
                     _logger.Log(ex);
                     LastImportResults.AddError(new Error() { Code = EErrorCodes.ImporterError, Type = EErrorType.Error, Message = string.Format("Import failed: Regulator '{0}', Company '{1}', Error '{2}'", importParams.RegulatorCode, companyCode, ex.Message) });
 
-                    
+
                 }
             }
 
@@ -342,7 +342,7 @@ namespace DMFX.Service.Sourcing
             Lazy<Interfaces.DAL.IDal> dal = CompositionContainer.GetExport<Interfaces.DAL.IDal>();
             Interfaces.DAL.IDalParams dalParams = dal.Value.CreateDalParams();
             dalParams.Parameters.Add("ConnectionStringFilings", ConfigurationManager.AppSettings["ConnectionStringFilings"]);
- 
+
             dal.Value.Init(dalParams);
 
             _dal = dal.Value;
@@ -352,7 +352,7 @@ namespace DMFX.Service.Sourcing
         {
             _dictionary = Global.Container.GetExport<IDictionary>("File").Value;
         }
-    
+
 
         private List<string> GetRegulatorsToUpdate()
         {
@@ -394,12 +394,12 @@ namespace DMFX.Service.Sourcing
             else
             {
                 var valDictionary = CompositionContainer.GetExport<IDictionary>("DB");
-                if(valDictionary != null && valDictionary.Value != null)
+                if (valDictionary != null && valDictionary.Value != null)
                 {
                     List<Interfaces.CompanyInfo> companies = valDictionary.Value.GetCompaniesByRegulator(regulatorCode);
-                    if(companies != null)
+                    if (companies != null)
                     {
-                        result.AddRange( companies.Select(x => x.Code) );
+                        result.AddRange(companies.Select(x => x.Code));
                     }
                 }
 
@@ -943,16 +943,16 @@ namespace DMFX.Service.Sourcing
                 PeriodEnd = _impParams.DateEnd
             };
 
-            if(_impParams.Types != null && _impParams.Types.Count > 0)
+            if (_impParams.Types != null && _impParams.Types.Count > 0)
             {
                 paramsGetFilingsInfo.Types = new HashSet<string>(_impParams.Types);
             }
             var resGetCompanyFilingsInfo = _dal.GetCompanyFilingsInfo(paramsGetFilingsInfo);
 
-            if(resGetCompanyFilingsInfo != null && resGetCompanyFilingsInfo.Filings != null)
+            if (resGetCompanyFilingsInfo != null && resGetCompanyFilingsInfo.Filings != null)
             {
                 // some filings exist for the given set of conditions - finding which reports are new
-                HashSet<string> existingReports = new HashSet<string>(resGetCompanyFilingsInfo.Filings.Select( x => x.Name ));
+                HashSet<string> existingReports = new HashSet<string>(resGetCompanyFilingsInfo.Filings.Select(x => x.Name));
                 result.AddRange(
                     itemsAtRegulator.Where(x => !existingReports.Contains(x.Name))
                     );
@@ -981,11 +981,11 @@ namespace DMFX.Service.Sourcing
             return subInfoResult;
         }
 
-        private void ProcessSubmission(string regulatorCode, 
-                                        string companyCode, 
-                                        ISource source, 
-                                        ISourceSubmissionInfo submissionInfo, 
-                                        IParsersRepository parsersRepository, 
+        private void ProcessSubmission(string regulatorCode,
+                                        string companyCode,
+                                        ISource source,
+                                        ISourceSubmissionInfo submissionInfo,
+                                        IParsersRepository parsersRepository,
                                         CompanyImportResult companyImpResult)
         {
             DateTime dtSrart = DateTime.UtcNow;
@@ -996,103 +996,101 @@ namespace DMFX.Service.Sourcing
             {
                 CurrentState = EImportState.ImportSources;
 
-                // filing folder info
-                ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
-                srcItemInfo.Name = submissionInfo.Name;
-
-                // main item to parse
-                ISourceItemInfo srcFilingItemInfo = source.CreateSourceItemInfo();
-                srcFilingItemInfo.Name = submissionInfo.Report;
-
-                ISourceExtractFilingItemsParams extrItemsParams = source.CreateSourceExtractFilingItemsParams();
-                extrItemsParams.RegulatorCode = regulatorCode;
-                extrItemsParams.CompanyCode = companyCode;
-                extrItemsParams.Filing = srcItemInfo;
-                extrItemsParams.Items.Add(srcFilingItemInfo);
-
-                _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
-
-                ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
-
-                if (extrResult != null && _isRunning)
+                if (parsersRepository != null && _isRunning)
                 {
+                    IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
 
-                    ISourceItem filingContent = extrResult.Items.FirstOrDefault(i => i.Name == submissionInfo.Report);
-                    if (filingContent != null && _isRunning)
+                    if (parser != null && _isRunning)
                     {
-                        MemoryStream ms = new MemoryStream(filingContent.Content.ToArray());
 
-                        // 4. Parsing
-                        CurrentState = EImportState.Parsing;
+                        IFilingParserParams parserParams = parser.CreateFilingParserParams();
 
-                        if (parsersRepository != null && _isRunning)
+                        // filing folder info
+                        ISourceItemInfo srcItemInfo = source.CreateSourceItemInfo();
+                        srcItemInfo.Name = submissionInfo.Name;
+
+                        ISourceExtractFilingItemsParams extrItemsParams = source.CreateSourceExtractFilingItemsParams();
+                        extrItemsParams.RegulatorCode = regulatorCode;
+                        extrItemsParams.CompanyCode = companyCode;
+                        extrItemsParams.Filing = srcItemInfo;
+
+                        // list of items to parse
+                        foreach (var itemName in submissionInfo.Report)
                         {
-                            IFilingParser parser = parsersRepository.GetParser(companyCode, submissionInfo.Type);
+                            ISourceItemInfo srcFilingItemInfo = source.CreateSourceItemInfo();
+                            srcFilingItemInfo.Name = itemName;
+                            extrItemsParams.Items.Add(srcFilingItemInfo);
+                        }
 
-                            if (parser != null && _isRunning)
+                        _logger.Log(EErrorType.Info, string.Format("Extracting report files"));
+
+                        ISourceExtractResult extrResult = source.ExtractFilingItems(extrItemsParams);
+
+                        if(extrResult != null && extrResult.Success && extrResult.Items.Count > 0 && _isRunning)
+                        {
+                            // preparing streams
+                            foreach(var i in extrResult.Items)
                             {
-                                _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
+                                MemoryStream ms = new MemoryStream(i.Content.ToArray());
+                                parserParams.FileContent.Add(i.Name, ms);
+                            }
 
-                                IFilingParserParams parserParams = parser.CreateFilingParserParams();
-                                parserParams.FileContent = ms;
+                            CurrentState = EImportState.Parsing;
 
-                                IFilingParserResult parserResults = parser.Parse(parserParams);
+                            _logger.Log(EErrorType.Info, string.Format("Parsing: {0}", submissionInfo.Report));
 
-                                if (parserResults != null && parserResults.Success)
-                                {
-                                    // Adding to DB and storage
-                                    StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
+                            IFilingParserResult parserResults = parser.Parse(parserParams);
+                            
+                            if (parserResults != null && parserResults.Success)
+                            {
+                                // Adding to DB and storage
+                                StoreFiling(regulatorCode, companyCode, submissionInfo, parserResults);
 
-                                    // adding record that submission was processed
-                                    FilingImportInfo fii = new FilingImportInfo();
-                                    fii.Name = submissionInfo.Name;
-                                    fii.Submitted = submissionInfo.Submitted;
-                                    fii.Type = submissionInfo.Type;
+                                // adding record that submission was processed
+                                FilingImportInfo fii = new FilingImportInfo();
+                                fii.Name = submissionInfo.Name;
+                                fii.Submitted = submissionInfo.Submitted;
+                                fii.Type = submissionInfo.Type;
 
-                                    companyImpResult.Filings.Add(fii);
-                                }
-                                else
-                                {
-                                    var parserFailError = new Error()
-                                    {
-                                        Code = EErrorCodes.ParserError,
-                                        Type = EErrorType.Warning,
-                                        Message = string.Format("Parser failed for {0} / {1} / {2}, Type {3}",
-                                        regulatorCode,
-                                        companyCode,
-                                        submissionInfo.Name,
-                                        submissionInfo.Type)
-                                    };
-
-                                    _logger.Log(parserFailError.Type, parserFailError.Message);
-                                    LastImportResults.AddError(parserFailError);
-                                    if (parserResults != null)
-                                    {
-                                        foreach (var e in parserResults.Errors)
-                                        {
-                                            _logger.Log(EErrorType.Error, string.Format("Parser error:\r\n\t Error: {0}\r\n\t: Message: {1}", e.Code.ToString(), e.Message.ToString()));
-                                        }
-                                    }
-                                }
+                                companyImpResult.Filings.Add(fii);
                             }
                             else
                             {
-                                _logger.Log(EErrorType.Warning, string.Format("Parser not found for filing {0}, Company {1}, Type {2}",
-                                    submissionInfo.Name,
+                                var parserFailError = new Error()
+                                {
+                                    Code = EErrorCodes.ParserError,
+                                    Type = EErrorType.Warning,
+                                    Message = string.Format("Parser failed for {0} / {1} / {2}, Type {3}",
+                                    regulatorCode,
                                     companyCode,
-                                    submissionInfo.Type));
+                                    submissionInfo.Name,
+                                    submissionInfo.Type)
+                                };
+
+                                _logger.Log(parserFailError.Type, parserFailError.Message);
+                                LastImportResults.AddError(parserFailError);
+                                if (parserResults != null)
+                                {
+                                    foreach (var e in parserResults.Errors)
+                                    {
+                                        _logger.Log(EErrorType.Error, string.Format("Parser error:\r\n\t Error: {0}\r\n\t: Message: {1}", e.Code.ToString(), e.Message.ToString()));
+                                    }
+                                }
                             }
 
+                            // closing streams
+                            foreach(var s in parserParams.FileContent.Values)
+                            {
+                                s.Close();
+                            }
                         }
-
                     }
                     else
                     {
-                        _logger.Log(EErrorType.Warning, string.Format("Filing content was not extract from results - skipping {0} / {1} / {2}",
-                                    regulatorCode,
-                                    companyCode,
-                                    submissionInfo.Report
-                                    ));
+                        _logger.Log(EErrorType.Warning, string.Format("Parser not found for filing {0}, Company {1}, Type {2}",
+                            submissionInfo.Name,
+                            companyCode,
+                            submissionInfo.Type));
                     }
                 }
 
@@ -1144,26 +1142,26 @@ namespace DMFX.Service.Sourcing
                             break;
                         }
 
-                        if (!string.IsNullOrEmpty(submissionInfo.Report))
+                        if (submissionInfo.Report != null && submissionInfo.Report.Count > 0)
                         {
                             // checking which types of reports to import - if no types are specified just importing everything
                             if (_impParams.Types.Count == 0 || _impParams.Types.Contains(submissionInfo.Type))
                             {
-                                ProcessSubmission(regulatorCode, 
-                                                  companyCode, 
-                                                  source, 
-                                                  submissionInfo, 
-                                                  parsersRepository.Value, 
+                                ProcessSubmission(regulatorCode,
+                                                  companyCode,
+                                                  source,
+                                                  submissionInfo,
+                                                  parsersRepository.Value,
                                                   companyImpResult);
                             }
                         }
                         else
                         {
-                            _logger.Log(EErrorType.Warning, string.Format("Report name was not extracted - skipping submission {0}", submissionInfo.Name));
+                            _logger.Log(EErrorType.Warning, string.Format("Report files' names were not extracted - skipping submission {0}", submissionInfo.Name));
                         }
                     } // foreach
                 }
-                
+
             }
             else
             {
@@ -1202,7 +1200,7 @@ namespace DMFX.Service.Sourcing
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "RegulatorCode", Value = regulatorCode, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "CompanyCode", Value = companyCode, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
-            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report, Type = "String" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report[0], Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingType", Value = submissionInfo.Type, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });

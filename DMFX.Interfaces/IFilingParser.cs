@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DMFX.Interfaces
 {
     public interface IFilingParserParams
     {
-        Stream FileContent
+        IDictionary<string,Stream> FileContent
         {
             get;
             set;

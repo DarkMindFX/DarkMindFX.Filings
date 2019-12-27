@@ -52,6 +52,7 @@
     <Compile Include="SEC10K\SEC10KDefaultParser.cs" />
     <Compile Include="SEC10Q\AAPL.cs" />
     <Compile Include="SEC10Q\SEC10QDefaultParser.cs" />
+    <Compile Include="SECForm13F\SECForm13FDefaultParser.cs" />
     <Compile Include="SECForm4\SECForm4DefaultParser.cs" />
     <Compile Include="SECParsersRepository.cs" />
     <Compile Include="SECParserBase.cs" />
@@ -78,9 +79,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SECForm13F\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /s /y "$(TargetDir)*.dll" "..\..\Plugins-Out\DMFX.SECParsers\"</PostBuildEvent>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edgarSubmission xsi:schemaLocation="http://www.sec.gov/edgar/thirteenffiler eis_13F_Filer.xsd" xmlns="http://www.sec.gov/edgar/thirteenffiler" xmlns:ns1="http://www.sec.gov/edgar/common" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <headerData>
+    <submissionType>13F-HR</submissionType>
+    <filerInfo>
+      <liveTestFlag>LIVE</liveTestFlag>
+      <filer>
+        <credentials>
+          <cik>0001364742</cik>
+          <ccc>XXXXXXXX</ccc>
+        </credentials>
+      </filer>
+      <periodOfReport>09-30-2014</periodOfReport>
+    </filerInfo>
+  </headerData>
+  <formData>
+    <coverPage>
+      <reportCalendarOrQuarter>09-30-2014</reportCalendarOrQuarter>
+      <filingManager>
+        <name>BlackRock Inc.</name>
+        <address>
+          <ns1:street1>55 East 52nd Street</ns1:street1>
+          <ns1:city>New York</ns1:city>
+          <ns1:stateOrCountry>NY</ns1:stateOrCountry>
+          <ns1:zipCode>10055</ns1:zipCode>
+        </address>
+      </filingManager>
+      <reportType>13F HOLDINGS REPORT</reportType>
+      <form13FFileNumber>028-12019</form13FFileNumber>
+      <provideInfoForInstruction5>Y</provideInfoForInstruction5>
+      <additionalInformation>BlackRock, Inc. is the parent holding company of certain institutional investment managers.  For purposes of the reporting requirements under Section 13(f) of the Securities Exchange Act of 1934 (the Act), and the rules promulgated thereunder, Black Rock, Inc. itself does not exercise, and therefore disclaims, investment discretion with respect to any Section 13(f) securities positions over which its investment operating subsidiaries exercise such discretion.  To the extent, however, that BlackRock Inc.'s ownership interest in such subsidiaries may nevertheless give rise to a Form 13F obligation on behalf of BlackRock, Inc., the information required by Form 13F is reported herein on behalf of all such subsidiaries other than the following:  BlackRock Advisors, LLC, BlackRock Fund Advisors, BlackRock Investment Management, LLC, BlackRock Group Limited, BlackRock Institutional Trust Company, N.A. and BlackRock Japan Co., Ltd. The securities positions managed by the aforementioned subsidiaries of BlackRock, Inc. are reported on Form 13F's filed individually by each of these entities.</additionalInformation>
+    </coverPage>
+    <signatureBlock>
+      <name>/s/ Matthew J. Fitzgerald</name>
+      <title>Attorney-In-Fact pursuant to PoA date July 10, 2012</title>
+      <phone>212-810-5300</phone>
+      <signature>/s/ Matthew J. Fitzgerald</signature>
+      <city>New York</city>
+      <stateOrCountry>NY</stateOrCountry>
+      <signatureDate>09-30-2014</signatureDate>
+    </signatureBlock>
+    <summaryPage>
+      <otherIncludedManagersCount>15</otherIncludedManagersCount>
+      <tableEntryTotal>7171</tableEntryTotal>
+      <tableValueTotal>68418787</tableValueTotal>
+      <isConfidentialOmitted>true</isConfidentialOmitted>
+      <otherManagers2Info>
+        <otherManager2>
+          <sequenceNumber>2</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Financial Management, Inc.</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>3</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Investment Management (Taiwan) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>4</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Investment Management (Australia) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>5</sequenceNumber>
+          <otherManager>
+            <name>BlackRock (Channel Islands) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>6</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Asset Management Australia Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>7</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Asset Management Canada Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>8</sequenceNumber>
+          <otherManager>
+            <name>BlackRock (Isle of Man) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>9</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Fund Managers (Isle of Man) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>10</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Investments Canada, Inc.</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>11</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Asset Management International Inc</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>12</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Hong Kong Ltd</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>13</sequenceNumber>
+          <otherManager>
+            <name>BlackRock (Singapore) Limited</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>14</sequenceNumber>
+          <otherManager>
+            <name>Blackrock Realty Advisors, Inc.</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>15</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Asset Management North Asia Ltd</name>
+          </otherManager>
+        </otherManager2>
+        <otherManager2>
+          <sequenceNumber>16</sequenceNumber>
+          <otherManager>
+            <name>BlackRock Brasil Gestora de Investimentos Ltd.</name>
+          </otherManager>
+        </otherManager2>
+      </otherManagers2Info>
+    </summaryPage>
+  </formData>
+</edgarSubmission>

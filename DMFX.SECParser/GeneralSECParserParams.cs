@@ -15,9 +15,10 @@ namespace DMFX.SECParser
             ExtractNumbers = true;
             ExtractDates = true;
             ExtractStrings = false;
+            FileContent = new Dictionary<string, Stream>();
         }
 
-        public Stream FileContent
+        public IDictionary<string, Stream> FileContent
         {
             get;
             set;
