@@ -360,8 +360,9 @@ namespace DMFX.DALDatabase
             return result;
         }
 
-        public void InsertFilingDetails(InsertFilingDetailsParams filingDetails)
+        public InsertFilingDetailsResult InsertFilingDetails(InsertFilingDetailsParams filingDetails)
         {
+            InsertFilingDetailsResult result = new InsertFilingDetailsResult();
             string spName = "[SP_Insert_Filing_Details]";
             SqlConnection conn = OpenConnection("ConnectionStringFilings");
 
@@ -372,6 +373,11 @@ namespace DMFX.DALDatabase
 
             DataTable dtMetadata = ConverToMetadataTable(filingDetails.Metadata);
             DataTable dtFilingData = ConvertToFilingDataTable(filingDetails.Data);
+
+            SqlParameter paramOutFilingId = new SqlParameter("@OUT_Filing_Id",
+                                                            SqlDbType.BigInt, 0,
+                                                            ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current,
+                                                            0);
 
             // Metadata
             SqlParameter paramMetadata = new SqlParameter("@LFM", SqlDbType.Structured);
@@ -387,10 +393,15 @@ namespace DMFX.DALDatabase
 
             cmd.Parameters.Add(paramMetadata);
             cmd.Parameters.Add(paramData);
+            cmd.Parameters.Add(paramOutFilingId);
 
             cmd.ExecuteNonQuery();
 
             conn.Close();
+
+            result.FilingId = (long)paramOutFilingId.Value;
+
+            return result;
         }
 
         public void CreateUserAccount(CreateUpdateUserAccountParams createAccountParams)
@@ -722,6 +733,22 @@ namespace DMFX.DALDatabase
             conn.Close();
         }
 
+        public ProcessFilingResult ProcessFiling(ProcessFilingParams prcFilingsParams)
+        {
+            ProcessFilingResult result = new ProcessFilingResult();
+
+            switch(prcFilingsParams.Type)
+            {
+                case "ETL":
+                    RunFilingETL(prcFilingsParams.FilingId);
+                    result.FilingId = prcFilingsParams.FilingId;
+                    break;
+            }
+
+            return result;
+
+        }
+
         #endregion
 
         #region Support method
@@ -733,6 +760,7 @@ namespace DMFX.DALDatabase
 
             return DBNull.Value;
         }
+
         private SqlConnection OpenConnection(string name)
         {
             SqlConnection conn = new SqlConnection(_dalParams.Parameters[name]);
@@ -797,7 +825,28 @@ namespace DMFX.DALDatabase
             return dtFilingData;
         }
 
-        
+        private void RunFilingETL(long filingId)
+        {
+            string spName = "[SP_Filing_ETL]";
+            SqlConnection conn = OpenConnection("ConnectionStringFilings");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Connection = conn;
+            cmd.CommandTimeout = 180; // allowing up to 3 minutes for one etl run
+
+            SqlParameter paramFilingId = new SqlParameter("@IN_Filing_Id",
+                                                            SqlDbType.BigInt, 0,
+                                                            ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current,
+                                                            filingId);
+
+            cmd.Parameters.Add(paramFilingId);
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+        }
 
         #endregion
     }

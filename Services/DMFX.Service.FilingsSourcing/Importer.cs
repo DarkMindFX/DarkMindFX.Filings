@@ -62,8 +62,33 @@ namespace DMFX.Service.Sourcing
             Parsing = 5,
             Saving = 6
         }
+        class ImportTaskParams
+        {
+            public ImportTaskParams()
+            {
+                Companies = new List<string>();
+            }
 
-        private Task _importTask = null;
+            public string RegulatorCode
+            {
+                get;
+                set;
+            }
+
+            public ISource Source
+            {
+                get;
+                set;
+            }
+
+            public List<string> Companies
+            {
+                get;
+                set;
+            }
+        }
+
+        private Task _importTask = null;        
         private ImportResults _currImport = null;
         private Interfaces.DAL.IDal _dal = null;
         private ILogger _logger = null;
@@ -71,6 +96,12 @@ namespace DMFX.Service.Sourcing
         private IDictionary _dictionary = null;
         private ImporterParams _impParams = null;
         private bool _isRunning = false;
+
+        // fields required for ETL and other filing processing
+        private Task _filingProcTask = null; //background task
+        private bool _isProcTaskRunning = false;
+        private List<long> _etlList = null; // list of filings to perform ETL task
+        private object _lockEtlList = new object();
 
         public Importer(CompositionContainer compContainer)
         {
@@ -80,6 +111,8 @@ namespace DMFX.Service.Sourcing
                 CompositionContainer = compContainer;
 
                 _logger = Global.Container.GetExport<ILogger>(ConfigurationManager.AppSettings["LoggerType"]).Value;
+
+                _etlList = new List<long>();
 
                 InitDAL();
                 initDictionary();
@@ -256,31 +289,7 @@ namespace DMFX.Service.Sourcing
 
         }
 
-        class ImportTaskParams
-        {
-            public ImportTaskParams()
-            {
-                Companies = new List<string>();
-            }
-
-            public string RegulatorCode
-            {
-                get;
-                set;
-            }
-
-            public ISource Source
-            {
-                get;
-                set;
-            }
-
-            public List<string> Companies
-            {
-                get;
-                set;
-            }
-        }
+      
 
         private void ImportTask(ImportTaskParams importParams)
         {
@@ -316,6 +325,53 @@ namespace DMFX.Service.Sourcing
             CurrentState = EImportState.Idle;
         }
 
+        private void ProcessFilingsTask()
+        {
+            _isProcTaskRunning = true;
+            while (_etlList.Count > 0)
+            {
+                List<long> filingIds = new List<long>();
+                lock (_lockEtlList)
+                {
+                    // Running ETL task
+                    filingIds.AddRange(_etlList);
+                    _etlList.Clear();
+                }
+
+                foreach(var filingId in filingIds)
+                {
+                    try
+                    {
+                        ProcessFilingParams paramsProcessFiling = new ProcessFilingParams();
+                        paramsProcessFiling.Type = "ETL";
+                        paramsProcessFiling.FilingId = filingId;
+
+                        var resProcessFiling = _dal.ProcessFiling(paramsProcessFiling);
+
+                    }
+                    catch(Exception ex)
+                    {
+                        _logger.Log(ex);
+                    }
+                }
+            }
+            _isProcTaskRunning = false;
+        }
+
+        private void AddFilingForETL(long filingId)
+        {
+            lock(_lockEtlList)
+            {
+                _etlList.Add(filingId);
+                if(!_isProcTaskRunning)
+                {
+                    _isProcTaskRunning = true;
+                    _filingProcTask = new Task(ProcessFilingsTask);
+                    _filingProcTask.Start();
+                }
+
+            }
+        }
         #region Support method
         private void InitStorage()
         {
@@ -1202,9 +1258,9 @@ namespace DMFX.Service.Sourcing
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingName", Value = submissionInfo.Name, Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Source", Value = submissionInfo.Report[0], Type = "String" });
             insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "FilingType", Value = submissionInfo.Type, Type = "String" });
-            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString(), Type = "DateTime" });
-            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString(), Type = "DateTime" });
-            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString(), Type = "DateTime" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "Submitted", Value = submissionInfo.Submitted.ToString("MM/dd/yyyy"), Type = "DateTime" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodStart", Value = parserResults.PeriodStart.ToString("MM/dd/yyyy"), Type = "DateTime" });
+            insertParams.Metadata.Add(new Interfaces.DAL.InsertFilingDetailsParams.FilingMetadaRecord() { Name = "PeriodEnd", Value = parserResults.PeriodEnd.ToString("MM/dd/yyyy"), Type = "DateTime" });
 
             // preparing filing data records
             foreach (var statement in parserResults.Statements)
@@ -1235,10 +1291,14 @@ namespace DMFX.Service.Sourcing
                 totalRecordsCount));
 
             dtLocalStart = DateTime.UtcNow;
-            _dal.InsertFilingDetails(insertParams);
+            var resInsertFiling = _dal.InsertFilingDetails(insertParams);
             dtLocalEnd = DateTime.UtcNow;
+            if (resInsertFiling.FilingId > 0)
+            {
+                AddFilingForETL(resInsertFiling.FilingId);
+            }
 
-            _logger.Log(EErrorType.Info, string.Format("DAL call: Time {0}", dtLocalEnd - dtLocalEnd));
+            _logger.Log(EErrorType.Info, string.Format("DAL call: Time {0}", dtLocalEnd - dtLocalStart));
 
             return true;
 

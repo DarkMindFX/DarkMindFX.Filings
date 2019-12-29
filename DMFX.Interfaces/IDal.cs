@@ -12,7 +12,7 @@ namespace DMFX.Interfaces.DAL
         {
             get;
         }
-    } 
+    }
 
     #region Params / results strcutures
 
@@ -121,6 +121,15 @@ namespace DMFX.Interfaces.DAL
             set;
         }
 
+    }
+
+    public class InsertFilingDetailsResult
+    {
+        public long FilingId
+        {
+            get;
+            set;
+        }
     }
 
     public class GetCompanyFilingsInfoParams
@@ -696,6 +705,36 @@ namespace DMFX.Interfaces.DAL
 
     }
 
+    public class ProcessFilingParams
+    {
+        public long FilingId
+        {
+            get;
+            set;
+        }
+
+        public string Type
+        {
+            get;
+            set;
+        }
+
+        public IDictionary<string, string> Parameters
+        {
+            get;
+            set;
+        }
+    }
+
+    public class ProcessFilingResult
+    {
+        public long FilingId
+        {
+            get;
+            set;
+        } 
+    }
+
     #endregion
 
 
@@ -709,7 +748,7 @@ namespace DMFX.Interfaces.DAL
         /// Inserts filing data into storage
         /// </summary>
         /// <param name="filingDetails"></param>
-        void InsertFilingDetails(InsertFilingDetailsParams filingDetails);
+        InsertFilingDetailsResult InsertFilingDetails(InsertFilingDetailsParams filingDetails);
 
         /// <summary>
         /// Returns list of available filings for the given company
@@ -797,8 +836,15 @@ namespace DMFX.Interfaces.DAL
         /// <returns></returns>
         GetRegulatorCompaniesResult GetCompaniesByRegulator(GetRegulatorCompaniesParams cmpParams);
 
-        
-        
+        /// <summary>
+        /// Executes custom functions to process given filing based on the parameters provided
+        /// </summary>
+        /// <param name="prcFilingsParams"></param>
+        /// <returns></returns>
+        ProcessFilingResult ProcessFiling(ProcessFilingParams prcFilingsParams);
+
+
+
 
 
     }
