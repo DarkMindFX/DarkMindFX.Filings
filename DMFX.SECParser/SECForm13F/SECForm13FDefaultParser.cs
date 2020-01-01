@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -71,12 +72,12 @@ namespace DMFX.SECParser.SECForm13F
             XmlNode nPeriodEnd = doc.SelectSingleNode("//def:edgarSubmission//def:headerData//def:filerInfo//def:periodOfReport", xmlnsManager);
 
             string documentType = nType.InnerText;
-            string periodEnd = nPeriodEnd.InnerText;
-            string periodStart = periodEnd; // TODO: need to figure out whether there are any difference in annual/quarterly reporting
+            DateTime periodEnd = DateTime.ParseExact( nPeriodEnd.InnerText, "MM-dd-yyyy", CultureInfo.InvariantCulture);
+            DateTime periodStart = periodEnd; // TODO: need to figure out whether there are any difference in annual/quarterly reporting
 
             secResult.FilingData.Add("DocumentType", documentType);
-            secResult.FilingData.Add("DocumentPeriodStartDate", periodStart);
-            secResult.FilingData.Add("DocumentPeriodEndDate", periodEnd);
+            secResult.FilingData.Add("DocumentPeriodStartDate", periodStart.ToString());
+            secResult.FilingData.Add("DocumentPeriodEndDate", periodEnd.ToString());
 
         }
 
@@ -193,23 +194,64 @@ namespace DMFX.SECParser.SECForm13F
             {
                 Statement section = new Statement("Holdings");
                 secResult.Statements.Add(section);
+
                 foreach (XmlNode n in nsNonDerivs)
                 {
                     string factId = GenerateMultivalueFactId();
 
-                    XmlNode nNameOfIssuer = n.SelectSingleNode("def:nameOfIssuer", xmlnsManager);
-                    XmlNode nTitleOfClass = n.SelectSingleNode("def:titleOfClass", xmlnsManager);
-                    XmlNode nCusip = n.SelectSingleNode("def:cusip", xmlnsManager);
-                    XmlNode nValue = n.SelectSingleNode("def:value", xmlnsManager);
-                    XmlNode nAmount = n.SelectSingleNode("def:shrsOrPrnAmt//def:sshPrnamt", xmlnsManager);
-                    XmlNode nType = n.SelectSingleNode("def:shrsOrPrnAmt//def:sshPrnamtType", xmlnsManager);
-                    XmlNode nInvestmentDiscretion = n.SelectSingleNode("def:investmentDiscretion", xmlnsManager);
-                    XmlNode nPutCall = n.SelectSingleNode("def:putCall", xmlnsManager);
-                    XmlNode nOtherManager = n.SelectSingleNode("def:otherManager", xmlnsManager);
-                    XmlNode nVoteSole = n.SelectSingleNode("def:votingAuthority//def:Sole", xmlnsManager);
-                    XmlNode nVoteShared = n.SelectSingleNode("def:votingAuthority//def:Shared", xmlnsManager);
-                    XmlNode nVoteNone = n.SelectSingleNode("def:votingAuthority//def:None", xmlnsManager);
+                    XmlNode nNameOfIssuer = null;
+                    XmlNode nTitleOfClass = null;
+                    XmlNode nCusip = null;
+                    XmlNode nValue = null;
+                    XmlNode nAmount = null;
+                    XmlNode nType = null;
+                    XmlNode nInvestmentDiscretion = null;
+                    XmlNode nPutCall = null;
+                    XmlNode nOtherManager = null;
+                    XmlNode nVoteSole = null;
+                    XmlNode nVoteShared = null;
+                    XmlNode nVoteNone = null;
 
+                    foreach (XmlNode c in n.ChildNodes)
+                    {
+                        
+                        switch (c.Name)
+                        {
+                            case "nameOfIssuer":
+                                nNameOfIssuer = c;
+                                break;
+                            case "titleOfClass":
+                                nTitleOfClass = c;
+                                break;
+                            case "cusip":
+                                nCusip = c;
+                                break;
+                            case "value":
+                                nValue = c;
+                                break;
+                            case "shrsOrPrnAmt":
+                                nAmount = c.SelectSingleNode("def:sshPrnamt", xmlnsManager);
+                                nType = c.SelectSingleNode("def:sshPrnamtType", xmlnsManager);
+                                break;
+                            case "investmentDiscretion":
+                                nInvestmentDiscretion = c;
+                                break;
+                            case "putCall":
+                                nPutCall = c;
+                                break;
+                            case "otherManager":
+                                nOtherManager = c;
+                                break;
+                            case "votingAuthority":
+                                nVoteSole = c.SelectSingleNode("def:Sole", xmlnsManager);
+                                nVoteShared = c.SelectSingleNode("def:Shared", xmlnsManager);
+                                nVoteNone = c.SelectSingleNode("def:None", xmlnsManager);
+                                break;
+
+                        }
+                        
+                    }
+                    
                     if(nNameOfIssuer != null)
                     {
                         section.Records.Add(new StatementRecord(
@@ -222,7 +264,7 @@ namespace DMFX.SECParser.SECForm13F
                             null,
                             factId));
                     }
-
+                    
                     if(nTitleOfClass != null)
                     {
                         section.Records.Add(new StatementRecord(
@@ -365,6 +407,10 @@ namespace DMFX.SECParser.SECForm13F
                             null,
                             factId));
                     }
+
+#if DEBUG
+                    //if (section.Records.Count > 100000) break;
+#endif
                 }
             }
         }

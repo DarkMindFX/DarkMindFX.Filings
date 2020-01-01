@@ -370,6 +370,7 @@ namespace DMFX.DALDatabase
             cmd.CommandText = schema + "." + spName;
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Connection = conn;
+            cmd.CommandTimeout = 300; // allowing up to 5 minutes for insert
 
             DataTable dtMetadata = ConverToMetadataTable(filingDetails.Metadata);
             DataTable dtFilingData = ConvertToFilingDataTable(filingDetails.Data);

@@ -444,7 +444,7 @@ namespace DMFX.SECParser
                             StatementRecord record = new StatementRecord(
                                 value.Code,
                                 valObject,
-                                valueTag.Attributes["unitRef"].Value,
+                                valueTag.Attributes["unitRef"] != null ? valueTag.Attributes["unitRef"].Value : null,
                                 context.StartDate,
                                 context.EndDate,
                                 context.Instant,

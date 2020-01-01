@@ -26,6 +26,7 @@ namespace DMFX.SECParser
             Prepare10QParsers(catalog);
             Prepare10KParsers(catalog);
             PrepareForm4Parsers(catalog);
+            //PrepareForm13FParsers(catalog); // TODO: Uncomment when fully ready
 
             _compContainer = new CompositionContainer(catalog);
 
@@ -52,6 +53,12 @@ namespace DMFX.SECParser
         {
             var catalogForm4 = new TypeCatalog(typeof(SECForm4.SECForm4DefaultParser));
             catalog.Catalogs.Add(catalogForm4);
+        }
+
+        private void PrepareForm13FParsers(AggregateCatalog catalog)
+        {
+            var catalogForm13F = new TypeCatalog(typeof(SECForm13F.SECForm13FDefaultParser));
+            catalog.Catalogs.Add(catalogForm13F);
         }
 
 

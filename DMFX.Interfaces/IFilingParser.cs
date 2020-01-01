@@ -92,7 +92,7 @@ namespace DMFX.Interfaces
             get;
             set;
         }
-
+        
         public override bool Equals(object obj)
         {
             StatementRecord other = obj as StatementRecord;
@@ -105,7 +105,8 @@ namespace DMFX.Interfaces
             {
                 return false;
             }
-        }
+        }       
+        
 
         public override int GetHashCode()
         {
@@ -140,7 +141,7 @@ namespace DMFX.Interfaces
     {
         public Statement(string title = null)
         {
-            Records = new HashSet<StatementRecord>();
+            Records = new List<StatementRecord>();
             Title = title;
         }
 
@@ -150,7 +151,7 @@ namespace DMFX.Interfaces
             set;
         }
 
-        public HashSet<StatementRecord> Records
+        public List<StatementRecord> Records
         {
             get;
         }
