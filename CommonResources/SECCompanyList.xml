@@ -500,4 +500,50 @@
   <company ticker="ZBH" name="Zimmer Biomet Holdings" industry="Health Care" subindustry="Health Care Equipment" cik="1136869" />
   <company ticker="ZION" name="Zions Bancorp" industry="Financials" subindustry="Regional Banks" cik="109380" />
   <company ticker="ZTS" name="Zoetis" industry="Health Care" subindustry="Pharmaceuticals" cik="1555280" />
+
+  <!-- Bankruptcies -->
+  <company ticker="RFX" name="Refco Inc" industry ="Industrials" subindustry="Logistics Services" cik="0001321746"/>
+  <company ticker="LEH" name="Lehman Brothers Holdings Inc" industry ="Financials" subindustry="Institutional Brokerage" cik="0000806085"/>
+  <company ticker="FCAU" name="Chrysler Corp." industry ="Consumer Discretionary" subindustry="Automobile Manufacturers" cik="0001513153"/>
+  <company ticker="CIT" name="CIT Group" industry ="Financials" subindustry="Banks" cik="0001171825"/>
+  <company ticker="MFGLQ" name="MF Global" industry ="Financials" subindustry="Institutional Brokerage" cik="0001513063"/>
+  <company ticker="CLE" name="Claire's Stores Inc" industry ="Consumer Discretionary" subindustry="Specialty Apparel Stores" cik="0001575698"/>
+  <company ticker="SHLDQ" name="Sears Holdings" industry ="Consumer Discretionary" subindustry="Department Stores" cik="0001310067"/>
+  <company ticker="BONTQ" name="Bon-Ton Holdings Inc" industry ="Consumer Discretionary" subindustry="E-Commerce Discretionary" cik="0000878079"/>
+  <company ticker="IHRT" name="iHeartMedia" industry ="Communications" subindustry="Publishing &amp; Broadcasting" cik="0001400891"/>
+  <company ticker="REXX" name="Rex Energy" industry ="Energy" subindustry="Exploration &amp; Production" cik="0001397516"/>
+  <company ticker="WFTIQ" name="Weatherford International" industry ="Energy" subindustry="Oil &amp; Gas Services &amp; Equip" cik="0001603923"/>
+  <company ticker="PHIIQ" name="Petroleum Helicopters International" industry ="Consumer Discretionary" subindustry="Transit Services" cik="0000350403"/>
+  <company ticker="HEXION" name="Hexion Inc" industry ="Materials" subindustry="Specialty Chemicals" cik="0000013239"/>
+  <company ticker="KONA" name="Kona Grill" industry ="Consumer Discretionary" subindustry="Restaurants" cik="0001265572"/>
+  <company ticker="INSY" name="Insys Therapeutics" industry ="Health Care" subindustry="Specialty Pharma" cik="0001409532"/>
+  <company ticker="FRED" name="Fred's Inc." industry ="Consumer Staples" subindustry="Food &amp; Drug Stores" cik="0001564265"/>
+  <company ticker="DEST" name="Destination Maternity" industry ="Consumer Discretionary" subindustry="Specialty Apparel Stores" cik="896985"/>
+  <company ticker="DF" name="Dean Foods" industry ="Consumer Staples" subindustry="Food Products Wholesalers" cik="0000931336"/>
+  <company ticker="CLDP" name="Cloud Peak Energy" industry ="Energy" subindustry="Coal Operations" cik="0001441849"/>
+  <company ticker="CGIP" name="Celadon Group" industry ="Industrials" subindustry="Trucking" cik="0000865941"/>
+  <company ticker="NIHD" name="NII Holdings" industry ="Communications" subindustry="Telecom Carriers" cik="0001037016"/>
+  <company ticker="WLT" name="Walter Energy" industry ="Materials" subindustry="Steel Raw Material Suppliers" cik="0000837173"/>
+  <company ticker="RSH" name="RadioShack" industry ="Consumer Discretionary" subindustry="E-Commerce Discretionary" cik="0000096289"/>
+  <company ticker="DRLCQ" name="Doral Financial Corporation" industry ="Financials" subindustry="Banks" cik="0000840889"/>
+  <company ticker="CZR" name="Caesars Entertainment Corporation" industry ="Consumer Discretionary" subindustry="Casinos &amp; Gaming" cik="0000858339"/>
+  <company ticker="SD" name="SandRidge Energy" industry ="Energy" subindustry="Exploration &amp; Production" cik="0001349436"/>
+  <company ticker="BTU" name="Peabody Energy" industry ="Energy" subindustry="Coal Operations" cik="0001064728"/>
+  <company ticker="LINE" name="Linn Energy" industry ="Energy" subindustry="Exploration &amp; Production" cik="0001548816"/>
+  <company ticker="ZINC" name="Horsehead Corporation" industry ="Energy" subindustry="Exploration &amp; Production" cik="0001385544"/>
+  <company ticker="ARCH" name="Arch Coal" industry ="Energy" subindustry="Coal Operations" cik="0001037676"/>
+  <company ticker="AROPQ" name="Aéropostale" industry ="Other" subindustry="Other" cik="0001168213"/>
+  <company ticker="FOURQ" name="4Licensing Corp" industry ="Communications" subindustry="Publishing &amp; Broadcasting" cik="0000058592"/>
+  <company ticker="SZYM" name="TerraVia Holdings Inc" industry ="Consumer Staples" subindustry="Packaged Food" cik="0001311230"/>
+  <company ticker="HGG" name="H. H. Gregg Inc." industry ="Consumer Discretionary" subindustry="Consumer Elec &amp; Applc Stores" cik="0001396279"/>
+  <company ticker="EZRHY" name="Ezra Holdings Ltd." industry ="Energy" subindustry="Oil &amp; Gas Services &amp; Equip" cik="0001448609"/>
+  <company ticker="CMLS" name="Cumulus Media" industry ="Communications" subindustry="Publishing &amp; Broadcasting" cik="0001058623"/>
+  <company ticker="CIE" name="Cobalt International Energy" industry ="Energy" subindustry="Exploration &amp; Production" cik="0001471261"/>
+  <company ticker="AVYA" name="Avaya Holdings Corp." industry ="Technology" subindustry="Application Software" cik="0001418100"/>
+  <company ticker="TNGNQ" name="Tengion Inc." industry ="Health Care" subindustry="Biotech" cik="0001296391"/>
+  <company ticker="SOYO" name="Soyo Group" industry ="Technology" subindustry="Other Hardware" cik="0001108955"/>
+  <company ticker="SCOX" name="SCO Group" industry ="Technology" subindustry="Infrastructure Software" cik="0001102542"/>
+  <company ticker="ROSG" name="Rosetta Genomics" industry ="Health Care" subindustry="Life Science Equipment" cik="0001362959"/>
+  <company ticker="MNC" name="Monaco Coach Corporation" industry ="Consumer Discretionary" subindustry="Recreational Vehicles" cik="0000901646"/>
+  <company ticker="HLYW" name="Hollywood Entertainment Corp." industry ="Consumer Discretionary" subindustry="Other" cik="0000905895"/>
 </companies>

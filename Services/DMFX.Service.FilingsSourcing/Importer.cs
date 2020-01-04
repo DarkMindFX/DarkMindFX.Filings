@@ -115,7 +115,7 @@ namespace DMFX.Service.Sourcing
                 _etlList = new List<long>();
 
                 InitDAL();
-                initDictionary();
+                InitDictionary();
                 InitStorage();
             }
             catch (Exception ex)
@@ -404,7 +404,7 @@ namespace DMFX.Service.Sourcing
             _dal = dal.Value;
         }
 
-        private void initDictionary()
+        private void InitDictionary()
         {
             _dictionary = Global.Container.GetExport<IDictionary>("File").Value;
         }

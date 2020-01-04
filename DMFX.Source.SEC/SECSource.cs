@@ -392,27 +392,27 @@ namespace DMFX.Source.SEC
             HtmlNode nodeType = doc.DocumentNode.SelectSingleNode("//div[@id='formDiv']/div[@id='formHeader']/div[@id='formName']/strong"); // 
             if (nodeType != null)
             {
-                if (nodeType.InnerText.Contains("10-Q"))
+                if (nodeType.InnerText.Equals("10-Q"))
                 {
                     subInfo.Type = "10-Q";
                 }
                 
-                else if (nodeType.InnerText.Contains("10-K"))
+                else if (nodeType.InnerText.Equals("10-K"))
                 {
                     subInfo.Type = "10-K";
                 }
 
-                else if(nodeType.InnerText.Contains("Form 424B2"))
+                else if(nodeType.InnerText.Equals("Form 424B2"))
                 {
                     subInfo.Type = "424B2";
                 }
 
-                else if (nodeType.InnerText.Contains("Form 4"))
+                else if (nodeType.InnerText.Equals("Form 4"))
                 {
                     subInfo.Type = "4";
                 }
 
-                else if(nodeType.InnerText.Contains("13F-HR"))
+                else if(nodeType.InnerText.Equals("13F-HR"))
                 {
                     subInfo.Type = "13F-HR";
                 }

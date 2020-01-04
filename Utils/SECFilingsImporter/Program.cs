@@ -38,6 +38,7 @@ namespace SECFilingsImporter
                 int statePollPeriodSeconds = Int32.Parse(ConfigurationManager.AppSettings["StatePollPeriodSeconds"]);
                 string regulator = ConfigurationManager.AppSettings["Regulator"];
                 string symbols = ConfigurationManager.AppSettings["Symbols"];
+                string types = ConfigurationManager.AppSettings["Types"];
 
                 DateTime impPeriodEnd = periodEnd;
                 DateTime impPeriodStart = periodEnd - TimeSpan.FromDays(importPeriodDays);
@@ -49,11 +50,12 @@ namespace SECFilingsImporter
                 reqRunImport.CompanyCodes = !string.IsNullOrEmpty(symbols) ? symbols.Split(new char[] { ',' }) : null;
                 reqRunImport.RegulatorCode = regulator;
                 reqRunImport.SessionToken = sessionToken;
+                reqRunImport.Types = !string.IsNullOrEmpty(types) ? types.Split(new char[] { ',' }) : null;
 
                 GetImporterState reqGetImpState = new GetImporterState();
                 reqGetImpState.SessionToken = sessionToken;
 
-                while (impPeriodStart > periodStart)
+                while (impPeriodStart >= periodStart)
                 {
                     reqRunImport.DateEnd = impPeriodEnd;
                     reqRunImport.DateStart = impPeriodStart;
