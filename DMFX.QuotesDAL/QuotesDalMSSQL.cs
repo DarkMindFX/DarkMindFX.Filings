@@ -520,20 +520,12 @@ namespace DMFX.QuotesDAL
                 cmd.Parameters.Add(paramAgencyCode);
             }
 
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            var paramOutTickerId = new SqlParameter("@OUT_Ticker_Id", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current, null);
+            cmd.Parameters.Add(paramOutTickerId);
 
-            da.Fill(ds);
+            cmd.ExecuteNonQuery();
 
-            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
-            {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)(long)ds.Tables[0].Rows[0][0] : Int32.MinValue;
-            }
-            else
-            {
-                return Int32.MinValue;
-            }
+            return (int)paramOutTickerId.Value;
         }
 
         private long GetAgencyId(string agencyCode, SqlConnection conn)
@@ -634,20 +626,12 @@ namespace DMFX.QuotesDAL
                 cmd.Parameters.Add(paramColumn);
             }
 
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            var paramOutTSId = new SqlParameter("@OUT_TS_Id", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current, null);
+            cmd.Parameters.Add(paramOutTSId);
 
-            da.Fill(ds);
+            cmd.ExecuteNonQuery();
 
-            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
-            {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)ds.Tables[0].Rows[0][0] : Int32.MinValue;
-            }
-            else
-            {
-                return Int32.MinValue;
-            }
+            return (int)paramOutTSId.Value;
 
         }
 
@@ -662,22 +646,15 @@ namespace DMFX.QuotesDAL
             cmd.Connection = conn;
 
             var paramTickerName = new SqlParameter("@IN_Column_Number", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, columns);
+
+            var paramOutTableName = new SqlParameter("@OUT_Table_Name", SqlDbType.NVarChar, 255, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current, null);
+
             cmd.Parameters.Add(paramTickerName);
+            cmd.Parameters.Add(paramOutTableName);
 
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            cmd.ExecuteNonQuery();
 
-            da.Fill(ds);
-
-            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
-            {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (string)ds.Tables[0].Rows[0][0] : null;
-            }
-            else
-            {
-                return null;
-            }
+            return (string)paramOutTableName.Value;
         }
 
 
