@@ -640,7 +640,7 @@ namespace DMFX.QuotesDAL
 
             if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
             {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (long)ds.Tables[0].Rows[0][0] : long.MinValue;
+                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)ds.Tables[0].Rows[0][0] : long.MinValue;
             }
             else
             {
