@@ -120,11 +120,11 @@ namespace DMFX.QuotesDAL
                 if (q.Quotes.Count > 0)
                 {
                     // getting ID of the ticker
-                    int tickerId = GetTickerId(q.Ticker, conn);
-                    if (tickerId == Int32.MinValue)
+                    long tickerId = GetTickerId(q.Ticker, conn);
+                    if (tickerId == long.MinValue)
                     {
                         tickerId = AddTicker(q.Ticker, q.Name, q.AgencyCode, q.Notes, conn);
-                        if(tickerId != Int32.MinValue && q.Metadata != null && q.Metadata.Values.Count > 0)
+                        if (tickerId != Int32.MinValue && q.Metadata != null && q.Metadata.Values.Count > 0)
                         {
                             SetTickerMetadata(tickerId, q.Metadata, conn);
                         }
@@ -135,8 +135,8 @@ namespace DMFX.QuotesDAL
                     int typeId = (int)q.Type;
 
                     // getting TS info for this ticker
-                    int tsId = GetTimeSeriesId(tickerId, timeFrameId, conn);
-                    if (tsId == Int32.MinValue)
+                    long tsId = GetTimeSeriesId(tickerId, timeFrameId, conn);
+                    if (tsId == long.MinValue)
                     {
                         // creating new record
                         tsId = CreateTimeseries(tickerId, unitId, typeId, timeFrameId, q.Quotes[0].ValueNames.ToList(), conn);
@@ -160,7 +160,7 @@ namespace DMFX.QuotesDAL
 
                             TriggerStageToCore(stageTable, tsId, conn);
 
-                            ++result.TimeSeriesSaved;
+                            result.TimeSeriesSaved.Add(tickerId);
 
                         }
                         else
@@ -176,7 +176,7 @@ namespace DMFX.QuotesDAL
 
             conn.Close();
 
-            result.Success = result.TimeSeriesSaved > 0;
+            result.Success = result.TimeSeriesSaved != null && result.TimeSeriesSaved.Count > 0;
 
             return result;
         }
@@ -198,12 +198,12 @@ namespace DMFX.QuotesDAL
             SqlParameter paramTypeId = new SqlParameter("@IN_Type_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, (int)getTsList.Type);
             cmd.Parameters.Add(paramTypeId);
 
-            if(agencyId > Int32.MinValue)
+            if (agencyId > Int32.MinValue)
             {
                 SqlParameter paramAgencyId = new SqlParameter("@IN_Agency_Id", SqlDbType.BigInt, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, agencyId);
                 cmd.Parameters.Add(paramAgencyId);
             }
-  
+
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             da.SelectCommand = cmd;
@@ -214,12 +214,14 @@ namespace DMFX.QuotesDAL
             {
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    result.Tickers.Add(new TickersListItem() {
+                    result.Tickers.Add(new TickersListItem()
+                    {
                         CountryCode = getTsList.CountryCode,
                         Ticker = (string)r["Ticker_Symbol"],
                         Name = (string)r["Ticker_Name"],
                         Unit = (EUnit)r["TS_Unit_Id"],
-                        Type = getTsList.Type });
+                        Type = getTsList.Type
+                    });
                 }
 
                 result.Success = true;
@@ -276,7 +278,7 @@ namespace DMFX.QuotesDAL
                 for (int i = 1; i <= cColumnCount && !DBNull.Value.Equals(ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]); ++i)
                 {
                     result.Columns.Add((string)ds.Tables[0].Rows[0][string.Format("Column_{0}", i)]);
-                }                
+                }
 
                 // creating list of available timeframes
                 foreach (DataRow r in ds.Tables[0].Rows)
@@ -317,6 +319,45 @@ namespace DMFX.QuotesDAL
             return result;
         }
 
+        public IQuotesDalProcessTickerResult ProcessTicker(IQuotesDalProcessTickerParams procTickerParams)
+        {
+            IQuotesDalProcessTickerResult result = new QuotesDalMSSQLProcessTickerResult();
+
+            try
+            {
+                switch (procTickerParams.Type)
+                {
+                    case "ETL":
+                        result = RunTickerETL(procTickerParams.TickerId);
+                        break;
+                    default:
+                        result.Errors.Add(new Interfaces.Error()
+                        {
+                            Code = Interfaces.EErrorCodes.TickerProcessingFail,
+                            Type = Interfaces.EErrorType.Error,
+                            Message = string.Format("Unknown processing type '{0}'", procTickerParams.Type)
+                        }
+                        ); 
+                        result.Success = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Errors.Add(new Interfaces.Error()
+                {
+                    Code = Interfaces.EErrorCodes.TickerProcessingFail,
+                    Type = Interfaces.EErrorType.Error,
+                    Message = ex.Message
+                }
+                );
+                result.Success = false;
+            }
+
+            return result;
+
+        }
+
 
         #region Create* methods
 
@@ -346,11 +387,43 @@ namespace DMFX.QuotesDAL
             return new QuotesDalMSSQLGetTickersListParams();
         }
 
+        public IQuotesDalProcessTickerParams CreateProcessTickerParams()
+        {
+            return new QuotesDalMSSQLProcessTickerParams();
+        }
+
         #endregion
 
         #region Support method
 
-        private void TriggerStageToCore(string stageTable, int timeSeriesId, SqlConnection conn)
+        private IQuotesDalProcessTickerResult RunTickerETL(long tickerId)
+        {
+            IQuotesDalProcessTickerResult result = new QuotesDalMSSQLProcessTickerResult();
+
+            string spName = "[SP_Ticker_ETL]";
+
+            SqlConnection conn = OpenConnection("ConnectionStringTimeSeries");
+
+            SqlCommand cmd = new SqlCommand();
+
+
+            cmd.CommandText = schema + "." + spName;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Connection = conn;
+
+            var paramTickerId = new SqlParameter("@IN_Ticker_Id", SqlDbType.Int, 0, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, tickerId);
+            cmd.Parameters.Add(paramTickerId);
+
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+            result.Success = true;
+
+            return result;
+        }
+
+        private void TriggerStageToCore(string stageTable, long timeSeriesId, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -434,7 +507,7 @@ namespace DMFX.QuotesDAL
             return dtFilingData;
         }
 
-        private int GetTickerId(string ticker, SqlConnection conn)
+        private long GetTickerId(string ticker, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -447,23 +520,15 @@ namespace DMFX.QuotesDAL
             var paramTicker = new SqlParameter("@IN_Ticker_Symbol", SqlDbType.VarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, ticker);
             cmd.Parameters.Add(paramTicker);
 
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            var paramOutTickerId = new SqlParameter("@OUT_Ticker_Id", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current, null);
+            cmd.Parameters.Add(paramOutTickerId);
 
-            da.Fill(ds);
+            cmd.ExecuteNonQuery();
 
-            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
-            {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)ds.Tables[0].Rows[0][0] : Int32.MinValue;
-            }
-            else
-            {
-                return Int32.MinValue;
-            }
+            return !DBNull.Value.Equals(paramOutTickerId.Value) ? (long)paramOutTickerId.Value: long.MinValue;
         }
-        
-        private bool SetTickerMetadata(int tickerId, ITimeSeriesMetadata metadata, SqlConnection conn)
+
+        private bool SetTickerMetadata(long tickerId, ITimeSeriesMetadata metadata, SqlConnection conn)
         {
             bool result = false;
 
@@ -492,7 +557,7 @@ namespace DMFX.QuotesDAL
 
         }
 
-        private int AddTicker(string ticker, string name, string agency, string notes, SqlConnection conn)
+        private long AddTicker(string ticker, string name, string agency, string notes, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -525,7 +590,7 @@ namespace DMFX.QuotesDAL
 
             cmd.ExecuteNonQuery();
 
-            return (int)paramOutTickerId.Value;
+            return !DBNull.Value.Equals(paramOutTickerId.Value) ? (long)paramOutTickerId.Value : long.MinValue;
         }
 
         private long GetAgencyId(string agencyCode, SqlConnection conn)
@@ -539,26 +604,17 @@ namespace DMFX.QuotesDAL
             cmd.Connection = conn;
 
             var paramAgencyCode = new SqlParameter("@IN_Agency_Code", SqlDbType.NVarChar, 255, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Current, agencyCode);
-
             cmd.Parameters.Add(paramAgencyCode);
 
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = cmd;
+            var paramOutAgencyId = new SqlParameter("@OUT_Agency_Id", SqlDbType.BigInt, 0, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Current, null);
+            cmd.Parameters.Add(paramOutAgencyId);
 
-            da.Fill(ds);
+            cmd.ExecuteNonQuery();
 
-            if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
-            {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (long)ds.Tables[0].Rows[0][0] : Int32.MinValue;
-            }
-            else
-            {
-                return Int32.MinValue;
-            }
+            return !DBNull.Value.Equals(paramOutAgencyId.Value) ? (long)paramOutAgencyId.Value : Int32.MinValue;
         }
 
-        private int GetTimeSeriesId(int tickerId, int periodId, SqlConnection conn)
+        private long GetTimeSeriesId(long tickerId, int periodId, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -584,15 +640,15 @@ namespace DMFX.QuotesDAL
 
             if (ds.Tables.Count >= 1 && ds.Tables[0].Rows.Count > 0)
             {
-                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (int)ds.Tables[0].Rows[0][0] : Int32.MinValue;
+                return !DBNull.Value.Equals(ds.Tables[0].Rows[0][0]) ? (long)ds.Tables[0].Rows[0][0] : long.MinValue;
             }
             else
             {
-                return Int32.MinValue;
+                return long.MinValue;
             }
         }
 
-        private int CreateTimeseries(int tickerId, int unitId, int tsTypeId, int timeframeId, List<string> columns, SqlConnection conn)
+        private long CreateTimeseries(long tickerId, int unitId, int tsTypeId, int timeframeId, List<string> columns, SqlConnection conn)
         {
             SqlCommand cmd = new SqlCommand();
 
@@ -631,7 +687,7 @@ namespace DMFX.QuotesDAL
 
             cmd.ExecuteNonQuery();
 
-            return (int)paramOutTSId.Value;
+            return !DBNull.Value.Equals(paramOutTSId.Value) ? (long)paramOutTSId.Value : long.MinValue;
 
         }
 

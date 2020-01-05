@@ -1,6 +1,7 @@
 ﻿using Ionic.Zip;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -100,24 +101,31 @@ namespace DMFX.CFTC.Api
 
             foreach (var path in files)
             {
-                string url = string.Format("https://www.cftc.gov{0}", path);
-
-                // downloading 
-                byte[] data = ServiceCall(url);
-                if (data != null)
+                try
                 {
-                    Stream dataStream = Decompress(data);
-                    data = null;
-                    System.GC.Collect();
-                    if (dataStream != null)
+                    string url = string.Format("https://www.cftc.gov{0}", path);
+
+                    // downloading 
+                    byte[] data = ServiceCall(url);
+                    if (data != null)
                     {
-                        StreamReader sr = new StreamReader(dataStream);
-                        string txt = sr.ReadToEnd();
+                        Stream dataStream = Decompress(data);
+                        data = null;
+                        System.GC.Collect();
+                        if (dataStream != null)
+                        {
+                            StreamReader sr = new StreamReader(dataStream);
+                            string txt = sr.ReadToEnd();
 
-                        ParseCSV(txt, true, parserParams, result);
+                            ParseCSV(txt, true, parserParams, result);
 
-                        dataStream.Close();
+                            dataStream.Close();
+                        }
                     }
+                }
+                catch(Exception ex)
+                {
+                    // suppressing errors in case if one of the files was not parsed
                 }
             }
 
@@ -183,9 +191,11 @@ namespace DMFX.CFTC.Api
                     if (vals.Count() >= parserParams.ColumnsToTimeseriesMapping.Keys.Max() + 1)
                     {
                         // reading common values
-
+                        CultureInfo enUS = new CultureInfo("en-US");
                         DateTime repDate;
-                        if (!DateTime.TryParse(vals[colReportDate], out repDate))
+                        // WARNING! There can be different time formats in the files
+                        if (!DateTime.TryParse(vals[colReportDate], out repDate) 
+                            && !DateTime.TryParseExact(vals[colReportDate], "M/dd/yyyy hh:mm:ss tt", enUS, DateTimeStyles.None, out repDate))
                         {
                             // fixing line with bad comma in description
                             int badComma = line.IndexOf(',');

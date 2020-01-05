@@ -123,6 +123,16 @@ namespace DMFX.QuotesDAL
             throw new NotImplementedException();
         }
 
+        public IQuotesDalProcessTickerResult ProcessTicker(IQuotesDalProcessTickerParams procTickerParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQuotesDalProcessTickerParams CreateProcessTickerParams()
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
     }

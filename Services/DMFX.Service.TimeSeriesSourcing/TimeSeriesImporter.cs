@@ -67,6 +67,12 @@ namespace DMFX.Service.TimeSeriesSourcing
         private bool _isRunning = false;
         private HashSet<string> _tickersProcessed;
 
+        // fields required for ETL and other filing processing
+        private Task _tickersProcTask = null; //background task
+        private bool _isProcTaskRunning = false;
+        private List<long> _etlList = null; // list of filings to perform ETL task
+        private object _lockEtlList = new object();
+
         public TimeSeriesImporter(CompositionContainer compContainer)
         {
             try
@@ -198,6 +204,58 @@ namespace DMFX.Service.TimeSeriesSourcing
             _dal = dal.Value;
         }
 
+        private void AddTickerForETL(long tickerId)
+        {
+            lock (_lockEtlList)
+            {
+                if(_etlList == null)
+                {
+                    _etlList = new List<long>();
+                }
+                _etlList.Add(tickerId);
+                if (!_isProcTaskRunning)
+                {
+                    _isProcTaskRunning = true;
+                    _tickersProcTask = new Task(ProcessTickersTask);
+                    _tickersProcTask.Start();
+                }
+
+            }
+        }
+
+        private void ProcessTickersTask()
+        {
+            _isProcTaskRunning = true;
+            while (_etlList.Count > 0)
+            {
+                List<long> tickerIds = new List<long>();
+                lock (_lockEtlList)
+                {
+                    // Running ETL task
+                    tickerIds.AddRange(_etlList);
+                    _etlList.Clear();
+                }
+
+                foreach (var tickerId in tickerIds)
+                {
+                    try
+                    {
+                        IQuotesDalProcessTickerParams paramsProcessTicker = _dal.CreateProcessTickerParams();
+                        paramsProcessTicker.Type = "ETL";
+                        paramsProcessTicker.TickerId = tickerId;
+
+                        var resProcessFiling = _dal.ProcessTicker(paramsProcessTicker);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Log(ex);
+                    }
+                }
+            }
+            _isProcTaskRunning = false;
+        }
+
         protected void ImportThread()
         {
             _logger.Log(EErrorType.Info, "ImportThread started");
@@ -272,9 +330,14 @@ namespace DMFX.Service.TimeSeriesSourcing
 
                                 IQuotesDalSaveTimeseriesValuesResult saveResult = _dal.SaveTimeseriesValues(saveParams);
 
-                                foreach (var t in tickersToImport)
+                                if (saveResult.Success)
                                 {
-                                    _tickersProcessed.Add(t);
+                                    foreach (var t in tickersToImport)
+                                    {
+                                        _tickersProcessed.Add(t);
+                                    }
+
+                                    saveResult.TimeSeriesSaved.ToList().ForEach(x => { AddTickerForETL(x); });
                                 }
 
                                 _logger.Log(EErrorType.Info, string.Format("Import done"));

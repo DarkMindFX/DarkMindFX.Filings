@@ -98,9 +98,9 @@ namespace DMFX.QuotesDAL
     {
         public QuotesDalCSVSaveQuotesResult()
         {
-            TimeSeriesSaved = 0;
+            TimeSeriesSaved = new List<long>();
         }
-        public uint TimeSeriesSaved
+        public IList<long> TimeSeriesSaved
         {
             get;
             set;

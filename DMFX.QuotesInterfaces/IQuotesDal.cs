@@ -66,7 +66,7 @@ namespace DMFX.QuotesInterfaces
 
     public interface IQuotesDalSaveTimeseriesValuesResult : IResult
     {       
-        uint TimeSeriesSaved
+        IList<long> TimeSeriesSaved
         {
             get;
             set;
@@ -227,6 +227,31 @@ namespace DMFX.QuotesInterfaces
         
     }
 
+    public interface IQuotesDalProcessTickerParams
+    {
+        long TickerId
+        {
+            get;
+            set;
+        }
+
+        string Type
+        {
+            get;
+            set;
+        }
+
+        IDictionary<string, string> Parameters
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IQuotesDalProcessTickerResult : IResult
+    {
+    }
+
     public interface IQuotesDal
     {
         /// <summary>
@@ -265,6 +290,13 @@ namespace DMFX.QuotesInterfaces
         /// <returns></returns>
         IQuotesDalSaveTimeseriesValuesResult SaveTimeseriesValues(IQuotesDalSaveTimeseriesValuesParams saveQuotesParams);
 
+        /// <summary>
+        /// Runs custom processing for the given ticker
+        /// </summary>
+        /// <param name="tickerEtlParams"></param>
+        /// <returns></returns>
+        IQuotesDalProcessTickerResult ProcessTicker(IQuotesDalProcessTickerParams procTickerParams);
+
         IQuotesDalInitParams CreateInitParams();
 
         IQuotesDalGetTimeSeriesValuesParams CreateGetQuotesParams();
@@ -274,6 +306,8 @@ namespace DMFX.QuotesInterfaces
         IQuotesDalGetTimeSeriesInfoParams CreateGetTimeSeriesInfoParams();
 
         IQuotesDalGetTickersListParams CreateGetTickersListParams();
+
+        IQuotesDalProcessTickerParams CreateProcessTickerParams();
 
 
     }

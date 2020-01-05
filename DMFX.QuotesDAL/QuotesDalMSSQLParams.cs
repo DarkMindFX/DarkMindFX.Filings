@@ -97,10 +97,10 @@ namespace DMFX.QuotesDAL
     {
         public QuotesDalMSSQLSaveQuotesResult()
         {
-            TimeSeriesSaved = 0;
+            TimeSeriesSaved = new List<long>();
         }
 
-        public uint TimeSeriesSaved
+        public IList<long> TimeSeriesSaved
         {
             get;
             set;
@@ -214,5 +214,36 @@ namespace DMFX.QuotesDAL
             get;
             set;
         }
+    }
+
+
+    class QuotesDalMSSQLProcessTickerParams : IQuotesDalProcessTickerParams
+    {
+        public QuotesDalMSSQLProcessTickerParams()
+        {
+            Parameters = new Dictionary<string, string>();
+        }
+
+        public long TickerId
+        {
+            get;
+            set;
+        }
+
+        public string Type
+        {
+            get;
+            set;
+        }
+
+        public IDictionary<string, string> Parameters
+        {
+            get;
+            set;
+        }
+    }
+
+    class QuotesDalMSSQLProcessTickerResult : ResultBase, IQuotesDalProcessTickerResult
+    {
     }
 }
